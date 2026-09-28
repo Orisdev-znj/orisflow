@@ -9,14 +9,16 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from orisflow_engine.classification import classer_fichiers
 
 
-def _extraction_comptes(chemin, numeros):
+def _extraction_comptes(chemin, prefixes):
+    """Fabrique une extraction de comptes avec des numéros au format valide
+    (5 chiffres-6 chiffres-2 chiffres), à partir d'une liste de préfixes à 5 chiffres."""
     classeur = openpyxl.Workbook()
     feuille = classeur.active
     for _ in range(23):
         feuille.append([])
     feuille.append(["N°", "Numero de compte"])
-    for i, numero in enumerate(numeros, start=1):
-        feuille.append([i, numero])
+    for i, prefixe in enumerate(prefixes, start=1):
+        feuille.append([i, f"{prefixe}-{i:06d}-00"])
     classeur.save(chemin)
 
 
@@ -34,7 +36,7 @@ def _classeur_reference(dossier, valeurs_ligne16):
 
 def test_reconnait_type_et_agence_dun_fichier_de_comptes(tmp_path):
     chemin = tmp_path / "Bafoussam_Compte.xlsx"
-    _extraction_comptes(chemin, ["37110-1-1", "37120-2-2"])
+    _extraction_comptes(chemin, ["37110", "37120"])
 
     resultat = classer_fichiers([str(chemin)])
 
@@ -54,7 +56,7 @@ def test_fichier_introuvable_est_bloquant():
 
 def test_agence_inconnue_est_un_avertissement(tmp_path):
     chemin = tmp_path / "export_du_jour.xlsx"
-    _extraction_comptes(chemin, ["37110-1-1"])
+    _extraction_comptes(chemin, ["37110"])
     resultat = classer_fichiers([str(chemin)])
     fichier = resultat["fichiers"][0]
     assert fichier["agence_detectee"] is None
@@ -64,8 +66,8 @@ def test_agence_inconnue_est_un_avertissement(tmp_path):
 def test_deux_fichiers_pour_la_meme_agence_sont_bloquants(tmp_path):
     chemin1 = tmp_path / "Akwa_Compte.xlsx"
     chemin2 = tmp_path / "Akwa_Compte_bis.xlsx"
-    _extraction_comptes(chemin1, ["37110-1-1"])
-    _extraction_comptes(chemin2, ["37110-1-1"])
+    _extraction_comptes(chemin1, ["37110"])
+    _extraction_comptes(chemin2, ["37110"])
 
     resultat = classer_fichiers([str(chemin1), str(chemin2)])
 
@@ -81,7 +83,7 @@ def test_ecart_anormal_avec_la_veille_suggere_lagence_probable(tmp_path):
 
     # Le fichier nommé « Bafoussam » contient en réalité le total de Balessing (cas du 10/09/2026).
     chemin = dossier_extractions / "Bafoussam_Compte.xlsx"
-    _extraction_comptes(chemin, ["37420-1-1"] * 5)  # 5 comptes Garanties
+    _extraction_comptes(chemin, ["37420"] * 5)  # 5 comptes Garanties
     _classeur_reference(dossier_reference, {"F": 2441, "H": 5})  # F=Bafoussam, H=Balessing
 
     resultat = classer_fichiers([str(chemin)], dossier_reference=str(dossier_reference))
@@ -90,6 +92,42 @@ def test_ecart_anormal_avec_la_veille_suggere_lagence_probable(tmp_path):
     assert fichier["niveau"] == "avertissement"
     assert any("Balessing" in m for m in fichier["messages"])
     assert resultat["reference"]["disponible"] is True
+
+
+def test_signale_les_doublons_de_numero_de_compte(tmp_path):
+    chemin = tmp_path / "Akwa_Compte.xlsx"
+    classeur = openpyxl.Workbook()
+    feuille = classeur.active
+    for _ in range(23):
+        feuille.append([])
+    feuille.append(["N°", "Numero de compte"])
+    feuille.append([1, "37110-000001-00"])
+    feuille.append([2, "37110-000001-00"])  # même numéro que la ligne précédente
+    classeur.save(chemin)
+
+    resultat = classer_fichiers([str(chemin)])
+    fichier = resultat["fichiers"][0]
+    assert fichier["doublons"] == ["37110-000001-00"]
+    assert fichier["niveau"] == "avertissement"
+    assert any("double" in m for m in fichier["messages"])
+
+
+def test_signale_les_numeros_mal_formes(tmp_path):
+    chemin = tmp_path / "Akwa_Compte.xlsx"
+    classeur = openpyxl.Workbook()
+    feuille = classeur.active
+    for _ in range(23):
+        feuille.append([])
+    feuille.append(["N°", "Numero de compte"])
+    feuille.append([1, "37110-000001-00"])
+    feuille.append([2, "371100000100"])  # sans les tirets attendus
+
+    classeur.save(chemin)
+
+    resultat = classer_fichiers([str(chemin)])
+    fichier = resultat["fichiers"][0]
+    assert fichier["mal_formes"] == ["371100000100"]
+    assert fichier["niveau"] == "avertissement"
 
 
 def test_reconnait_un_releve_bancaire_pdf(tmp_path):

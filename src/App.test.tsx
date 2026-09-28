@@ -24,6 +24,19 @@ function fausseApi(surcharges: Partial<ApiOrisflow> = {}): ApiOrisflow {
       version: "0.1.0",
       empaquete: false,
     }),
+    generer: async () => ({
+      type: "resultat",
+      commande: "generer",
+      version: "0.1.0",
+      ok: true,
+      chemin_genere: "C:\\Orisflow\\Resultats\\TRESORERIE JOURNALIÈRE et TDB DU  29 09 2026.xlsx",
+      date: "2026-09-29",
+      modele_utilise: "C:\\ref\\... 28 09 2026.xlsx",
+      agences_mises_a_jour: ["Akwa"],
+      agences_non_mises_a_jour: [],
+      fichiers_ignores: [],
+      classement: { ok: true, total: 0, fichiers: [], reference: { disponible: false, chemin: null, date: null } },
+    }),
     choisirDossierTravail: async () => "C:\\Orisflow",
     choisirDossierReference: async () => "C:\\Orisflow\\Reference",
     ouvrirDossierTravail: async () => "C:\\Orisflow",
@@ -123,5 +136,44 @@ describe("Orisflow", () => {
     expect(await screen.findByText("Avertissement")).toBeInTheDocument();
     expect(screen.getByText(/Ce total ressemble plutôt à celui de la veille pour : Balessing/)).toBeInTheDocument();
     expect(screen.getByText(/Comparaison faite avec le classeur du 2026-09-10/)).toBeInTheDocument();
+  });
+
+  it("permet de générer le classeur et affiche le résultat", async () => {
+    window.orisflow = fausseApi({
+      choisirFichiers: async () => [{ chemin: "C:\\x\\Akwa_Compte.xls", nom: "Akwa_Compte.xls", taille: 1 }],
+      classer: async () => ({
+        type: "resultat",
+        commande: "classer",
+        ok: true,
+        version: "0.1.0",
+        total: 1,
+        reference: { disponible: false, chemin: null, date: null },
+        fichiers: [
+          {
+            nom: "Akwa_Compte.xls",
+            chemin: "C:\\x\\Akwa_Compte.xls",
+            extension: ".xls",
+            type_detecte: "compte",
+            type_libelle: "Liste de comptes",
+            agence_detectee: "akwa",
+            agence_libelle: "Akwa",
+            confiance_agence: "nom",
+            numero_compte_pdf: null,
+            total_comptes: 30,
+            niveau: "information",
+            messages: [],
+          },
+        ],
+      }),
+    });
+    const utilisateur = userEvent.setup();
+    render(<App />);
+
+    await utilisateur.click(screen.getByRole("button", { name: "Choisir des fichiers…" }));
+    await utilisateur.click(await screen.findByRole("button", { name: "Analyser les fichiers" }));
+    await utilisateur.click(await screen.findByRole("button", { name: "Générer le classeur" }));
+
+    expect(await screen.findByText(/Fichier généré/)).toBeInTheDocument();
+    expect(screen.getByText(/Agences mises à jour : Akwa/)).toBeInTheDocument();
   });
 });

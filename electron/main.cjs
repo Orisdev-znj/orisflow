@@ -184,6 +184,21 @@ function enregistrerCommunications() {
     ),
   );
 
+  ipcMain.handle("moteur:generer", async (evenement, chemins) => {
+    const racine = preparerDossiers();
+    return lancerMoteur(
+      "generer",
+      {
+        fichiers: chemins,
+        dossierReference: dossierReference() || null,
+        dossierSortie: path.join(racine, "Resultats"),
+      },
+      (message) => {
+        evenement.sender.send("moteur:evenement", message);
+      },
+    );
+  });
+
   ipcMain.handle("parametres:lire", () => ({
     dossierTravail: dossierTravail(),
     dossierReference: dossierReference(),

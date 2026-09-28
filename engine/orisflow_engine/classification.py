@@ -16,7 +16,7 @@ from typing import Any, Optional
 
 import pandas as pd
 
-from .comptes import compter_comptes, total_categorise
+from .comptes import analyser_comptes, total_categorise
 from .pdf_releves import detecter_releve
 from .reference_treso import lire_totaux_comptes_precedents
 from .regles_agences import AGENCE_LIBELLES, agences_dont_le_total_serait_proche, detecter_agence
@@ -79,6 +79,9 @@ def classer_un_fichier(chemin: str) -> dict[str, Any]:
         "confiance_agence": "sans_objet",
         "numero_compte_pdf": None,
         "total_comptes": None,
+        "comptages": None,
+        "doublons": [],
+        "mal_formes": [],
         "messages": [],
         "niveau": "information",
     }
@@ -108,8 +111,25 @@ def classer_un_fichier(chemin: str) -> dict[str, Any]:
 
         if type_detecte == "compte":
             try:
-                comptages = compter_comptes(chemin)
-                resultat["total_comptes"] = total_categorise(comptages)
+                analyse = analyser_comptes(chemin)
+                resultat["comptages"] = analyse["comptages"]
+                resultat["total_comptes"] = total_categorise(analyse["comptages"])
+                resultat["doublons"] = analyse["doublons"]
+                resultat["mal_formes"] = analyse["mal_formes"]
+                if analyse["doublons"]:
+                    resultat["niveau"] = "avertissement" if resultat["niveau"] == "information" else resultat["niveau"]
+                    resultat["messages"].append(
+                        f"{len(analyse['doublons'])} numéro(s) de compte en double dans ce fichier "
+                        f"(compté(s) plusieurs fois) : {', '.join(analyse['doublons'][:5])}"
+                        + (" …" if len(analyse["doublons"]) > 5 else "")
+                    )
+                if analyse["mal_formes"]:
+                    resultat["niveau"] = "avertissement" if resultat["niveau"] == "information" else resultat["niveau"]
+                    resultat["messages"].append(
+                        f"{len(analyse['mal_formes'])} numéro(s) de compte ne respectent pas le format attendu "
+                        f"(5 chiffres-6 chiffres-2 chiffres) : {', '.join(analyse['mal_formes'][:5])}"
+                        + (" …" if len(analyse["mal_formes"]) > 5 else "")
+                    )
             except Exception as erreur:
                 resultat["niveau"] = "bloquant"
                 resultat["messages"].append(f"Ce fichier n'a pas pu être lu comme une liste de comptes : {erreur}")

@@ -20,6 +20,7 @@ from typing import Any, Dict
 
 from . import VERSION
 from .classification import classer_fichiers
+from .generation import generer_classeur
 
 EXTENSIONS_PRISES_EN_CHARGE = {".xls", ".xlsx", ".pdf"}
 
@@ -102,7 +103,45 @@ def commande_classer(parametres: Dict[str, Any]) -> None:
     emettre(type="resultat", commande="classer", version=VERSION, **resultat)
 
 
-COMMANDES = {"ping": commande_ping, "analyser": commande_analyser, "classer": commande_classer}
+def commande_generer(parametres: Dict[str, Any]) -> None:
+    """Sprint 4 : génère un nouveau classeur daté à partir du dernier classeur existant.
+
+    Paramètres attendus : {"fichiers": [...], "dossierReference": chemin,
+    "dossierSortie": chemin, "date": "AAAA-MM-JJ"|null}. Ne modifie jamais le
+    classeur de référence ni les fichiers importés ; n'écrase jamais un fichier
+    déjà généré.
+    """
+    from datetime import date as _date
+
+    chemins = parametres.get("fichiers", [])
+    dossier_reference = parametres.get("dossierReference") or None
+    dossier_sortie = parametres.get("dossierSortie")
+    jour_parametre = parametres.get("date")
+    jour = _date.fromisoformat(jour_parametre) if jour_parametre else None
+
+    if not dossier_reference:
+        emettre(type="erreur", message="Aucun dossier de référence n'est configuré (voir Paramètres).")
+        return
+    if not dossier_sortie:
+        emettre(type="erreur", message="Aucun dossier de sortie n'est configuré.")
+        return
+
+    for position, chemin in enumerate(chemins, start=1):
+        emettre(type="progression", courant=position, total=len(chemins), fichier=os.path.basename(chemin))
+
+    resultat = generer_classeur(chemins, dossier_reference, dossier_sortie, jour=jour)
+    if not resultat["ok"]:
+        emettre(type="erreur", message=resultat["erreur"])
+        return
+    emettre(type="resultat", commande="generer", version=VERSION, **resultat)
+
+
+COMMANDES = {
+    "ping": commande_ping,
+    "analyser": commande_analyser,
+    "classer": commande_classer,
+    "generer": commande_generer,
+}
 
 
 def main(argv: list[str] | None = None) -> int:

@@ -28,14 +28,31 @@ export interface ReferenceComparaison {
   date: string | null;
 }
 
-export interface ResultatClassement {
-  type: "resultat";
-  commande: "classer";
-  version: string;
+export interface Classement {
   ok: boolean;
   total: number;
   fichiers: FichierClasse[];
   reference: ReferenceComparaison;
+}
+
+export interface ResultatClassement extends Classement {
+  type: "resultat";
+  commande: "classer";
+  version: string;
+}
+
+export interface ResultatGeneration {
+  type: "resultat";
+  commande: "generer";
+  version: string;
+  ok: true;
+  chemin_genere: string;
+  date: string;
+  modele_utilise: string;
+  agences_mises_a_jour: string[];
+  agences_non_mises_a_jour: string[];
+  fichiers_ignores: string[];
+  classement: Classement;
 }
 
 export interface ResultatPing {
@@ -61,12 +78,19 @@ export interface ParametresApplication {
   empaquete: boolean;
 }
 
+export type EtatGeneration =
+  | { etat: "attente" }
+  | { etat: "encours" }
+  | { etat: "succes"; resultat: ResultatGeneration }
+  | { etat: "erreur"; message: string };
+
 /** API exposée par l'application de bureau (fichier electron/preload.cjs). */
 export interface ApiOrisflow {
   choisirFichiers(): Promise<FichierImporte[]>;
   decrireFichiersDeposes(fichiers: FileList | File[]): Promise<FichierImporte[]>;
   testerMoteur(): Promise<ResultatPing>;
   classer(chemins: string[]): Promise<ResultatClassement>;
+  generer(chemins: string[]): Promise<ResultatGeneration>;
   surEvenementMoteur(rappel: (evenement: EvenementMoteur) => void): () => void;
   lireParametres(): Promise<ParametresApplication>;
   choisirDossierTravail(): Promise<string>;

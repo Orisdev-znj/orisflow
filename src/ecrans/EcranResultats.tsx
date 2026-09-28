@@ -1,8 +1,10 @@
-import type { FichierClasse, NiveauFichier, ResultatClassement } from "../lib/types";
+import type { EtatGeneration, FichierClasse, NiveauFichier, ResultatClassement } from "../lib/types";
 
 interface Props {
   resultat: ResultatClassement | null;
+  generation: EtatGeneration;
   onRetourImport: () => void;
+  onGenerer: () => void;
 }
 
 const NIVEAU_LIBELLES: Record<NiveauFichier, { texte: string; classe: string }> = {
@@ -52,7 +54,68 @@ function ligneFichier(fichier: FichierClasse) {
   );
 }
 
-export default function EcranResultats({ resultat, onRetourImport }: Props) {
+function SectionGeneration({ generation, onGenerer, peutGenerer }: {
+  generation: EtatGeneration;
+  onGenerer: () => void;
+  peutGenerer: boolean;
+}) {
+  return (
+    <>
+      <h2>Générer le classeur de trésorerie</h2>
+      <p className="aide">
+        Un nouveau fichier est créé à partir du dernier classeur existant (jamais modifié). Seules les lignes de
+        comptes (7 à 13) sont remplies automatiquement pour le moment ; le reste garde les valeurs du classeur
+        précédent, à compléter comme aujourd'hui.
+      </p>
+
+      <div className="actions">
+        <button
+          type="button"
+          className="bouton bouton--principal"
+          onClick={onGenerer}
+          disabled={!peutGenerer || generation.etat === "encours"}
+        >
+          {generation.etat === "encours" ? "Génération en cours…" : "Générer le classeur"}
+        </button>
+      </div>
+
+      {generation.etat === "erreur" && (
+        <p role="alert" className="message message--erreur">
+          {generation.message}
+        </p>
+      )}
+
+      {generation.etat === "succes" && (
+        <div role="status" className="message message--succes">
+          <p>
+            Fichier généré : <strong>{generation.resultat.chemin_genere.split("\\").pop()}</strong>
+          </p>
+          <p className="aide">Dossier : {generation.resultat.chemin_genere}</p>
+          <p>
+            Agences mises à jour :{" "}
+            {generation.resultat.agences_mises_a_jour.length > 0
+              ? generation.resultat.agences_mises_a_jour.join(", ")
+              : "aucune"}
+            .
+          </p>
+          {generation.resultat.agences_non_mises_a_jour.length > 0 && (
+            <p>
+              Non mises à jour aujourd'hui (aucun fichier reçu — à compléter comme avant) :{" "}
+              {generation.resultat.agences_non_mises_a_jour.join(", ")}.
+            </p>
+          )}
+          {generation.resultat.fichiers_ignores.length > 0 && (
+            <p>Fichiers ignorés (anomalie bloquante) : {generation.resultat.fichiers_ignores.join(", ")}.</p>
+          )}
+        </div>
+      )}
+    </>
+  );
+}
+
+export default function EcranResultats({ resultat, generation, onRetourImport, onGenerer }: Props) {
+  const peutGenerer = !!resultat && resultat.fichiers.some((f) => f.type_detecte === "compte" && f.niveau !== "bloquant");
+
   return (
     <section aria-labelledby="titre-resultats">
       <h1 id="titre-resultats">Résultats de l'analyse</h1>
@@ -79,11 +142,6 @@ export default function EcranResultats({ resultat, onRetourImport }: Props) {
             </p>
           )}
 
-          <p className="aide">
-            Cette version reconnaît les fichiers et signale les anomalies. Elle ne remplit pas encore le classeur
-            de trésorerie (étape à venir).
-          </p>
-
           <table className="tableau">
             <thead>
               <tr>
@@ -97,6 +155,8 @@ export default function EcranResultats({ resultat, onRetourImport }: Props) {
             </thead>
             <tbody>{resultat.fichiers.map(ligneFichier)}</tbody>
           </table>
+
+          <SectionGeneration generation={generation} onGenerer={onGenerer} peutGenerer={peutGenerer} />
         </>
       )}
 

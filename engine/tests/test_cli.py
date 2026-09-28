@@ -75,6 +75,42 @@ def test_parametres_illisibles(monkeypatch, capsys):
     assert sortie["type"] == "erreur"
 
 
+def test_generer_sans_dossier_reference_renvoie_une_erreur_claire(monkeypatch, capsys):
+    code, messages = executer("generer", {"fichiers": []}, monkeypatch, capsys)
+    assert code == 0  # ce n'est pas un plantage du moteur, juste un paramétrage manquant
+    assert messages[-1]["type"] == "erreur"
+    assert "référence" in messages[-1]["message"]
+
+
+def test_generer_de_bout_en_bout_via_le_protocole_cli(monkeypatch, capsys, tmp_path):
+    import openpyxl
+
+    dossier_reference = tmp_path / "reference"
+    dossier_reference.mkdir()
+    classeur = openpyxl.Workbook()
+    classeur.active.title = "Synthèse"
+    classeur.save(dossier_reference / "TRESORERIE JOURNALIÈRE et TDB DU  10 09 2026.xlsx")
+
+    code, messages = executer(
+        "generer",
+        {
+            "fichiers": [],
+            "dossierReference": str(dossier_reference),
+            "dossierSortie": str(tmp_path / "sortie"),
+            "date": "2026-09-29",
+        },
+        monkeypatch,
+        capsys,
+    )
+
+    assert code == 0
+    resultat = messages[-1]
+    assert resultat["type"] == "resultat"
+    assert resultat["commande"] == "generer"
+    assert resultat["date"] == "2026-09-29"
+    assert os.path.isfile(resultat["chemin_genere"])
+
+
 def test_fichier_avec_accents_dans_le_nom(monkeypatch, capsys, tmp_path):
     fichier = tmp_path / "TRESORERIE JOURNALIÈRE et TDB.xlsx"
     fichier.write_bytes(b"x")

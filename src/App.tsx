@@ -4,7 +4,7 @@ import EcranParametres from "./ecrans/EcranParametres";
 import EcranResultats from "./ecrans/EcranResultats";
 import EcranTraitement from "./ecrans/EcranTraitement";
 import type { EtatTraitement } from "./ecrans/EcranTraitement";
-import type { FichierImporte, ResultatClassement } from "./lib/types";
+import type { EtatGeneration, FichierImporte, ResultatClassement } from "./lib/types";
 import logoOrisFinance from "./assets/logo-oris-finance.png";
 
 type Ecran = "import" | "traitement" | "resultats" | "parametres";
@@ -21,6 +21,7 @@ export default function App() {
   const [fichiers, setFichiers] = useState<FichierImporte[]>([]);
   const [traitement, setTraitement] = useState<EtatTraitement>({ etat: "attente" });
   const [resultat, setResultat] = useState<ResultatClassement | null>(null);
+  const [generation, setGeneration] = useState<EtatGeneration>({ etat: "attente" });
 
   const api = window.orisflow;
 
@@ -60,6 +61,7 @@ export default function App() {
       return;
     }
     setResultat(null);
+    setGeneration({ etat: "attente" });
     setTraitement({ etat: "encours", courant: 0, total: fichiers.length });
     setEcran("traitement");
     try {
@@ -69,6 +71,23 @@ export default function App() {
       setEcran("resultats");
     } catch (erreur) {
       setTraitement({
+        etat: "erreur",
+        message: erreur instanceof Error ? erreur.message : "Une erreur inattendue est survenue.",
+      });
+    }
+  }, [api, fichiers]);
+
+  const genererClasseur = useCallback(async () => {
+    if (!api) {
+      setGeneration({ etat: "erreur", message: "Cette fonction n'est disponible que dans l'application Orisflow." });
+      return;
+    }
+    setGeneration({ etat: "encours" });
+    try {
+      const reponse = await api.generer(fichiers.map((f) => f.chemin));
+      setGeneration({ etat: "succes", resultat: reponse });
+    } catch (erreur) {
+      setGeneration({
         etat: "erreur",
         message: erreur instanceof Error ? erreur.message : "Une erreur inattendue est survenue.",
       });
@@ -119,7 +138,12 @@ export default function App() {
           />
         )}
         {ecran === "resultats" && (
-          <EcranResultats resultat={resultat} onRetourImport={() => setEcran("import")} />
+          <EcranResultats
+            resultat={resultat}
+            generation={generation}
+            onRetourImport={() => setEcran("import")}
+            onGenerer={genererClasseur}
+          />
         )}
         {ecran === "parametres" && <EcranParametres />}
       </main>
