@@ -1,0 +1,27 @@
+# Dépendances et sorties de build
+node_modules/
+dist-renderer/
+release/
+engine/dist/
+engine/build/
+__pycache__/
+*.pyc
+.venv/
+
+# Données réelles : jamais versionnées (balances, extractions, classeurs, relevés)
+*.xls
+*.xlsx
+*.xlsm
+*.pdf
+*.db
+*.sqlite
+
+# Exception : jeux d'essai ANONYMISÉS, fabriqués pour les tests
+!tests/fixtures/anonymises/
+!tests/fixtures/anonymises/**
+
+# Secrets et configuration locale
+.env
+.env.*
+*.key
+parametres.local.json

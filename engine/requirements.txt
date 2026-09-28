@@ -1,0 +1,10 @@
+# Moteur d'Orisflow.
+# Lecture des extractions (sprint 2-3) :
+openpyxl
+xlrd
+pandas
+# Lecture des relevés PDF texte (sprint 2, gabarit) :
+pymupdf
+# Packaging et tests :
+pyinstaller
+pytest

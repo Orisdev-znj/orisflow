@@ -1,0 +1,309 @@
+/* Charte Oris Finance (extraite du site, usage interne). Polices : Roboto → Arial. */
+:root {
+  --marine: #071c9b;
+  --magenta: #e31c78;
+  --turquoise: #24b1af;
+  --orange: #fe8423;
+  --rouge: #e60e0e;
+  --encre: #1b1d21;
+  --texte: #5f5f5f;
+  --discret: #818181;
+  --bordure: #dbdbdb;
+  --fond: #ffffff;
+  --fond-doux: #f6f7fb;
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+  color: var(--encre);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--fond);
+}
+
+h1,
+h2 {
+  font-family: "Roboto Slab", Georgia, "Times New Roman", serif;
+  font-weight: 400;
+}
+
+h1 {
+  color: var(--marine);
+  font-size: 1.7rem;
+  margin: 0 0 0.5rem;
+}
+
+h2 {
+  font-size: 1.15rem;
+  margin: 1.6rem 0 0.4rem;
+}
+
+.application {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.entete {
+  background: var(--fond);
+}
+
+/* Bandeau du logo : toujours blanc, car le logo Oris Finance est conçu pour un fond clair
+   (son mot « FINANCE » est du bleu marine — invisible sur un fond de la même couleur). */
+.entete__marque {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1.5rem;
+  border-bottom: 3px solid var(--magenta);
+}
+
+.entete__logo {
+  height: 52px;
+  width: auto;
+  display: block;
+}
+
+.entete__separateur {
+  width: 1px;
+  height: 34px;
+  background: var(--bordure);
+}
+
+.entete__titre {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.entete__nom {
+  font-family: "Roboto Slab", Georgia, serif;
+  font-size: 1.4rem;
+  color: var(--marine);
+}
+
+.entete__sous-titre {
+  font-size: 0.85rem;
+  color: var(--discret);
+}
+
+/* Barre de navigation : fond bleu marine, comme le bandeau d'en-tête recommandé par la charte. */
+.entete__nav {
+  display: flex;
+  gap: 0.25rem;
+  background: var(--marine);
+  padding: 0 1.5rem;
+}
+
+.onglet {
+  background: transparent;
+  border: none;
+  color: #fff;
+  opacity: 0.8;
+  cursor: pointer;
+  font: inherit;
+  padding: 0.6rem 1rem;
+  border-radius: 6px 6px 0 0;
+}
+
+.onglet:hover {
+  opacity: 1;
+}
+
+.onglet--actif {
+  background: var(--fond);
+  color: var(--marine);
+  opacity: 1;
+  font-weight: 500;
+}
+
+.contenu {
+  flex: 1;
+  padding: 1.6rem 1.5rem 2rem;
+  max-width: 980px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.aide {
+  color: var(--texte);
+  font-size: 0.92rem;
+  margin: 0.3rem 0;
+}
+
+.vide {
+  color: var(--discret);
+  font-style: italic;
+}
+
+.zone-depot {
+  margin: 1.2rem 0;
+  padding: 1.6rem;
+  border: 2px dashed var(--bordure);
+  border-radius: 10px;
+  background: var(--fond-doux);
+  text-align: center;
+}
+
+.zone-depot--survol {
+  border-color: var(--magenta);
+  background: #fdeef5;
+}
+
+.zone-depot p {
+  margin: 0.35rem 0;
+}
+
+.liste-entete {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.tableau {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+  font-size: 0.93rem;
+}
+
+.tableau th,
+.tableau td {
+  text-align: left;
+  padding: 0.55rem 0.7rem;
+  border-bottom: 1px solid var(--bordure);
+}
+
+.tableau th {
+  color: var(--marine);
+  font-weight: 500;
+}
+
+.tableau__action {
+  text-align: right;
+}
+
+.actions {
+  margin-top: 1.4rem;
+  display: flex;
+  gap: 0.7rem;
+}
+
+.actions--ligne {
+  margin-top: 0.6rem;
+}
+
+.bouton {
+  font: inherit;
+  cursor: pointer;
+  padding: 0.55rem 1.1rem;
+  border-radius: 6px;
+  border: 1px solid var(--marine);
+  background: #fff;
+  color: var(--marine);
+}
+
+.bouton:hover:not(:disabled) {
+  background: var(--fond-doux);
+}
+
+.bouton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.bouton--principal {
+  background: var(--marine);
+  color: #fff;
+}
+
+.bouton--principal:hover:not(:disabled) {
+  background: #05147a;
+}
+
+.bouton--lien {
+  border: none;
+  background: none;
+  color: var(--magenta);
+  padding: 0.2rem 0.4rem;
+  text-decoration: underline;
+}
+
+.bouton:focus-visible,
+.onglet:focus-visible {
+  outline: 3px solid var(--turquoise);
+  outline-offset: 2px;
+}
+
+.message {
+  padding: 0.7rem 1rem;
+  border-radius: 6px;
+  border-left: 4px solid;
+  margin: 1rem 0;
+}
+
+.message--erreur {
+  border-color: var(--rouge);
+  background: #fdecec;
+}
+
+.message--succes {
+  border-color: var(--turquoise);
+  background: #e8f7f7;
+}
+
+.message--avertissement {
+  border-color: var(--orange);
+  background: #fff2e6;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  color: #fff;
+}
+
+.badge--info {
+  background: var(--turquoise);
+}
+
+.badge--avertissement {
+  background: var(--orange);
+}
+
+.badge--bloquant {
+  background: var(--rouge);
+}
+
+.progression {
+  width: 100%;
+  height: 14px;
+  accent-color: var(--marine);
+}
+
+.liste-messages {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.liste-messages li {
+  margin: 0.15rem 0;
+}
+
+.aide-inline {
+  color: var(--discret);
+  font-size: 0.85em;
+}
+
+.chemin {
+  font-family: Consolas, "Courier New", monospace;
+  background: var(--fond-doux);
+  padding: 0.5rem 0.7rem;
+  border-radius: 6px;
+  word-break: break-all;
+}

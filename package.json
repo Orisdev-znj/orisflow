@@ -1,0 +1,63 @@
+{
+  "name": "orisflow",
+  "productName": "Orisflow",
+  "version": "0.1.0",
+  "description": "Orisflow : production automatique de la trésorerie journalière et des états financiers d'ORIS FINANCE",
+  "author": "ORIS FINANCE",
+  "private": true,
+  "main": "electron/main.cjs",
+  "scripts": {
+    "renderer:build": "vite build",
+    "start": "npm run renderer:build && node scripts/lancer.cjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "engine:build": "powershell -ExecutionPolicy Bypass -File engine/build_engine.ps1",
+    "package": "npm run renderer:build && electron-builder --win portable"
+  },
+  "build": {
+    "appId": "com.orisfinance.orisflow",
+    "productName": "Orisflow",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "electron/**",
+      "dist-renderer/**",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "engine/dist/orisflow-engine.exe",
+        "to": "engine/orisflow-engine.exe"
+      }
+    ],
+    "win": {
+      "target": [
+        "portable"
+      ],
+      "icon": "build/icon.ico",
+      "signExecutable": false
+    },
+    "portable": {
+      "artifactName": "Orisflow.exe"
+    }
+  },
+  "dependencies": {
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "electron": "^44.4.5",
+    "electron-builder": "^26.15.3",
+    "jsdom": "^30.1.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.1",
+    "vitest": "^5.0.2"
+  }
+}
