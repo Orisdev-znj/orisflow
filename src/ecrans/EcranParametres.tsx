@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { ParametresApplication } from "../lib/types";
+import { nettoyerErreur } from "../lib/format";
 
 type EtatMoteur =
   | { etat: "inconnu" }
@@ -35,7 +36,7 @@ export default function EcranParametres() {
       const reponse = await api.testerMoteur();
       setMoteur({ etat: "ok", version: reponse.version, python: reponse.python });
     } catch (erreur) {
-      setMoteur({ etat: "erreur", message: erreur instanceof Error ? erreur.message : "Le moteur ne répond pas." });
+      setMoteur({ etat: "erreur", message: nettoyerErreur(erreur) });
     }
   };
 

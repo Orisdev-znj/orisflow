@@ -6,6 +6,7 @@ import EcranTraitement from "./ecrans/EcranTraitement";
 import type { EtatTraitement } from "./ecrans/EcranTraitement";
 import type { EtatGeneration, FichierImporte, ResultatClassement } from "./lib/types";
 import logoOrisFinance from "./assets/logo-oris-finance.png";
+import { nettoyerErreur } from "./lib/format";
 
 type Ecran = "import" | "traitement" | "resultats" | "parametres";
 
@@ -70,10 +71,7 @@ export default function App() {
       setTraitement({ etat: "termine" });
       setEcran("resultats");
     } catch (erreur) {
-      setTraitement({
-        etat: "erreur",
-        message: erreur instanceof Error ? erreur.message : "Une erreur inattendue est survenue.",
-      });
+      setTraitement({ etat: "erreur", message: nettoyerErreur(erreur) });
     }
   }, [api, fichiers]);
 
@@ -87,10 +85,7 @@ export default function App() {
       const reponse = await api.generer(fichiers.map((f) => f.chemin));
       setGeneration({ etat: "succes", resultat: reponse });
     } catch (erreur) {
-      setGeneration({
-        etat: "erreur",
-        message: erreur instanceof Error ? erreur.message : "Une erreur inattendue est survenue.",
-      });
+      setGeneration({ etat: "erreur", message: nettoyerErreur(erreur) });
     }
   }, [api, fichiers]);
 

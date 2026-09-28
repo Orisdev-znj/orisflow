@@ -147,7 +147,7 @@ describe("Orisflow", () => {
         ok: true,
         version: "0.1.0",
         total: 1,
-        reference: { disponible: false, chemin: null, date: null },
+        reference: { disponible: true, chemin: "C:\\ref\\...28 09 2026.xlsx", date: "2026-09-28" },
         fichiers: [
           {
             nom: "Akwa_Compte.xls",
@@ -175,5 +175,43 @@ describe("Orisflow", () => {
 
     expect(await screen.findByText(/Fichier généré/)).toBeInTheDocument();
     expect(screen.getByText(/Agences mises à jour : Akwa/)).toBeInTheDocument();
+  });
+
+  it("désactive « Générer le classeur » et prévient quand aucun dossier de référence n'est configuré", async () => {
+    window.orisflow = fausseApi({
+      choisirFichiers: async () => [{ chemin: "C:\\x\\Akwa_Compte.xls", nom: "Akwa_Compte.xls", taille: 1 }],
+      classer: async () => ({
+        type: "resultat",
+        commande: "classer",
+        ok: true,
+        version: "0.1.0",
+        total: 1,
+        reference: { disponible: false, chemin: null, date: null },
+        fichiers: [
+          {
+            nom: "Akwa_Compte.xls",
+            chemin: "C:\\x\\Akwa_Compte.xls",
+            extension: ".xls",
+            type_detecte: "compte",
+            type_libelle: "Liste de comptes",
+            agence_detectee: "akwa",
+            agence_libelle: "Akwa",
+            confiance_agence: "nom",
+            numero_compte_pdf: null,
+            total_comptes: 30,
+            niveau: "information",
+            messages: [],
+          },
+        ],
+      }),
+    });
+    const utilisateur = userEvent.setup();
+    render(<App />);
+
+    await utilisateur.click(screen.getByRole("button", { name: "Choisir des fichiers…" }));
+    await utilisateur.click(await screen.findByRole("button", { name: "Analyser les fichiers" }));
+
+    expect(await screen.findByRole("button", { name: "Générer le classeur" })).toBeDisabled();
+    expect(screen.getByText(/Aucun classeur de référence trouvé/)).toBeInTheDocument();
   });
 });

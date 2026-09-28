@@ -54,10 +54,11 @@ function ligneFichier(fichier: FichierClasse) {
   );
 }
 
-function SectionGeneration({ generation, onGenerer, peutGenerer }: {
+function SectionGeneration({ generation, onGenerer, peutGenerer, dossierReferenceManquant }: {
   generation: EtatGeneration;
   onGenerer: () => void;
   peutGenerer: boolean;
+  dossierReferenceManquant: boolean;
 }) {
   return (
     <>
@@ -67,6 +68,13 @@ function SectionGeneration({ generation, onGenerer, peutGenerer }: {
         comptes (7 à 13) sont remplies automatiquement pour le moment ; le reste garde les valeurs du classeur
         précédent, à compléter comme aujourd'hui.
       </p>
+
+      {dossierReferenceManquant && (
+        <p className="message message--avertissement" role="status">
+          Aucun classeur de référence trouvé : indiquez le dossier des classeurs de trésorerie dans « Paramètres »
+          avant de générer (Orisflow doit savoir de quel classeur partir).
+        </p>
+      )}
 
       <div className="actions">
         <button
@@ -114,7 +122,11 @@ function SectionGeneration({ generation, onGenerer, peutGenerer }: {
 }
 
 export default function EcranResultats({ resultat, generation, onRetourImport, onGenerer }: Props) {
-  const peutGenerer = !!resultat && resultat.fichiers.some((f) => f.type_detecte === "compte" && f.niveau !== "bloquant");
+  const dossierReferenceManquant = !!resultat && !resultat.reference.chemin;
+  const peutGenerer =
+    !!resultat &&
+    !dossierReferenceManquant &&
+    resultat.fichiers.some((f) => f.type_detecte === "compte" && f.niveau !== "bloquant");
 
   return (
     <section aria-labelledby="titre-resultats">
@@ -130,15 +142,23 @@ export default function EcranResultats({ resultat, generation, onRetourImport, o
               : "Certains fichiers demandent votre attention avant d'aller plus loin."}
           </p>
 
-          {resultat.reference.disponible ? (
+          {resultat.reference.disponible && (
             <p className="aide">
               Comparaison faite avec le classeur du {resultat.reference.date ?? "?"} (
               {resultat.reference.chemin?.split("\\").pop()}).
             </p>
-          ) : (
+          )}
+          {!resultat.reference.disponible && resultat.reference.chemin && (
             <p className="aide">
-              Aucune comparaison avec la veille : indiquez le dossier des classeurs de trésorerie dans
-              « Paramètres » pour activer le contrôle de cohérence.
+              Classeur de référence trouvé ({resultat.reference.chemin.split("\\").pop()}), mais ses totaux de
+              comptes n'ont pas pu être lus : la comparaison avec la veille n'est pas disponible pour cette
+              analyse (la génération du classeur reste possible).
+            </p>
+          )}
+          {!resultat.reference.chemin && (
+            <p className="aide">
+              Aucun dossier de référence configuré : la comparaison avec la veille n'a pas pu être faite (voir
+              plus bas pour générer le classeur).
             </p>
           )}
 
@@ -156,7 +176,12 @@ export default function EcranResultats({ resultat, generation, onRetourImport, o
             <tbody>{resultat.fichiers.map(ligneFichier)}</tbody>
           </table>
 
-          <SectionGeneration generation={generation} onGenerer={onGenerer} peutGenerer={peutGenerer} />
+          <SectionGeneration
+            generation={generation}
+            onGenerer={onGenerer}
+            peutGenerer={peutGenerer}
+            dossierReferenceManquant={dossierReferenceManquant}
+          />
         </>
       )}
 
