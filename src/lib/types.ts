@@ -18,6 +18,11 @@ export interface FichierClasse {
   confiance_agence: ConfianceAgence;
   numero_compte_pdf: string | null;
   total_comptes: number | null;
+  doublons: string[];
+  mal_formes: string[];
+  depots: number | null;
+  engagements: number | null;
+  caisse: number | null;
   niveau: NiveauFichier;
   messages: string[];
 }

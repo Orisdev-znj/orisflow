@@ -9,6 +9,8 @@ une règle comptable si elle existe déjà ailleurs).
 
 from __future__ import annotations
 
+import re
+import unicodedata
 from typing import NamedTuple, Optional
 
 # Ordre du classeur « Synthèse » (colonnes B à N).
@@ -89,6 +91,35 @@ def detecter_agence(nom_fichier: str) -> AgenceDetectee:
         if code in nom:
             return AgenceDetectee(cle, AGENCE_LIBELLES[cle], "code")
 
+    return AgenceDetectee(None, None, "aucune")
+
+
+def _normaliser(texte: str) -> str:
+    """Majuscules, sans accents, sans ponctuation — pour comparer des libellés
+    d'origines différentes (nom de fichier, texte lu dans un PDF)."""
+    texte = unicodedata.normalize("NFKD", texte).encode("ascii", "ignore").decode("ascii")
+    return re.sub(r"[^A-Z0-9]+", " ", texte.upper()).strip()
+
+
+_VILLES_A_IGNORER = ("DOUALA", "YAOUNDE")
+
+
+def detecter_agence_depuis_texte(texte: str) -> AgenceDetectee:
+    """Reconnaît l'agence à partir d'un texte libre lu dans un document (ex. la ligne
+    « Groupe: DOUALA AKWA » d'une balance CloudBank), plutôt que d'un nom de fichier.
+
+    Nécessaire pour les PDF de balance (classe 3, classe 5) : l'agence n'y est jamais
+    indiquée dans le nom du fichier, seulement dans le contenu (constaté le 29/09/2026).
+    """
+    nettoye = _normaliser(texte)
+    for ville in _VILLES_A_IGNORER:
+        nettoye = nettoye.replace(ville, " ")
+    nettoye = re.sub(r"\s+", " ", nettoye).strip()
+
+    for cle, libelle in AGENCE_LIBELLES.items():
+        libelle_norm = _normaliser(libelle)
+        if libelle_norm and libelle_norm in nettoye:
+            return AgenceDetectee(cle, libelle, "contenu_document")
     return AgenceDetectee(None, None, "aucune")
 
 

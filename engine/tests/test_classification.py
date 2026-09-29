@@ -130,6 +130,32 @@ def test_signale_les_numeros_mal_formes(tmp_path):
     assert fichier["niveau"] == "avertissement"
 
 
+def test_reconnait_une_balance_classe3_et_lit_agence_depuis_le_contenu(tmp_path):
+    chemin = tmp_path / "EtBalance_General_Consolide_0000847.pdf"  # nom sans agence, comme les vrais fichiers
+    document = pymupdf.open()
+    page = document.new_page()
+    ancres = [231, 291, 351, 411, 471, 531]
+    page.insert_text((10, 50), "Balance generale consolidée   Chapitre de : 3  à : 3")
+    page.insert_text((10, 70), "Groupe: DOUALA AKWA   DOUALA AKWA")
+    page.insert_text((10, 150), "Compte")
+    page.insert_text((71, 150), "Intitulé")
+    for i, x in enumerate(ancres):
+        page.insert_text((x, 150), "Debit" if i % 2 == 0 else "Crédit")
+    page.insert_text((10, 175), "Total Classe : 3 TOTAL")
+    for x, valeur in zip(ancres, [1, 2, 3, 4, 500, 600]):
+        page.insert_text((x + 21, 175), str(valeur))
+    document.save(str(chemin))
+    document.close()
+
+    resultat = classer_fichiers([str(chemin)])
+    fichier = resultat["fichiers"][0]
+
+    assert fichier["type_detecte"] == "balance_classe3"
+    assert fichier["agence_detectee"] == "akwa"  # trouvée dans le contenu, pas dans le nom du fichier
+    assert fichier["depots"] == 600
+    assert fichier["engagements"] == 500
+
+
 def test_reconnait_un_releve_bancaire_pdf(tmp_path):
     chemin = tmp_path / "releve.pdf"
     document = pymupdf.open()

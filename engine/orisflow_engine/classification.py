@@ -16,10 +16,16 @@ from typing import Any, Optional
 
 import pandas as pd
 
+from .balance_pdf import detecter_type_balance, lire_agence, lire_balance_classe3, lire_balance_classe5
 from .comptes import analyser_comptes, total_categorise
 from .pdf_releves import detecter_releve
 from .reference_treso import lire_totaux_comptes_precedents
-from .regles_agences import AGENCE_LIBELLES, agences_dont_le_total_serait_proche, detecter_agence
+from .regles_agences import (
+    AGENCE_LIBELLES,
+    agences_dont_le_total_serait_proche,
+    detecter_agence,
+    detecter_agence_depuis_texte,
+)
 
 SEUIL_ECART_ANORMAL = 0.20  # 20 % : au-delà, le total du jour est jugé suspect.
 
@@ -30,6 +36,8 @@ TYPE_LIBELLES = {
     "releve_cca": "Relevé bancaire (CCA-Bank)",
     "releve_bgfi": "Relevé bancaire (BGFI)",
     "releve_bancaire": "Relevé bancaire (banque non reconnue)",
+    "balance_classe3": "Balance CloudBank — classe 3 (dépôts, engagements)",
+    "balance_classe5": "Balance CloudBank — classe 5 (caisse)",
     "inconnu": "Type non reconnu",
 }
 
@@ -82,6 +90,9 @@ def classer_un_fichier(chemin: str) -> dict[str, Any]:
         "comptages": None,
         "doublons": [],
         "mal_formes": [],
+        "depots": None,
+        "engagements": None,
+        "caisse": None,
         "messages": [],
         "niveau": "information",
     }
@@ -136,22 +147,58 @@ def classer_un_fichier(chemin: str) -> dict[str, Any]:
 
     elif extension == ".pdf":
         releve = detecter_releve(chemin)
-        resultat["type_detecte"] = releve.type_detecte
-        resultat["type_libelle"] = TYPE_LIBELLES.get(releve.type_detecte, "Relevé bancaire")
-        resultat["numero_compte_pdf"] = releve.numero_compte
-        if releve.type_detecte == "illisible":
-            resultat["niveau"] = "bloquant"
-            resultat["messages"].append("Ce PDF n'a pas pu être lu (page vide ou fichier corrompu).")
-        elif releve.type_detecte == "releve_bancaire":
-            resultat["niveau"] = "avertissement"
-            resultat["messages"].append("Relevé bancaire d'un gabarit non reconnu (ni CCA-Bank, ni BGFI).")
+        type_balance = None if releve.type_detecte in ("releve_cca", "releve_bgfi") else detecter_type_balance(chemin)
+
+        if type_balance in ("balance_classe3", "balance_classe5"):
+            resultat["type_detecte"] = type_balance
+            resultat["type_libelle"] = TYPE_LIBELLES[type_balance]
+            texte_agence = lire_agence(chemin)
+            agence = detecter_agence_depuis_texte(texte_agence) if texte_agence else detecter_agence_depuis_texte("")
+            resultat["agence_detectee"] = agence.cle
+            resultat["agence_libelle"] = agence.libelle
+            resultat["confiance_agence"] = agence.confiance
+            if agence.cle is None:
+                resultat["niveau"] = "avertissement"
+                resultat["messages"].append(
+                    f"Aucune agence n'a pu être reconnue dans le contenu de ce PDF (ligne « Groupe: {texte_agence or '?'} »)."
+                )
+            if type_balance == "balance_classe3":
+                valeurs = lire_balance_classe3(chemin)
+                resultat["depots"] = valeurs["depots"]
+                resultat["engagements"] = valeurs["engagements"]
+                if valeurs["depots"] is None or valeurs["engagements"] is None:
+                    resultat["niveau"] = "bloquant"
+                    resultat["messages"].append("La ligne « Total Classe : 3 » n'a pas été trouvée dans ce PDF.")
+                else:
+                    resultat["messages"].append(
+                        f"Encours dépôts : {valeurs['depots']:,} — Encours engagements : {valeurs['engagements']:,}"
+                        .replace(",", " ")
+                    )
+            else:
+                valeurs = lire_balance_classe5(chemin)
+                resultat["caisse"] = valeurs["caisse"]
+                if valeurs["caisse"] is None:
+                    resultat["niveau"] = "bloquant"
+                    resultat["messages"].append("La ligne « Total : 57 » n'a pas été trouvée dans ce PDF.")
+                else:
+                    resultat["messages"].append(f"Caisse : {valeurs['caisse']:,}".replace(",", " "))
         else:
-            resultat["messages"].append(
-                "Relevé bancaire reconnu. Son rattachement à une ligne du classeur n'est pas encore automatisé "
-                "(prévu à une prochaine étape)."
-            )
-        if not releve.numero_compte:
-            resultat["messages"].append("Le numéro de compte n'a pas pu être lu dans ce PDF.")
+            resultat["type_detecte"] = releve.type_detecte
+            resultat["type_libelle"] = TYPE_LIBELLES.get(releve.type_detecte, "Relevé bancaire")
+            resultat["numero_compte_pdf"] = releve.numero_compte
+            if releve.type_detecte == "illisible":
+                resultat["niveau"] = "bloquant"
+                resultat["messages"].append("Ce PDF n'a pas pu être lu (page vide ou fichier corrompu).")
+            elif releve.type_detecte == "releve_bancaire":
+                resultat["niveau"] = "avertissement"
+                resultat["messages"].append("Relevé bancaire d'un gabarit non reconnu (ni CCA-Bank, ni BGFI).")
+            else:
+                resultat["messages"].append(
+                    "Relevé bancaire reconnu. Son rattachement à une ligne du classeur n'est pas encore automatisé "
+                    "(prévu à une prochaine étape)."
+                )
+            if not releve.numero_compte:
+                resultat["messages"].append("Le numéro de compte n'a pas pu être lu dans ce PDF.")
 
     else:
         resultat["type_detecte"] = "inconnu"
