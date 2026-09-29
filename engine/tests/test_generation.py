@@ -37,6 +37,11 @@ def _classeur_modele(dossier, nom_fichier="TRESORERIE JOURNALIÈRE et TDB DU  10
     suivi = classeur.create_sheet("Suivi de la treso")
     suivi["A1"] = "Ne doit jamais apparaître dans le fichier généré"
 
+    # Feuilles mortes héritées de l'ancienne méthode (voir CLAUDE.md, 29/09/2026) :
+    # aucune formule de Synthèse ne les référence, elles doivent disparaître elles aussi.
+    for nom in ("Agences", "Dépôts", "Caisse", "SYNTHESE 2025", "Feuil1"):
+        classeur.create_sheet(nom)["A1"] = "Feuille morte, à exclure"
+
     chemin = dossier / nom_fichier
     classeur.save(chemin)
     return str(chemin)
@@ -91,6 +96,18 @@ def test_exclut_toujours_suivi_de_la_treso(contexte):
 
     classeur = openpyxl.load_workbook(resultat["chemin_genere"])
     assert "Suivi de la treso" not in classeur.sheetnames
+
+
+def test_exclut_les_feuilles_mortes_de_lancienne_methode(contexte):
+    chemin_akwa = contexte["extractions"] / "Akwa_Compte.xlsx"
+    _extraction_comptes(chemin_akwa, ["37110"])
+
+    resultat = generer_classeur([str(chemin_akwa)], contexte["reference"], contexte["sortie"], jour=date(2026, 9, 29))
+
+    classeur = openpyxl.load_workbook(resultat["chemin_genere"])
+    for nom in ("Agences", "Dépôts", "Caisse", "SYNTHESE 2025", "Feuil1"):
+        assert nom not in classeur.sheetnames
+    assert classeur.sheetnames == ["Synthèse"]
 
 
 def test_remplit_les_comptes_et_decale_le_j1(contexte):

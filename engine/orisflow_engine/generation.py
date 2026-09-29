@@ -13,6 +13,10 @@ Principes (CLAUDE.md) :
 - L'onglet « Suivi de la treso » n'apparaît jamais dans le fichier généré (décision
   de l'utilisateur, 28/09/2026) : ses formules ne lisent que « Synthèse », jamais
   l'inverse, sa suppression est donc sans risque pour le reste du classeur.
+- Les feuilles masquées héritées de l'ancienne méthode (Agences, Dépôts, Caisse,
+  SYNTHESE 2025, Feuil1) sont retirées elles aussi (décision de l'utilisateur,
+  29/09/2026) : vérifié qu'aucune formule de « Synthèse » ne les référence — leur
+  suppression est donc sans impact sur les soldes calculés.
 """
 
 from __future__ import annotations
@@ -28,7 +32,14 @@ from .classification import classer_fichiers
 from .reference_treso import NOM_FEUILLE_SYNTHESE, trouver_classeur_recent
 from .regles_agences import AGENCE_COLONNE, AGENCE_LIBELLES
 
-FEUILLE_A_EXCLURE = "Suivi de la treso"
+FEUILLES_A_EXCLURE = (
+    "Suivi de la treso",
+    "Agences",
+    "Dépôts",
+    "Caisse",
+    "SYNTHESE 2025",
+    "Feuil1",
+)
 
 LIGNE_COMPTE = {
     "Courants": 7,
@@ -84,8 +95,9 @@ def generer_classeur(
     shutil.copyfile(chemin_modele, chemin_sortie)
 
     classeur = load_workbook(chemin_sortie)  # formules conservées (pas data_only)
-    if FEUILLE_A_EXCLURE in classeur.sheetnames:
-        del classeur[FEUILLE_A_EXCLURE]
+    for nom_feuille in FEUILLES_A_EXCLURE:
+        if nom_feuille in classeur.sheetnames:
+            del classeur[nom_feuille]
 
     feuille = next((classeur[n] for n in NOM_FEUILLE_SYNTHESE if n in classeur.sheetnames), None)
     if feuille is None:
