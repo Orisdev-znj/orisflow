@@ -44,9 +44,66 @@ function fausseApi(surcharges: Partial<ApiOrisflow> = {}): ApiOrisflow {
   };
 }
 
-describe("Orisflow", () => {
-  it("affiche l'écran d'import vide au démarrage", () => {
+/** Depuis l'accueil, entre dans le module Trésorerie (comme le ferait un utilisateur). */
+async function ouvrirTresorerie(utilisateur: ReturnType<typeof userEvent.setup>) {
+  await utilisateur.click(screen.getByRole("button", { name: /Suivi de la trésorerie/ }));
+}
+
+describe("Accueil (hub)", () => {
+  it("affiche les deux cartes de modules au démarrage", () => {
     render(<App />);
+    expect(screen.getByRole("heading", { name: "Que voulez-vous faire aujourd'hui ?" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Suivi de la trésorerie/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /États financiers/ })).toBeInTheDocument();
+  });
+
+  it("ouvre le module Trésorerie sans régression sur son flux existant", async () => {
+    const utilisateur = userEvent.setup();
+    render(<App />);
+
+    await ouvrirTresorerie(utilisateur);
+
+    expect(screen.getByRole("heading", { name: "Importer les fichiers du jour" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Analyser les fichiers" })).toBeDisabled();
+  });
+
+  it("ouvre le module États financiers sur l'écran « en cours de développement »", async () => {
+    const utilisateur = userEvent.setup();
+    render(<App />);
+
+    await utilisateur.click(screen.getByRole("button", { name: /États financiers/ }));
+
+    expect(screen.getByRole("heading", { name: "États financiers" })).toBeInTheDocument();
+    expect(screen.getByText(/en cours de développement/i)).toBeInTheDocument();
+  });
+
+  it("revient à l'accueil depuis l'écran « en cours de développement »", async () => {
+    const utilisateur = userEvent.setup();
+    render(<App />);
+
+    await utilisateur.click(screen.getByRole("button", { name: /États financiers/ }));
+    await utilisateur.click(screen.getByRole("button", { name: "Retour à l'accueil" }));
+
+    expect(screen.getByRole("heading", { name: "Que voulez-vous faire aujourd'hui ?" })).toBeInTheDocument();
+  });
+
+  it("revient à l'accueil depuis le module Trésorerie via le bouton d'en-tête", async () => {
+    const utilisateur = userEvent.setup();
+    render(<App />);
+
+    await ouvrirTresorerie(utilisateur);
+    await utilisateur.click(screen.getByRole("button", { name: /Accueil/ }));
+
+    expect(screen.getByRole("heading", { name: "Que voulez-vous faire aujourd'hui ?" })).toBeInTheDocument();
+  });
+});
+
+describe("Module Trésorerie (sans régression)", () => {
+  it("affiche l'écran d'import vide à l'ouverture du module", async () => {
+    const utilisateur = userEvent.setup();
+    render(<App />);
+    await ouvrirTresorerie(utilisateur);
+
     expect(screen.getByRole("heading", { name: "Importer les fichiers du jour" })).toBeInTheDocument();
     expect(screen.getByText("Aucun fichier importé pour le moment.")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Analyser les fichiers" })).toBeDisabled();
@@ -58,6 +115,7 @@ describe("Orisflow", () => {
     });
     const utilisateur = userEvent.setup();
     render(<App />);
+    await ouvrirTresorerie(utilisateur);
 
     await utilisateur.click(screen.getByRole("button", { name: "Choisir des fichiers…" }));
     expect(await screen.findByText("Akwa_Compte.xls")).toBeInTheDocument();
@@ -72,6 +130,7 @@ describe("Orisflow", () => {
     window.orisflow = fausseApi({ choisirFichiers: async () => [fichier] });
     const utilisateur = userEvent.setup();
     render(<App />);
+    await ouvrirTresorerie(utilisateur);
 
     await utilisateur.click(screen.getByRole("button", { name: "Choisir des fichiers…" }));
     await utilisateur.click(screen.getByRole("button", { name: "Choisir des fichiers…" }));
@@ -87,6 +146,7 @@ describe("Orisflow", () => {
     });
     const utilisateur = userEvent.setup();
     render(<App />);
+    await ouvrirTresorerie(utilisateur);
 
     await utilisateur.click(screen.getByRole("button", { name: "Choisir des fichiers…" }));
     await utilisateur.click(await screen.findByRole("button", { name: "Analyser les fichiers" }));
@@ -134,6 +194,7 @@ describe("Orisflow", () => {
     });
     const utilisateur = userEvent.setup();
     render(<App />);
+    await ouvrirTresorerie(utilisateur);
 
     await utilisateur.click(screen.getByRole("button", { name: "Choisir des fichiers…" }));
     await utilisateur.click(await screen.findByRole("button", { name: "Analyser les fichiers" }));
@@ -178,6 +239,7 @@ describe("Orisflow", () => {
     });
     const utilisateur = userEvent.setup();
     render(<App />);
+    await ouvrirTresorerie(utilisateur);
 
     await utilisateur.click(screen.getByRole("button", { name: "Choisir des fichiers…" }));
     await utilisateur.click(await screen.findByRole("button", { name: "Analyser les fichiers" }));
@@ -222,6 +284,7 @@ describe("Orisflow", () => {
     });
     const utilisateur = userEvent.setup();
     render(<App />);
+    await ouvrirTresorerie(utilisateur);
 
     await utilisateur.click(screen.getByRole("button", { name: "Choisir des fichiers…" }));
     await utilisateur.click(await screen.findByRole("button", { name: "Analyser les fichiers" }));
