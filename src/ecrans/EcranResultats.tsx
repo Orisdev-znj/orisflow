@@ -7,10 +7,13 @@ interface Props {
   onGenerer: () => void;
 }
 
+// Libellés choisis par l'utilisateur le 30/09/2026 (à la place d'Information/Avertissement/Bloquant).
+// Les valeurs internes ("information"/"avertissement"/"bloquant", côté moteur) ne changent pas :
+// seul l'affichage change.
 const NIVEAU_LIBELLES: Record<NiveauFichier, { texte: string; classe: string }> = {
-  information: { texte: "Information", classe: "badge badge--info" },
-  avertissement: { texte: "Avertissement", classe: "badge badge--avertissement" },
-  bloquant: { texte: "Bloquant", classe: "badge badge--bloquant" },
+  information: { texte: "Conforme", classe: "badge badge--info" },
+  avertissement: { texte: "À vérifier", classe: "badge badge--avertissement" },
+  bloquant: { texte: "Rejeté", classe: "badge badge--bloquant" },
 };
 
 const CONFIANCE_LIBELLES: Record<string, string> = {

@@ -199,7 +199,7 @@ describe("Module Trésorerie (sans régression)", () => {
     await utilisateur.click(screen.getByRole("button", { name: "Choisir des fichiers…" }));
     await utilisateur.click(await screen.findByRole("button", { name: "Analyser les fichiers" }));
 
-    expect(await screen.findByText("Avertissement")).toBeInTheDocument();
+    expect(await screen.findByText("À vérifier")).toBeInTheDocument();
     expect(screen.getByText(/Ce total ressemble plutôt à celui de la veille pour : Balessing/)).toBeInTheDocument();
     expect(screen.getByText(/Comparaison faite avec le classeur du 2026-09-10/)).toBeInTheDocument();
   });
