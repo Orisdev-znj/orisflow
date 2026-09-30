@@ -14,7 +14,7 @@ const modeAutotest = cibleAutotest !== "";
 // Dossiers de travail et paramètres
 // ---------------------------------------------------------------------------
 
-const SOUS_DOSSIERS = ["Imports", "Resultats", "Sauvegardes"];
+const SOUS_DOSSIERS = ["Imports", "Resultats", "Sauvegardes", "SuiviCourrier"];
 
 function fichierParametres() {
   return path.join(app.getPath("userData"), "parametres.json");
@@ -42,12 +42,26 @@ function dossierReference() {
   return lireParametres().dossierReference || "";
 }
 
-/** Dossier réseau partagé du bordereau de transmission (fonctionnalité démarrée le
- * 30/09/2026). Doit être un dossier accessible à tout le monde sur le réseau du service
- * (toutes les machines sont reliées par câble Ethernet) : configurable, jamais en dur,
- * vide tant que l'utilisateur ne l'a pas choisi. */
+/** Dossier partagé de Suivi Courrier (fonctionnalité démarrée le 30/09/2026, nommée par
+ * l'utilisateur le 30/09/2026). Destiné à terme à un dossier réseau accessible à tout le
+ * service (toutes les machines sont reliées par câble Ethernet) : configurable, jamais en
+ * dur. Tant que l'utilisateur ne l'a pas choisi, un dossier LOCAL par défaut est utilisé
+ * (sous le dossier de travail) pour permettre de tester la fonctionnalité dès maintenant —
+ * demande explicite de l'utilisateur le 30/09/2026. Ce repli local ne sera pas visible
+ * d'un autre poste : dès que le vrai dossier réseau est choisi dans Paramètres, Orisflow
+ * l'utilise à la place (les transmissions de test créées en local restent dans l'ancien
+ * dossier, elles ne sont pas déplacées automatiquement). */
 function dossierBordereau() {
-  return lireParametres().dossierBordereau || "";
+  const parametres = lireParametres();
+  if (parametres.dossierBordereau) return parametres.dossierBordereau;
+  return path.join(dossierTravail(), "SuiviCourrier");
+}
+
+/** Vrai seulement si l'utilisateur a explicitement choisi un dossier (donc, en principe,
+ * un vrai dossier réseau partagé) : sert à afficher un avertissement clair tant qu'on est
+ * encore sur le repli local de test. */
+function dossierBordereauChoisiParUtilisateur() {
+  return !!lireParametres().dossierBordereau;
 }
 
 /** Identité locale de l'utilisateur (son nom), utilisée comme expéditeur/auteur des
@@ -219,6 +233,7 @@ function enregistrerCommunications() {
     dossierTravail: dossierTravail(),
     dossierReference: dossierReference(),
     dossierBordereau: dossierBordereau(),
+    dossierBordereauParDefaut: !dossierBordereauChoisiParUtilisateur(),
     identite: identiteUtilisateur(),
     version: app.getVersion(),
     empaquete: estEmpaquete,
@@ -260,7 +275,7 @@ function enregistrerCommunications() {
   ipcMain.handle("parametres:choisirDossierBordereau", async (evenement) => {
     const fenetre = BrowserWindow.fromWebContents(evenement.sender);
     const choix = await dialog.showOpenDialog(fenetre, {
-      title: "Choisir le dossier réseau partagé du bordereau de transmission",
+      title: "Choisir le dossier réseau partagé de Suivi Courrier",
       properties: ["openDirectory", "createDirectory"],
     });
     if (choix.canceled || choix.filePaths.length === 0) return dossierBordereau();

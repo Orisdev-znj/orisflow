@@ -36,7 +36,7 @@ export default function Home({ onChoisirTresorerie, onChoisirEtatsFinanciers, on
     },
     {
       id: "bordereau",
-      titre: "Bordereau de transmission",
+      titre: "Suivi Courrier",
       description: "Tracer la transmission d'un document à un collègue, avec accusé de réception et suivi du statut.",
       symboleDeRepli: "📩",
       onClick: onChoisirBordereau,

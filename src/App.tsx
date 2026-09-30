@@ -28,7 +28,7 @@ const SOUS_TITRES: Record<Vue, string> = {
   accueil: "ORIS FINANCE",
   tresorerie: "Trésorerie journalière",
   etatsFinanciers: "États financiers",
-  bordereau: "Bordereau de transmission",
+  bordereau: "Suivi Courrier",
 };
 
 export default function App() {

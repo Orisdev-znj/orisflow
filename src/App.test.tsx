@@ -22,7 +22,8 @@ function fausseApi(surcharges: Partial<ApiOrisflow> = {}): ApiOrisflow {
     lireParametres: async () => ({
       dossierTravail: "C:\\Orisflow",
       dossierReference: "",
-      dossierBordereau: "",
+      dossierBordereau: "C:\\Orisflow\\SuiviCourrier",
+      dossierBordereauParDefaut: true,
       identite: "",
       version: "0.1.0",
       empaquete: false,
@@ -84,7 +85,7 @@ function fausseApi(surcharges: Partial<ApiOrisflow> = {}): ApiOrisflow {
       commande: "bordereau_lister",
       version: "0.1.0",
       ok: true,
-      disponible: false,
+      disponible: true, // le dossier de test local par défaut existe toujours (créé par Electron)
       transmissions: [],
       erreurs_lecture: [],
     }),
@@ -103,7 +104,7 @@ describe("Accueil (hub)", () => {
     expect(screen.getByRole("heading", { name: "Que voulez-vous faire aujourd'hui ?" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Suivi de la trésorerie/ })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /États financiers/ })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Bordereau de transmission/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Suivi Courrier/ })).toBeInTheDocument();
   });
 
   it("ouvre le module Trésorerie sans régression sur son flux existant", async () => {
@@ -425,15 +426,15 @@ describe("Module Trésorerie (sans régression)", () => {
   });
 });
 
-describe("Bordereau de transmission (démarré le 30/09/2026)", () => {
-  it("signale qu'aucun dossier partagé n'est configuré", async () => {
+describe("Suivi Courrier (démarré le 30/09/2026)", () => {
+  it("signale qu'un dossier de test local est utilisé tant qu'aucun dossier réseau n'est choisi", async () => {
     window.orisflow = fausseApi();
     const utilisateur = userEvent.setup();
     render(<App />);
 
-    await utilisateur.click(screen.getByRole("button", { name: /Bordereau de transmission/ }));
+    await utilisateur.click(screen.getByRole("button", { name: /Suivi Courrier/ }));
 
-    expect(await screen.findByText(/Aucun dossier partagé n'est configuré/)).toBeInTheDocument();
+    expect(await screen.findByText(/Dossier partagé pas encore choisi/)).toBeInTheDocument();
   });
 
   it("crée une transmission puis permet d'en accuser réception", async () => {
@@ -442,7 +443,8 @@ describe("Bordereau de transmission (démarré le 30/09/2026)", () => {
       lireParametres: async () => ({
         dossierTravail: "C:\\Orisflow",
         dossierReference: "",
-        dossierBordereau: "\\\\reseau\\Orisflow\\Bordereau",
+        dossierBordereau: "\\\\reseau\\Orisflow\\SuiviCourrier",
+        dossierBordereauParDefaut: false,
         identite: "Julien",
         version: "0.1.0",
         empaquete: false,
@@ -496,7 +498,7 @@ describe("Bordereau de transmission (démarré le 30/09/2026)", () => {
     const utilisateur = userEvent.setup();
     render(<App />);
 
-    await utilisateur.click(screen.getByRole("button", { name: /Bordereau de transmission/ }));
+    await utilisateur.click(screen.getByRole("button", { name: /Suivi Courrier/ }));
     await utilisateur.click(await screen.findByRole("button", { name: "Nouvelle transmission" }));
 
     await utilisateur.type(screen.getByLabelText("Destinataire"), "Julien");

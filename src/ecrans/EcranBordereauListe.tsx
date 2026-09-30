@@ -4,6 +4,7 @@ import { nettoyerErreur } from "../lib/format";
 
 interface Props {
   identite: string;
+  dossierParDefaut: boolean;
   onNouvelle: () => void;
 }
 
@@ -32,7 +33,7 @@ const CLASSE_STATUT: Record<string, string> = {
   Rejeté: "badge badge--bloquant",
 };
 
-export default function EcranBordereauListe({ identite, onNouvelle }: Props) {
+export default function EcranBordereauListe({ identite, dossierParDefaut, onNouvelle }: Props) {
   const api = window.orisflow;
   const [filtre, setFiltre] = useState<Filtre>("recues");
   const [liste, setListe] = useState<EtatListe>({ etat: "chargement" });
@@ -85,11 +86,19 @@ export default function EcranBordereauListe({ identite, onNouvelle }: Props) {
   return (
     <section aria-labelledby="titre-bordereau-liste">
       <div className="liste-entete">
-        <h1 id="titre-bordereau-liste">Bordereau de transmission</h1>
+        <h1 id="titre-bordereau-liste">Suivi Courrier</h1>
         <button type="button" className="bouton bouton--principal" onClick={onNouvelle}>
           Nouvelle transmission
         </button>
       </div>
+
+      {dossierParDefaut && (
+        <p className="message message--avertissement" role="status">
+          Dossier partagé pas encore choisi : Suivi Courrier utilise pour l'instant un dossier de test local, visible
+          uniquement sur ce poste (vos collègues ne verront pas ces transmissions). Choisissez un dossier réseau
+          partagé dans Paramètres quand vous serez prêt à l'utiliser avec eux.
+        </p>
+      )}
 
       {!identite && (
         <p className="message message--avertissement" role="status">
@@ -130,8 +139,8 @@ export default function EcranBordereauListe({ identite, onNouvelle }: Props) {
 
       {liste.etat === "prete" && !liste.disponible && (
         <p className="message message--avertissement" role="status">
-          Aucun dossier partagé n'est configuré pour le bordereau de transmission (voir Paramètres). Tant qu'il n'est
-          pas indiqué, aucune transmission ne peut être créée ni affichée.
+          Le dossier de Suivi Courrier est introuvable (voir Paramètres). Tant qu'il n'est pas accessible, aucune
+          transmission ne peut être créée ni affichée.
         </p>
       )}
 

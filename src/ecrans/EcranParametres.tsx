@@ -74,7 +74,7 @@ export default function EcranParametres() {
 
       <h2>Votre identité</h2>
       <p className="aide">
-        Votre nom identifie vos transmissions sur le bordereau (expéditeur des documents que vous envoyez, auteur
+        Votre nom identifie vos transmissions sur Suivi Courrier (expéditeur des documents que vous envoyez, auteur
         des accusés de réception). Réglage propre à ce poste, pas partagé avec les autres.
       </p>
       <div className="champ">
@@ -120,12 +120,19 @@ export default function EcranParametres() {
         </button>
       </div>
 
-      <h2>Dossier partagé du bordereau de transmission</h2>
+      <h2>Dossier partagé de Suivi Courrier</h2>
       <p className="aide">
         Dossier réseau accessible à tout le service (postes reliés par câble Ethernet) où Orisflow enregistre les
         transmissions et leurs accusés de réception. Doit être le même dossier pour tout le monde.
+        {parametres?.dossierBordereauParDefaut && (
+          <> Pour l'instant, en attendant votre choix, Suivi Courrier utilise un dossier de test local (visible sur
+          ce poste seulement).</>
+        )}
       </p>
-      <p className="chemin">{parametres?.dossierBordereau || "Non défini"}</p>
+      <p className="chemin">
+        {parametres?.dossierBordereau ?? "—"}
+        {parametres?.dossierBordereauParDefaut && <span className="aide-inline"> (dossier de test local)</span>}
+      </p>
       <div className="actions actions--ligne">
         <button type="button" className="bouton" onClick={changerDossierBordereau} disabled={!api}>
           Choisir le dossier…

@@ -80,6 +80,9 @@ export interface ParametresApplication {
   dossierTravail: string;
   dossierReference: string;
   dossierBordereau: string;
+  // true tant que l'utilisateur n'a pas choisi lui-même un dossier (Suivi Courrier utilise
+  // alors un repli local, sous le dossier de travail, pour rester testable dès maintenant).
+  dossierBordereauParDefaut: boolean;
   identite: string;
   version: string;
   empaquete: boolean;
@@ -91,7 +94,7 @@ export type EtatGeneration =
   | { etat: "succes"; resultat: ResultatGeneration }
   | { etat: "erreur"; message: string };
 
-// --- Bordereau de transmission (démarré le 30/09/2026) ---------------------------------
+// --- Suivi Courrier (bordereau de transmission), démarré le 30/09/2026, nommé le 30/09/2026 --
 // Voir Orisflow/Contexte/Bordereau-Transmission-Documents.md pour le contexte complet.
 
 export type StatutTransmission = "Transmis" | "Reçu" | "Pris en charge" | "Traité" | "Rejeté";
