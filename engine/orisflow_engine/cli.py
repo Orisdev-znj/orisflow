@@ -19,6 +19,7 @@ import sys
 from typing import Any, Dict
 
 from . import VERSION
+from .bordereau import ajouter_evenement, creer_transmission, lister_transmissions
 from .classification import classer_fichiers
 from .generation import generer_classeur
 
@@ -136,11 +137,67 @@ def commande_generer(parametres: Dict[str, Any]) -> None:
     emettre(type="resultat", commande="generer", version=VERSION, **resultat)
 
 
+def commande_bordereau_creer(parametres: Dict[str, Any]) -> None:
+    """Bordereau de transmission (30/09/2026) : enregistre une nouvelle transmission.
+
+    Paramètres attendus : {"dossier": chemin, "expediteur": str, "destinataire": str,
+    "document": str, "typeDocument": str, "pieceJointeSource": chemin|null,
+    "urgence": str|null, "commentaire": str|null}.
+    """
+    try:
+        transmission = creer_transmission(
+            dossier=parametres.get("dossier") or "",
+            expediteur=parametres.get("expediteur") or "",
+            destinataire=parametres.get("destinataire") or "",
+            document=parametres.get("document") or "",
+            type_document=parametres.get("typeDocument") or "",
+            piece_jointe_source=parametres.get("pieceJointeSource") or None,
+            urgence=parametres.get("urgence") or None,
+            commentaire=parametres.get("commentaire") or None,
+        )
+    except ValueError as erreur:
+        emettre(type="erreur", message=str(erreur))
+        return
+    emettre(type="resultat", commande="bordereau_creer", version=VERSION, ok=True, transmission=transmission)
+
+
+def commande_bordereau_evenement(parametres: Dict[str, Any]) -> None:
+    """Bordereau de transmission : enregistre un évènement (accusé de réception, pris en
+    charge, traité, rejeté) sur une transmission existante.
+
+    Paramètres attendus : {"dossier": chemin, "transmissionId": str, "typeEvenement": str,
+    "auteur": str, "commentaire": str|null}.
+    """
+    try:
+        evenement = ajouter_evenement(
+            dossier=parametres.get("dossier") or "",
+            transmission_id=parametres.get("transmissionId") or "",
+            type_evenement=parametres.get("typeEvenement") or "",
+            auteur=parametres.get("auteur") or "",
+            commentaire=parametres.get("commentaire") or None,
+        )
+    except ValueError as erreur:
+        emettre(type="erreur", message=str(erreur))
+        return
+    emettre(type="resultat", commande="bordereau_evenement", version=VERSION, ok=True, evenement=evenement)
+
+
+def commande_bordereau_lister(parametres: Dict[str, Any]) -> None:
+    """Bordereau de transmission : liste les transmissions du dossier partagé, en
+    reconstruisant le statut de chacune à partir de ses évènements. Toujours en lecture
+    seule. Paramètres attendus : {"dossier": chemin|null}."""
+    resultat = lister_transmissions(parametres.get("dossier") or "")
+    emettre(type="resultat", commande="bordereau_lister", version=VERSION, **resultat)
+
+
 COMMANDES = {
     "ping": commande_ping,
     "analyser": commande_analyser,
     "classer": commande_classer,
     "generer": commande_generer,
+    "bordereau_creer": commande_bordereau_creer,
+    "bordereau_evenement": commande_bordereau_evenement,
+    "bordereau_lister": commande_bordereau_lister,
 }
 
 

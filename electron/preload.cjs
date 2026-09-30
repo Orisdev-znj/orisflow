@@ -20,4 +20,10 @@ contextBridge.exposeInMainWorld("orisflow", {
   choisirDossierTravail: () => ipcRenderer.invoke("parametres:choisirDossier"),
   choisirDossierReference: () => ipcRenderer.invoke("parametres:choisirDossierReference"),
   ouvrirDossierTravail: () => ipcRenderer.invoke("parametres:ouvrirDossier"),
+  choisirDossierBordereau: () => ipcRenderer.invoke("parametres:choisirDossierBordereau"),
+  definirIdentite: (nom) => ipcRenderer.invoke("identite:definir", nom),
+  bordereauChoisirPieceJointe: () => ipcRenderer.invoke("bordereau:choisirPieceJointe"),
+  bordereauCreer: (donnees) => ipcRenderer.invoke("bordereau:creer", donnees),
+  bordereauEvenement: (donnees) => ipcRenderer.invoke("bordereau:evenement", donnees),
+  bordereauLister: () => ipcRenderer.invoke("bordereau:lister"),
 });

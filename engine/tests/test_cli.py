@@ -119,5 +119,66 @@ def test_fichier_avec_accents_dans_le_nom(monkeypatch, capsys, tmp_path):
     assert "JOURNALIÈRE" in messages[-1]["fichiers"][0]["nom"]
 
 
+def test_bordereau_creer_puis_lister_via_le_protocole_cli(monkeypatch, capsys, tmp_path):
+    dossier = str(tmp_path)
+    code, messages = executer(
+        "bordereau_creer",
+        {
+            "dossier": dossier,
+            "expediteur": "Arnold",
+            "destinataire": "Julien",
+            "document": "Facture EDF",
+            "typeDocument": "Facture",
+        },
+        monkeypatch,
+        capsys,
+    )
+    assert code == 0
+    assert messages[-1]["commande"] == "bordereau_creer"
+    assert messages[-1]["transmission"]["document"] == "Facture EDF"
+
+    code, messages = executer("bordereau_lister", {"dossier": dossier}, monkeypatch, capsys)
+    assert code == 0
+    resultat = messages[-1]
+    assert resultat["disponible"] is True
+    assert len(resultat["transmissions"]) == 1
+    assert resultat["transmissions"][0]["statut"] == "Transmis"
+
+
+def test_bordereau_evenement_change_le_statut(monkeypatch, capsys, tmp_path):
+    dossier = str(tmp_path)
+    _, creation = executer(
+        "bordereau_creer",
+        {"dossier": dossier, "expediteur": "Arnold", "destinataire": "Julien", "document": "Facture", "typeDocument": "Facture"},
+        monkeypatch,
+        capsys,
+    )
+    transmission_id = creation[-1]["transmission"]["id"]
+
+    code, messages = executer(
+        "bordereau_evenement",
+        {"dossier": dossier, "transmissionId": transmission_id, "typeEvenement": "accuse_reception", "auteur": "Julien"},
+        monkeypatch,
+        capsys,
+    )
+    assert code == 0
+    assert messages[-1]["commande"] == "bordereau_evenement"
+
+    _, liste = executer("bordereau_lister", {"dossier": dossier}, monkeypatch, capsys)
+    assert liste[-1]["transmissions"][0]["statut"] == "Reçu"
+
+
+def test_bordereau_sans_dossier_renvoie_une_erreur_claire(monkeypatch, capsys):
+    code, messages = executer(
+        "bordereau_creer",
+        {"dossier": "", "expediteur": "Arnold", "destinataire": "Julien", "document": "Facture", "typeDocument": "Facture"},
+        monkeypatch,
+        capsys,
+    )
+    assert code == 0  # le moteur ne s'arrête jamais brutalement : il émet un message clair
+    assert messages[-1]["type"] == "erreur"
+    assert "dossier" in messages[-1]["message"].lower()
+
+
 if __name__ == "__main__":
     sys.exit(pytest.main([__file__, "-q"]))

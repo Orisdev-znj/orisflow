@@ -12,9 +12,17 @@ export default function EcranParametres() {
   const api = window.orisflow;
   const [parametres, setParametres] = useState<ParametresApplication | null>(null);
   const [moteur, setMoteur] = useState<EtatMoteur>({ etat: "inconnu" });
+  const [nomSaisi, setNomSaisi] = useState("");
+  const [identiteEnregistree, setIdentiteEnregistree] = useState(false);
 
   useEffect(() => {
-    api?.lireParametres().then(setParametres).catch(() => setParametres(null));
+    api
+      ?.lireParametres()
+      .then((reponse) => {
+        setParametres(reponse);
+        setNomSaisi(reponse.identite);
+      })
+      .catch(() => setParametres(null));
   }, [api]);
 
   const changerDossier = async () => {
@@ -27,6 +35,20 @@ export default function EcranParametres() {
     if (!api) return;
     const dossier = await api.choisirDossierReference();
     setParametres((precedent) => (precedent ? { ...precedent, dossierReference: dossier } : precedent));
+  };
+
+  const changerDossierBordereau = async () => {
+    if (!api) return;
+    const dossier = await api.choisirDossierBordereau();
+    setParametres((precedent) => (precedent ? { ...precedent, dossierBordereau: dossier } : precedent));
+  };
+
+  const enregistrerIdentite = async () => {
+    if (!api) return;
+    const nom = await api.definirIdentite(nomSaisi);
+    setParametres((precedent) => (precedent ? { ...precedent, identite: nom } : precedent));
+    setIdentiteEnregistree(true);
+    setTimeout(() => setIdentiteEnregistree(false), 2500);
   };
 
   const tester = async () => {
@@ -50,6 +72,28 @@ export default function EcranParametres() {
         </p>
       )}
 
+      <h2>Votre identité</h2>
+      <p className="aide">
+        Votre nom identifie vos transmissions sur le bordereau (expéditeur des documents que vous envoyez, auteur
+        des accusés de réception). Réglage propre à ce poste, pas partagé avec les autres.
+      </p>
+      <div className="champ">
+        <label htmlFor="champ-identite">Votre nom</label>
+        <input
+          id="champ-identite"
+          type="text"
+          value={nomSaisi}
+          onChange={(e) => setNomSaisi(e.target.value)}
+          placeholder="Ex. Arnold Tiomela"
+        />
+      </div>
+      <div className="actions actions--ligne">
+        <button type="button" className="bouton" onClick={enregistrerIdentite} disabled={!api}>
+          Enregistrer
+        </button>
+        {identiteEnregistree && <span className="aide-inline">Enregistré.</span>}
+      </div>
+
       <h2>Dossier de travail</h2>
       <p className="aide">
         Orisflow y range ses copies de travail, les fichiers générés et les sauvegardes (Imports, Résultats, Sauvegardes).
@@ -72,6 +116,18 @@ export default function EcranParametres() {
       <p className="chemin">{parametres?.dossierReference || "Non défini"}</p>
       <div className="actions actions--ligne">
         <button type="button" className="bouton" onClick={changerDossierReference} disabled={!api}>
+          Choisir le dossier…
+        </button>
+      </div>
+
+      <h2>Dossier partagé du bordereau de transmission</h2>
+      <p className="aide">
+        Dossier réseau accessible à tout le service (postes reliés par câble Ethernet) où Orisflow enregistre les
+        transmissions et leurs accusés de réception. Doit être le même dossier pour tout le monde.
+      </p>
+      <p className="chemin">{parametres?.dossierBordereau || "Non défini"}</p>
+      <div className="actions actions--ligne">
+        <button type="button" className="bouton" onClick={changerDossierBordereau} disabled={!api}>
           Choisir le dossier…
         </button>
       </div>

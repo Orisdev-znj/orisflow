@@ -4,17 +4,21 @@ import illustrationEtatsFinanciers from "../assets/illustration-etats-financiers
 interface Props {
   onChoisirTresorerie: () => void;
   onChoisirEtatsFinanciers: () => void;
+  onChoisirBordereau: () => void;
 }
 
 interface Carte {
   id: string;
   titre: string;
   description: string;
-  illustration: string;
+  illustration?: string;
+  // Pas encore d'illustration dédiée pour le bordereau (aucune image fournie au 30/09/2026) :
+  // un symbole de repli, à remplacer facilement plus tard sans changer la mise en page.
+  symboleDeRepli?: string;
   onClick: () => void;
 }
 
-export default function Home({ onChoisirTresorerie, onChoisirEtatsFinanciers }: Props) {
+export default function Home({ onChoisirTresorerie, onChoisirEtatsFinanciers, onChoisirBordereau }: Props) {
   const cartes: Carte[] = [
     {
       id: "tresorerie",
@@ -30,6 +34,13 @@ export default function Home({ onChoisirTresorerie, onChoisirEtatsFinanciers }: 
       illustration: illustrationEtatsFinanciers,
       onClick: onChoisirEtatsFinanciers,
     },
+    {
+      id: "bordereau",
+      titre: "Bordereau de transmission",
+      description: "Tracer la transmission d'un document à un collègue, avec accusé de réception et suivi du statut.",
+      symboleDeRepli: "📩",
+      onClick: onChoisirBordereau,
+    },
   ];
 
   return (
@@ -43,7 +54,13 @@ export default function Home({ onChoisirTresorerie, onChoisirEtatsFinanciers }: 
         {cartes.map((carte) => (
           <button key={carte.id} type="button" className="carte-module" onClick={carte.onClick}>
             <span className="carte-module__image-cadre">
-              <img src={carte.illustration} alt="" className="carte-module__image" />
+              {carte.illustration ? (
+                <img src={carte.illustration} alt="" className="carte-module__image" />
+              ) : (
+                <span className="carte-module__symbole" aria-hidden="true">
+                  {carte.symboleDeRepli}
+                </span>
+              )}
             </span>
             <span className="carte-module__titre">{carte.titre}</span>
             <span className="carte-module__description">{carte.description}</span>

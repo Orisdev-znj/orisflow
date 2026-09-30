@@ -5,6 +5,7 @@ import EcranResultats from "./ecrans/EcranResultats";
 import EcranTraitement from "./ecrans/EcranTraitement";
 import type { EtatTraitement } from "./ecrans/EcranTraitement";
 import Home from "./ecrans/Home";
+import ModuleBordereau from "./ecrans/ModuleBordereau";
 import WorkInProgress from "./ecrans/WorkInProgress";
 import type { EtatGeneration, FichierImporte, ResultatClassement } from "./lib/types";
 import logoOrisFinance from "./assets/logo-oris-finance.png";
@@ -12,7 +13,7 @@ import { nettoyerErreur } from "./lib/format";
 
 // Vue de premier niveau : l'accueil (hub) donne accès aux modules. Chaque module garde
 // son propre état interne (ex. `ecran` ci-dessous pour la trésorerie), inchangé.
-type Vue = "accueil" | "tresorerie" | "etatsFinanciers";
+type Vue = "accueil" | "tresorerie" | "etatsFinanciers" | "bordereau";
 
 type Ecran = "import" | "traitement" | "resultats" | "parametres";
 
@@ -27,6 +28,7 @@ const SOUS_TITRES: Record<Vue, string> = {
   accueil: "ORIS FINANCE",
   tresorerie: "Trésorerie journalière",
   etatsFinanciers: "États financiers",
+  bordereau: "Bordereau de transmission",
 };
 
 export default function App() {
@@ -140,6 +142,21 @@ export default function App() {
               ← Accueil
             </button>
           )}
+          {vue === "bordereau" && (
+            // Paramètres reste porté par le module Trésorerie (dossiers + identité y sont
+            // déjà centralisés) : ce raccourci évite d'obliger un détour par l'accueil pour
+            // configurer son nom ou le dossier partagé avant d'utiliser le bordereau.
+            <button
+              type="button"
+              className="bouton-accueil"
+              onClick={() => {
+                setVue("tresorerie");
+                setEcran("parametres");
+              }}
+            >
+              ⚙ Paramètres
+            </button>
+          )}
         </div>
         {vue === "tresorerie" && (
           <nav className="entete__nav" aria-label="Navigation du module Trésorerie">
@@ -163,12 +180,15 @@ export default function App() {
           <Home
             onChoisirTresorerie={() => setVue("tresorerie")}
             onChoisirEtatsFinanciers={() => setVue("etatsFinanciers")}
+            onChoisirBordereau={() => setVue("bordereau")}
           />
         )}
 
         {vue === "etatsFinanciers" && (
           <WorkInProgress titre="États financiers" onRetourAccueil={() => setVue("accueil")} />
         )}
+
+        {vue === "bordereau" && <ModuleBordereau />}
 
         {vue === "tresorerie" && (
           <>

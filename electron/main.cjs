@@ -42,6 +42,22 @@ function dossierReference() {
   return lireParametres().dossierReference || "";
 }
 
+/** Dossier réseau partagé du bordereau de transmission (fonctionnalité démarrée le
+ * 30/09/2026). Doit être un dossier accessible à tout le monde sur le réseau du service
+ * (toutes les machines sont reliées par câble Ethernet) : configurable, jamais en dur,
+ * vide tant que l'utilisateur ne l'a pas choisi. */
+function dossierBordereau() {
+  return lireParametres().dossierBordereau || "";
+}
+
+/** Identité locale de l'utilisateur (son nom), utilisée comme expéditeur/auteur des
+ * transmissions et évènements du bordereau. Un réglage par poste, pas partagé : chacun
+ * configure son propre nom une fois, comme un compte utilisateur léger (pas de mot de
+ * passe pour cette première version — usage interne sur un réseau de confiance). */
+function identiteUtilisateur() {
+  return lireParametres().identite || "";
+}
+
 function preparerDossiers() {
   const racine = dossierTravail();
   for (const sous of SOUS_DOSSIERS) {
@@ -202,6 +218,8 @@ function enregistrerCommunications() {
   ipcMain.handle("parametres:lire", () => ({
     dossierTravail: dossierTravail(),
     dossierReference: dossierReference(),
+    dossierBordereau: dossierBordereau(),
+    identite: identiteUtilisateur(),
     version: app.getVersion(),
     empaquete: estEmpaquete,
   }));
@@ -238,6 +256,62 @@ function enregistrerCommunications() {
     fs.writeFileSync(fichierParametres(), JSON.stringify(parametres, null, 2), "utf-8");
     return parametres.dossierReference;
   });
+
+  ipcMain.handle("parametres:choisirDossierBordereau", async (evenement) => {
+    const fenetre = BrowserWindow.fromWebContents(evenement.sender);
+    const choix = await dialog.showOpenDialog(fenetre, {
+      title: "Choisir le dossier réseau partagé du bordereau de transmission",
+      properties: ["openDirectory", "createDirectory"],
+    });
+    if (choix.canceled || choix.filePaths.length === 0) return dossierBordereau();
+    const parametres = { ...lireParametres(), dossierBordereau: choix.filePaths[0] };
+    fs.mkdirSync(app.getPath("userData"), { recursive: true });
+    fs.writeFileSync(fichierParametres(), JSON.stringify(parametres, null, 2), "utf-8");
+    return parametres.dossierBordereau;
+  });
+
+  ipcMain.handle("identite:definir", (_evenement, nom) => {
+    const parametres = { ...lireParametres(), identite: (nom || "").trim() };
+    fs.mkdirSync(app.getPath("userData"), { recursive: true });
+    fs.writeFileSync(fichierParametres(), JSON.stringify(parametres, null, 2), "utf-8");
+    return parametres.identite;
+  });
+
+  ipcMain.handle("bordereau:choisirPieceJointe", async (evenement) => {
+    const fenetre = BrowserWindow.fromWebContents(evenement.sender);
+    const choix = await dialog.showOpenDialog(fenetre, {
+      title: "Joindre un fichier à la transmission",
+      properties: ["openFile"],
+    });
+    return choix.canceled ? null : decrireFichiers(choix.filePaths)[0];
+  });
+
+  ipcMain.handle("bordereau:creer", async (_evenement, donnees) =>
+    lancerMoteur("bordereau_creer", {
+      dossier: dossierBordereau() || null,
+      expediteur: identiteUtilisateur(),
+      destinataire: donnees.destinataire,
+      document: donnees.document,
+      typeDocument: donnees.typeDocument,
+      pieceJointeSource: donnees.pieceJointeSource || null,
+      urgence: donnees.urgence || null,
+      commentaire: donnees.commentaire || null,
+    }),
+  );
+
+  ipcMain.handle("bordereau:evenement", async (_evenement, donnees) =>
+    lancerMoteur("bordereau_evenement", {
+      dossier: dossierBordereau() || null,
+      transmissionId: donnees.transmissionId,
+      typeEvenement: donnees.typeEvenement,
+      auteur: identiteUtilisateur(),
+      commentaire: donnees.commentaire || null,
+    }),
+  );
+
+  ipcMain.handle("bordereau:lister", async () =>
+    lancerMoteur("bordereau_lister", { dossier: dossierBordereau() || null }),
+  );
 }
 
 // ---------------------------------------------------------------------------

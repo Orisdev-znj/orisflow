@@ -79,6 +79,8 @@ export interface EvenementMoteur {
 export interface ParametresApplication {
   dossierTravail: string;
   dossierReference: string;
+  dossierBordereau: string;
+  identite: string;
   version: string;
   empaquete: boolean;
 }
@@ -88,6 +90,76 @@ export type EtatGeneration =
   | { etat: "encours" }
   | { etat: "succes"; resultat: ResultatGeneration }
   | { etat: "erreur"; message: string };
+
+// --- Bordereau de transmission (démarré le 30/09/2026) ---------------------------------
+// Voir Orisflow/Contexte/Bordereau-Transmission-Documents.md pour le contexte complet.
+
+export type StatutTransmission = "Transmis" | "Reçu" | "Pris en charge" | "Traité" | "Rejeté";
+export type TypeEvenementTransmission = "accuse_reception" | "pris_en_charge" | "traite" | "rejete";
+
+export interface EvenementTransmission {
+  id: string;
+  transmission_id: string;
+  type_evenement: TypeEvenementTransmission;
+  auteur: string;
+  date: string;
+  commentaire: string | null;
+}
+
+export interface Transmission {
+  id: string;
+  document: string;
+  type_document: string;
+  expediteur: string;
+  destinataire: string;
+  date_transmission: string;
+  piece_jointe: string | null;
+  urgence: string | null;
+  commentaire: string | null;
+  statut: StatutTransmission;
+  evenements: EvenementTransmission[];
+}
+
+export interface ResultatListeTransmissions {
+  type: "resultat";
+  commande: "bordereau_lister";
+  version: string;
+  ok: boolean;
+  disponible: boolean;
+  transmissions: Transmission[];
+  erreurs_lecture: string[];
+}
+
+export interface NouvelleTransmission {
+  destinataire: string;
+  document: string;
+  typeDocument: string;
+  pieceJointeSource?: string | null;
+  urgence?: string | null;
+  commentaire?: string | null;
+}
+
+export interface NouvelEvenementTransmission {
+  transmissionId: string;
+  typeEvenement: TypeEvenementTransmission;
+  commentaire?: string | null;
+}
+
+export interface ResultatTransmissionCreee {
+  type: "resultat";
+  commande: "bordereau_creer";
+  version: string;
+  ok: true;
+  transmission: Transmission;
+}
+
+export interface ResultatEvenementCree {
+  type: "resultat";
+  commande: "bordereau_evenement";
+  version: string;
+  ok: true;
+  evenement: EvenementTransmission;
+}
 
 /** API exposée par l'application de bureau (fichier electron/preload.cjs). */
 export interface ApiOrisflow {
@@ -101,6 +173,12 @@ export interface ApiOrisflow {
   choisirDossierTravail(): Promise<string>;
   choisirDossierReference(): Promise<string>;
   ouvrirDossierTravail(): Promise<string>;
+  choisirDossierBordereau(): Promise<string>;
+  definirIdentite(nom: string): Promise<string>;
+  bordereauChoisirPieceJointe(): Promise<FichierImporte | null>;
+  bordereauCreer(donnees: NouvelleTransmission): Promise<ResultatTransmissionCreee>;
+  bordereauEvenement(donnees: NouvelEvenementTransmission): Promise<ResultatEvenementCree>;
+  bordereauLister(): Promise<ResultatListeTransmissions>;
 }
 
 declare global {

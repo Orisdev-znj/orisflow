@@ -22,6 +22,8 @@ function fausseApi(surcharges: Partial<ApiOrisflow> = {}): ApiOrisflow {
     lireParametres: async () => ({
       dossierTravail: "C:\\Orisflow",
       dossierReference: "",
+      dossierBordereau: "",
+      identite: "",
       version: "0.1.0",
       empaquete: false,
     }),
@@ -41,6 +43,51 @@ function fausseApi(surcharges: Partial<ApiOrisflow> = {}): ApiOrisflow {
     choisirDossierTravail: async () => "C:\\Orisflow",
     choisirDossierReference: async () => "C:\\Orisflow\\Reference",
     ouvrirDossierTravail: async () => "C:\\Orisflow",
+    choisirDossierBordereau: async () => "\\\\reseau\\Orisflow\\Bordereau",
+    definirIdentite: async (nom) => nom,
+    bordereauChoisirPieceJointe: async () => null,
+    bordereauCreer: async () => ({
+      type: "resultat",
+      commande: "bordereau_creer",
+      version: "0.1.0",
+      ok: true,
+      transmission: {
+        id: "abc123",
+        document: "Document",
+        type_document: "Autre",
+        expediteur: "",
+        destinataire: "",
+        date_transmission: "2026-09-30T10:00:00",
+        piece_jointe: null,
+        urgence: null,
+        commentaire: null,
+        statut: "Transmis",
+        evenements: [],
+      },
+    }),
+    bordereauEvenement: async () => ({
+      type: "resultat",
+      commande: "bordereau_evenement",
+      version: "0.1.0",
+      ok: true,
+      evenement: {
+        id: "evt1",
+        transmission_id: "abc123",
+        type_evenement: "accuse_reception",
+        auteur: "",
+        date: "2026-09-30T10:05:00",
+        commentaire: null,
+      },
+    }),
+    bordereauLister: async () => ({
+      type: "resultat",
+      commande: "bordereau_lister",
+      version: "0.1.0",
+      ok: true,
+      disponible: false,
+      transmissions: [],
+      erreurs_lecture: [],
+    }),
     ...surcharges,
   };
 }
@@ -51,11 +98,12 @@ async function ouvrirTresorerie(utilisateur: ReturnType<typeof userEvent.setup>)
 }
 
 describe("Accueil (hub)", () => {
-  it("affiche les deux cartes de modules au démarrage", () => {
+  it("affiche les trois cartes de modules au démarrage", () => {
     render(<App />);
     expect(screen.getByRole("heading", { name: "Que voulez-vous faire aujourd'hui ?" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Suivi de la trésorerie/ })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /États financiers/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Bordereau de transmission/ })).toBeInTheDocument();
   });
 
   it("ouvre le module Trésorerie sans régression sur son flux existant", async () => {
@@ -374,5 +422,92 @@ describe("Module Trésorerie (sans régression)", () => {
 
     expect(await screen.findByRole("button", { name: "Générer le classeur" })).toBeDisabled();
     expect(screen.getByText(/Aucun classeur de référence trouvé/)).toBeInTheDocument();
+  });
+});
+
+describe("Bordereau de transmission (démarré le 30/09/2026)", () => {
+  it("signale qu'aucun dossier partagé n'est configuré", async () => {
+    window.orisflow = fausseApi();
+    const utilisateur = userEvent.setup();
+    render(<App />);
+
+    await utilisateur.click(screen.getByRole("button", { name: /Bordereau de transmission/ }));
+
+    expect(await screen.findByText(/Aucun dossier partagé n'est configuré/)).toBeInTheDocument();
+  });
+
+  it("crée une transmission puis permet d'en accuser réception", async () => {
+    let transmissions: any[] = [];
+    window.orisflow = fausseApi({
+      lireParametres: async () => ({
+        dossierTravail: "C:\\Orisflow",
+        dossierReference: "",
+        dossierBordereau: "\\\\reseau\\Orisflow\\Bordereau",
+        identite: "Julien",
+        version: "0.1.0",
+        empaquete: false,
+      }),
+      bordereauLister: async () => ({
+        type: "resultat",
+        commande: "bordereau_lister",
+        version: "0.1.0",
+        ok: true,
+        disponible: true,
+        transmissions,
+        erreurs_lecture: [],
+      }),
+      bordereauCreer: async (donnees) => {
+        const transmission = {
+          id: "t1",
+          document: donnees.document,
+          type_document: donnees.typeDocument,
+          expediteur: "Julien",
+          destinataire: donnees.destinataire,
+          date_transmission: "2026-09-30T10:00:00",
+          piece_jointe: null,
+          urgence: null,
+          commentaire: null,
+          statut: "Transmis" as const,
+          evenements: [],
+        };
+        transmissions = [transmission];
+        return { type: "resultat", commande: "bordereau_creer", version: "0.1.0", ok: true, transmission };
+      },
+      bordereauEvenement: async ({ transmissionId }) => {
+        transmissions = transmissions.map((t) =>
+          t.id === transmissionId ? { ...t, statut: "Reçu" } : t,
+        );
+        return {
+          type: "resultat",
+          commande: "bordereau_evenement",
+          version: "0.1.0",
+          ok: true,
+          evenement: {
+            id: "e1",
+            transmission_id: transmissionId,
+            type_evenement: "accuse_reception",
+            auteur: "Julien",
+            date: "2026-09-30T10:05:00",
+            commentaire: null,
+          },
+        };
+      },
+    });
+    const utilisateur = userEvent.setup();
+    render(<App />);
+
+    await utilisateur.click(screen.getByRole("button", { name: /Bordereau de transmission/ }));
+    await utilisateur.click(await screen.findByRole("button", { name: "Nouvelle transmission" }));
+
+    await utilisateur.type(screen.getByLabelText("Destinataire"), "Julien");
+    await utilisateur.type(screen.getByLabelText("Document"), "Facture EDF septembre");
+    await utilisateur.click(screen.getByRole("button", { name: "Transmettre" }));
+
+    expect(await screen.findByText("Facture EDF septembre")).toBeInTheDocument();
+    expect(screen.getByText("Transmis")).toBeInTheDocument();
+
+    await utilisateur.click(screen.getByRole("button", { name: "Accuser réception" }));
+
+    expect(await screen.findByText("Reçu")).toBeInTheDocument();
   });
 });
