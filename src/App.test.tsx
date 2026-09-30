@@ -1,5 +1,6 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { vi } from "vitest";
 import App from "./App";
 import type { ApiOrisflow } from "./lib/types";
 
@@ -247,6 +248,88 @@ describe("Module Trésorerie (sans régression)", () => {
 
     expect(await screen.findByText(/Fichier généré/)).toBeInTheDocument();
     expect(screen.getByText(/Agences mises à jour : Akwa/)).toBeInTheDocument();
+  });
+
+  it("exclut de la génération un fichier décoché sur l'écran des résultats", async () => {
+    const genererEspion = vi.fn(async () => ({
+      type: "resultat" as const,
+      commande: "generer" as const,
+      version: "0.1.0",
+      ok: true as const,
+      chemin_genere: "C:\\Orisflow\\Resultats\\TRESORERIE JOURNALIÈRE et TDB DU  29 09 2026.xlsx",
+      date: "2026-09-29",
+      modele_utilise: "C:\\ref\\... 28 09 2026.xlsx",
+      agences_mises_a_jour: ["Akwa"],
+      agences_non_mises_a_jour: [],
+      fichiers_ignores: [],
+      classement: { ok: true, total: 0, fichiers: [], reference: { disponible: false, chemin: null, date: null } },
+    }));
+    window.orisflow = fausseApi({
+      choisirFichiers: async () => [
+        { chemin: "C:\\x\\Akwa_Compte.xls", nom: "Akwa_Compte.xls", taille: 1 },
+        { chemin: "C:\\x\\Mokolo_Compte.xls", nom: "Mokolo_Compte.xls", taille: 1 },
+      ],
+      classer: async () => ({
+        type: "resultat",
+        commande: "classer",
+        ok: true,
+        version: "0.1.0",
+        total: 2,
+        reference: { disponible: true, chemin: "C:\\ref\\...28 09 2026.xlsx", date: "2026-09-28" },
+        fichiers: [
+          {
+            nom: "Akwa_Compte.xls",
+            chemin: "C:\\x\\Akwa_Compte.xls",
+            extension: ".xls",
+            type_detecte: "compte",
+            type_libelle: "Liste de comptes",
+            agence_detectee: "akwa",
+            agence_libelle: "Akwa",
+            confiance_agence: "nom",
+            numero_compte_pdf: null,
+            total_comptes: 30,
+            doublons: [],
+            mal_formes: [],
+            depots: null,
+            engagements: null,
+            caisse: null,
+            niveau: "information",
+            messages: [],
+          },
+          {
+            nom: "Mokolo_Compte.xls",
+            chemin: "C:\\x\\Mokolo_Compte.xls",
+            extension: ".xls",
+            type_detecte: "compte",
+            type_libelle: "Liste de comptes",
+            agence_detectee: "mokolo",
+            agence_libelle: "Mokolo",
+            confiance_agence: "nom",
+            numero_compte_pdf: null,
+            total_comptes: 45,
+            doublons: [],
+            mal_formes: [],
+            depots: null,
+            engagements: null,
+            caisse: null,
+            niveau: "information",
+            messages: [],
+          },
+        ],
+      }),
+      generer: genererEspion,
+    });
+    const utilisateur = userEvent.setup();
+    render(<App />);
+    await ouvrirTresorerie(utilisateur);
+
+    await utilisateur.click(screen.getByRole("button", { name: "Choisir des fichiers…" }));
+    await utilisateur.click(await screen.findByRole("button", { name: "Analyser les fichiers" }));
+
+    await utilisateur.click(await screen.findByRole("checkbox", { name: /Mokolo_Compte.xls/ }));
+    await utilisateur.click(screen.getByRole("button", { name: "Générer le classeur" }));
+
+    await waitFor(() => expect(genererEspion).toHaveBeenCalledWith(["C:\\x\\Akwa_Compte.xls"]));
   });
 
   it("désactive « Générer le classeur » et prévient quand aucun dossier de référence n'est configuré", async () => {

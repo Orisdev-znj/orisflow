@@ -1,8 +1,11 @@
 import type { EtatGeneration, FichierClasse, NiveauFichier, ResultatClassement } from "../lib/types";
+import TableauCompletude from "./TableauCompletude";
 
 interface Props {
   resultat: ResultatClassement | null;
   generation: EtatGeneration;
+  fichiersExclus: Set<string>;
+  onBasculerFichier: (chemin: string) => void;
   onRetourImport: () => void;
   onGenerer: () => void;
 }
@@ -23,13 +26,21 @@ const CONFIANCE_LIBELLES: Record<string, string> = {
   sans_objet: "sans objet",
 };
 
-function ligneFichier(fichier: FichierClasse) {
+function ligneFichier(fichier: FichierClasse, inclus: boolean, onBasculer: (chemin: string) => void) {
   const agence =
     fichier.confiance_agence === "sans_objet"
       ? "—"
       : fichier.agence_libelle ?? "Non reconnue";
   return (
-    <tr key={fichier.chemin}>
+    <tr key={fichier.chemin} className={inclus ? undefined : "ligne--exclue"}>
+      <td>
+        <input
+          type="checkbox"
+          checked={inclus}
+          onChange={() => onBasculer(fichier.chemin)}
+          aria-label={`Utiliser ${fichier.nom} pour la génération`}
+        />
+      </td>
       <td title={fichier.chemin}>{fichier.nom}</td>
       <td>{fichier.type_libelle ?? "—"}</td>
       <td>
@@ -69,7 +80,7 @@ function SectionGeneration({ generation, onGenerer, peutGenerer, dossierReferenc
       <p className="aide">
         Un nouveau fichier est créé à partir du dernier classeur existant (jamais modifié). Seules les lignes de
         comptes (7 à 13) sont remplies automatiquement pour le moment ; le reste garde les valeurs du classeur
-        précédent, à compléter comme aujourd'hui.
+        précédent, à compléter comme aujourd'hui. Décochez un fichier ci-dessus pour l'exclure de la génération.
       </p>
 
       {dossierReferenceManquant && (
@@ -124,12 +135,21 @@ function SectionGeneration({ generation, onGenerer, peutGenerer, dossierReferenc
   );
 }
 
-export default function EcranResultats({ resultat, generation, onRetourImport, onGenerer }: Props) {
+export default function EcranResultats({
+  resultat,
+  generation,
+  fichiersExclus,
+  onBasculerFichier,
+  onRetourImport,
+  onGenerer,
+}: Props) {
   const dossierReferenceManquant = !!resultat && !resultat.reference.chemin;
   const peutGenerer =
     !!resultat &&
     !dossierReferenceManquant &&
-    resultat.fichiers.some((f) => f.type_detecte === "compte" && f.niveau !== "bloquant");
+    resultat.fichiers.some(
+      (f) => f.type_detecte === "compte" && f.niveau !== "bloquant" && !fichiersExclus.has(f.chemin),
+    );
 
   return (
     <section aria-labelledby="titre-resultats">
@@ -165,9 +185,12 @@ export default function EcranResultats({ resultat, generation, onRetourImport, o
             </p>
           )}
 
+          <TableauCompletude fichiers={resultat.fichiers} />
+
           <table className="tableau">
             <thead>
               <tr>
+                <th aria-label="Utiliser pour la génération" />
                 <th>Fichier</th>
                 <th>Type détecté</th>
                 <th>Agence</th>
@@ -176,7 +199,11 @@ export default function EcranResultats({ resultat, generation, onRetourImport, o
                 <th>Détails</th>
               </tr>
             </thead>
-            <tbody>{resultat.fichiers.map(ligneFichier)}</tbody>
+            <tbody>
+              {resultat.fichiers.map((fichier) =>
+                ligneFichier(fichier, !fichiersExclus.has(fichier.chemin), onBasculerFichier),
+              )}
+            </tbody>
           </table>
 
           <SectionGeneration

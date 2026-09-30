@@ -38,6 +38,9 @@ export default function App() {
   const [traitement, setTraitement] = useState<EtatTraitement>({ etat: "attente" });
   const [resultat, setResultat] = useState<ResultatClassement | null>(null);
   const [generation, setGeneration] = useState<EtatGeneration>({ etat: "attente" });
+  // Fichiers décochés par l'utilisateur sur l'écran des résultats : reconnus par Orisflow
+  // mais volontairement exclus de la génération (demande du 30/09/2026).
+  const [fichiersExclus, setFichiersExclus] = useState<Set<string>>(new Set());
 
   const api = window.orisflow;
 
@@ -54,6 +57,18 @@ export default function App() {
   }, []);
 
   const viderFichiers = useCallback(() => setFichiers([]), []);
+
+  const basculerFichierExclu = useCallback((chemin: string) => {
+    setFichiersExclus((existants) => {
+      const suivant = new Set(existants);
+      if (suivant.has(chemin)) {
+        suivant.delete(chemin);
+      } else {
+        suivant.add(chemin);
+      }
+      return suivant;
+    });
+  }, []);
 
   // Avancement envoyé par le moteur pendant le traitement.
   useEffect(() => {
@@ -78,6 +93,7 @@ export default function App() {
     }
     setResultat(null);
     setGeneration({ etat: "attente" });
+    setFichiersExclus(new Set());
     setTraitement({ etat: "encours", courant: 0, total: fichiers.length });
     setEcran("traitement");
     try {
@@ -95,14 +111,19 @@ export default function App() {
       setGeneration({ etat: "erreur", message: "Cette fonction n'est disponible que dans l'application Orisflow." });
       return;
     }
+    // On régénère à partir des fichiers reconnus par la dernière analyse (pas de la liste
+    // brute d'import), en retirant ceux que l'utilisateur a décochés sur l'écran résultats.
+    const chemins = (resultat?.fichiers ?? fichiers)
+      .filter((f) => !fichiersExclus.has(f.chemin))
+      .map((f) => f.chemin);
     setGeneration({ etat: "encours" });
     try {
-      const reponse = await api.generer(fichiers.map((f) => f.chemin));
+      const reponse = await api.generer(chemins);
       setGeneration({ etat: "succes", resultat: reponse });
     } catch (erreur) {
       setGeneration({ etat: "erreur", message: nettoyerErreur(erreur) });
     }
-  }, [api, fichiers]);
+  }, [api, fichiers, resultat, fichiersExclus]);
 
   return (
     <div className="application">
@@ -171,6 +192,8 @@ export default function App() {
               <EcranResultats
                 resultat={resultat}
                 generation={generation}
+                fichiersExclus={fichiersExclus}
+                onBasculerFichier={basculerFichierExclu}
                 onRetourImport={() => setEcran("import")}
                 onGenerer={genererClasseur}
               />

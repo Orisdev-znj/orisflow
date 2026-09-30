@@ -207,6 +207,36 @@ h2 {
   text-align: right;
 }
 
+.ligne--exclue {
+  opacity: 0.5;
+}
+
+.completude {
+  margin-top: 1.1rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--bordure);
+  border-radius: 8px;
+  background: #fafbff;
+}
+
+.completude summary {
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--marine);
+}
+
+.completude .tableau--compact th,
+.completude .tableau--compact td {
+  padding: 0.35rem 0.6rem;
+  font-size: 0.88rem;
+  text-align: center;
+}
+
+.completude .tableau--compact th:first-child,
+.completude .tableau--compact td:first-child {
+  text-align: left;
+}
+
 .actions {
   margin-top: 1.4rem;
   display: flex;
