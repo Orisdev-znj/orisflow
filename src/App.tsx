@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import BudgetDashboard from "./ecrans/BudgetDashboard";
 import EcranImport from "./ecrans/EcranImport";
 import EcranParametres from "./ecrans/EcranParametres";
 import EcranResultats from "./ecrans/EcranResultats";
@@ -13,7 +14,7 @@ import { nettoyerErreur } from "./lib/format";
 
 // Vue de premier niveau : l'accueil (hub) donne accès aux modules. Chaque module garde
 // son propre état interne (ex. `ecran` ci-dessous pour la trésorerie), inchangé.
-type Vue = "accueil" | "tresorerie" | "etatsFinanciers" | "bordereau";
+type Vue = "accueil" | "tresorerie" | "etatsFinanciers" | "bordereau" | "budget";
 
 type Ecran = "import" | "traitement" | "resultats" | "parametres";
 
@@ -29,6 +30,7 @@ const SOUS_TITRES: Record<Vue, string> = {
   tresorerie: "Trésorerie journalière",
   etatsFinanciers: "États financiers",
   bordereau: "Suivi Courrier",
+  budget: "Évaluation budgétaire",
 };
 
 export default function App() {
@@ -181,6 +183,7 @@ export default function App() {
             onChoisirTresorerie={() => setVue("tresorerie")}
             onChoisirEtatsFinanciers={() => setVue("etatsFinanciers")}
             onChoisirBordereau={() => setVue("bordereau")}
+            onChoisirBudget={() => setVue("budget")}
           />
         )}
 
@@ -189,6 +192,8 @@ export default function App() {
         )}
 
         {vue === "bordereau" && <ModuleBordereau />}
+
+        {vue === "budget" && <BudgetDashboard onRetourAccueil={() => setVue("accueil")} />}
 
         {vue === "tresorerie" && (
           <>

@@ -3,10 +3,15 @@
 Principes (CLAUDE.md) :
 - On part toujours du **dernier classeur existant** (décision du 26/09/2026) : il est
   copié, jamais modifié sur place, jamais écrasé.
-- Seules les lignes déjà automatisées avec confiance sont remplies : les comptes
-  (lignes 7 à 13, colonne « Total » via la formule déjà présente). Tout le reste
-  (dépôts, engagements, banques, caisses, UV) est laissé tel quel, en attendant le
-  sprint 5, et clairement signalé comme non mis à jour.
+- Lignes remplies avec confiance : les comptes (7 à 13), et depuis le 01/10/2026 les
+  dépôts et engagements (20, 23), avec leurs « J-1 » (21, 24) correctement avancés —
+  voir CLAUDE.md pour le détail du bug corrigé ce jour-là. Les banques, caisses et UV
+  restent hors périmètre (sprint 5 toujours en cours), et clairement signalées comme
+  non mises à jour.
+- Par défaut (si aucune date n'est transmise), le classeur généré porte la date de
+  **la veille**, pas celle du jour d'exécution : la trésorerie traitée chaque matin
+  concerne la journée précédente (confirmé par l'utilisateur le 01/10/2026 — il avait
+  initialement reçu un fichier daté du jour même, ce qui était incorrect).
 - Un fichier dont un contrôle de classification est **bloquant** n'est jamais utilisé
   pour remplir une cellule (il est ignoré, avec un message clair) ; un avertissement
   n'empêche pas l'utilisation, mais reste visible dans le rapport.
@@ -23,7 +28,7 @@ from __future__ import annotations
 
 import os
 import shutil
-from datetime import date
+from datetime import date, timedelta
 from typing import Any, Optional
 
 from openpyxl import load_workbook
@@ -54,6 +59,10 @@ LIGNE_COLLECTES = 11
 LIGNE_SALARIES = 13
 LIGNE_TOTAL_COMPTES = 16
 LIGNE_TOTAL_COMPTES_J1 = 17
+LIGNE_DEPOTS = 20
+LIGNE_DEPOTS_J1 = 21
+LIGNE_ENGAGEMENTS = 23
+LIGNE_ENGAGEMENTS_J1 = 24
 
 
 def _nom_fichier_du_jour(jour: date) -> str:
@@ -79,10 +88,17 @@ def generer_classeur(
     dossier_sortie: str,
     jour: Optional[date] = None,
 ) -> dict[str, Any]:
-    jour = jour or date.today()
+    # La trésorerie traitée un matin donné concerne la journée précédente (confirmé par
+    # l'utilisateur le 01/10/2026) : par défaut, le classeur porte donc la date d'hier,
+    # pas celle du jour d'exécution. `jour` reste un paramètre explicite pour les tests
+    # et pour un éventuel réglage manuel depuis l'interface.
+    jour = jour or (date.today() - timedelta(days=1))
 
     classement = classer_fichiers(fichiers, dossier_reference)
-    chemin_modele = trouver_classeur_recent(dossier_reference)
+    # `avant=jour` : exclut tout classeur du dossier de référence daté du jour généré ou
+    # plus tard, pour ne jamais prendre un classeur comme son propre modèle (bug corrigé
+    # le 01/10/2026, voir reference_treso.py et CLAUDE.md).
+    chemin_modele = trouver_classeur_recent(dossier_reference, avant=jour)
     if chemin_modele is None:
         return {
             "ok": False,
@@ -111,7 +127,13 @@ def generer_classeur(
     # calculées nous-mêmes en sommant les lignes 7 à 15, comme le fait la formule de la
     # ligne 16 — plutôt que de lire une valeur mise en cache par Excel (`data_only`), qui
     # serait absente si le classeur source n'a jamais été recalculé/réenregistré.
+    #
+    # Lues AVANT toute écriture : sinon on lirait nos propres valeurs du jour au lieu de
+    # celles du classeur de référence (bug corrigé le 01/10/2026, voir CLAUDE.md — les
+    # lignes 20/21 et 23/24 du premier essai réel contenaient deux fois la même valeur).
     valeurs_precedentes: dict[str, Any] = {}
+    depots_precedents: dict[str, Any] = {}
+    engagements_precedents: dict[str, Any] = {}
     for colonne in AGENCE_COLONNE.values():
         total = 0
         for r in range(7, 16):
@@ -120,34 +142,59 @@ def generer_classeur(
                 total += v
         valeurs_precedentes[colonne] = total
 
+        v_depot = feuille[f"{colonne}{LIGNE_DEPOTS}"].value
+        depots_precedents[colonne] = v_depot if isinstance(v_depot, (int, float)) else 0
+        v_engagement = feuille[f"{colonne}{LIGNE_ENGAGEMENTS}"].value
+        engagements_precedents[colonne] = v_engagement if isinstance(v_engagement, (int, float)) else 0
+
     # La veille avance d'un jour pour toutes les agences, que leur fichier du jour
     # soit arrivé ou non (le total « aujourd'hui » ne bouge alors pas pour celles
     # dont le fichier manque : c'est la même limite qu'avec le procédé manuel).
     for colonne, valeur in valeurs_precedentes.items():
         feuille[f"{colonne}{LIGNE_TOTAL_COMPTES_J1}"] = valeur
+    for colonne, valeur in depots_precedents.items():
+        feuille[f"{colonne}{LIGNE_DEPOTS_J1}"] = valeur
+    for colonne, valeur in engagements_precedents.items():
+        feuille[f"{colonne}{LIGNE_ENGAGEMENTS_J1}"] = valeur
 
-    agences_mises_a_jour: list[str] = []
+    agences_comptes_mises_a_jour: list[str] = []
+    agences_balance_mises_a_jour: list[str] = []
     fichiers_ignores: list[str] = []
     for fichier_classe in classement["fichiers"]:
-        if fichier_classe["type_detecte"] != "compte":
+        type_detecte = fichier_classe["type_detecte"]
+        if type_detecte not in ("compte", "balance_classe3"):
             continue
         if fichier_classe["niveau"] == "bloquant":
             fichiers_ignores.append(fichier_classe["nom"])
             continue
         agence_cle = fichier_classe["agence_detectee"]
-        comptages = fichier_classe["comptages"]
-        if agence_cle is None or comptages is None:
+        if agence_cle is None:
             fichiers_ignores.append(fichier_classe["nom"])
             continue
         colonne = AGENCE_COLONNE[agence_cle]
-        for type_compte, ligne in LIGNE_COMPTE.items():
-            feuille[f"{colonne}{ligne}"] = comptages.get(type_compte, 0)
-        feuille[f"{colonne}{LIGNE_COLLECTES}"] = 0
-        feuille[f"{colonne}{LIGNE_SALARIES}"] = 0
-        agences_mises_a_jour.append(agence_cle)
+
+        if type_detecte == "compte":
+            comptages = fichier_classe["comptages"]
+            if comptages is None:
+                fichiers_ignores.append(fichier_classe["nom"])
+                continue
+            for type_compte, ligne in LIGNE_COMPTE.items():
+                feuille[f"{colonne}{ligne}"] = comptages.get(type_compte, 0)
+            feuille[f"{colonne}{LIGNE_COLLECTES}"] = 0
+            feuille[f"{colonne}{LIGNE_SALARIES}"] = 0
+            agences_comptes_mises_a_jour.append(agence_cle)
+        else:  # balance_classe3 : dépôts (20) et engagements (23), voir CLAUDE.md §19-20
+            depots = fichier_classe["depots"]
+            engagements = fichier_classe["engagements"]
+            if depots is None or engagements is None:
+                fichiers_ignores.append(fichier_classe["nom"])
+                continue
+            feuille[f"{colonne}{LIGNE_DEPOTS}"] = depots
+            feuille[f"{colonne}{LIGNE_ENGAGEMENTS}"] = engagements
+            agences_balance_mises_a_jour.append(agence_cle)
 
     agences_non_mises_a_jour = [
-        cle for cle in AGENCE_COLONNE if cle not in agences_mises_a_jour
+        cle for cle in AGENCE_COLONNE if cle not in agences_comptes_mises_a_jour
     ]
 
     classeur.save(chemin_sortie)
@@ -157,7 +204,8 @@ def generer_classeur(
         "chemin_genere": chemin_sortie,
         "date": jour.isoformat(),
         "modele_utilise": chemin_modele,
-        "agences_mises_a_jour": [AGENCE_LIBELLES[c] for c in agences_mises_a_jour],
+        "agences_balance_mises_a_jour": [AGENCE_LIBELLES[c] for c in agences_balance_mises_a_jour],
+        "agences_mises_a_jour": [AGENCE_LIBELLES[c] for c in agences_comptes_mises_a_jour],
         "agences_non_mises_a_jour": [AGENCE_LIBELLES[c] for c in agences_non_mises_a_jour],
         "fichiers_ignores": fichiers_ignores,
         "classement": classement,

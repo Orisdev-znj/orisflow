@@ -5,6 +5,7 @@ interface Props {
   onChoisirTresorerie: () => void;
   onChoisirEtatsFinanciers: () => void;
   onChoisirBordereau: () => void;
+  onChoisirBudget: () => void;
 }
 
 interface Carte {
@@ -18,7 +19,7 @@ interface Carte {
   onClick: () => void;
 }
 
-export default function Home({ onChoisirTresorerie, onChoisirEtatsFinanciers, onChoisirBordereau }: Props) {
+export default function Home({ onChoisirTresorerie, onChoisirEtatsFinanciers, onChoisirBordereau, onChoisirBudget }: Props) {
   const cartes: Carte[] = [
     {
       id: "tresorerie",
@@ -40,6 +41,13 @@ export default function Home({ onChoisirTresorerie, onChoisirEtatsFinanciers, on
       description: "Tracer la transmission d'un document à un collègue, avec accusé de réception et suivi du statut.",
       symboleDeRepli: "📩",
       onClick: onChoisirBordereau,
+    },
+    {
+      id: "budget",
+      titre: "Évaluation budgétaire",
+      description: "Comparer prévisions et réalisations par catégorie (module en préparation, données fictives pour l'instant).",
+      symboleDeRepli: "📊",
+      onClick: onChoisirBudget,
     },
   ];
 

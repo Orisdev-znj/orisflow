@@ -37,6 +37,7 @@ function fausseApi(surcharges: Partial<ApiOrisflow> = {}): ApiOrisflow {
       date: "2026-09-29",
       modele_utilise: "C:\\ref\\... 28 09 2026.xlsx",
       agences_mises_a_jour: ["Akwa"],
+      agences_balance_mises_a_jour: [],
       agences_non_mises_a_jour: [],
       fichiers_ignores: [],
       classement: { ok: true, total: 0, fichiers: [], reference: { disponible: false, chemin: null, date: null } },
@@ -99,12 +100,26 @@ async function ouvrirTresorerie(utilisateur: ReturnType<typeof userEvent.setup>)
 }
 
 describe("Accueil (hub)", () => {
-  it("affiche les trois cartes de modules au démarrage", () => {
+  it("affiche les quatre cartes de modules au démarrage", () => {
     render(<App />);
     expect(screen.getByRole("heading", { name: "Que voulez-vous faire aujourd'hui ?" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Suivi de la trésorerie/ })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /États financiers/ })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Suivi Courrier/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Évaluation budgétaire/ })).toBeInTheDocument();
+  });
+
+  it("ouvre le module Évaluation budgétaire avec des données fictives clairement annoncées", async () => {
+    const utilisateur = userEvent.setup();
+    render(<App />);
+
+    await utilisateur.click(screen.getByRole("button", { name: /Évaluation budgétaire/ }));
+
+    expect(screen.getByRole("heading", { name: "Évaluation budgétaire" })).toBeInTheDocument();
+    expect(screen.getByText(/Données fictives/)).toBeInTheDocument();
+
+    await utilisateur.click(screen.getByRole("button", { name: "Retour à l'accueil" }));
+    expect(screen.getByRole("heading", { name: "Que voulez-vous faire aujourd'hui ?" })).toBeInTheDocument();
   });
 
   it("ouvre le module Trésorerie sans régression sur son flux existant", async () => {
@@ -296,7 +311,7 @@ describe("Module Trésorerie (sans régression)", () => {
     await utilisateur.click(await screen.findByRole("button", { name: "Générer le classeur" }));
 
     expect(await screen.findByText(/Fichier généré/)).toBeInTheDocument();
-    expect(screen.getByText(/Agences mises à jour : Akwa/)).toBeInTheDocument();
+    expect(screen.getByText(/Comptes mis à jour : Akwa/)).toBeInTheDocument();
   });
 
   it("exclut de la génération un fichier décoché sur l'écran des résultats", async () => {
@@ -309,6 +324,7 @@ describe("Module Trésorerie (sans régression)", () => {
       date: "2026-09-29",
       modele_utilise: "C:\\ref\\... 28 09 2026.xlsx",
       agences_mises_a_jour: ["Akwa"],
+      agences_balance_mises_a_jour: [],
       agences_non_mises_a_jour: [],
       fichiers_ignores: [],
       classement: { ok: true, total: 0, fichiers: [], reference: { disponible: false, chemin: null, date: null } },

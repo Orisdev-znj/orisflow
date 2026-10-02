@@ -114,9 +114,16 @@ function SectionGeneration({ generation, onGenerer, peutGenerer, dossierReferenc
           </p>
           <p className="aide">Dossier : {generation.resultat.chemin_genere}</p>
           <p>
-            Agences mises à jour :{" "}
+            Comptes mis à jour :{" "}
             {generation.resultat.agences_mises_a_jour.length > 0
               ? generation.resultat.agences_mises_a_jour.join(", ")
+              : "aucune"}
+            .
+          </p>
+          <p>
+            Dépôts/engagements mis à jour :{" "}
+            {generation.resultat.agences_balance_mises_a_jour.length > 0
+              ? generation.resultat.agences_balance_mises_a_jour.join(", ")
               : "aucune"}
             .
           </p>

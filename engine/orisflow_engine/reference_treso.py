@@ -33,12 +33,21 @@ def _extraire_date_nom(chemin: str) -> date:
     return date.min
 
 
-def trouver_classeur_recent(dossier: str) -> Optional[str]:
+def trouver_classeur_recent(dossier: str, avant: Optional[date] = None) -> Optional[str]:
+    """`avant` (optionnel) : n'accepte que les classeurs dont la date lue dans le nom est
+    strictement antérieure à `avant`. Nécessaire pour la génération (voir `generation.py`) :
+    sans ce filtre, si le dossier de référence contient déjà un classeur daté du jour qu'on
+    s'apprête à générer (ou d'un jour postérieur — rattrapage, saisie en avance...), ce
+    classeur serait pris comme son propre modèle, et son propre J-1 comme référence de
+    lui-même. Bug corrigé le 01/10/2026 (CLAUDE.md), repéré après l'ajout d'un classeur du
+    30/09 dans le dossier de référence le jour même où Orisflow générait pour le 30/09."""
     if not dossier or not os.path.isdir(dossier):
         return None
     fichiers = glob.glob(os.path.join(dossier, "**", "*.xlsx"), recursive=True)
     fichiers += glob.glob(os.path.join(dossier, "**", "*.xlsm"), recursive=True)
     fichiers = [f for f in fichiers if not os.path.basename(f).startswith("~$")]
+    if avant is not None:
+        fichiers = [f for f in fichiers if _extraire_date_nom(f) < avant]
     if not fichiers:
         return None
     return max(fichiers, key=_extraire_date_nom)

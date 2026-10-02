@@ -55,6 +55,9 @@ export interface ResultatGeneration {
   date: string;
   modele_utilise: string;
   agences_mises_a_jour: string[];
+  // Dépôts/engagements (lignes 20/23), distincts des comptes : une agence peut être mise
+  // à jour sur l'un sans l'être sur l'autre (ajouté le 01/10/2026, sprint 5).
+  agences_balance_mises_a_jour: string[];
   agences_non_mises_a_jour: string[];
   fichiers_ignores: string[];
   classement: Classement;
