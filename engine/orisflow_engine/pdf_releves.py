@@ -35,11 +35,13 @@ _MOTIF_BGFI_COMPTE = re.compile(r"^\s*(\d{9,12})\s*$", re.MULTILINE)
 _MOTIF_SOLDE_EXTRAIT = re.compile(
     r"Solde\s*\(XAF\)\s*au\s*\d{2}/\d{2}/\d{4}\s*:?\s*([\d\s]+)", re.IGNORECASE
 )
-# « SOLDE DISPONIBLE au JJ/MM/AAAA XAF : N,00 » — le solde final d'un relevé BGFI. Ne
-# confond jamais avec « SOLDE PRÉCÉDENT AU ... » (mot « DISPONIBLE » exigé explicitement).
-_MOTIF_SOLDE_BGFI = re.compile(
-    r"SOLDE\s+DISPONIBLE\s+au\s+\d{2}/\d{2}/\d{4}\s*XAF\s*:?\s*([\d\s]+)[.,]", re.IGNORECASE
-)
+# Relevés BGFI réels (vérifié le 02/10/2026) : l'ordre du texte extrait ne suit PAS l'ordre
+# visuel (comme pour les balances CloudBank, voir balance_pdf.py) — le nombre apparaît AVANT
+# son étiquette « SOLDE DISPONIBLE : », jamais après. Milliers séparés par des virgules,
+# décimales par un point (« 36,820,915.00 »), pas des espaces comme sur les relevés
+# CCA-Bank/Afriland. Ne confond jamais avec « SOLDE PRÉCÉDENT AU ... » (qui précède un
+# nombre suivi de « RELEVÉ DES OPÉRATIONS », jamais de « SOLDE DISPONIBLE »).
+_MOTIF_SOLDE_BGFI = re.compile(r"([\d,]+\.\d{2})\s*SOLDE\s+DISPONIBLE", re.IGNORECASE)
 
 
 class ReleveDetecte(NamedTuple):
@@ -62,8 +64,13 @@ def _texte_toutes_pages(chemin: str) -> str:
 
 
 def _nombre_depuis_texte(brut: str) -> Optional[int]:
+    """Accepte les deux formats observés sur les relevés réels (vérifié le 02/10/2026) :
+    milliers séparés par des espaces, sans décimales (CCA-Bank/Afriland : « 49 508 894 »),
+    ou milliers séparés par des virgules, avec décimales en point (BGFI : « 36,820,915.00 »).
+    """
     nettoye = brut.replace(" ", "").replace("\xa0", "").strip()
-    nettoye = re.sub(r"[.,]\d{0,2}$", "", nettoye)  # retire un éventuel ",00" ou ".00" final
+    nettoye = re.sub(r"\.\d{1,2}$", "", nettoye)  # retire une éventuelle partie décimale finale (« .00 »)
+    nettoye = nettoye.replace(",", "")  # retire les séparateurs de milliers restants
     try:
         return int(nettoye)
     except ValueError:

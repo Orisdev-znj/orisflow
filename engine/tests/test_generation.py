@@ -63,12 +63,14 @@ def _releve_cca_ou_afriland(chemin, numero_compte, cle_rib, solde, code_client="
 
 
 def _releve_bgfi(chemin, numero_compte, solde):
+    """Reproduit le vrai gabarit BGFI (vérifié le 02/10/2026) : le nombre précède son
+    étiquette « SOLDE DISPONIBLE », milliers séparés par des virgules, décimales en point."""
     document = pymupdf.open()
     page = document.new_page()
     page.insert_text((10, 50), "RELEVE DE COMPTE")
     page.insert_text((10, 70), str(numero_compte))
     page.insert_text((10, 90), "ORIS FINANCE LIBERATION CAPITAL")
-    page.insert_text((10, 110), f"SOLDE DISPONIBLE au 02/10/2026 XAF : {solde},00")
+    page.insert_text((10, 110), f"{solde:,}.00\nSOLDE DISPONIBLE :\n02/10/2026\nXAF")
     document.save(chemin)
     document.close()
 

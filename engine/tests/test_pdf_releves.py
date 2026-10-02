@@ -70,6 +70,21 @@ def test_reconnait_un_releve_bgfi(tmp_path):
     releve = detecter_releve(str(chemin))
     assert releve.type_detecte == "releve_bgfi"
     assert releve.numero_compte == "70024583011"
+
+
+def test_bgfi_gabarit_reel_nombre_avant_etiquette_et_virgules(tmp_path):
+    """Le vrai gabarit BGFI (vérifié le 02/10/2026) place le nombre AVANT son étiquette
+    (ordre du texte scrambled, comme les balances CloudBank) et sépare les milliers par
+    des virgules avec un point décimal (« 36,820,915.00 »), pas des espaces."""
+    chemin = tmp_path / "bgfi_reel.pdf"
+    _fabriquer_pdf(
+        chemin,
+        "RELEVE DE COMPTE\nORIS FINANCE LIBERATION CAPITAL\n70024583011\nXAF\n"
+        "35,260,077.00\n  RELEVE DES OPERATIONS\n01/09/2026\nXAF\n"
+        "36,820,915.00\nSOLDE DISPONIBLE :\n02/10/2026\nXAF",
+    )
+    releve = detecter_releve(str(chemin))
+    assert releve.type_detecte == "releve_bgfi"
     assert releve.solde == 36820915  # jamais le solde précédent (35 260 077)
 
 
