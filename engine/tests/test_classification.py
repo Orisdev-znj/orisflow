@@ -160,7 +160,11 @@ def test_reconnait_un_releve_bancaire_pdf(tmp_path):
     chemin = tmp_path / "releve.pdf"
     document = pymupdf.open()
     page = document.new_page()
-    page.insert_text((50, 50), "EXTRAIT DE COMPTE\nNumero de compte : 10038-01773537801-12")
+    page.insert_text(
+        (50, 50),
+        "Code client : 735378\nEXTRAIT DE COMPTE\nNumero de compte : 10038-01773537801-12\n"
+        "Solde (XAF) au 02/10/2026 : 186 412 276",
+    )
     document.save(str(chemin))
     document.close()
 
@@ -169,4 +173,7 @@ def test_reconnait_un_releve_bancaire_pdf(tmp_path):
     fichier = resultat["fichiers"][0]
     assert fichier["type_detecte"] == "releve_cca"
     assert fichier["numero_compte_pdf"] == "10038-01773537801-12"
-    assert fichier["agence_detectee"] is None  # sans objet pour un relevé bancaire
+    # Depuis le 02/10/2026 : la clé RIB (12) identifie l'agence (Akwa), voir regles_banques.py.
+    assert fichier["agence_detectee"] == "akwa"
+    assert fichier["ligne_banque_cible"] == "cca_bank"
+    assert fichier["solde_releve"] == 186412276

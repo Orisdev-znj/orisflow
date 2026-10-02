@@ -216,6 +216,34 @@ h2 {
   resize: vertical;
 }
 
+.superposition {
+  position: fixed;
+  inset: 0;
+  background: rgba(7, 28, 155, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  z-index: 50;
+}
+
+.fenetre-modale {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.6rem 1.8rem;
+  max-width: 480px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+}
+
+.fenetre-modale h2 {
+  margin-top: 0;
+  color: var(--marine);
+  font-family: "Roboto Slab", Georgia, serif;
+}
+
 .zone-depot {
   margin: 1.2rem 0;
   padding: 1.6rem;

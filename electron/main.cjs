@@ -214,7 +214,7 @@ function enregistrerCommunications() {
     ),
   );
 
-  ipcMain.handle("moteur:generer", async (evenement, chemins) => {
+  ipcMain.handle("moteur:generer", async (evenement, chemins, valeursManuelles) => {
     const racine = preparerDossiers();
     return lancerMoteur(
       "generer",
@@ -222,6 +222,7 @@ function enregistrerCommunications() {
         fichiers: chemins,
         dossierReference: dossierReference() || null,
         dossierSortie: path.join(racine, "Resultats"),
+        valeursManuelles: valeursManuelles || null,
       },
       (message) => {
         evenement.sender.send("moteur:evenement", message);

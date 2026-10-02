@@ -48,6 +48,31 @@ def _extraction_balance_classe3(chemin, groupe, depots, engagements):
     document.close()
 
 
+def _releve_cca_ou_afriland(chemin, numero_compte, cle_rib, solde, code_client="735378"):
+    """PDF synthétique « EXTRAIT DE COMPTE » (CCA-Bank si code_client=735378, Afriland
+    pour le seul autre code connu au 02/10/2026 — voir regles_banques.py)."""
+    document = pymupdf.open()
+    page = document.new_page()
+    page.insert_text((10, 50), f"Code client : {code_client}")
+    page.insert_text((10, 70), "EXTRAIT DE COMPTE")
+    page.insert_text((10, 90), f"Numero de compte : {numero_compte}-{cle_rib}")
+    page.insert_text((10, 110), "Solde initial (XAF) : 1")
+    page.insert_text((10, 130), f"Solde (XAF) au 02/10/2026 : {solde}")
+    document.save(chemin)
+    document.close()
+
+
+def _releve_bgfi(chemin, numero_compte, solde):
+    document = pymupdf.open()
+    page = document.new_page()
+    page.insert_text((10, 50), "RELEVE DE COMPTE")
+    page.insert_text((10, 70), str(numero_compte))
+    page.insert_text((10, 90), "ORIS FINANCE LIBERATION CAPITAL")
+    page.insert_text((10, 110), f"SOLDE DISPONIBLE au 02/10/2026 XAF : {solde},00")
+    document.save(chemin)
+    document.close()
+
+
 def _classeur_modele(dossier, nom_fichier="TRESORERIE JOURNALIÈRE et TDB DU  10 09 2026.xlsx"):
     """Classeur de référence minimal, avec une feuille « Suivi de la treso » à exclure."""
     classeur = openpyxl.Workbook()
@@ -66,6 +91,18 @@ def _classeur_modele(dossier, nom_fichier="TRESORERIE JOURNALIÈRE et TDB DU  10
     synthese["C23"] = 500_000  # ancien engagement Akwa, doit se retrouver en C24 (J-1)
     synthese["C25"] = "=C23-C24"  # formule à préserver
     synthese["F23"] = 800_000  # ancien engagement Bafoussam
+
+    # Banques (28-36) : anciennes valeurs, pour vérifier que le total J-1 (36) avance bien
+    # (somme de 28 à 34), quelle que soit la banque effectivement mise à jour ce jour-là.
+    synthese["C28"] = 100_000_000  # CCA-Bank Akwa (sera remplacé)
+    synthese["C29"] = 10_000_000  # Afriland Akwa (sera remplacé)
+    synthese["C30"] = 5_000_000  # BGFI Akwa (sera remplacé)
+    synthese["C31"] = "=10000000+1_000_000".replace("_", "")  # UBA Akwa (sera remplacé)
+    synthese["C34"] = 2_000_000  # Western Union Akwa (sera remplacé)
+    synthese["D28"] = 3_000_000  # CCA-Bank Mokolo (sera remplacé)
+    synthese["C35"] = "=SUM(C28:C34)"
+    synthese["C37"] = "=C35-C36"
+    synthese["D35"] = "=SUM(D28:D34)"
 
     suivi = classeur.create_sheet("Suivi de la treso")
     suivi["A1"] = "Ne doit jamais apparaître dans le fichier généré"
@@ -296,3 +333,141 @@ def test_fichier_balance_bloquant_nest_jamais_utilise(contexte):
     assert synthese["C20"].value == 1_000_000  # inchangé : les deux fichiers en doublon sont ignorés
     assert "Akwa" not in resultat["agences_balance_mises_a_jour"]
     assert set(resultat["fichiers_ignores"]) == {"balance_akwa_1.pdf", "balance_akwa_2.pdf"}
+
+
+# --- Banques (28-36), voir CLAUDE.md §26 — règles du 02/10/2026 ---------------------------
+
+
+def test_cca_bank_akwa_cumule_plusieurs_comptes_et_ses_bons_de_caisse(contexte):
+    chemin_12 = contexte["extractions"] / "cca_12.pdf"
+    _releve_cca_ou_afriland(chemin_12, "10038-01773537801", "12", 186_412_276)
+    chemin_39 = contexte["extractions"] / "cca_39.pdf"
+    _releve_cca_ou_afriland(chemin_39, "10035-01773537807", "39", 5_051_695)
+
+    resultat = generer_classeur(
+        [str(chemin_12), str(chemin_39)], contexte["reference"], contexte["sortie"], jour=date(2026, 9, 29)
+    )
+
+    classeur = openpyxl.load_workbook(resultat["chemin_genere"])
+    synthese = classeur["Synthèse"]
+    # Bons de caisse (fixes, 510M + 151 847 746) + les 2 comptes lus, dans l'ordre des clés RIB.
+    assert synthese["C28"].value == "=510000000+151847746+186412276+5051695"
+    assert "Akwa" in resultat["agences_banques_mises_a_jour"]
+
+
+def test_cca_bank_mokolo_compte_unique_reste_une_valeur_simple(contexte):
+    chemin = contexte["extractions"] / "cca_86.pdf"
+    _releve_cca_ou_afriland(chemin, "10007-01773537802", "86", 4_789_180)
+
+    resultat = generer_classeur([str(chemin)], contexte["reference"], contexte["sortie"], jour=date(2026, 9, 29))
+
+    classeur = openpyxl.load_workbook(resultat["chemin_genere"])
+    assert classeur["Synthèse"]["D28"].value == 4_789_180  # valeur simple, pas de formule
+    assert "Mokolo" in resultat["agences_banques_mises_a_jour"]
+
+
+def test_afriland_akwa_avec_ses_bons_de_caisse(contexte):
+    chemin = contexte["extractions"] / "afriland_lori.pdf"
+    _releve_cca_ou_afriland(chemin, "00078-09844871001", "65", 134_381_673, code_client="00000984487")
+
+    resultat = generer_classeur([str(chemin)], contexte["reference"], contexte["sortie"], jour=date(2026, 9, 29))
+
+    classeur = openpyxl.load_workbook(resultat["chemin_genere"])
+    assert classeur["Synthèse"]["C29"].value == "=1000000+500000000+134381673"
+
+
+def test_bgfi_akwa_plusieurs_comptes_sans_bon_de_caisse(contexte):
+    chemin_1 = contexte["extractions"] / "bgfi_1.pdf"
+    _releve_bgfi(chemin_1, "70024583011", 36_820_915)
+    chemin_2 = contexte["extractions"] / "bgfi_2.pdf"
+    _releve_bgfi(chemin_2, "70024583012", 25_548_218)
+
+    resultat = generer_classeur(
+        [str(chemin_1), str(chemin_2)], contexte["reference"], contexte["sortie"], jour=date(2026, 9, 29)
+    )
+
+    classeur = openpyxl.load_workbook(resultat["chemin_genere"])
+    assert classeur["Synthèse"]["C30"].value == "=36820915+25548218"
+
+
+def test_western_union_automatique_depuis_le_releve_cle_97(contexte):
+    chemin = contexte["extractions"] / "cca_97.pdf"
+    _releve_cca_ou_afriland(chemin, "10038-01773537805", "97", 20_111_324)
+
+    resultat = generer_classeur([str(chemin)], contexte["reference"], contexte["sortie"], jour=date(2026, 9, 29))
+
+    classeur = openpyxl.load_workbook(resultat["chemin_genere"])
+    assert classeur["Synthèse"]["C34"].value == 20_111_324
+    assert not any("Western Union" in a for a in resultat["avertissements_banques"])
+
+
+def test_western_union_valeur_de_secours_si_releve_absent(contexte):
+    resultat = generer_classeur(
+        [], contexte["reference"], contexte["sortie"], jour=date(2026, 9, 29),
+        valeurs_manuelles={"western_union_secours": 21_000_000},
+    )
+
+    classeur = openpyxl.load_workbook(resultat["chemin_genere"])
+    assert classeur["Synthèse"]["C34"].value == 21_000_000
+
+
+def test_western_union_avertissement_fort_si_rien_fourni(contexte):
+    resultat = generer_classeur([], contexte["reference"], contexte["sortie"], jour=date(2026, 9, 29))
+
+    classeur = openpyxl.load_workbook(resultat["chemin_genere"])
+    assert classeur["Synthèse"]["C34"].value == 2_000_000  # inchangé depuis le modèle
+    assert any("Western Union" in a for a in resultat["avertissements_banques"])
+
+
+def test_uba_formule_bon_de_caisse_plus_valeur_manuelle(contexte):
+    resultat = generer_classeur(
+        [], contexte["reference"], contexte["sortie"], jour=date(2026, 9, 29),
+        valeurs_manuelles={"uba_solde_banque": 9_200_000},
+    )
+
+    classeur = openpyxl.load_workbook(resultat["chemin_genere"])
+    assert classeur["Synthèse"]["C31"].value == "=10000000+9200000"
+
+
+def test_ecobank_access_bank_uv_valeurs_manuelles_directes(contexte):
+    resultat = generer_classeur(
+        [], contexte["reference"], contexte["sortie"], jour=date(2026, 9, 29),
+        valeurs_manuelles={
+            "ecobank": 21_000_000,
+            "access_bank": 5_000_000,
+            "uv_orange": 3_000_000,
+            "uv_mtn": 1_800_000,
+            "uv_maviance": 39_000_000,
+        },
+    )
+
+    classeur = openpyxl.load_workbook(resultat["chemin_genere"])
+    synthese = classeur["Synthèse"]
+    assert synthese["C33"].value == 21_000_000
+    assert synthese["C32"].value == 5_000_000
+    assert synthese["C56"].value == 3_000_000
+    assert synthese["C57"].value == 1_800_000
+    assert synthese["C58"].value == 39_000_000
+
+
+def test_total_banques_j1_avance_meme_sans_aucun_relever(contexte):
+    resultat = generer_classeur([], contexte["reference"], contexte["sortie"], jour=date(2026, 9, 29))
+
+    classeur = openpyxl.load_workbook(resultat["chemin_genere"])
+    synthese = classeur["Synthèse"]
+    # Ancien total banques Akwa = 100M (CCA) + 10M (Afriland) + 5M (BGFI) + 11M (UBA, formule
+    # non évaluée par openpyxl donc ignorée du calcul, voir note) + 2M (WU) — seules les
+    # valeurs littérales comptent (C31 est une formule, non recalculée par openpyxl).
+    assert synthese["C36"].value == 100_000_000 + 10_000_000 + 5_000_000 + 2_000_000
+
+
+def test_cle_rib_non_reconnue_est_ignoree_pas_bloquante(contexte):
+    chemin = contexte["extractions"] / "cca_inconnu.pdf"
+    _releve_cca_ou_afriland(chemin, "10038-01773537999", "50", 7_000_000)
+
+    resultat = generer_classeur([str(chemin)], contexte["reference"], contexte["sortie"], jour=date(2026, 9, 29))
+
+    assert resultat["ok"] is True
+    assert "cca_inconnu.pdf" in resultat["fichiers_ignores"]
+    classeur = openpyxl.load_workbook(resultat["chemin_genere"])
+    assert classeur["Synthèse"]["C28"].value == 100_000_000  # inchangé

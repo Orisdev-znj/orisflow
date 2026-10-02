@@ -108,9 +108,11 @@ def commande_generer(parametres: Dict[str, Any]) -> None:
     """Sprint 4 : génère un nouveau classeur daté à partir du dernier classeur existant.
 
     Paramètres attendus : {"fichiers": [...], "dossierReference": chemin,
-    "dossierSortie": chemin, "date": "AAAA-MM-JJ"|null}. Ne modifie jamais le
-    classeur de référence ni les fichiers importés ; n'écrase jamais un fichier
-    déjà généré.
+    "dossierSortie": chemin, "date": "AAAA-MM-JJ"|null, "valeursManuelles": {champ: nombre}
+    |null}. `valeursManuelles` vient de la fenêtre unique de saisie manuelle (UV, UBA,
+    Ecobank, Access Bank, Western Union en secours — voir regles_banques.py, 02/10/2026).
+    Ne modifie jamais le classeur de référence ni les fichiers importés ; n'écrase jamais
+    un fichier déjà généré.
     """
     from datetime import date as _date
 
@@ -119,6 +121,7 @@ def commande_generer(parametres: Dict[str, Any]) -> None:
     dossier_sortie = parametres.get("dossierSortie")
     jour_parametre = parametres.get("date")
     jour = _date.fromisoformat(jour_parametre) if jour_parametre else None
+    valeurs_manuelles = parametres.get("valeursManuelles") or None
 
     if not dossier_reference:
         emettre(type="erreur", message="Aucun dossier de référence n'est configuré (voir Paramètres).")
@@ -130,7 +133,9 @@ def commande_generer(parametres: Dict[str, Any]) -> None:
     for position, chemin in enumerate(chemins, start=1):
         emettre(type="progression", courant=position, total=len(chemins), fichier=os.path.basename(chemin))
 
-    resultat = generer_classeur(chemins, dossier_reference, dossier_sortie, jour=jour)
+    resultat = generer_classeur(
+        chemins, dossier_reference, dossier_sortie, jour=jour, valeurs_manuelles=valeurs_manuelles
+    )
     if not resultat["ok"]:
         emettre(type="erreur", message=resultat["erreur"])
         return

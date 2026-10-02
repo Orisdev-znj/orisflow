@@ -127,6 +127,23 @@ function SectionGeneration({ generation, onGenerer, peutGenerer, dossierReferenc
               : "aucune"}
             .
           </p>
+          <p>
+            Banques mises à jour :{" "}
+            {generation.resultat.agences_banques_mises_a_jour.length > 0
+              ? generation.resultat.agences_banques_mises_a_jour.join(", ")
+              : "aucune"}
+            .
+          </p>
+          {generation.resultat.avertissements_banques.length > 0 && (
+            <p role="alert" className="message message--avertissement">
+              {generation.resultat.avertissements_banques.map((avertissement, index) => (
+                <span key={index}>
+                  {avertissement}
+                  <br />
+                </span>
+              ))}
+            </p>
+          )}
           {generation.resultat.agences_non_mises_a_jour.length > 0 && (
             <p>
               Non mises à jour aujourd'hui (aucun fichier reçu — à compléter comme avant) :{" "}

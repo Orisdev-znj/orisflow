@@ -26,6 +26,13 @@ from .regles_agences import (
     detecter_agence,
     detecter_agence_depuis_texte,
 )
+from .regles_banques import (
+    CHAMP_MANUEL_WESTERN_UNION_SECOURS,
+    CHAMPS_MANUELS_TOUJOURS,
+    RIB_AFRILAND_VERS_AGENCE,
+    RIB_CCA_VERS_AGENCE,
+    RIB_CCA_WESTERN_UNION,
+)
 
 SEUIL_ECART_ANORMAL = 0.20  # 20 % : au-delà, le total du jour est jugé suspect.
 
@@ -34,6 +41,7 @@ TYPE_LIBELLES = {
     "engagement": "Engagements",
     "caisse": "Caisse",
     "releve_cca": "Relevé bancaire (CCA-Bank)",
+    "releve_afriland": "Relevé bancaire (Afriland First Bank)",
     "releve_bgfi": "Relevé bancaire (BGFI)",
     "releve_bancaire": "Relevé bancaire (banque non reconnue)",
     "balance_classe3": "Balance CloudBank — classe 3 (dépôts, engagements)",
@@ -93,6 +101,12 @@ def classer_un_fichier(chemin: str) -> dict[str, Any]:
         "depots": None,
         "engagements": None,
         "caisse": None,
+        "cle_rib": None,
+        "code_client": None,
+        "solde_releve": None,
+        # Où ce relevé bancaire doit alimenter la génération : "cca_bank" | "afriland" |
+        # "bgfi" | "western_union" | None (compte non reconnu, voir regles_banques.py).
+        "ligne_banque_cible": None,
         "messages": [],
         "niveau": "information",
     }
@@ -186,17 +200,60 @@ def classer_un_fichier(chemin: str) -> dict[str, Any]:
             resultat["type_detecte"] = releve.type_detecte
             resultat["type_libelle"] = TYPE_LIBELLES.get(releve.type_detecte, "Relevé bancaire")
             resultat["numero_compte_pdf"] = releve.numero_compte
+            resultat["cle_rib"] = releve.cle_rib
+            resultat["code_client"] = releve.code_client
+            resultat["solde_releve"] = releve.solde
+
             if releve.type_detecte == "illisible":
                 resultat["niveau"] = "bloquant"
                 resultat["messages"].append("Ce PDF n'a pas pu être lu (page vide ou fichier corrompu).")
+
             elif releve.type_detecte == "releve_bancaire":
                 resultat["niveau"] = "avertissement"
-                resultat["messages"].append("Relevé bancaire d'un gabarit non reconnu (ni CCA-Bank, ni BGFI).")
-            else:
                 resultat["messages"].append(
-                    "Relevé bancaire reconnu. Son rattachement à une ligne du classeur n'est pas encore automatisé "
-                    "(prévu à une prochaine étape)."
+                    "Relevé bancaire d'un gabarit non reconnu, ou « Code client » inconnu (ni CCA-Bank, ni "
+                    "Afriland) : il n'alimente aucune ligne du classeur. Si c'est un compte connu, signalez-le "
+                    "pour l'ajouter à la table de correspondance."
                 )
+
+            elif releve.type_detecte in ("releve_cca", "releve_afriland"):
+                table = RIB_CCA_VERS_AGENCE if releve.type_detecte == "releve_cca" else RIB_AFRILAND_VERS_AGENCE
+                if releve.type_detecte == "releve_cca" and releve.cle_rib == RIB_CCA_WESTERN_UNION:
+                    resultat["agence_detectee"] = "akwa"
+                    resultat["agence_libelle"] = AGENCE_LIBELLES["akwa"]
+                    resultat["confiance_agence"] = "regle_banque"
+                    resultat["ligne_banque_cible"] = "western_union"
+                    resultat["messages"].append("Relevé reconnu : alimente la ligne Western Union.")
+                elif releve.cle_rib and releve.cle_rib in table:
+                    agence_cle = table[releve.cle_rib]
+                    resultat["agence_detectee"] = agence_cle
+                    resultat["agence_libelle"] = AGENCE_LIBELLES[agence_cle]
+                    resultat["confiance_agence"] = "regle_banque"
+                    resultat["ligne_banque_cible"] = "afriland" if releve.type_detecte == "releve_afriland" else "cca_bank"
+                    resultat["messages"].append(
+                        f"Relevé {releve.banque_libelle} reconnu ({AGENCE_LIBELLES[agence_cle]})."
+                    )
+                else:
+                    resultat["niveau"] = "avertissement"
+                    resultat["messages"].append(
+                        f"Clé RIB « {releve.cle_rib or '?'} » non reconnue pour {releve.banque_libelle} : "
+                        "ce compte n'alimente encore aucune ligne (table à compléter)."
+                    )
+                if releve.solde is None:
+                    resultat["niveau"] = "avertissement" if resultat["niveau"] == "information" else resultat["niveau"]
+                    resultat["messages"].append("Le solde final n'a pas pu être lu dans ce relevé.")
+
+            else:  # releve_bgfi : toujours consolidé dans la colonne Akwa (confirmé le 02/10/2026)
+                resultat["agence_detectee"] = "akwa"
+                resultat["agence_libelle"] = AGENCE_LIBELLES["akwa"]
+                resultat["confiance_agence"] = "regle_banque"
+                resultat["ligne_banque_cible"] = "bgfi"
+                if releve.solde is None:
+                    resultat["niveau"] = "avertissement"
+                    resultat["messages"].append("Le solde final n'a pas pu être lu dans ce relevé BGFI.")
+                else:
+                    resultat["messages"].append("Relevé BGFI reconnu.")
+
             if not releve.numero_compte:
                 resultat["messages"].append("Le numéro de compte n'a pas pu être lu dans ce PDF.")
 
@@ -209,23 +266,46 @@ def classer_un_fichier(chemin: str) -> dict[str, Any]:
     return resultat
 
 
+def _cle_doublon(f: dict[str, Any]) -> Optional[tuple]:
+    """D'habitude (type, agence) suffit. Mais une même agence peut légitimement recevoir
+    plusieurs comptes CCA-Bank/Afriland différents (ex. Akwa cumule les clés RIB 12 et 39,
+    voir regles_banques.py) : pour ces types, c'est le compte précis (clé RIB, ou le numéro
+    de compte pour BGFI qui n'a pas de clé RIB) qui distingue un doublon réel d'un second
+    compte légitime pour la même agence."""
+    type_detecte = f["type_detecte"]
+    if type_detecte in (None, "inconnu"):
+        return None
+    if type_detecte in ("releve_cca", "releve_afriland") and f.get("cle_rib"):
+        return (type_detecte, f["cle_rib"])
+    if type_detecte == "releve_bgfi" and f.get("numero_compte_pdf"):
+        return (type_detecte, f["numero_compte_pdf"])
+    if f["agence_detectee"] is None:
+        return None
+    return (type_detecte, f["agence_detectee"])
+
+
 def detecter_doublons(fichiers: list[dict[str, Any]]) -> None:
-    """Marque en « bloquant » les fichiers qui partagent le même type et la même agence."""
+    """Marque en « bloquant » les fichiers qui partagent le même type et, selon le type,
+    la même agence ou le même compte précis (voir `_cle_doublon`)."""
     vus: dict[tuple, list[dict[str, Any]]] = {}
     for f in fichiers:
-        if f["type_detecte"] in (None, "inconnu") or f["agence_detectee"] is None:
+        cle = _cle_doublon(f)
+        if cle is None:
             continue
-        cle = (f["type_detecte"], f["agence_detectee"])
         vus.setdefault(cle, []).append(f)
-    for (type_detecte, agence_cle), groupe in vus.items():
+    for (type_detecte, deuxieme_cle), groupe in vus.items():
         if len(groupe) <= 1:
             continue
         noms = ", ".join(g["nom"] for g in groupe)
+        if type_detecte in ("releve_cca", "releve_afriland", "releve_bgfi"):
+            designation = f"le compte {deuxieme_cle}"
+        else:
+            designation = AGENCE_LIBELLES.get(deuxieme_cle, deuxieme_cle)
         for f in groupe:
             f["niveau"] = "bloquant"
             f["messages"].append(
                 f"Plusieurs fichiers correspondent à « {TYPE_LIBELLES.get(type_detecte, type_detecte)} » "
-                f"pour {AGENCE_LIBELLES.get(agence_cle, agence_cle)} : {noms}. Retirez les fichiers en trop."
+                f"pour {designation} : {noms}. Retirez les fichiers en trop."
             )
 
 
@@ -296,4 +376,25 @@ def classer_fichiers(chemins: list[str], dossier_reference: Optional[str] = None
     niveaux = {f["niveau"] for f in fichiers}
     ok = "bloquant" not in niveaux
 
-    return {"total": len(fichiers), "fichiers": fichiers, "reference": reference, "ok": ok}
+    return {
+        "total": len(fichiers),
+        "fichiers": fichiers,
+        "reference": reference,
+        "ok": ok,
+        "champs_manuels_requis": _champs_manuels_requis(fichiers),
+    }
+
+
+def _champs_manuels_requis(fichiers: list[dict[str, Any]]) -> list[str]:
+    """Champs à demander dans la fenêtre unique de saisie manuelle avant de générer le
+    classeur (demande du 02/10/2026) : toujours les UV/UBA/Ecobank/Access Bank (aucune
+    lecture automatisée prévue), plus Western Union seulement si son relevé (clé RIB 97)
+    n'a pas été reconnu aujourd'hui (secours — automatique sinon, confirmé par l'utilisateur)."""
+    western_union_trouve = any(
+        f.get("ligne_banque_cible") == "western_union" and f["niveau"] != "bloquant"
+        for f in fichiers
+    )
+    requis = list(CHAMPS_MANUELS_TOUJOURS)
+    if not western_union_trouve:
+        requis.append(CHAMP_MANUEL_WESTERN_UNION_SECOURS)
+    return requis

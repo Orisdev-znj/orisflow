@@ -36,6 +36,7 @@ from openpyxl import load_workbook
 from .classification import classer_fichiers
 from .reference_treso import NOM_FEUILLE_SYNTHESE, trouver_classeur_recent
 from .regles_agences import AGENCE_COLONNE, AGENCE_LIBELLES
+from .regles_banques import BONS_DE_CAISSE, LIBELLE_CHAMP_MANUEL
 
 FEUILLES_A_EXCLURE = (
     "Suivi de la treso",
@@ -64,6 +65,23 @@ LIGNE_DEPOTS_J1 = 21
 LIGNE_ENGAGEMENTS = 23
 LIGNE_ENGAGEMENTS_J1 = 24
 
+# Banques (28-36), voir CLAUDE.md §26 — exploration et règles du 02/10/2026. CCA-Bank
+# est la seule répartie par agence ; les autres (confirmées le 02/10/2026) sont
+# consolidées dans la seule colonne Akwa.
+LIGNE_CCA_BANK = 28
+LIGNE_AFRILAND = 29
+LIGNE_BGFI = 30
+LIGNE_UBA = 31
+LIGNE_ACCESS_BANK = 32
+LIGNE_ECOBANK = 33
+LIGNE_WESTERN_UNION = 34
+LIGNE_TOTAL_BANQUES_J1 = 36
+# Unités virtuelles (56-58) : jamais de lecture automatisée, toujours saisies via la
+# fenêtre de valeurs manuelles.
+LIGNE_UV_ORANGE = 56
+LIGNE_UV_MTN = 57
+LIGNE_UV_MAVIANCE = 58
+
 
 def _nom_fichier_du_jour(jour: date) -> str:
     # Deux espaces avant la date : convention observée sur tous les classeurs réels
@@ -82,11 +100,145 @@ def _chemin_disponible(dossier: str, nom: str) -> str:
     return chemin
 
 
+def _ecrire_montant(feuille, adresse: str, termes: list[int]) -> None:
+    """Un seul terme : valeur littérale (comme les comptes CCA-Bank de Mokolo/Bafoussam/
+    Kousseri, observés tels quels dans les classeurs réels). Plusieurs termes : une formule
+    d'addition reconstituée (demande explicite de l'utilisateur, 02/10/2026 — garder la
+    lisibilité déjà présente dans le classeur, plutôt qu'un total en valeur brute)."""
+    if len(termes) == 1:
+        feuille[adresse] = termes[0]
+    else:
+        feuille[adresse] = "=" + "+".join(str(t) for t in termes)
+
+
+def _ecrire_banques(
+    feuille, classement: dict[str, Any], valeurs_manuelles: dict[str, Any]
+) -> tuple[list[str], list[str], list[str]]:
+    """Écrit les lignes banques (28 à 34) et avance le J-1 du total (36), pour toutes les
+    agences. CCA-Bank est répartie par agence (voir `regles_banques.RIB_CCA_VERS_AGENCE`) ;
+    Afriland, BGFI, UBA, Ecobank, Access Bank et Western Union sont consolidées dans la
+    seule colonne Akwa (confirmé par l'utilisateur le 02/10/2026).
+
+    Retourne (agences_banques_mises_a_jour, avertissements_banques, fichiers_ignores).
+    """
+    avertissements: list[str] = []
+    fichiers_ignores: list[str] = []
+    agences_mises_a_jour: list[str] = []
+
+    # J-1 du total banques, pour TOUTES les agences, lu avant toute écriture (même
+    # principe que les comptes/dépôts/engagements : sinon on lirait nos propres valeurs
+    # du jour au lieu de celles du modèle).
+    for colonne in AGENCE_COLONNE.values():
+        total = 0
+        for r in range(LIGNE_CCA_BANK, LIGNE_WESTERN_UNION + 1):
+            v = feuille[f"{colonne}{r}"].value
+            if isinstance(v, (int, float)):
+                total += v
+        feuille[f"{colonne}{LIGNE_TOTAL_BANQUES_J1}"] = total
+
+    colonne_akwa = AGENCE_COLONNE["akwa"]
+
+    # CCA-Bank : regrouper les comptes reconnus par agence (une agence peut en cumuler
+    # plusieurs, ex. Akwa avec les clés RIB 12 et 39).
+    comptes_cca: dict[str, list[tuple[str, int]]] = {}
+    for f in classement["fichiers"]:
+        if f["type_detecte"] != "releve_cca":
+            continue
+        if f.get("ligne_banque_cible") == "western_union":
+            continue  # traité séparément plus bas, jamais « ignoré »
+        if f.get("ligne_banque_cible") != "cca_bank" or f["niveau"] == "bloquant" or f["solde_releve"] is None or f["agence_detectee"] is None:
+            fichiers_ignores.append(f["nom"])
+            continue
+        comptes_cca.setdefault(f["agence_detectee"], []).append((f["cle_rib"] or "", f["solde_releve"]))
+
+    for agence, comptes in comptes_cca.items():
+        colonne = AGENCE_COLONNE[agence]
+        termes = list(BONS_DE_CAISSE.get(("cca_bank", agence), [])) + [
+            solde for _, solde in sorted(comptes, key=lambda c: c[0])
+        ]
+        _ecrire_montant(feuille, f"{colonne}{LIGNE_CCA_BANK}", termes)
+        agences_mises_a_jour.append(agence)
+
+    # Afriland (Akwa uniquement pour l'instant — un seul compte connu au 02/10/2026).
+    soldes_afriland: list[int] = []
+    for f in classement["fichiers"]:
+        if f["type_detecte"] != "releve_afriland" or f.get("ligne_banque_cible") != "afriland":
+            continue
+        if f["niveau"] == "bloquant" or f["solde_releve"] is None:
+            fichiers_ignores.append(f["nom"])
+            continue
+        soldes_afriland.append(f["solde_releve"])
+    if soldes_afriland:
+        termes = list(BONS_DE_CAISSE.get(("afriland", "akwa"), [])) + soldes_afriland
+        _ecrire_montant(feuille, f"{colonne_akwa}{LIGNE_AFRILAND}", termes)
+        if "akwa" not in agences_mises_a_jour:
+            agences_mises_a_jour.append("akwa")
+
+    # BGFI (Akwa uniquement, pas de bon de caisse — confirmé le 02/10/2026).
+    soldes_bgfi: list[int] = []
+    for f in classement["fichiers"]:
+        if f["type_detecte"] != "releve_bgfi" or f.get("ligne_banque_cible") != "bgfi":
+            continue
+        if f["niveau"] == "bloquant" or f["solde_releve"] is None:
+            fichiers_ignores.append(f["nom"])
+            continue
+        soldes_bgfi.append(f["solde_releve"])
+    if soldes_bgfi:
+        _ecrire_montant(feuille, f"{colonne_akwa}{LIGNE_BGFI}", soldes_bgfi)
+        if "akwa" not in agences_mises_a_jour:
+            agences_mises_a_jour.append("akwa")
+
+    # Western Union : automatique si son relevé (clé RIB 97) est reconnu aujourd'hui,
+    # sinon la valeur de secours saisie manuellement, sinon avertissement fort (décision
+    # de l'utilisateur, 02/10/2026) — le J-1 du total avance quand même (ci-dessus).
+    fichier_wu = next(
+        (
+            f for f in classement["fichiers"]
+            if f.get("ligne_banque_cible") == "western_union" and f["niveau"] != "bloquant" and f["solde_releve"] is not None
+        ),
+        None,
+    )
+    if fichier_wu:
+        feuille[f"{colonne_akwa}{LIGNE_WESTERN_UNION}"] = fichier_wu["solde_releve"]
+    elif valeurs_manuelles.get("western_union_secours") is not None:
+        feuille[f"{colonne_akwa}{LIGNE_WESTERN_UNION}"] = int(valeurs_manuelles["western_union_secours"])
+    else:
+        avertissements.append(
+            f"{LIBELLE_CHAMP_MANUEL['western_union_secours']} : "
+            "ligne inchangée depuis la veille (aucun relevé reçu, aucune valeur saisie)."
+        )
+
+    # UBA : bon de caisse fixe + solde en banque saisi manuellement (la lecture du relevé
+    # UBA reste manuelle, décision de l'utilisateur du 02/10/2026).
+    if valeurs_manuelles.get("uba_solde_banque") is not None:
+        fixe = BONS_DE_CAISSE[("uba", "akwa")][0]
+        feuille[f"{colonne_akwa}{LIGNE_UBA}"] = f"={fixe}+{int(valeurs_manuelles['uba_solde_banque'])}"
+    else:
+        avertissements.append(f"{LIBELLE_CHAMP_MANUEL['uba_solde_banque']} : ligne inchangée depuis la veille.")
+
+    # Ecobank, Access Bank, UV : valeur manuelle directe (aucune lecture automatisée).
+    for champ, ligne in (
+        ("ecobank", LIGNE_ECOBANK),
+        ("access_bank", LIGNE_ACCESS_BANK),
+        ("uv_orange", LIGNE_UV_ORANGE),
+        ("uv_mtn", LIGNE_UV_MTN),
+        ("uv_maviance", LIGNE_UV_MAVIANCE),
+    ):
+        valeur = valeurs_manuelles.get(champ)
+        if valeur is not None:
+            feuille[f"{colonne_akwa}{ligne}"] = valeur
+        else:
+            avertissements.append(f"{LIBELLE_CHAMP_MANUEL[champ]} : ligne inchangée depuis la veille.")
+
+    return agences_mises_a_jour, avertissements, fichiers_ignores
+
+
 def generer_classeur(
     fichiers: list[str],
     dossier_reference: str,
     dossier_sortie: str,
     jour: Optional[date] = None,
+    valeurs_manuelles: Optional[dict[str, Any]] = None,
 ) -> dict[str, Any]:
     # La trésorerie traitée un matin donné concerne la journée précédente (confirmé par
     # l'utilisateur le 01/10/2026) : par défaut, le classeur porte donc la date d'hier,
@@ -193,6 +345,11 @@ def generer_classeur(
             feuille[f"{colonne}{LIGNE_ENGAGEMENTS}"] = engagements
             agences_balance_mises_a_jour.append(agence_cle)
 
+    agences_banques_mises_a_jour, avertissements_banques, fichiers_ignores_banques = _ecrire_banques(
+        feuille, classement, valeurs_manuelles or {}
+    )
+    fichiers_ignores.extend(fichiers_ignores_banques)
+
     agences_non_mises_a_jour = [
         cle for cle in AGENCE_COLONNE if cle not in agences_comptes_mises_a_jour
     ]
@@ -205,6 +362,8 @@ def generer_classeur(
         "date": jour.isoformat(),
         "modele_utilise": chemin_modele,
         "agences_balance_mises_a_jour": [AGENCE_LIBELLES[c] for c in agences_balance_mises_a_jour],
+        "agences_banques_mises_a_jour": [AGENCE_LIBELLES[c] for c in agences_banques_mises_a_jour],
+        "avertissements_banques": avertissements_banques,
         "agences_mises_a_jour": [AGENCE_LIBELLES[c] for c in agences_comptes_mises_a_jour],
         "agences_non_mises_a_jour": [AGENCE_LIBELLES[c] for c in agences_non_mises_a_jour],
         "fichiers_ignores": fichiers_ignores,

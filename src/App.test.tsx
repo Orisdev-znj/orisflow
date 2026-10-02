@@ -17,6 +17,7 @@ function fausseApi(surcharges: Partial<ApiOrisflow> = {}): ApiOrisflow {
       total: 0,
       fichiers: [],
       reference: { disponible: false, chemin: null, date: null },
+      champs_manuels_requis: [],
     }),
     surEvenementMoteur: () => () => undefined,
     lireParametres: async () => ({
@@ -38,9 +39,17 @@ function fausseApi(surcharges: Partial<ApiOrisflow> = {}): ApiOrisflow {
       modele_utilise: "C:\\ref\\... 28 09 2026.xlsx",
       agences_mises_a_jour: ["Akwa"],
       agences_balance_mises_a_jour: [],
+      agences_banques_mises_a_jour: [],
+      avertissements_banques: [],
       agences_non_mises_a_jour: [],
       fichiers_ignores: [],
-      classement: { ok: true, total: 0, fichiers: [], reference: { disponible: false, chemin: null, date: null } },
+      classement: {
+        ok: true,
+        total: 0,
+        fichiers: [],
+        reference: { disponible: false, chemin: null, date: null },
+        champs_manuels_requis: [],
+      },
     }),
     choisirDossierTravail: async () => "C:\\Orisflow",
     choisirDossierReference: async () => "C:\\Orisflow\\Reference",
@@ -248,6 +257,10 @@ describe("Module Trésorerie (sans régression)", () => {
             depots: null,
             engagements: null,
             caisse: null,
+            cle_rib: null,
+            code_client: null,
+            solde_releve: null,
+            ligne_banque_cible: null,
             niveau: "avertissement",
             messages: [
               "Écart anormal avec la veille : 1273 comptes aujourd'hui contre 2441 (Bafoussam, écart de 48 %).",
@@ -255,6 +268,7 @@ describe("Module Trésorerie (sans régression)", () => {
             ],
           },
         ],
+        champs_manuels_requis: [],
       }),
     });
     const utilisateur = userEvent.setup();
@@ -296,10 +310,15 @@ describe("Module Trésorerie (sans régression)", () => {
             depots: null,
             engagements: null,
             caisse: null,
+            cle_rib: null,
+            code_client: null,
+            solde_releve: null,
+            ligne_banque_cible: null,
             niveau: "information",
             messages: [],
           },
         ],
+        champs_manuels_requis: [],
       }),
     });
     const utilisateur = userEvent.setup();
@@ -314,6 +333,86 @@ describe("Module Trésorerie (sans régression)", () => {
     expect(screen.getByText(/Comptes mis à jour : Akwa/)).toBeInTheDocument();
   });
 
+  it("ouvre la fenêtre de saisie manuelle avant de générer quand des champs sont requis", async () => {
+    const genererEspion = vi.fn(async () => ({
+      type: "resultat" as const,
+      commande: "generer" as const,
+      version: "0.1.0",
+      ok: true as const,
+      chemin_genere: "C:\\Orisflow\\Resultats\\TRESORERIE JOURNALIÈRE et TDB DU  29 09 2026.xlsx",
+      date: "2026-09-29",
+      modele_utilise: "C:\\ref\\... 28 09 2026.xlsx",
+      agences_mises_a_jour: ["Akwa"],
+      agences_balance_mises_a_jour: [],
+      agences_banques_mises_a_jour: [],
+      avertissements_banques: [],
+      agences_non_mises_a_jour: [],
+      fichiers_ignores: [],
+      classement: {
+        ok: true,
+        total: 0,
+        fichiers: [],
+        reference: { disponible: false, chemin: null, date: null },
+        champs_manuels_requis: [],
+      },
+    }));
+    window.orisflow = fausseApi({
+      choisirFichiers: async () => [{ chemin: "C:\\x\\Akwa_Compte.xls", nom: "Akwa_Compte.xls", taille: 1 }],
+      classer: async () => ({
+        type: "resultat",
+        commande: "classer",
+        ok: true,
+        version: "0.1.0",
+        total: 1,
+        reference: { disponible: true, chemin: "C:\\ref\\...28 09 2026.xlsx", date: "2026-09-28" },
+        fichiers: [
+          {
+            nom: "Akwa_Compte.xls",
+            chemin: "C:\\x\\Akwa_Compte.xls",
+            extension: ".xls",
+            type_detecte: "compte",
+            type_libelle: "Liste de comptes",
+            agence_detectee: "akwa",
+            agence_libelle: "Akwa",
+            confiance_agence: "nom",
+            numero_compte_pdf: null,
+            total_comptes: 30,
+            doublons: [],
+            mal_formes: [],
+            depots: null,
+            engagements: null,
+            caisse: null,
+            cle_rib: null,
+            code_client: null,
+            solde_releve: null,
+            ligne_banque_cible: null,
+            niveau: "information",
+            messages: [],
+          },
+        ],
+        champs_manuels_requis: ["ecobank", "uv_orange"],
+      }),
+      generer: genererEspion,
+    });
+    const utilisateur = userEvent.setup();
+    render(<App />);
+    await ouvrirTresorerie(utilisateur);
+
+    await utilisateur.click(screen.getByRole("button", { name: "Choisir des fichiers…" }));
+    await utilisateur.click(await screen.findByRole("button", { name: "Analyser les fichiers" }));
+    await utilisateur.click(await screen.findByRole("button", { name: "Générer le classeur" }));
+
+    expect(await screen.findByText("Montants à renseigner avant de générer")).toBeInTheDocument();
+    expect(genererEspion).not.toHaveBeenCalled();
+
+    await utilisateur.type(screen.getByLabelText("Ecobank"), "21000000");
+    await utilisateur.click(screen.getByRole("button", { name: "Confirmer et générer" }));
+
+    await waitFor(() =>
+      expect(genererEspion).toHaveBeenCalledWith(["C:\\x\\Akwa_Compte.xls"], { ecobank: 21000000 }),
+    );
+  });
+
   it("exclut de la génération un fichier décoché sur l'écran des résultats", async () => {
     const genererEspion = vi.fn(async () => ({
       type: "resultat" as const,
@@ -325,9 +424,17 @@ describe("Module Trésorerie (sans régression)", () => {
       modele_utilise: "C:\\ref\\... 28 09 2026.xlsx",
       agences_mises_a_jour: ["Akwa"],
       agences_balance_mises_a_jour: [],
+      agences_banques_mises_a_jour: [],
+      avertissements_banques: [],
       agences_non_mises_a_jour: [],
       fichiers_ignores: [],
-      classement: { ok: true, total: 0, fichiers: [], reference: { disponible: false, chemin: null, date: null } },
+      classement: {
+        ok: true,
+        total: 0,
+        fichiers: [],
+        reference: { disponible: false, chemin: null, date: null },
+        champs_manuels_requis: [],
+      },
     }));
     window.orisflow = fausseApi({
       choisirFichiers: async () => [
@@ -358,6 +465,10 @@ describe("Module Trésorerie (sans régression)", () => {
             depots: null,
             engagements: null,
             caisse: null,
+            cle_rib: null,
+            code_client: null,
+            solde_releve: null,
+            ligne_banque_cible: null,
             niveau: "information",
             messages: [],
           },
@@ -377,10 +488,15 @@ describe("Module Trésorerie (sans régression)", () => {
             depots: null,
             engagements: null,
             caisse: null,
+            cle_rib: null,
+            code_client: null,
+            solde_releve: null,
+            ligne_banque_cible: null,
             niveau: "information",
             messages: [],
           },
         ],
+        champs_manuels_requis: [],
       }),
       generer: genererEspion,
     });
@@ -394,7 +510,7 @@ describe("Module Trésorerie (sans régression)", () => {
     await utilisateur.click(await screen.findByRole("checkbox", { name: /Mokolo_Compte.xls/ }));
     await utilisateur.click(screen.getByRole("button", { name: "Générer le classeur" }));
 
-    await waitFor(() => expect(genererEspion).toHaveBeenCalledWith(["C:\\x\\Akwa_Compte.xls"]));
+    await waitFor(() => expect(genererEspion).toHaveBeenCalledWith(["C:\\x\\Akwa_Compte.xls"], {}));
   });
 
   it("désactive « Générer le classeur » et prévient quand aucun dossier de référence n'est configuré", async () => {
@@ -424,10 +540,15 @@ describe("Module Trésorerie (sans régression)", () => {
             depots: null,
             engagements: null,
             caisse: null,
+            cle_rib: null,
+            code_client: null,
+            solde_releve: null,
+            ligne_banque_cible: null,
             niveau: "information",
             messages: [],
           },
         ],
+        champs_manuels_requis: [],
       }),
     });
     const utilisateur = userEvent.setup();

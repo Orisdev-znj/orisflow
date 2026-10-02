@@ -23,6 +23,11 @@ export interface FichierClasse {
   depots: number | null;
   engagements: number | null;
   caisse: number | null;
+  // Relevés bancaires (banques, ajouté le 02/10/2026 — voir CLAUDE.md §26) :
+  cle_rib: string | null;
+  code_client: string | null;
+  solde_releve: number | null;
+  ligne_banque_cible: "cca_bank" | "afriland" | "bgfi" | "western_union" | null;
   niveau: NiveauFichier;
   messages: string[];
 }
@@ -38,6 +43,10 @@ export interface Classement {
   total: number;
   fichiers: FichierClasse[];
   reference: ReferenceComparaison;
+  // Champs à demander dans la fenêtre unique de saisie manuelle avant de générer (UV,
+  // UBA, Ecobank, Access Bank, et Western Union seulement en secours) — voir
+  // lib/champsManuels.ts pour les libellés. Ajouté le 02/10/2026.
+  champs_manuels_requis: string[];
 }
 
 export interface ResultatClassement extends Classement {
@@ -58,10 +67,18 @@ export interface ResultatGeneration {
   // Dépôts/engagements (lignes 20/23), distincts des comptes : une agence peut être mise
   // à jour sur l'un sans l'être sur l'autre (ajouté le 01/10/2026, sprint 5).
   agences_balance_mises_a_jour: string[];
+  // Banques (28-34), ajouté le 02/10/2026 — voir CLAUDE.md §26.
+  agences_banques_mises_a_jour: string[];
+  // Lignes banques restées inchangées faute de relevé ou de valeur saisie (avertissement
+  // plus visible que la liste « agences_non_mises_a_jour », demande du 02/10/2026).
+  avertissements_banques: string[];
   agences_non_mises_a_jour: string[];
   fichiers_ignores: string[];
   classement: Classement;
 }
+
+/** Valeurs saisies dans la fenêtre unique avant de générer (voir lib/champsManuels.ts). */
+export type ValeursManuelles = Record<string, number>;
 
 export interface ResultatPing {
   type: "resultat";
@@ -173,7 +190,7 @@ export interface ApiOrisflow {
   decrireFichiersDeposes(fichiers: FileList | File[]): Promise<FichierImporte[]>;
   testerMoteur(): Promise<ResultatPing>;
   classer(chemins: string[]): Promise<ResultatClassement>;
-  generer(chemins: string[]): Promise<ResultatGeneration>;
+  generer(chemins: string[], valeursManuelles?: ValeursManuelles): Promise<ResultatGeneration>;
   surEvenementMoteur(rappel: (evenement: EvenementMoteur) => void): () => void;
   lireParametres(): Promise<ParametresApplication>;
   choisirDossierTravail(): Promise<string>;

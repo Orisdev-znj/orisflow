@@ -5,10 +5,11 @@ import EcranParametres from "./ecrans/EcranParametres";
 import EcranResultats from "./ecrans/EcranResultats";
 import EcranTraitement from "./ecrans/EcranTraitement";
 import type { EtatTraitement } from "./ecrans/EcranTraitement";
+import FenetreValeursManuelles from "./ecrans/FenetreValeursManuelles";
 import Home from "./ecrans/Home";
 import ModuleBordereau from "./ecrans/ModuleBordereau";
 import WorkInProgress from "./ecrans/WorkInProgress";
-import type { EtatGeneration, FichierImporte, ResultatClassement } from "./lib/types";
+import type { EtatGeneration, FichierImporte, ResultatClassement, ValeursManuelles } from "./lib/types";
 import logoOrisFinance from "./assets/logo-oris-finance.png";
 import { nettoyerErreur } from "./lib/format";
 
@@ -45,6 +46,10 @@ export default function App() {
   // Fichiers décochés par l'utilisateur sur l'écran des résultats : reconnus par Orisflow
   // mais volontairement exclus de la génération (demande du 30/09/2026).
   const [fichiersExclus, setFichiersExclus] = useState<Set<string>>(new Set());
+  // Fenêtre unique de saisie manuelle (UV, UBA, Ecobank, Access Bank…) avant de générer
+  // le classeur (demande du 02/10/2026) : ouverte quand l'analyse a signalé des champs
+  // à compléter.
+  const [fenetreValeursOuverte, setFenetreValeursOuverte] = useState(false);
 
   const api = window.orisflow;
 
@@ -110,24 +115,39 @@ export default function App() {
     }
   }, [api, fichiers]);
 
-  const genererClasseur = useCallback(async () => {
-    if (!api) {
-      setGeneration({ etat: "erreur", message: "Cette fonction n'est disponible que dans l'application Orisflow." });
-      return;
+  const genererClasseur = useCallback(
+    async (valeursManuelles: ValeursManuelles) => {
+      if (!api) {
+        setGeneration({ etat: "erreur", message: "Cette fonction n'est disponible que dans l'application Orisflow." });
+        return;
+      }
+      // On régénère à partir des fichiers reconnus par la dernière analyse (pas de la liste
+      // brute d'import), en retirant ceux que l'utilisateur a décochés sur l'écran résultats.
+      const chemins = (resultat?.fichiers ?? fichiers)
+        .filter((f) => !fichiersExclus.has(f.chemin))
+        .map((f) => f.chemin);
+      setFenetreValeursOuverte(false);
+      setGeneration({ etat: "encours" });
+      try {
+        const reponse = await api.generer(chemins, valeursManuelles);
+        setGeneration({ etat: "succes", resultat: reponse });
+      } catch (erreur) {
+        setGeneration({ etat: "erreur", message: nettoyerErreur(erreur) });
+      }
+    },
+    [api, fichiers, resultat, fichiersExclus],
+  );
+
+  // Clic sur « Générer le classeur » : si des montants doivent être saisis à la main
+  // (UV, UBA, Ecobank, Access Bank…), ouvre la fenêtre unique d'abord — sinon génère
+  // directement.
+  const demarrerGeneration = useCallback(() => {
+    if ((resultat?.champs_manuels_requis.length ?? 0) > 0) {
+      setFenetreValeursOuverte(true);
+    } else {
+      genererClasseur({});
     }
-    // On régénère à partir des fichiers reconnus par la dernière analyse (pas de la liste
-    // brute d'import), en retirant ceux que l'utilisateur a décochés sur l'écran résultats.
-    const chemins = (resultat?.fichiers ?? fichiers)
-      .filter((f) => !fichiersExclus.has(f.chemin))
-      .map((f) => f.chemin);
-    setGeneration({ etat: "encours" });
-    try {
-      const reponse = await api.generer(chemins);
-      setGeneration({ etat: "succes", resultat: reponse });
-    } catch (erreur) {
-      setGeneration({ etat: "erreur", message: nettoyerErreur(erreur) });
-    }
-  }, [api, fichiers, resultat, fichiersExclus]);
+  }, [resultat, genererClasseur]);
 
   return (
     <div className="application">
@@ -220,10 +240,17 @@ export default function App() {
                 fichiersExclus={fichiersExclus}
                 onBasculerFichier={basculerFichierExclu}
                 onRetourImport={() => setEcran("import")}
-                onGenerer={genererClasseur}
+                onGenerer={demarrerGeneration}
               />
             )}
             {ecran === "parametres" && <EcranParametres />}
+            {fenetreValeursOuverte && resultat && (
+              <FenetreValeursManuelles
+                champs={resultat.champs_manuels_requis}
+                onAnnuler={() => setFenetreValeursOuverte(false)}
+                onConfirmer={(valeurs) => genererClasseur(valeurs)}
+              />
+            )}
           </>
         )}
       </main>
