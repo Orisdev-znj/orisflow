@@ -35,7 +35,9 @@ from openpyxl import load_workbook
 
 from .classification import classer_fichiers
 from .reference_treso import NOM_FEUILLE_SYNTHESE, trouver_classeur_recent
+from . import carnet
 from .regles_agences import AGENCE_COLONNE, AGENCE_LIBELLES
+from .regles_banques import RELEVES_ATTENDUS, cle_releve
 from .regles_banques import BONS_DE_CAISSE, LIBELLE_CHAMP_MANUEL
 
 FEUILLES_A_EXCLURE = (
@@ -233,6 +235,49 @@ def _ecrire_banques(
     return agences_mises_a_jour, avertissements, fichiers_ignores
 
 
+def _soldes_du_jour(classement: dict[str, Any]) -> dict[str, int]:
+    """Soldes lus aujourd'hui, par clé de relevé (ex. « cca:12 »), pour le carnet."""
+    soldes: dict[str, int] = {}
+    for f in classement["fichiers"]:
+        cle = cle_releve(f.get("type_detecte"), f.get("cle_rib"), f.get("numero_compte_pdf"))
+        if cle is None or cle in soldes or f["niveau"] == "bloquant" or f.get("solde_releve") is None:
+            continue
+        soldes[cle] = int(f["solde_releve"])
+    return soldes
+
+
+_TYPE_PAR_BANQUE = {
+    "cca_bank": "releve_cca",
+    "western_union": "releve_cca",
+    "afriland": "releve_afriland",
+    "bgfi": "releve_bgfi",
+}
+
+
+def _releves_issus_de_la_veille(releves_veille: dict[str, int]) -> list[dict[str, Any]]:
+    """Transforme les soldes de la veille choisis par l'utilisateur en relevés « fictifs »,
+    au même format que ceux lus dans les PDF, marqués comme provenant de la veille."""
+    injectes: list[dict[str, Any]] = []
+    for cle, valeur in releves_veille.items():
+        if cle not in RELEVES_ATTENDUS or valeur is None:
+            continue
+        libelle, banque, agence = RELEVES_ATTENDUS[cle]
+        type_detecte = _TYPE_PAR_BANQUE[banque]
+        identifiant = cle.split(":", 1)[1]
+        injectes.append({
+            "nom": f"{libelle} (valeur de la veille)",
+            "type_detecte": type_detecte,
+            "ligne_banque_cible": banque,
+            "agence_detectee": agence,
+            "cle_rib": identifiant if type_detecte != "releve_bgfi" else None,
+            "numero_compte_pdf": identifiant if type_detecte == "releve_bgfi" else None,
+            "solde_releve": int(valeur),
+            "niveau": "avertissement",
+            "messages": ["Valeur reprise de la veille (relevé absent aujourd'hui)."],
+        })
+    return injectes
+
+
 def generer_classeur(
     fichiers: list[str],
     dossier_reference: str,
@@ -240,6 +285,8 @@ def generer_classeur(
     jour: Optional[date] = None,
     valeurs_manuelles: Optional[dict[str, Any]] = None,
     gestionnaires: Optional[dict[str, str]] = None,
+    dossier_carnet: Optional[str] = None,
+    releves_veille: Optional[dict[str, int]] = None,
 ) -> dict[str, Any]:
     # La trésorerie traitée un matin donné concerne la journée précédente (confirmé par
     # l'utilisateur le 01/10/2026) : par défaut, le classeur porte donc la date d'hier,
@@ -247,7 +294,9 @@ def generer_classeur(
     # et pour un éventuel réglage manuel depuis l'interface.
     jour = jour or (date.today() - timedelta(days=1))
 
-    classement = classer_fichiers(fichiers, dossier_reference, gestionnaires=gestionnaires)
+    classement = classer_fichiers(
+        fichiers, dossier_reference, gestionnaires=gestionnaires, dossier_carnet=dossier_carnet, jour=jour
+    )
     # `avant=jour` : exclut tout classeur du dossier de référence daté du jour généré ou
     # plus tard, pour ne jamais prendre un classeur comme son propre modèle (bug corrigé
     # le 01/10/2026, voir reference_treso.py et CLAUDE.md).
@@ -346,8 +395,15 @@ def generer_classeur(
             feuille[f"{colonne}{LIGNE_ENGAGEMENTS}"] = engagements
             agences_balance_mises_a_jour.append(agence_cle)
 
+    # Relevés manquants pour lesquels l'utilisateur a demandé la valeur de la veille (carnet) :
+    # injectés comme des relevés ordinaires, pour que les écritures ci-dessus les traitent
+    # de la même façon (aucune règle bancaire dupliquée). Jamais enregistrés au carnet du jour.
+    releves_veille = releves_veille or {}
+    injectes = _releves_issus_de_la_veille(releves_veille)
+    classement_banques = {**classement, "fichiers": classement["fichiers"] + injectes}
+
     agences_banques_mises_a_jour, avertissements_banques, fichiers_ignores_banques = _ecrire_banques(
-        feuille, classement, valeurs_manuelles or {}
+        feuille, classement_banques, valeurs_manuelles or {}
     )
     fichiers_ignores.extend(fichiers_ignores_banques)
 
@@ -356,6 +412,12 @@ def generer_classeur(
     ]
 
     classeur.save(chemin_sortie)
+
+    # Carnet : on consigne les soldes réellement lus aujourd'hui (jamais ceux repris de la veille).
+    if dossier_carnet:
+        carnet.enregistrer(
+            os.path.join(dossier_carnet, carnet.NOM_FICHIER), jour, _soldes_du_jour(classement)
+        )
 
     return {
         "ok": True,

@@ -100,6 +100,7 @@ def commande_classer(parametres: Dict[str, Any]) -> None:
     dossier_reference = parametres.get("dossierReference") or None
     gestionnaires = parametres.get("gestionnaires") or None
     agences_manuelles = parametres.get("agencesManuelles") or None
+    dossier_carnet = parametres.get("dossierCarnet") or None
     total = len(chemins)
     compteur = {"valeur": 0}
 
@@ -122,6 +123,7 @@ def commande_classer(parametres: Dict[str, Any]) -> None:
         gestionnaires=gestionnaires,
         agences_manuelles=agences_manuelles,
         sur_fichier_classe=rapporter_fichier,
+        dossier_carnet=dossier_carnet,
     )
     for etape in resultat.pop("journal_etapes", []):
         emettre(type="progression", courant=total, total=total, pourcentage=100, fichier="", message=etape)
@@ -157,6 +159,8 @@ def commande_generer(parametres: Dict[str, Any]) -> None:
     jour = _date.fromisoformat(jour_parametre) if jour_parametre else None
     valeurs_manuelles = parametres.get("valeursManuelles") or None
     gestionnaires = parametres.get("gestionnaires") or None
+    dossier_carnet = parametres.get("dossierCarnet") or None
+    releves_veille = parametres.get("relevesVeille") or None
 
     if not dossier_reference:
         emettre(type="erreur", message="Aucun dossier de référence n'est configuré (voir Paramètres).")
@@ -175,6 +179,8 @@ def commande_generer(parametres: Dict[str, Any]) -> None:
         jour=jour,
         valeurs_manuelles=valeurs_manuelles,
         gestionnaires=gestionnaires,
+        dossier_carnet=dossier_carnet,
+        releves_veille=releves_veille,
     )
     if not resultat["ok"]:
         emettre(type="erreur", message=resultat["erreur"])

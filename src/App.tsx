@@ -10,7 +10,13 @@ import FenetreAgencesAConfirmer from "./ecrans/FenetreAgencesAConfirmer";
 import Home from "./ecrans/Home";
 import ModuleBordereau from "./ecrans/ModuleBordereau";
 import WorkInProgress from "./ecrans/WorkInProgress";
-import type { EtatGeneration, FichierImporte, ResultatClassement, ValeursManuelles } from "./lib/types";
+import type {
+  EtatGeneration,
+  FichierImporte,
+  RelevesVeille,
+  ResultatClassement,
+  ValeursManuelles,
+} from "./lib/types";
 import logoOrisFinance from "./assets/logo-oris-finance.png";
 import { nettoyerErreur } from "./lib/format";
 
@@ -149,7 +155,7 @@ export default function App() {
   );
 
   const genererClasseur = useCallback(
-    async (valeursManuelles: ValeursManuelles) => {
+    async (valeursManuelles: ValeursManuelles, relevesVeille: RelevesVeille = {}) => {
       if (!api) {
         setGeneration({ etat: "erreur", message: "Cette fonction n'est disponible que dans l'application Orisflow." });
         return;
@@ -162,7 +168,7 @@ export default function App() {
       setFenetreValeursOuverte(false);
       setGeneration({ etat: "encours" });
       try {
-        const reponse = await api.generer(chemins, valeursManuelles);
+        const reponse = await api.generer(chemins, valeursManuelles, relevesVeille);
         setGeneration({ etat: "succes", resultat: reponse });
       } catch (erreur) {
         setGeneration({ etat: "erreur", message: nettoyerErreur(erreur) });
@@ -172,10 +178,12 @@ export default function App() {
   );
 
   // Clic sur « Générer le classeur » : si des montants doivent être saisis à la main
-  // (UV, UBA, Ecobank, Access Bank…), ouvre la fenêtre unique d'abord — sinon génère
-  // directement.
+  // (UV, UBA, Ecobank, Access Bank…) ou si des relevés manquent (avec ou sans valeur de la
+  // veille à proposer), ouvre la fenêtre unique d'abord — sinon génère directement.
   const demarrerGeneration = useCallback(() => {
-    if ((resultat?.champs_manuels_requis.length ?? 0) > 0) {
+    const nbManuels = resultat?.champs_manuels_requis.length ?? 0;
+    const nbReleves = resultat?.releves_manquants?.length ?? 0;
+    if (nbManuels > 0 || nbReleves > 0) {
       setFenetreValeursOuverte(true);
     } else {
       genererClasseur({});
@@ -289,8 +297,9 @@ export default function App() {
             {fenetreValeursOuverte && resultat && (
               <FenetreValeursManuelles
                 champs={resultat.champs_manuels_requis}
+                relevesManquants={resultat.releves_manquants ?? []}
                 onAnnuler={() => setFenetreValeursOuverte(false)}
-                onConfirmer={(valeurs) => genererClasseur(valeurs)}
+                onConfirmer={(valeurs, relevesVeille) => genererClasseur(valeurs, relevesVeille)}
               />
             )}
           </>

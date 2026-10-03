@@ -14,7 +14,7 @@ const modeAutotest = cibleAutotest !== "";
 // Dossiers de travail et paramètres
 // ---------------------------------------------------------------------------
 
-const SOUS_DOSSIERS = ["Imports", "Resultats", "Sauvegardes", "SuiviCourrier"];
+const SOUS_DOSSIERS = ["Imports", "Resultats", "Sauvegardes", "SuiviCourrier", "Carnet"];
 
 function fichierParametres() {
   return path.join(app.getPath("userData"), "parametres.json");
@@ -76,6 +76,11 @@ function identiteUtilisateur() {
  * le 03/10/2026) : sert à reconnaître l'agence d'une liste de comptes pas encore renommée,
  * à partir du champ « Gestionnaire » lu dans son en-tête — jamais une règle devinée par
  * Orisflow, entièrement fournie par l'utilisateur. Vide par défaut. */
+/** Carnet interne des soldes bancaires (décision du 03/10/2026) : dans le dossier de travail. */
+function dossierCarnet() {
+  return path.join(dossierTravail(), "Carnet");
+}
+
 function gestionnaires() {
   return lireParametres().gestionnaires || {};
 }
@@ -220,6 +225,7 @@ function enregistrerCommunications() {
         dossierReference: dossierReference() || null,
         gestionnaires: gestionnaires(),
         agencesManuelles: agencesManuelles || null,
+        dossierCarnet: dossierCarnet(),
       },
       (message) => {
         evenement.sender.send("moteur:evenement", message);
@@ -227,7 +233,7 @@ function enregistrerCommunications() {
     ),
   );
 
-  ipcMain.handle("moteur:generer", async (evenement, chemins, valeursManuelles) => {
+  ipcMain.handle("moteur:generer", async (evenement, chemins, valeursManuelles, relevesVeille) => {
     const racine = preparerDossiers();
     return lancerMoteur(
       "generer",
@@ -237,6 +243,8 @@ function enregistrerCommunications() {
         dossierSortie: path.join(racine, "Resultats"),
         valeursManuelles: valeursManuelles || null,
         gestionnaires: gestionnaires(),
+        dossierCarnet: dossierCarnet(),
+        relevesVeille: relevesVeille || null,
       },
       (message) => {
         evenement.sender.send("moteur:evenement", message);

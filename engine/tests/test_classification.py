@@ -111,7 +111,7 @@ def test_ecart_anormal_avec_la_veille_suggere_lagence_probable(tmp_path):
     assert resultat["reference"]["disponible"] is True
 
 
-def test_signale_les_doublons_de_numero_de_compte(tmp_path):
+def test_numero_repete_dans_une_liste_nest_pas_un_avertissement(tmp_path):
     chemin = tmp_path / "Akwa_Compte.xlsx"
     classeur = openpyxl.Workbook()
     feuille = classeur.active
@@ -125,8 +125,9 @@ def test_signale_les_doublons_de_numero_de_compte(tmp_path):
     resultat = classer_fichiers([str(chemin)])
     fichier = resultat["fichiers"][0]
     assert fichier["doublons"] == ["37110-000001-00"]
-    assert fichier["niveau"] == "avertissement"
-    assert any("double" in m for m in fichier["messages"])
+    # Décision du 03/10/2026 : les numéros répétés dans une liste ne sont plus un avertissement.
+    assert fichier["niveau"] == "information"
+    assert not any("double" in m for m in fichier["messages"])  # plus de message
 
 
 def test_signale_les_numeros_mal_formes(tmp_path):
@@ -304,7 +305,7 @@ def test_journal_et_progression_par_fichier(tmp_path):
     chemin_1 = tmp_path / "Akwa_Compte.xlsx"
     _extraction_comptes(chemin_1, ["37110"])
     chemin_2 = tmp_path / "Export_Compte_du_jour.xlsx"
-    _extraction_comptes(chemin_2, ["37110"])
+    _extraction_comptes(chemin_2, ["37120"])  # contenu différent : pas un doublon
 
     vus = []
     resultat = classer_fichiers([str(chemin_1), str(chemin_2)], sur_fichier_classe=vus.append)
@@ -313,3 +314,49 @@ def test_journal_et_progression_par_fichier(tmp_path):
     assert resultat["journal_etapes"] == [
         "1 fichier(s) encore sans agence : votre confirmation sera demandée."
     ]
+
+
+def test_fichiers_au_contenu_identique_sont_des_doublons(tmp_path):
+    """Décision du 03/10/2026 : doublon = contenu strictement identique, quel que soit le nom."""
+    original = tmp_path / "Akwa_Compte.xlsx"
+    _extraction_comptes(original, ["37110"])
+    copie = tmp_path / "Export_Compte_copie.xlsx"
+    copie.write_bytes(original.read_bytes())
+
+    resultat = classer_fichiers([str(original), str(copie)])
+
+    premier, second = resultat["fichiers"]
+    assert premier["niveau"] != "bloquant"
+    assert second["niveau"] == "bloquant"
+    assert "identique" in second["messages"][-1]
+    assert resultat["ok"] is False
+
+
+def test_fichiers_differents_ne_sont_pas_des_doublons(tmp_path):
+    a = tmp_path / "Akwa_Compte.xlsx"
+    _extraction_comptes(a, ["37110"])
+    b = tmp_path / "Mokolo_Compte.xlsx"
+    _extraction_comptes(b, ["37120"])
+
+    resultat = classer_fichiers([str(a), str(b)])
+
+    assert all(f["niveau"] != "bloquant" for f in resultat["fichiers"])
+
+
+def test_releves_manquants_proposent_la_valeur_de_la_veille(tmp_path):
+    """Aucun relevé reçu aujourd'hui : chaque relevé attendu est listé, avec la valeur du carnet
+    de la veille quand elle existe (décision du 03/10/2026, option A)."""
+    from datetime import date
+
+    from orisflow_engine import carnet
+    from orisflow_engine.classification import classer_fichiers
+
+    dossier_carnet = str(tmp_path / "carnet")
+    carnet.enregistrer(os.path.join(dossier_carnet, carnet.NOM_FICHIER), date(2026, 10, 2), {"afriland:65": 134_381_673})
+
+    resultat = classer_fichiers([], dossier_carnet=dossier_carnet, jour=date(2026, 10, 3))
+
+    manquants = {r["cle"]: r for r in resultat["releves_manquants"]}
+    assert len(manquants) == 10
+    assert manquants["afriland:65"]["veille"] == 134_381_673
+    assert manquants["cca:12"]["veille"] is None

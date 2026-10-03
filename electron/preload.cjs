@@ -10,7 +10,8 @@ contextBridge.exposeInMainWorld("orisflow", {
   },
   testerMoteur: () => ipcRenderer.invoke("moteur:tester"),
   classer: (chemins, agencesManuelles) => ipcRenderer.invoke("moteur:classer", chemins, agencesManuelles),
-  generer: (chemins, valeursManuelles) => ipcRenderer.invoke("moteur:generer", chemins, valeursManuelles),
+  generer: (chemins, valeursManuelles, relevesVeille) =>
+    ipcRenderer.invoke("moteur:generer", chemins, valeursManuelles, relevesVeille),
   surEvenementMoteur: (rappel) => {
     const ecouteur = (_evenement, message) => rappel(message);
     ipcRenderer.on("moteur:evenement", ecouteur);

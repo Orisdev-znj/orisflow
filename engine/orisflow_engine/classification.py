@@ -11,7 +11,9 @@ Principes (voir CLAUDE.md) :
 
 from __future__ import annotations
 
+import hashlib
 import os
+from datetime import date, timedelta
 from typing import Any, Callable, Optional
 
 import pandas as pd
@@ -28,7 +30,10 @@ from .regles_agences import (
     detecter_agence_depuis_gestionnaire,
     detecter_agence_depuis_texte,
 )
+from . import carnet
 from .regles_banques import (
+    RELEVES_ATTENDUS,
+    cle_releve,
     CHAMP_MANUEL_WESTERN_UNION_SECOURS,
     CHAMPS_MANUELS_TOUJOURS,
     RIB_AFRILAND_VERS_AGENCE,
@@ -158,13 +163,9 @@ def classer_un_fichier(chemin: str) -> dict[str, Any]:
                 resultat["total_comptes"] = total_categorise(analyse["comptages"])
                 resultat["doublons"] = analyse["doublons"]
                 resultat["mal_formes"] = analyse["mal_formes"]
-                if analyse["doublons"]:
-                    resultat["niveau"] = "avertissement" if resultat["niveau"] == "information" else resultat["niveau"]
-                    resultat["messages"].append(
-                        f"{len(analyse['doublons'])} numéro(s) de compte en double dans ce fichier "
-                        f"(compté(s) plusieurs fois) : {', '.join(analyse['doublons'][:5])}"
-                        + (" …" if len(analyse["doublons"]) > 5 else "")
-                    )
+                # Numéros répétés dans une même liste : pas d'avertissement (décision du 03/10/2026).
+                # Un doublon, c'est un fichier dont le contenu est identique à un autre (voir
+                # `detecter_fichiers_identiques`).
                 if analyse["mal_formes"]:
                     resultat["niveau"] = "avertissement" if resultat["niveau"] == "information" else resultat["niveau"]
                     resultat["messages"].append(
@@ -281,6 +282,26 @@ def classer_un_fichier(chemin: str) -> dict[str, Any]:
         resultat["messages"].append("Ce type de fichier n'est pas pris en charge (Excel ou PDF attendu).")
 
     return resultat
+
+
+def detecter_fichiers_identiques(fichiers: list[dict[str, Any]]) -> None:
+    """Un doublon, c'est un fichier dont le contenu est strictement identique à un autre,
+    quel que soit son nom (décision du 03/10/2026). Le premier reste utilisable ; les
+    suivants sont bloquants, pour qu'un même contenu ne soit jamais compté deux fois."""
+    vus: dict[str, dict[str, Any]] = {}
+    for f in fichiers:
+        if f["type_detecte"] is None or not os.path.isfile(f["chemin"]):
+            continue
+        with open(f["chemin"], "rb") as fichier:
+            empreinte = hashlib.sha256(fichier.read()).hexdigest()
+        if empreinte in vus:
+            f["niveau"] = "bloquant"
+            f["messages"].append(
+                f"Contenu identique à « {vus[empreinte]['nom']} » : ce fichier est un doublon. "
+                "Retirez-le de l'import."
+            )
+        else:
+            vus[empreinte] = f
 
 
 def _cle_doublon(f: dict[str, Any]) -> Optional[tuple]:
@@ -457,6 +478,8 @@ def classer_fichiers(
     gestionnaires: Optional[dict[str, str]] = None,
     agences_manuelles: Optional[dict[str, str]] = None,
     sur_fichier_classe: Optional[Callable[[dict[str, Any]], None]] = None,
+    dossier_carnet: Optional[str] = None,
+    jour: Optional[date] = None,
 ) -> dict[str, Any]:
     """`sur_fichier_classe` (optionnel) : appelé juste après chaque fichier individuel
     classé, avant les passes par lot ci-dessous — sert à construire un journal d'étapes
@@ -487,6 +510,7 @@ def classer_fichiers(
     if n:
         journal_etapes.append(f"{n} agence(s) confirmée(s) manuellement.")
 
+    detecter_fichiers_identiques(fichiers)
     detecter_doublons(fichiers)
 
     reference_lue = (
@@ -525,8 +549,38 @@ def classer_fichiers(
         "reference": reference,
         "ok": ok,
         "champs_manuels_requis": _champs_manuels_requis(fichiers),
+        "releves_manquants": _releves_manquants(fichiers, dossier_carnet, jour or date.today() - timedelta(days=1)),
         "journal_etapes": journal_etapes,
     }
+
+
+def releves_presents(fichiers: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    """Relevés bancaires reconnus et exploitables aujourd'hui, par clé (voir RELEVES_ATTENDUS)."""
+    presents: dict[str, dict[str, Any]] = {}
+    for f in fichiers:
+        cle = cle_releve(f.get("type_detecte"), f.get("cle_rib"), f.get("numero_compte_pdf"))
+        if cle is None or f["niveau"] == "bloquant" or f.get("solde_releve") is None:
+            continue
+        presents.setdefault(cle, f)
+    return presents
+
+
+def _releves_manquants(
+    fichiers: list[dict[str, Any]], dossier_carnet: Optional[str], jour: date
+) -> list[dict[str, Any]]:
+    """Relevés attendus mais absents aujourd'hui, avec la valeur de la veille si le carnet la connaît."""
+    presents = releves_presents(fichiers)
+    carnet_lu = carnet.lire(dossier_carnet and os.path.join(dossier_carnet, carnet.NOM_FICHIER)) if dossier_carnet else {}
+    manquants = []
+    for cle, (libelle, _banque, _agence) in RELEVES_ATTENDUS.items():
+        if cle in presents:
+            continue
+        manquants.append({
+            "cle": cle,
+            "libelle": libelle,
+            "veille": carnet.valeur_de_la_veille(carnet_lu, cle, jour),
+        })
+    return manquants
 
 
 def _champs_manuels_requis(fichiers: list[dict[str, Any]]) -> list[str]:

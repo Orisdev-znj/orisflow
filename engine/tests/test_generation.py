@@ -473,3 +473,50 @@ def test_cle_rib_non_reconnue_est_ignoree_pas_bloquante(contexte):
     assert "cca_inconnu.pdf" in resultat["fichiers_ignores"]
     classeur = openpyxl.load_workbook(resultat["chemin_genere"])
     assert classeur["Synthèse"]["C28"].value == 100_000_000  # inchangé
+
+
+# --- Carnet interne et valeurs de la veille (décision du 03/10/2026, option A) ----------
+
+
+def test_releve_absent_repris_de_la_veille_puis_carnet_du_jour_enregistre(contexte, tmp_path):
+    """Le relevé CCA-Bank d'Akwa (clé 12) manque aujourd'hui : l'utilisateur choisit la valeur
+    de la veille, qui est écrite. Le carnet du jour ne retient que les soldes réellement lus."""
+    from orisflow_engine import carnet
+
+    dossier_carnet = str(tmp_path / "carnet")
+    chemin_releve = contexte["extractions"] / "releve_cca_12.pdf"
+    _releve_cca_ou_afriland(chemin_releve, "10038-01773537801", "12", 555_000_000)
+    carnet.enregistrer(os.path.join(dossier_carnet, carnet.NOM_FICHIER), date(2026, 9, 28), {"cca:86": 1234})
+
+    resultat = generer_classeur(
+        [str(chemin_releve)],
+        contexte["reference"],
+        contexte["sortie"],
+        jour=date(2026, 9, 29),
+        dossier_carnet=dossier_carnet,
+        releves_veille={"cca:39": 42_000_000},
+    )
+
+    classeur = openpyxl.load_workbook(resultat["chemin_genere"])
+    feuille = classeur["Synthèse"]
+    # Bons de caisse, relevé lu (clé 12), puis valeur de la veille (clé 39), ordre des clés RIB.
+    assert feuille["C28"].value == "=510000000+151847746+555000000+42000000"
+    assert carnet.lire(os.path.join(dossier_carnet, carnet.NOM_FICHIER))["2026-09-29"] == {"cca:12": 555_000_000}
+
+
+def test_releve_absent_sans_choix_nest_pas_repris_de_la_veille(contexte, tmp_path):
+    from orisflow_engine import carnet
+
+    dossier_carnet = str(tmp_path / "carnet")
+    chemin_releve = contexte["extractions"] / "releve_cca_12.pdf"
+    _releve_cca_ou_afriland(chemin_releve, "10038-01773537801", "12", 555_000_000)
+
+    resultat = generer_classeur(
+        [str(chemin_releve)], contexte["reference"], contexte["sortie"],
+        jour=date(2026, 9, 29), dossier_carnet=dossier_carnet,
+    )
+
+    classeur = openpyxl.load_workbook(resultat["chemin_genere"])
+    # Le relevé de la clé 39 manque et aucune valeur de la veille n'a été choisie : seul le
+    # relevé lu (clé 12) entre dans la cellule, la clé 39 n'est jamais reprise d'office.
+    assert classeur["Synthèse"]["C28"].value == "=510000000+151847746+555000000"

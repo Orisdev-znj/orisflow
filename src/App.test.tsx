@@ -17,7 +17,7 @@ function fausseApi(surcharges: Partial<ApiOrisflow> = {}): ApiOrisflow {
       total: 0,
       fichiers: [],
       reference: { disponible: false, chemin: null, date: null },
-      champs_manuels_requis: [],
+      champs_manuels_requis: [], releves_manquants: [],
     }),
     surEvenementMoteur: () => () => undefined,
     lireParametres: async () => ({
@@ -49,7 +49,7 @@ function fausseApi(surcharges: Partial<ApiOrisflow> = {}): ApiOrisflow {
         total: 0,
         fichiers: [],
         reference: { disponible: false, chemin: null, date: null },
-        champs_manuels_requis: [],
+        champs_manuels_requis: [], releves_manquants: [],
       },
     }),
     choisirDossierTravail: async () => "C:\\Orisflow",
@@ -271,7 +271,7 @@ describe("Module Trésorerie (sans régression)", () => {
             ],
           },
         ],
-        champs_manuels_requis: [],
+        champs_manuels_requis: [], releves_manquants: [],
       }),
     });
     const utilisateur = userEvent.setup();
@@ -322,7 +322,7 @@ describe("Module Trésorerie (sans régression)", () => {
             messages: [],
           },
         ],
-        champs_manuels_requis: [],
+        champs_manuels_requis: [], releves_manquants: [],
       }),
     });
     const utilisateur = userEvent.setup();
@@ -357,7 +357,7 @@ describe("Module Trésorerie (sans régression)", () => {
         total: 0,
         fichiers: [],
         reference: { disponible: false, chemin: null, date: null },
-        champs_manuels_requis: [],
+        champs_manuels_requis: [], releves_manquants: [],
       },
     }));
     window.orisflow = fausseApi({
@@ -395,7 +395,7 @@ describe("Module Trésorerie (sans régression)", () => {
             messages: [],
           },
         ],
-        champs_manuels_requis: ["ecobank", "uv_orange"],
+        champs_manuels_requis: ["ecobank", "uv_orange"], releves_manquants: [],
       }),
       generer: genererEspion,
     });
@@ -414,7 +414,7 @@ describe("Module Trésorerie (sans régression)", () => {
     await utilisateur.click(screen.getByRole("button", { name: "Confirmer et générer" }));
 
     await waitFor(() =>
-      expect(genererEspion).toHaveBeenCalledWith(["C:\\x\\Akwa_Compte.xls"], { ecobank: 21000000 }),
+      expect(genererEspion).toHaveBeenCalledWith(["C:\\x\\Akwa_Compte.xls"], { ecobank: 21000000 }, {}),
     );
   });
 
@@ -438,7 +438,7 @@ describe("Module Trésorerie (sans régression)", () => {
         total: 0,
         fichiers: [],
         reference: { disponible: false, chemin: null, date: null },
-        champs_manuels_requis: [],
+        champs_manuels_requis: [], releves_manquants: [],
       },
     }));
     window.orisflow = fausseApi({
@@ -503,7 +503,7 @@ describe("Module Trésorerie (sans régression)", () => {
             messages: [],
           },
         ],
-        champs_manuels_requis: [],
+        champs_manuels_requis: [], releves_manquants: [],
       }),
       generer: genererEspion,
     });
@@ -517,7 +517,7 @@ describe("Module Trésorerie (sans régression)", () => {
     await utilisateur.click(await screen.findByRole("checkbox", { name: /Mokolo_Compte.xls/ }));
     await utilisateur.click(screen.getByRole("button", { name: "Générer le classeur" }));
 
-    await waitFor(() => expect(genererEspion).toHaveBeenCalledWith(["C:\\x\\Akwa_Compte.xls"], {}));
+    await waitFor(() => expect(genererEspion).toHaveBeenCalledWith(["C:\\x\\Akwa_Compte.xls"], {}, {}));
   });
 
   it("désactive « Générer le classeur » et prévient quand aucun dossier de référence n'est configuré", async () => {
@@ -556,7 +556,7 @@ describe("Module Trésorerie (sans régression)", () => {
             messages: [],
           },
         ],
-        champs_manuels_requis: [],
+        champs_manuels_requis: [], releves_manquants: [],
       }),
     });
     const utilisateur = userEvent.setup();

@@ -68,3 +68,29 @@ LIBELLE_CHAMP_MANUEL: dict[str, str] = {
     "access_bank": "Access Bank",
     "western_union_secours": "Western Union (relevé absent aujourd'hui)",
 }
+
+# Relevés attendus chaque jour, identifiés par une clé stable (voir carnet.py).
+# Valeur : (libellé, banque cible, agence cible). Décision du 03/10/2026.
+RELEVES_ATTENDUS: dict[str, tuple[str, str, str]] = {
+    "cca:12": ("CCA-Bank — Akwa (compte 01773537801)", "cca_bank", "akwa"),
+    "cca:39": ("CCA-Bank — Akwa (compte 01773537807)", "cca_bank", "akwa"),
+    "cca:86": ("CCA-Bank — Mokolo (compte 01773537802)", "cca_bank", "mokolo"),
+    "cca:76": ("CCA-Bank — Bafoussam (compte 01773537803)", "cca_bank", "bafoussam"),
+    "cca:29": ("CCA-Bank — Kousseri (compte 01773537806)", "cca_bank", "kousseri"),
+    "cca:97": ("CCA-Bank — Western Union (compte 01773537805)", "western_union", "akwa"),
+    "afriland:65": ("Afriland — compte Lori (09844871001)", "afriland", "akwa"),
+    "bgfi:70024583011": ("BGFI — compte 70024583011", "bgfi", "akwa"),
+    "bgfi:70024583012": ("BGFI — compte 70024583012", "bgfi", "akwa"),
+    "bgfi:70024583013": ("BGFI — compte 70024583013", "bgfi", "akwa"),
+}
+
+
+def cle_releve(type_detecte: str | None, cle_rib: str | None, numero_compte_pdf: str | None) -> str | None:
+    """Clé stable d'un relevé lu : « cca:12 », « afriland:65 », « bgfi:70024583011 »."""
+    if type_detecte == "releve_cca" and cle_rib:
+        return f"cca:{cle_rib}"
+    if type_detecte == "releve_afriland" and cle_rib:
+        return f"afriland:{cle_rib}"
+    if type_detecte == "releve_bgfi" and numero_compte_pdf:
+        return f"bgfi:{numero_compte_pdf}"
+    return None

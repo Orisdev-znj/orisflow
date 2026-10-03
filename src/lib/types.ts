@@ -63,6 +63,15 @@ export interface Classement {
   champs_manuels_requis: string[];
   // Étapes résumées de l'analyse (comptage, gestionnaire, confirmations) — 03/10/2026.
   journal_etapes?: string[];
+  // Relevés bancaires attendus mais absents aujourd'hui, avec la valeur de la veille si le
+  // carnet la connaît (décision du 03/10/2026, option A). Jamais repris sans accord de l'utilisateur.
+  releves_manquants: ReleveManquant[];
+}
+
+export interface ReleveManquant {
+  cle: string;
+  libelle: string;
+  veille: number | null;
 }
 
 export interface ResultatClassement extends Classement {
@@ -95,6 +104,9 @@ export interface ResultatGeneration {
 
 /** Valeurs saisies dans la fenêtre unique avant de générer (voir lib/champsManuels.ts). */
 export type ValeursManuelles = Record<string, number>;
+
+/** Clé de relevé (ex. « cca:39 ») -> solde de la veille à utiliser, uniquement sur accord explicite. */
+export type RelevesVeille = Record<string, number>;
 
 export interface ResultatPing {
   type: "resultat";
@@ -212,7 +224,11 @@ export interface ApiOrisflow {
   decrireFichiersDeposes(fichiers: FileList | File[]): Promise<FichierImporte[]>;
   testerMoteur(): Promise<ResultatPing>;
   classer(chemins: string[], agencesManuelles?: Record<string, string>): Promise<ResultatClassement>;
-  generer(chemins: string[], valeursManuelles?: ValeursManuelles): Promise<ResultatGeneration>;
+  generer(
+    chemins: string[],
+    valeursManuelles?: ValeursManuelles,
+    relevesVeille?: RelevesVeille,
+  ): Promise<ResultatGeneration>;
   surEvenementMoteur(rappel: (evenement: EvenementMoteur) => void): () => void;
   lireParametres(): Promise<ParametresApplication>;
   choisirDossierTravail(): Promise<string>;
