@@ -28,6 +28,7 @@ const CONFIANCE_LIBELLES: Record<string, string> = {
   regle_banque: "règle bancaire",
   gestionnaire: "gestionnaire",
   comptage: "proximité du total — à vérifier absolument",
+  manuelle: "confirmée manuellement",
 };
 
 function ligneFichier(fichier: FichierClasse, inclus: boolean, onBasculer: (chemin: string) => void) {

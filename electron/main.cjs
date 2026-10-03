@@ -212,10 +212,15 @@ function enregistrerCommunications() {
 
   ipcMain.handle("moteur:tester", async () => lancerMoteur("ping", {}));
 
-  ipcMain.handle("moteur:classer", async (evenement, chemins) =>
+  ipcMain.handle("moteur:classer", async (evenement, chemins, agencesManuelles) =>
     lancerMoteur(
       "classer",
-      { fichiers: chemins, dossierReference: dossierReference() || null, gestionnaires: gestionnaires() },
+      {
+        fichiers: chemins,
+        dossierReference: dossierReference() || null,
+        gestionnaires: gestionnaires(),
+        agencesManuelles: agencesManuelles || null,
+      },
       (message) => {
         evenement.sender.send("moteur:evenement", message);
       },

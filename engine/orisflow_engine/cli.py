@@ -99,13 +99,43 @@ def commande_classer(parametres: Dict[str, Any]) -> None:
     chemins = parametres.get("fichiers", [])
     dossier_reference = parametres.get("dossierReference") or None
     gestionnaires = parametres.get("gestionnaires") or None
+    agences_manuelles = parametres.get("agencesManuelles") or None
     total = len(chemins)
+    compteur = {"valeur": 0}
 
-    for position, chemin in enumerate(chemins, start=1):
-        emettre(type="progression", courant=position, total=total, fichier=os.path.basename(chemin))
+    def rapporter_fichier(fichier: dict[str, Any]) -> None:
+        # Un message par fichier, émis dès qu'il est classé : le journal d'étapes est
+        # visible pendant l'analyse (demande du 03/10/2026), et `pourcentage` alimente la barre.
+        compteur["valeur"] += 1
+        emettre(
+            type="progression",
+            courant=compteur["valeur"],
+            total=total,
+            pourcentage=round(100 * compteur["valeur"] / max(total, 1)),
+            fichier=fichier["nom"],
+            message=_message_etape(fichier),
+        )
 
-    resultat = classer_fichiers(chemins, dossier_reference, gestionnaires=gestionnaires)
+    resultat = classer_fichiers(
+        chemins,
+        dossier_reference,
+        gestionnaires=gestionnaires,
+        agences_manuelles=agences_manuelles,
+        sur_fichier_classe=rapporter_fichier,
+    )
+    for etape in resultat.pop("journal_etapes", []):
+        emettre(type="progression", courant=total, total=total, pourcentage=100, fichier="", message=etape)
     emettre(type="resultat", commande="classer", version=VERSION, **resultat)
+
+
+def _message_etape(fichier: dict[str, Any]) -> str:
+    """Une ligne lisible du journal d'analyse, pour un fichier."""
+    if fichier.get("type_detecte") is None:
+        return f"{fichier['nom']} : introuvable."
+    type_libelle = fichier.get("type_libelle") or "type inconnu"
+    if fichier.get("agence_libelle"):
+        return f"{fichier['nom']} : {type_libelle} — agence {fichier['agence_libelle']}."
+    return f"{fichier['nom']} : {type_libelle} — agence non encore identifiée."
 
 
 def commande_generer(parametres: Dict[str, Any]) -> None:

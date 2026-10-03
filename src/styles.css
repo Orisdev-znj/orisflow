@@ -583,3 +583,16 @@ h2 {
 .en-construction .actions {
   justify-content: center;
 }
+
+.journal-etapes {
+  margin: 0.8rem 0;
+  padding-left: 1.2rem;
+  max-height: 14rem;
+  overflow-y: auto;
+  font-size: 0.9rem;
+  color: var(--texte);
+}
+
+.journal-etapes li {
+  margin: 0.2rem 0;
+}

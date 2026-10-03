@@ -209,7 +209,8 @@ def test_agence_deduite_du_gestionnaire_quand_le_nom_ne_suffit_pas(tmp_path):
     assert fichier["gestionnaire"] == "ECLADORE MBIAPOUO"
     assert fichier["agence_detectee"] == "akwa"
     assert fichier["confiance_agence"] == "gestionnaire"
-    assert fichier["niveau"] == "information"  # pas un avertissement : identifié avec confiance
+    # Déduit (pas certain comme un nom de fichier) : reste un avertissement à vérifier.
+    assert fichier["niveau"] == "avertissement"
 
 
 def test_gestionnaire_lu_mais_absent_de_la_table_reste_un_avertissement(tmp_path):
@@ -221,7 +222,7 @@ def test_gestionnaire_lu_mais_absent_de_la_table_reste_un_avertissement(tmp_path
     fichier = resultat["fichiers"][0]
     assert fichier["agence_detectee"] is None
     assert fichier["niveau"] == "avertissement"
-    assert "UN GESTIONNAIRE INCONNU" in fichier["messages"][-1]
+    assert fichier["gestionnaire"] == "UN GESTIONNAIRE INCONNU"  # lu, mais non répertorié
 
 
 def test_agence_deduite_par_comptage_en_dernier_recours(tmp_path):
@@ -260,3 +261,55 @@ def test_comptage_evite_les_conflits_quand_on_importe_les_12_listes_ensemble(tmp
     agences = {f["nom"]: f["agence_detectee"] for f in resultat["fichiers"]}
     assert agences["ETListeCompte_NoHeader_0006870.xlsx"] == "akwa"
     assert agences["ETListeCompte_NoHeader_0006871.xlsx"] == "mokolo"
+
+
+def test_comptage_passe_avant_le_gestionnaire(tmp_path):
+    """Demande du 03/10/2026 : le comptage est le premier recours automatique, le
+    gestionnaire seulement ensuite. Ici le total colle à Akwa ET le gestionnaire pointe
+    vers Mokolo : c'est le comptage qui doit l'emporter."""
+    dossier_reference = tmp_path / "reference"
+    dossier_reference.mkdir()
+    _classeur_reference(dossier_reference, {"C": 2})  # Akwa = 2 comptes la veille
+
+    chemin = tmp_path / "ETListeCompte_NoHeader_0006870.xlsx"
+    _extraction_comptes_avec_gestionnaire(chemin, ["37110", "37120"], "ECLADORE MBIAPOUO")
+
+    resultat = classer_fichiers(
+        [str(chemin)], dossier_reference=str(dossier_reference),
+        gestionnaires={"ECLADORE MBIAPOUO": "mokolo"},
+    )
+
+    fichier = resultat["fichiers"][0]
+    assert fichier["agence_detectee"] == "akwa"
+    assert fichier["confiance_agence"] == "comptage"
+
+
+def test_confirmation_manuelle_est_prioritaire_sur_tout(tmp_path):
+    chemin = tmp_path / "ETListeCompte_NoHeader_0006870.xlsx"
+    _extraction_comptes_avec_gestionnaire(chemin, ["37110"], "ECLADORE MBIAPOUO")
+
+    resultat = classer_fichiers(
+        [str(chemin)], gestionnaires={"ECLADORE MBIAPOUO": "mokolo"},
+        agences_manuelles={str(chemin): "bepanda"},
+    )
+
+    fichier = resultat["fichiers"][0]
+    assert fichier["agence_detectee"] == "bepanda"
+    assert fichier["confiance_agence"] == "manuelle"
+    assert fichier["niveau"] == "information"
+
+
+def test_journal_et_progression_par_fichier(tmp_path):
+    """Chaque fichier classé déclenche le callback (journal visible pendant l'analyse)."""
+    chemin_1 = tmp_path / "Akwa_Compte.xlsx"
+    _extraction_comptes(chemin_1, ["37110"])
+    chemin_2 = tmp_path / "Export_Compte_du_jour.xlsx"
+    _extraction_comptes(chemin_2, ["37110"])
+
+    vus = []
+    resultat = classer_fichiers([str(chemin_1), str(chemin_2)], sur_fichier_classe=vus.append)
+
+    assert [f["nom"] for f in vus] == ["Akwa_Compte.xlsx", "Export_Compte_du_jour.xlsx"]
+    assert resultat["journal_etapes"] == [
+        "1 fichier(s) encore sans agence : votre confirmation sera demandée."
+    ]

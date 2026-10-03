@@ -108,3 +108,13 @@ def test_deduction_par_comptage_respecte_la_tolerance():
     # 40 % d'écart : bien au-delà de la tolérance par défaut (20 %).
     resultats = deduire_agences_par_comptage([("fichier_a.xls", 1400)], totaux_veille, set())
     assert resultats == {}
+
+
+def test_egalite_parfaite_nest_jamais_affectee_au_hasard():
+    """Deux listes de même total (ex. 3384 et 3384) : le comptage ne peut pas les départager,
+    aucune ne doit être affectée (vu sur les vrais fichiers du 03/10/2026)."""
+    totaux_veille = {"akwa": 3384}
+    resultats = deduire_agences_par_comptage(
+        [("fichier_a.xls", 3384), ("fichier_b.xls", 3384)], totaux_veille, set()
+    )
+    assert resultats == {}

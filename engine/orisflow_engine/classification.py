@@ -12,7 +12,7 @@ Principes (voir CLAUDE.md) :
 from __future__ import annotations
 
 import os
-from typing import Any, Optional
+from typing import Any, Callable, Optional
 
 import pandas as pd
 
@@ -83,7 +83,7 @@ def detecter_type_excel(nom_fichier: str, chemin: str) -> str:
     return "inconnu"
 
 
-def classer_un_fichier(chemin: str, gestionnaires: Optional[dict[str, str]] = None) -> dict[str, Any]:
+def classer_un_fichier(chemin: str) -> dict[str, Any]:
     nom = os.path.basename(chemin)
     extension = os.path.splitext(nom)[1].lower()
     resultat: dict[str, Any] = {
@@ -128,38 +128,27 @@ def classer_un_fichier(chemin: str, gestionnaires: Optional[dict[str, str]] = No
         agence = detecter_agence(nom)
 
         if type_detecte == "compte":
-            # Le nom du fichier ne suffit pas toujours (ex. fichier pas encore renommé,
-            # voir CLAUDE.md 03/10/2026) : on lit alors le champ « Gestionnaire » de
-            # l'en-tête, rattaché à une agence via la table configurée par l'utilisateur
-            # (Paramètres) — jamais devinée ici.
-            gestionnaire = lire_gestionnaire(chemin)
-            resultat["gestionnaire"] = gestionnaire
-            if agence.cle is None:
-                agence_gestionnaire = detecter_agence_depuis_gestionnaire(gestionnaire, gestionnaires or {})
-                if agence_gestionnaire.cle is not None:
-                    agence = agence_gestionnaire
+            # Toujours lu, même si le nom suffit déjà : utile pour la fenêtre Paramètres
+            # (voir le bouton « Configurer les gestionnaires ») et pour le recours
+            # gestionnaire plus bas dans `classer_fichiers` si le nom ne suffit pas.
+            resultat["gestionnaire"] = lire_gestionnaire(chemin)
 
         resultat["agence_detectee"] = agence.cle
         resultat["agence_libelle"] = agence.libelle
         resultat["confiance_agence"] = agence.confiance
         if agence.cle is None:
             resultat["niveau"] = "avertissement"
-            if resultat["gestionnaire"]:
-                resultat["messages"].append(
-                    f"Aucune agence reconnue : ni le nom du fichier, ni le gestionnaire "
-                    f"« {resultat['gestionnaire']} » (absent de la table des gestionnaires — voir Paramètres)."
+            resultat["messages"].append(
+                "Aucune agence n'a pu être reconnue dans le nom de ce fichier. "
+                + (
+                    "Orisflow va essayer de la déduire par comparaison avec la veille, puis par le gestionnaire."
+                    if type_detecte == "compte"
+                    else "Choisissez-la manuellement."
                 )
-            else:
-                resultat["messages"].append(
-                    "Aucune agence n'a pu être reconnue dans le nom de ce fichier. Choisissez-la manuellement."
-                )
+            )
         elif agence.confiance == "code":
             resultat["messages"].append(
                 f"Agence déduite d'un code présent dans le nom ({agence.libelle}) : à vérifier."
-            )
-        elif agence.confiance == "gestionnaire":
-            resultat["messages"].append(
-                f"Agence déduite du gestionnaire « {resultat['gestionnaire']} » ({agence.libelle})."
             )
 
         if type_detecte == "compte":
@@ -337,26 +326,28 @@ def detecter_doublons(fichiers: list[dict[str, Any]]) -> None:
             )
 
 
-def deduire_agences_manquantes_par_comptage(fichiers: list[dict[str, Any]], totaux_veille: dict[str, int]) -> None:
-    """Pour les listes de comptes dont l'agence reste introuvable après le nom du fichier
-    ET le gestionnaire, propose une agence par proximité du total de comptes à la veille
-    (démarré le 03/10/2026 : l'utilisateur important toujours les 12 listes ensemble,
-    comparer le lot entier limite les conflits entre fichiers).
+def deduire_agences_manquantes_par_comptage(fichiers: list[dict[str, Any]], totaux_veille: dict[str, int]) -> int:
+    """Pour les listes de comptes dont l'agence reste introuvable après le nom du fichier,
+    propose une agence par proximité du total de comptes à la veille — **premier recours**
+    automatique après le nom (demande du 03/10/2026, avant le gestionnaire : l'utilisateur
+    important toujours les 12 listes ensemble, comparer le lot entier limite les conflits
+    entre fichiers, et ne demande aucune configuration préalable).
 
     Ne remplace jamais silencieusement : affecte `agence_detectee` avec `confiance_agence
     = "comptage"` (niveau avertissement, message explicite) — à vérifier absolument,
-    jamais une certitude comme un nom de fichier ou un gestionnaire connu.
+    jamais une certitude comme un nom de fichier. Retourne le nombre de fichiers résolus.
     """
     if not totaux_veille:
-        return
+        return 0
     agences_deja_utilisees = {f["agence_detectee"] for f in fichiers if f.get("agence_detectee")}
     candidats = [
         (f["chemin"], f["total_comptes"])
         for f in fichiers
         if f["type_detecte"] == "compte" and f["agence_detectee"] is None and f["total_comptes"] is not None
+        and f["niveau"] != "bloquant"
     ]
     if not candidats:
-        return
+        return 0
 
     affectations = deduire_agences_par_comptage(candidats, totaux_veille, agences_deja_utilisees)
     par_chemin = {f["chemin"]: f for f in fichiers}
@@ -367,9 +358,54 @@ def deduire_agences_manquantes_par_comptage(fichiers: list[dict[str, Any]], tota
         f["confiance_agence"] = "comptage"
         f["niveau"] = "avertissement" if f["niveau"] == "information" else f["niveau"]
         f["messages"].append(
-            f"Agence non reconnue dans le nom ni le gestionnaire : suggérée par proximité du total de comptes "
-            f"avec la veille ({AGENCE_LIBELLES[agence_cle]}, écart de {ecart * 100:.0f} %). À vérifier absolument."
+            f"Agence non reconnue dans le nom : suggérée par proximité du total de comptes avec la veille "
+            f"({AGENCE_LIBELLES[agence_cle]}, écart de {ecart * 100:.0f} %). À vérifier absolument."
         )
+    return len(affectations)
+
+
+def deduire_agences_manquantes_par_gestionnaire(
+    fichiers: list[dict[str, Any]], gestionnaires: dict[str, str]
+) -> int:
+    """Second recours (après le comptage) : rattache l'agence via la table gestionnaire
+    configurée par l'utilisateur (écran Paramètres), pour les fichiers encore sans agence.
+    Jamais devinée : seulement les correspondances explicitement renseignées par
+    l'utilisateur. Retourne le nombre de fichiers résolus."""
+    if not gestionnaires:
+        return 0
+    n = 0
+    for f in fichiers:
+        if f["type_detecte"] != "compte" or f["agence_detectee"] is not None or f["niveau"] == "bloquant":
+            continue
+        agence = detecter_agence_depuis_gestionnaire(f.get("gestionnaire"), gestionnaires)
+        if agence.cle is None:
+            continue
+        f["agence_detectee"] = agence.cle
+        f["agence_libelle"] = agence.libelle
+        f["confiance_agence"] = agence.confiance
+        f["messages"].append(f"Agence déduite du gestionnaire « {f['gestionnaire']} » ({agence.libelle}).")
+        n += 1
+    return n
+
+
+def appliquer_agences_manuelles(fichiers: list[dict[str, Any]], agences_manuelles: dict[str, str]) -> int:
+    """Applique les choix faits par l'utilisateur dans la fenêtre « Agence à confirmer »
+    (démarré le 03/10/2026) : la correspondance la plus sûre, toujours prioritaire sur les
+    mécanismes automatiques. Clé : chemin du fichier. Retourne le nombre appliqué."""
+    if not agences_manuelles:
+        return 0
+    n = 0
+    for f in fichiers:
+        agence_cle = agences_manuelles.get(f["chemin"])
+        if not agence_cle or agence_cle not in AGENCE_LIBELLES:
+            continue
+        f["agence_detectee"] = agence_cle
+        f["agence_libelle"] = AGENCE_LIBELLES[agence_cle]
+        f["confiance_agence"] = "manuelle"
+        f["niveau"] = "information" if f["niveau"] == "avertissement" else f["niveau"]
+        f["messages"].append(f"Agence confirmée manuellement : {AGENCE_LIBELLES[agence_cle]}.")
+        n += 1
+    return n
 
 
 def controler_coherence_comptes(
@@ -419,20 +455,37 @@ def classer_fichiers(
     chemins: list[str],
     dossier_reference: Optional[str] = None,
     gestionnaires: Optional[dict[str, str]] = None,
+    agences_manuelles: Optional[dict[str, str]] = None,
+    sur_fichier_classe: Optional[Callable[[dict[str, Any]], None]] = None,
 ) -> dict[str, Any]:
+    """`sur_fichier_classe` (optionnel) : appelé juste après chaque fichier individuel
+    classé, avant les passes par lot ci-dessous — sert à construire un journal d'étapes
+    visible pendant l'analyse (demande du 03/10/2026, voir cli.py). `agences_manuelles`
+    vient de la fenêtre « Agence à confirmer » : la correspondance la plus sûre, appliquée
+    avant toute déduction automatique."""
     fichiers = []
     for chemin in chemins:
         if not os.path.isfile(chemin):
-            fichiers.append({
+            f = {
                 "nom": os.path.basename(chemin), "chemin": chemin,
                 "extension": os.path.splitext(chemin)[1].lower(),
                 "type_detecte": None, "type_libelle": None,
                 "agence_detectee": None, "agence_libelle": None, "confiance_agence": "sans_objet",
                 "numero_compte_pdf": None, "total_comptes": None,
                 "niveau": "bloquant", "messages": ["Le fichier est introuvable."],
-            })
-            continue
-        fichiers.append(classer_un_fichier(chemin, gestionnaires=gestionnaires))
+            }
+        else:
+            f = classer_un_fichier(chemin)
+        fichiers.append(f)
+        if sur_fichier_classe:
+            sur_fichier_classe(f)
+
+    journal_etapes: list[str] = []
+
+    # 1. Confirmations manuelles de l'utilisateur : toujours prioritaires.
+    n = appliquer_agences_manuelles(fichiers, agences_manuelles or {})
+    if n:
+        journal_etapes.append(f"{n} agence(s) confirmée(s) manuellement.")
 
     detecter_doublons(fichiers)
 
@@ -443,12 +496,25 @@ def classer_fichiers(
     )
     totaux_veille = reference_lue["totaux"]
 
-    # Dernier recours, sur tout le lot (voir deduire_agences_manquantes_par_comptage) :
-    # avant la comparaison d'écart habituelle, pour qu'une agence déduite par comptage
-    # bénéficie aussi du contrôle de cohérence ci-dessous.
-    deduire_agences_manquantes_par_comptage(fichiers, totaux_veille)
+    # 2. Comptage : premier recours automatique (demande du 03/10/2026), avant le
+    # gestionnaire — ne demande aucune configuration, utilise ce qu'Orisflow a déjà.
+    n = deduire_agences_manquantes_par_comptage(fichiers, totaux_veille)
+    if n:
+        journal_etapes.append(f"{n} agence(s) déduite(s) par proximité du total de comptes avec la veille.")
+
+    # 3. Gestionnaire : second recours, seulement si le comptage n'a pas suffi.
+    n = deduire_agences_manquantes_par_gestionnaire(fichiers, gestionnaires or {})
+    if n:
+        journal_etapes.append(f"{n} agence(s) déduite(s) de la table des gestionnaires.")
 
     reference = controler_coherence_comptes(fichiers, totaux_veille, reference_lue)
+
+    n_restants = sum(
+        1 for f in fichiers
+        if f["type_detecte"] == "compte" and f["agence_detectee"] is None and f["niveau"] != "bloquant"
+    )
+    if n_restants:
+        journal_etapes.append(f"{n_restants} fichier(s) encore sans agence : votre confirmation sera demandée.")
 
     niveaux = {f["niveau"] for f in fichiers}
     ok = "bloquant" not in niveaux
@@ -459,6 +525,7 @@ def classer_fichiers(
         "reference": reference,
         "ok": ok,
         "champs_manuels_requis": _champs_manuels_requis(fichiers),
+        "journal_etapes": journal_etapes,
     }
 
 

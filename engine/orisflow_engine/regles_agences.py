@@ -196,6 +196,21 @@ def deduire_agences_par_comptage(
             ecart = abs(total_observe - total_veille) / total_veille
             if ecart <= tolerance:
                 candidats.append((ecart, identifiant, total_observe, agence_cle))
+
+    # Égalité : si deux fichiers ont exactement le même écart pour une même agence (ex. deux
+    # listes de 3384 comptes), le comptage ne peut pas les départager. On n'affecte alors
+    # aucun des deux — ils iront à la question posée à l'utilisateur. Vu le 03/10/2026.
+    meilleur_par_agence: dict[str, float] = {}
+    for ecart, _identifiant, _total, agence_cle in candidats:
+        if agence_cle not in meilleur_par_agence or ecart < meilleur_par_agence[agence_cle]:
+            meilleur_par_agence[agence_cle] = ecart
+    nb_fichiers_au_meilleur: dict[str, set[str]] = {}
+    for ecart, identifiant, _total, agence_cle in candidats:
+        if abs(ecart - meilleur_par_agence[agence_cle]) < 1e-9:
+            nb_fichiers_au_meilleur.setdefault(agence_cle, set()).add(identifiant)
+    agences_ambigues = {a for a, fichiers in nb_fichiers_au_meilleur.items() if len(fichiers) > 1}
+    candidats = [c for c in candidats if c[3] not in agences_ambigues]
+
     candidats.sort(key=lambda c: c[0])
 
     resultats: dict[str, tuple[str, float]] = {}

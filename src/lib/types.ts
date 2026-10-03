@@ -15,7 +15,9 @@ export type ConfianceAgence =
   // Déduite du champ « Gestionnaire » (table configurée par l'utilisateur) ou, en
   // dernier recours, par proximité du total de comptes avec la veille — 03/10/2026.
   | "gestionnaire"
-  | "comptage";
+  | "comptage"
+  // Choisie par l'utilisateur dans la fenêtre « Agence à confirmer » (03/10/2026).
+  | "manuelle";
 
 export interface FichierClasse {
   nom: string;
@@ -59,6 +61,8 @@ export interface Classement {
   // UBA, Ecobank, Access Bank, et Western Union seulement en secours) — voir
   // lib/champsManuels.ts pour les libellés. Ajouté le 02/10/2026.
   champs_manuels_requis: string[];
+  // Étapes résumées de l'analyse (comptage, gestionnaire, confirmations) — 03/10/2026.
+  journal_etapes?: string[];
 }
 
 export interface ResultatClassement extends Classement {
@@ -105,6 +109,9 @@ export interface EvenementMoteur {
   type: "progression";
   courant: number;
   total: number;
+  // Ajoutés le 03/10/2026 : barre de progression en % et journal d'étapes lisible.
+  pourcentage?: number;
+  message?: string;
   fichier: string;
 }
 
@@ -204,7 +211,7 @@ export interface ApiOrisflow {
   choisirFichiers(): Promise<FichierImporte[]>;
   decrireFichiersDeposes(fichiers: FileList | File[]): Promise<FichierImporte[]>;
   testerMoteur(): Promise<ResultatPing>;
-  classer(chemins: string[]): Promise<ResultatClassement>;
+  classer(chemins: string[], agencesManuelles?: Record<string, string>): Promise<ResultatClassement>;
   generer(chemins: string[], valeursManuelles?: ValeursManuelles): Promise<ResultatGeneration>;
   surEvenementMoteur(rappel: (evenement: EvenementMoteur) => void): () => void;
   lireParametres(): Promise<ParametresApplication>;

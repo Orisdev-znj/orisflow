@@ -6,6 +6,7 @@ import EcranResultats from "./ecrans/EcranResultats";
 import EcranTraitement from "./ecrans/EcranTraitement";
 import type { EtatTraitement } from "./ecrans/EcranTraitement";
 import FenetreValeursManuelles from "./ecrans/FenetreValeursManuelles";
+import FenetreAgencesAConfirmer from "./ecrans/FenetreAgencesAConfirmer";
 import Home from "./ecrans/Home";
 import ModuleBordereau from "./ecrans/ModuleBordereau";
 import WorkInProgress from "./ecrans/WorkInProgress";
@@ -50,6 +51,9 @@ export default function App() {
   // le classeur (demande du 02/10/2026) : ouverte quand l'analyse a signalé des champs
   // à compléter.
   const [fenetreValeursOuverte, setFenetreValeursOuverte] = useState(false);
+  // Fenêtre « Agence à confirmer » (03/10/2026) : ouverte après l'analyse si une liste de
+  // comptes n'a pu être rattachée à une agence automatiquement.
+  const [fenetreAgencesOuverte, setFenetreAgencesOuverte] = useState(false);
 
   const api = window.orisflow;
 
@@ -83,11 +87,19 @@ export default function App() {
   useEffect(() => {
     if (!api) return;
     return api.surEvenementMoteur((evenement) => {
-      setTraitement((precedent) =>
-        precedent.etat === "encours"
-          ? { ...precedent, courant: evenement.courant, total: evenement.total, fichier: evenement.fichier }
-          : precedent,
-      );
+      setTraitement((precedent) => {
+        if (precedent.etat !== "encours") return precedent;
+        // Journal : une ligne par fichier classé, plus les étapes résumées (comptage, gestionnaire…).
+        const journal = evenement.message ? [...precedent.journal, evenement.message] : precedent.journal;
+        return {
+          ...precedent,
+          courant: evenement.courant,
+          total: evenement.total,
+          pourcentage: evenement.pourcentage ?? precedent.pourcentage,
+          fichier: evenement.fichier || precedent.fichier,
+          journal,
+        };
+      });
     });
   }, [api]);
 
@@ -103,17 +115,38 @@ export default function App() {
     setResultat(null);
     setGeneration({ etat: "attente" });
     setFichiersExclus(new Set());
-    setTraitement({ etat: "encours", courant: 0, total: fichiers.length });
+    setTraitement({ etat: "encours", courant: 0, total: fichiers.length, pourcentage: 0, journal: [] });
     setEcran("traitement");
     try {
       const reponse = await api.classer(fichiers.map((f) => f.chemin));
       setResultat(reponse);
       setTraitement({ etat: "termine" });
       setEcran("resultats");
+      // Demande du 03/10/2026 : si une liste de comptes reste sans agence après les
+      // mécanismes automatiques, l'utilisateur la choisit dans une fenêtre dédiée.
+      setFenetreAgencesOuverte(reponse.fichiers.some((f) => f.type_detecte === "compte" && f.agence_detectee === null && f.niveau !== "bloquant"));
     } catch (erreur) {
       setTraitement({ etat: "erreur", message: nettoyerErreur(erreur) });
     }
   }, [api, fichiers]);
+
+  const confirmerAgences = useCallback(
+    async (choix: Record<string, string>) => {
+      if (!api) return;
+      setFenetreAgencesOuverte(false);
+      setTraitement({ etat: "encours", courant: 0, total: fichiers.length, pourcentage: 0, journal: [] });
+      setEcran("traitement");
+      try {
+        const reponse = await api.classer(fichiers.map((f) => f.chemin), choix);
+        setResultat(reponse);
+        setTraitement({ etat: "termine" });
+        setEcran("resultats");
+      } catch (erreur) {
+        setTraitement({ etat: "erreur", message: nettoyerErreur(erreur) });
+      }
+    },
+    [api, fichiers],
+  );
 
   const genererClasseur = useCallback(
     async (valeursManuelles: ValeursManuelles) => {
@@ -244,6 +277,15 @@ export default function App() {
               />
             )}
             {ecran === "parametres" && <EcranParametres />}
+            {fenetreAgencesOuverte && resultat && (
+              <FenetreAgencesAConfirmer
+                fichiers={resultat.fichiers.filter(
+                  (f) => f.type_detecte === "compte" && f.agence_detectee === null && f.niveau !== "bloquant",
+                )}
+                onAnnuler={() => setFenetreAgencesOuverte(false)}
+                onConfirmer={confirmerAgences}
+              />
+            )}
             {fenetreValeursOuverte && resultat && (
               <FenetreValeursManuelles
                 champs={resultat.champs_manuels_requis}

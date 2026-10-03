@@ -1,6 +1,6 @@
 export type EtatTraitement =
   | { etat: "attente" }
-  | { etat: "encours"; courant: number; total: number; fichier?: string }
+  | { etat: "encours"; courant: number; total: number; pourcentage: number; fichier?: string; journal: string[] }
   | { etat: "termine" }
   | { etat: "erreur"; message: string };
 
@@ -22,15 +22,23 @@ export default function EcranTraitement({ traitement, onRetourImport, onRelancer
       {traitement.etat === "encours" && (
         <div role="status" aria-live="polite">
           <p>
-            Analyse en cours… {traitement.courant} fichier(s) sur {traitement.total}
+            Analyse en cours… <strong>{traitement.pourcentage} %</strong> ({traitement.courant} sur{" "}
+            {traitement.total} fichier(s))
           </p>
           <progress
             className="progression"
-            value={traitement.courant}
-            max={Math.max(traitement.total, 1)}
+            value={traitement.pourcentage}
+            max={100}
             aria-label="Avancement de l'analyse"
           />
           {traitement.fichier && <p className="aide">Fichier en cours : {traitement.fichier}</p>}
+          {traitement.journal.length > 0 && (
+            <ol className="journal-etapes" aria-label="Journal de l'analyse">
+              {traitement.journal.map((ligne, index) => (
+                <li key={index}>{ligne}</li>
+              ))}
+            </ol>
+          )}
         </div>
       )}
 
