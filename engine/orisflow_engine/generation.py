@@ -239,6 +239,7 @@ def generer_classeur(
     dossier_sortie: str,
     jour: Optional[date] = None,
     valeurs_manuelles: Optional[dict[str, Any]] = None,
+    gestionnaires: Optional[dict[str, str]] = None,
 ) -> dict[str, Any]:
     # La trésorerie traitée un matin donné concerne la journée précédente (confirmé par
     # l'utilisateur le 01/10/2026) : par défaut, le classeur porte donc la date d'hier,
@@ -246,7 +247,7 @@ def generer_classeur(
     # et pour un éventuel réglage manuel depuis l'interface.
     jour = jour or (date.today() - timedelta(days=1))
 
-    classement = classer_fichiers(fichiers, dossier_reference)
+    classement = classer_fichiers(fichiers, dossier_reference, gestionnaires=gestionnaires)
     # `avant=jour` : exclut tout classeur du dossier de référence daté du jour généré ou
     # plus tard, pour ne jamais prendre un classeur comme son propre modèle (bug corrigé
     # le 01/10/2026, voir reference_treso.py et CLAUDE.md).

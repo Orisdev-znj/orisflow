@@ -5,7 +5,17 @@ export interface FichierImporte {
 }
 
 export type NiveauFichier = "information" | "avertissement" | "bloquant";
-export type ConfianceAgence = "nom" | "code" | "aucune" | "sans_objet";
+export type ConfianceAgence =
+  | "nom"
+  | "code"
+  | "aucune"
+  | "sans_objet"
+  | "contenu_document"
+  | "regle_banque"
+  // Déduite du champ « Gestionnaire » (table configurée par l'utilisateur) ou, en
+  // dernier recours, par proximité du total de comptes avec la veille — 03/10/2026.
+  | "gestionnaire"
+  | "comptage";
 
 export interface FichierClasse {
   nom: string;
@@ -28,6 +38,8 @@ export interface FichierClasse {
   code_client: string | null;
   solde_releve: number | null;
   ligne_banque_cible: "cca_bank" | "afriland" | "bgfi" | "western_union" | null;
+  // Nom lu dans le champ « Gestionnaire » d'une liste de comptes (03/10/2026).
+  gestionnaire: string | null;
   niveau: NiveauFichier;
   messages: string[];
 }
@@ -104,6 +116,9 @@ export interface ParametresApplication {
   // alors un repli local, sous le dossier de travail, pour rester testable dès maintenant).
   dossierBordereauParDefaut: boolean;
   identite: string;
+  // Table gestionnaire → agence (clé agence, ex. "akwa"), configurée par l'utilisateur
+  // (Paramètres → Gestionnaires, 03/10/2026). Vide par défaut, jamais devinée.
+  gestionnaires: Record<string, string>;
   version: string;
   empaquete: boolean;
 }
@@ -198,6 +213,7 @@ export interface ApiOrisflow {
   ouvrirDossierTravail(): Promise<string>;
   choisirDossierBordereau(): Promise<string>;
   definirIdentite(nom: string): Promise<string>;
+  enregistrerGestionnaires(mapping: Record<string, string>): Promise<Record<string, string>>;
   bordereauChoisirPieceJointe(): Promise<FichierImporte | null>;
   bordereauCreer(donnees: NouvelleTransmission): Promise<ResultatTransmissionCreee>;
   bordereauEvenement(donnees: NouvelEvenementTransmission): Promise<ResultatEvenementCree>;

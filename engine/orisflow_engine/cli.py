@@ -89,18 +89,22 @@ def commande_analyser(parametres: Dict[str, Any]) -> None:
 def commande_classer(parametres: Dict[str, Any]) -> None:
     """Sprint 2 : reconnaît le type et l'agence de chaque fichier, sans jamais les modifier.
 
-    Paramètres attendus : {"fichiers": [chemins...], "dossierReference": chemin|null}.
-    `dossierReference` est le dossier des classeurs de trésorerie existants, utilisé
-    uniquement pour comparer le nombre de comptes à celui de la veille (lecture seule).
+    Paramètres attendus : {"fichiers": [chemins...], "dossierReference": chemin|null,
+    "gestionnaires": {nom: agence}|null}. `dossierReference` est le dossier des classeurs
+    de trésorerie existants, utilisé pour comparer le nombre de comptes à celui de la
+    veille (lecture seule) et, depuis le 03/10/2026, pour suggérer l'agence d'une liste de
+    comptes par proximité de ce total quand ni le nom ni le gestionnaire ne suffisent.
+    `gestionnaires` est la table configurée par l'utilisateur (Paramètres), jamais devinée.
     """
     chemins = parametres.get("fichiers", [])
     dossier_reference = parametres.get("dossierReference") or None
+    gestionnaires = parametres.get("gestionnaires") or None
     total = len(chemins)
 
     for position, chemin in enumerate(chemins, start=1):
         emettre(type="progression", courant=position, total=total, fichier=os.path.basename(chemin))
 
-    resultat = classer_fichiers(chemins, dossier_reference)
+    resultat = classer_fichiers(chemins, dossier_reference, gestionnaires=gestionnaires)
     emettre(type="resultat", commande="classer", version=VERSION, **resultat)
 
 
@@ -122,6 +126,7 @@ def commande_generer(parametres: Dict[str, Any]) -> None:
     jour_parametre = parametres.get("date")
     jour = _date.fromisoformat(jour_parametre) if jour_parametre else None
     valeurs_manuelles = parametres.get("valeursManuelles") or None
+    gestionnaires = parametres.get("gestionnaires") or None
 
     if not dossier_reference:
         emettre(type="erreur", message="Aucun dossier de référence n'est configuré (voir Paramètres).")
@@ -134,7 +139,12 @@ def commande_generer(parametres: Dict[str, Any]) -> None:
         emettre(type="progression", courant=position, total=len(chemins), fichier=os.path.basename(chemin))
 
     resultat = generer_classeur(
-        chemins, dossier_reference, dossier_sortie, jour=jour, valeurs_manuelles=valeurs_manuelles
+        chemins,
+        dossier_reference,
+        dossier_sortie,
+        jour=jour,
+        valeurs_manuelles=valeurs_manuelles,
+        gestionnaires=gestionnaires,
     )
     if not resultat["ok"]:
         emettre(type="erreur", message=resultat["erreur"])

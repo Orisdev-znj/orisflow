@@ -24,6 +24,10 @@ const CONFIANCE_LIBELLES: Record<string, string> = {
   code: "code agence — à vérifier",
   aucune: "non reconnue",
   sans_objet: "sans objet",
+  contenu_document: "contenu du document",
+  regle_banque: "règle bancaire",
+  gestionnaire: "gestionnaire",
+  comptage: "proximité du total — à vérifier absolument",
 };
 
 function ligneFichier(fichier: FichierClasse, inclus: boolean, onBasculer: (chemin: string) => void) {

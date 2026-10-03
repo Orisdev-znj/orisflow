@@ -17,13 +17,15 @@ from typing import Any, Optional
 import pandas as pd
 
 from .balance_pdf import detecter_type_balance, lire_agence, lire_balance_classe3, lire_balance_classe5
-from .comptes import analyser_comptes, total_categorise
+from .comptes import analyser_comptes, lire_gestionnaire, total_categorise
 from .pdf_releves import detecter_releve
 from .reference_treso import lire_totaux_comptes_precedents
 from .regles_agences import (
     AGENCE_LIBELLES,
     agences_dont_le_total_serait_proche,
+    deduire_agences_par_comptage,
     detecter_agence,
+    detecter_agence_depuis_gestionnaire,
     detecter_agence_depuis_texte,
 )
 from .regles_banques import (
@@ -81,7 +83,7 @@ def detecter_type_excel(nom_fichier: str, chemin: str) -> str:
     return "inconnu"
 
 
-def classer_un_fichier(chemin: str) -> dict[str, Any]:
+def classer_un_fichier(chemin: str, gestionnaires: Optional[dict[str, str]] = None) -> dict[str, Any]:
     nom = os.path.basename(chemin)
     extension = os.path.splitext(nom)[1].lower()
     resultat: dict[str, Any] = {
@@ -107,6 +109,9 @@ def classer_un_fichier(chemin: str) -> dict[str, Any]:
         # Où ce relevé bancaire doit alimenter la génération : "cca_bank" | "afriland" |
         # "bgfi" | "western_union" | None (compte non reconnu, voir regles_banques.py).
         "ligne_banque_cible": None,
+        # Nom lu dans le champ « Gestionnaire : » de l'en-tête (uniquement pour les listes
+        # de comptes) — voir comptes.lire_gestionnaire, démarré le 03/10/2026.
+        "gestionnaire": None,
         "messages": [],
         "niveau": "information",
     }
@@ -121,17 +126,40 @@ def classer_un_fichier(chemin: str) -> dict[str, Any]:
                 "Le type de ce fichier n'a pas pu être reconnu à partir de son nom ou de son contenu."
             )
         agence = detecter_agence(nom)
+
+        if type_detecte == "compte":
+            # Le nom du fichier ne suffit pas toujours (ex. fichier pas encore renommé,
+            # voir CLAUDE.md 03/10/2026) : on lit alors le champ « Gestionnaire » de
+            # l'en-tête, rattaché à une agence via la table configurée par l'utilisateur
+            # (Paramètres) — jamais devinée ici.
+            gestionnaire = lire_gestionnaire(chemin)
+            resultat["gestionnaire"] = gestionnaire
+            if agence.cle is None:
+                agence_gestionnaire = detecter_agence_depuis_gestionnaire(gestionnaire, gestionnaires or {})
+                if agence_gestionnaire.cle is not None:
+                    agence = agence_gestionnaire
+
         resultat["agence_detectee"] = agence.cle
         resultat["agence_libelle"] = agence.libelle
         resultat["confiance_agence"] = agence.confiance
         if agence.cle is None:
             resultat["niveau"] = "avertissement"
-            resultat["messages"].append(
-                "Aucune agence n'a pu être reconnue dans le nom de ce fichier. Choisissez-la manuellement."
-            )
+            if resultat["gestionnaire"]:
+                resultat["messages"].append(
+                    f"Aucune agence reconnue : ni le nom du fichier, ni le gestionnaire "
+                    f"« {resultat['gestionnaire']} » (absent de la table des gestionnaires — voir Paramètres)."
+                )
+            else:
+                resultat["messages"].append(
+                    "Aucune agence n'a pu être reconnue dans le nom de ce fichier. Choisissez-la manuellement."
+                )
         elif agence.confiance == "code":
             resultat["messages"].append(
                 f"Agence déduite d'un code présent dans le nom ({agence.libelle}) : à vérifier."
+            )
+        elif agence.confiance == "gestionnaire":
+            resultat["messages"].append(
+                f"Agence déduite du gestionnaire « {resultat['gestionnaire']} » ({agence.libelle})."
             )
 
         if type_detecte == "compte":
@@ -309,18 +337,50 @@ def detecter_doublons(fichiers: list[dict[str, Any]]) -> None:
             )
 
 
-def controler_coherence_comptes(fichiers: list[dict[str, Any]], dossier_reference: Optional[str]) -> dict[str, Any]:
+def deduire_agences_manquantes_par_comptage(fichiers: list[dict[str, Any]], totaux_veille: dict[str, int]) -> None:
+    """Pour les listes de comptes dont l'agence reste introuvable après le nom du fichier
+    ET le gestionnaire, propose une agence par proximité du total de comptes à la veille
+    (démarré le 03/10/2026 : l'utilisateur important toujours les 12 listes ensemble,
+    comparer le lot entier limite les conflits entre fichiers).
+
+    Ne remplace jamais silencieusement : affecte `agence_detectee` avec `confiance_agence
+    = "comptage"` (niveau avertissement, message explicite) — à vérifier absolument,
+    jamais une certitude comme un nom de fichier ou un gestionnaire connu.
+    """
+    if not totaux_veille:
+        return
+    agences_deja_utilisees = {f["agence_detectee"] for f in fichiers if f.get("agence_detectee")}
+    candidats = [
+        (f["chemin"], f["total_comptes"])
+        for f in fichiers
+        if f["type_detecte"] == "compte" and f["agence_detectee"] is None and f["total_comptes"] is not None
+    ]
+    if not candidats:
+        return
+
+    affectations = deduire_agences_par_comptage(candidats, totaux_veille, agences_deja_utilisees)
+    par_chemin = {f["chemin"]: f for f in fichiers}
+    for chemin, (agence_cle, ecart) in affectations.items():
+        f = par_chemin[chemin]
+        f["agence_detectee"] = agence_cle
+        f["agence_libelle"] = AGENCE_LIBELLES[agence_cle]
+        f["confiance_agence"] = "comptage"
+        f["niveau"] = "avertissement" if f["niveau"] == "information" else f["niveau"]
+        f["messages"].append(
+            f"Agence non reconnue dans le nom ni le gestionnaire : suggérée par proximité du total de comptes "
+            f"avec la veille ({AGENCE_LIBELLES[agence_cle]}, écart de {ecart * 100:.0f} %). À vérifier absolument."
+        )
+
+
+def controler_coherence_comptes(
+    fichiers: list[dict[str, Any]], totaux_veille: dict[str, int], reference_lue: dict[str, Any]
+) -> dict[str, Any]:
     """Compare le total de comptes de chaque fichier à celui de la veille (même agence).
 
     Ne bloque jamais : une référence absente ou illisible est simplement signalée,
-    sans empêcher la suite.
+    sans empêcher la suite. `totaux_veille`/`reference_lue` viennent d'un seul appel à
+    `lire_totaux_comptes_precedents`, partagé avec `deduire_agences_manquantes_par_comptage`.
     """
-    if not dossier_reference:
-        return {"disponible": False, "chemin": None, "date": None}
-
-    reference = lire_totaux_comptes_precedents(dossier_reference)
-    totaux_veille = reference["totaux"]
-
     for f in fichiers:
         if f["type_detecte"] != "compte" or f["total_comptes"] is None or f["agence_detectee"] is None:
             continue
@@ -352,10 +412,14 @@ def controler_coherence_comptes(fichiers: list[dict[str, Any]], dossier_referenc
                 "(cas déjà survenu le 10/09/2026 entre Bafoussam et Balessing)."
             )
 
-    return {"disponible": bool(totaux_veille), "chemin": reference["chemin"], "date": reference["date"]}
+    return {"disponible": bool(totaux_veille), "chemin": reference_lue["chemin"], "date": reference_lue["date"]}
 
 
-def classer_fichiers(chemins: list[str], dossier_reference: Optional[str] = None) -> dict[str, Any]:
+def classer_fichiers(
+    chemins: list[str],
+    dossier_reference: Optional[str] = None,
+    gestionnaires: Optional[dict[str, str]] = None,
+) -> dict[str, Any]:
     fichiers = []
     for chemin in chemins:
         if not os.path.isfile(chemin):
@@ -368,10 +432,23 @@ def classer_fichiers(chemins: list[str], dossier_reference: Optional[str] = None
                 "niveau": "bloquant", "messages": ["Le fichier est introuvable."],
             })
             continue
-        fichiers.append(classer_un_fichier(chemin))
+        fichiers.append(classer_un_fichier(chemin, gestionnaires=gestionnaires))
 
     detecter_doublons(fichiers)
-    reference = controler_coherence_comptes(fichiers, dossier_reference)
+
+    reference_lue = (
+        lire_totaux_comptes_precedents(dossier_reference)
+        if dossier_reference
+        else {"chemin": None, "date": None, "totaux": {}}
+    )
+    totaux_veille = reference_lue["totaux"]
+
+    # Dernier recours, sur tout le lot (voir deduire_agences_manquantes_par_comptage) :
+    # avant la comparaison d'écart habituelle, pour qu'une agence déduite par comptage
+    # bénéficie aussi du contrôle de cohérence ci-dessous.
+    deduire_agences_manquantes_par_comptage(fichiers, totaux_veille)
+
+    reference = controler_coherence_comptes(fichiers, totaux_veille, reference_lue)
 
     niveaux = {f["niveau"] for f in fichiers}
     ok = "bloquant" not in niveaux

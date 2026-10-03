@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import FenetreGestionnaires from "./FenetreGestionnaires";
 import type { ParametresApplication } from "../lib/types";
 import { nettoyerErreur } from "../lib/format";
 
@@ -14,6 +15,8 @@ export default function EcranParametres() {
   const [moteur, setMoteur] = useState<EtatMoteur>({ etat: "inconnu" });
   const [nomSaisi, setNomSaisi] = useState("");
   const [identiteEnregistree, setIdentiteEnregistree] = useState(false);
+  const [fenetreGestionnairesOuverte, setFenetreGestionnairesOuverte] = useState(false);
+  const [gestionnairesEnregistres, setGestionnairesEnregistres] = useState(false);
 
   useEffect(() => {
     api
@@ -49,6 +52,15 @@ export default function EcranParametres() {
     setParametres((precedent) => (precedent ? { ...precedent, identite: nom } : precedent));
     setIdentiteEnregistree(true);
     setTimeout(() => setIdentiteEnregistree(false), 2500);
+  };
+
+  const enregistrerGestionnaires = async (mapping: Record<string, string>) => {
+    if (!api) return;
+    const enregistres = await api.enregistrerGestionnaires(mapping);
+    setParametres((precedent) => (precedent ? { ...precedent, gestionnaires: enregistres } : precedent));
+    setFenetreGestionnairesOuverte(false);
+    setGestionnairesEnregistres(true);
+    setTimeout(() => setGestionnairesEnregistres(false), 2500);
   };
 
   const tester = async () => {
@@ -92,6 +104,24 @@ export default function EcranParametres() {
           Enregistrer
         </button>
         {identiteEnregistree && <span className="aide-inline">Enregistré.</span>}
+      </div>
+
+      <h2>Gestionnaires</h2>
+      <p className="aide">
+        Quand le nom d'une liste de comptes ne permet pas de reconnaître l'agence (fichier pas encore renommé),
+        Orisflow regarde le gestionnaire indiqué dans le fichier et le rattache à une agence grâce à cette table —
+        à vous de la renseigner, Orisflow ne devine jamais cette correspondance.
+      </p>
+      <p className="aide">
+        {Object.keys(parametres?.gestionnaires ?? {}).length > 0
+          ? `${Object.keys(parametres?.gestionnaires ?? {}).length} gestionnaire(s) configuré(s).`
+          : "Aucun gestionnaire configuré pour l'instant."}
+      </p>
+      <div className="actions actions--ligne">
+        <button type="button" className="bouton" onClick={() => setFenetreGestionnairesOuverte(true)} disabled={!api}>
+          Configurer les gestionnaires…
+        </button>
+        {gestionnairesEnregistres && <span className="aide-inline">Enregistré.</span>}
       </div>
 
       <h2>Dossier de travail</h2>
@@ -161,6 +191,14 @@ export default function EcranParametres() {
 
       <h2>À propos</h2>
       <p className="aide">Orisflow version {parametres?.version ?? "0.1.0"} · ORIS FINANCE</p>
+
+      {fenetreGestionnairesOuverte && (
+        <FenetreGestionnaires
+          gestionnairesInitiaux={parametres?.gestionnaires ?? {}}
+          onAnnuler={() => setFenetreGestionnairesOuverte(false)}
+          onEnregistrer={enregistrerGestionnaires}
+        />
+      )}
     </section>
   );
 }

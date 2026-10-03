@@ -22,6 +22,7 @@ contextBridge.exposeInMainWorld("orisflow", {
   ouvrirDossierTravail: () => ipcRenderer.invoke("parametres:ouvrirDossier"),
   choisirDossierBordereau: () => ipcRenderer.invoke("parametres:choisirDossierBordereau"),
   definirIdentite: (nom) => ipcRenderer.invoke("identite:definir", nom),
+  enregistrerGestionnaires: (mapping) => ipcRenderer.invoke("parametres:enregistrerGestionnaires", mapping),
   bordereauChoisirPieceJointe: () => ipcRenderer.invoke("bordereau:choisirPieceJointe"),
   bordereauCreer: (donnees) => ipcRenderer.invoke("bordereau:creer", donnees),
   bordereauEvenement: (donnees) => ipcRenderer.invoke("bordereau:evenement", donnees),

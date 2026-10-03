@@ -72,6 +72,14 @@ function identiteUtilisateur() {
   return lireParametres().identite || "";
 }
 
+/** Table gestionnaire → agence, configurée par l'utilisateur (écran Paramètres, démarré
+ * le 03/10/2026) : sert à reconnaître l'agence d'une liste de comptes pas encore renommée,
+ * à partir du champ « Gestionnaire » lu dans son en-tête — jamais une règle devinée par
+ * Orisflow, entièrement fournie par l'utilisateur. Vide par défaut. */
+function gestionnaires() {
+  return lireParametres().gestionnaires || {};
+}
+
 function preparerDossiers() {
   const racine = dossierTravail();
   for (const sous of SOUS_DOSSIERS) {
@@ -207,7 +215,7 @@ function enregistrerCommunications() {
   ipcMain.handle("moteur:classer", async (evenement, chemins) =>
     lancerMoteur(
       "classer",
-      { fichiers: chemins, dossierReference: dossierReference() || null },
+      { fichiers: chemins, dossierReference: dossierReference() || null, gestionnaires: gestionnaires() },
       (message) => {
         evenement.sender.send("moteur:evenement", message);
       },
@@ -223,6 +231,7 @@ function enregistrerCommunications() {
         dossierReference: dossierReference() || null,
         dossierSortie: path.join(racine, "Resultats"),
         valeursManuelles: valeursManuelles || null,
+        gestionnaires: gestionnaires(),
       },
       (message) => {
         evenement.sender.send("moteur:evenement", message);
@@ -236,9 +245,18 @@ function enregistrerCommunications() {
     dossierBordereau: dossierBordereau(),
     dossierBordereauParDefaut: !dossierBordereauChoisiParUtilisateur(),
     identite: identiteUtilisateur(),
+    gestionnaires: gestionnaires(),
     version: app.getVersion(),
     empaquete: estEmpaquete,
   }));
+
+  ipcMain.handle("parametres:enregistrerGestionnaires", (_evenement, mapping) => {
+    const valeurs = mapping && typeof mapping === "object" ? mapping : {};
+    const parametres = { ...lireParametres(), gestionnaires: valeurs };
+    fs.mkdirSync(app.getPath("userData"), { recursive: true });
+    fs.writeFileSync(fichierParametres(), JSON.stringify(parametres, null, 2), "utf-8");
+    return parametres.gestionnaires;
+  });
 
   ipcMain.handle("parametres:choisirDossier", async (evenement) => {
     const fenetre = BrowserWindow.fromWebContents(evenement.sender);

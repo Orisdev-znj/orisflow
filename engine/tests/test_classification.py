@@ -22,6 +22,23 @@ def _extraction_comptes(chemin, prefixes):
     classeur.save(chemin)
 
 
+def _extraction_comptes_avec_gestionnaire(chemin, prefixes, gestionnaire):
+    """Comme `_extraction_comptes`, avec un en-tête « Gestionnaire: NOM » (ligne 11, comme
+    les vrais exports) — pour simuler un fichier pas encore renommé (nom sans agence)."""
+    classeur = openpyxl.Workbook()
+    feuille = classeur.active
+    feuille.append(["Agence: DIRECTION GENERALE"])  # toujours ce texte, jamais l'agence réelle
+    for _ in range(9):
+        feuille.append([])
+    feuille.append([None, f"Gestionnaire:{gestionnaire}"])  # ligne 11
+    for _ in range(12):
+        feuille.append([])
+    feuille.append(["N°", "Numero de compte"])  # ligne 24, comme les vrais exports
+    for i, prefixe in enumerate(prefixes, start=1):
+        feuille.append([i, f"{prefixe}-{i:06d}-00"])
+    classeur.save(chemin)
+
+
 def _classeur_reference(dossier, valeurs_ligne16):
     """Fabrique un classeur minimal « TRESORERIE JOURNALIÈRE... » avec une feuille Synthèse."""
     classeur = openpyxl.Workbook()
@@ -177,3 +194,69 @@ def test_reconnait_un_releve_bancaire_pdf(tmp_path):
     assert fichier["agence_detectee"] == "akwa"
     assert fichier["ligne_banque_cible"] == "cca_bank"
     assert fichier["solde_releve"] == 186412276
+
+
+# --- Reconnaissance par gestionnaire / par comptage (démarré le 03/10/2026) ----------
+
+
+def test_agence_deduite_du_gestionnaire_quand_le_nom_ne_suffit_pas(tmp_path):
+    chemin = tmp_path / "ETListeCompte_NoHeader_0006870.xlsx"  # nom brut, pas encore renommé
+    _extraction_comptes_avec_gestionnaire(chemin, ["37110"], "ECLADORE MBIAPOUO")
+
+    resultat = classer_fichiers([str(chemin)], gestionnaires={"ECLADORE MBIAPOUO": "akwa"})
+
+    fichier = resultat["fichiers"][0]
+    assert fichier["gestionnaire"] == "ECLADORE MBIAPOUO"
+    assert fichier["agence_detectee"] == "akwa"
+    assert fichier["confiance_agence"] == "gestionnaire"
+    assert fichier["niveau"] == "information"  # pas un avertissement : identifié avec confiance
+
+
+def test_gestionnaire_lu_mais_absent_de_la_table_reste_un_avertissement(tmp_path):
+    chemin = tmp_path / "ETListeCompte_NoHeader_0006870.xlsx"
+    _extraction_comptes_avec_gestionnaire(chemin, ["37110"], "UN GESTIONNAIRE INCONNU")
+
+    resultat = classer_fichiers([str(chemin)], gestionnaires={"ECLADORE MBIAPOUO": "akwa"})
+
+    fichier = resultat["fichiers"][0]
+    assert fichier["agence_detectee"] is None
+    assert fichier["niveau"] == "avertissement"
+    assert "UN GESTIONNAIRE INCONNU" in fichier["messages"][-1]
+
+
+def test_agence_deduite_par_comptage_en_dernier_recours(tmp_path):
+    """Ni le nom ni le gestionnaire ne donnent l'agence : Orisflow compare le total de
+    comptes à celui de la veille (démarré le 03/10/2026)."""
+    dossier_reference = tmp_path / "reference"
+    dossier_reference.mkdir()
+    _classeur_reference(dossier_reference, {"C": 1})  # Akwa (colonne C), total veille = 1
+
+    chemin = tmp_path / "ETListeCompte_NoHeader_0006870.xlsx"
+    _extraction_comptes(chemin, ["37110"])  # 1 seul compte, sans agence dans le nom
+
+    resultat = classer_fichiers([str(chemin)], dossier_reference=str(dossier_reference))
+
+    fichier = resultat["fichiers"][0]
+    assert fichier["agence_detectee"] == "akwa"
+    assert fichier["confiance_agence"] == "comptage"
+    assert fichier["niveau"] == "avertissement"  # à vérifier, jamais une certitude
+    assert "proximité" in fichier["messages"][-1].lower()
+
+
+def test_comptage_evite_les_conflits_quand_on_importe_les_12_listes_ensemble(tmp_path):
+    """L'utilisateur importe toujours les 12 listes en même temps (demande du 03/10/2026) :
+    deux fichiers sans agence reconnue ne doivent jamais se voir attribuer la même agence."""
+    dossier_reference = tmp_path / "reference"
+    dossier_reference.mkdir()
+    _classeur_reference(dossier_reference, {"C": 100, "D": 50})  # Akwa=100, Mokolo=50
+
+    chemin_1 = tmp_path / "ETListeCompte_NoHeader_0006870.xlsx"
+    _extraction_comptes(chemin_1, ["37110"] * 101)  # proche d'Akwa (100) ET de rien d'autre
+    chemin_2 = tmp_path / "ETListeCompte_NoHeader_0006871.xlsx"
+    _extraction_comptes(chemin_2, ["37110"] * 49)  # proche de Mokolo (50)
+
+    resultat = classer_fichiers([str(chemin_1), str(chemin_2)], dossier_reference=str(dossier_reference))
+
+    agences = {f["nom"]: f["agence_detectee"] for f in resultat["fichiers"]}
+    assert agences["ETListeCompte_NoHeader_0006870.xlsx"] == "akwa"
+    assert agences["ETListeCompte_NoHeader_0006871.xlsx"] == "mokolo"
