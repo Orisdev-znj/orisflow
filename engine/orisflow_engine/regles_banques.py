@@ -94,3 +94,8 @@ def cle_releve(type_detecte: str | None, cle_rib: str | None, numero_compte_pdf:
     if type_detecte == "releve_bgfi" and numero_compte_pdf:
         return f"bgfi:{numero_compte_pdf}"
     return None
+
+# Bon de caisse permanent déjà présent dans le solde lu sur certains relevés (constaté le 03/10/2026
+# sur Afriland : solde lu 559 242 921, dont 500 000 000 de bon). Le bon est ajouté par la formule
+# du classeur : il est donc retiré du solde lu avant écriture, pour ne jamais le compter deux fois.
+BON_INCLUS_DANS_RELEVE: dict[str, int] = {"afriland:65": 500_000_000}

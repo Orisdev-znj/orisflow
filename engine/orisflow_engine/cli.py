@@ -21,6 +21,7 @@ from typing import Any, Dict
 from . import VERSION
 from .bordereau import ajouter_evenement, creer_transmission, lister_transmissions
 from .classification import classer_fichiers
+from .comptes_agences import charger_table, construire_table_depuis_dossiers, enregistrer_table, NB_COMPTES_PAR_AGENCE, SEUIL_COMPTES
 from .generation import generer_classeur
 
 EXTENSIONS_PRISES_EN_CHARGE = {".xls", ".xlsx", ".pdf"}
@@ -101,6 +102,7 @@ def commande_classer(parametres: Dict[str, Any]) -> None:
     gestionnaires = parametres.get("gestionnaires") or None
     agences_manuelles = parametres.get("agencesManuelles") or None
     dossier_carnet = parametres.get("dossierCarnet") or None
+    table_comptes = charger_table(parametres.get("fichierTableComptes") or None)
     total = len(chemins)
     compteur = {"valeur": 0}
 
@@ -124,6 +126,7 @@ def commande_classer(parametres: Dict[str, Any]) -> None:
         agences_manuelles=agences_manuelles,
         sur_fichier_classe=rapporter_fichier,
         dossier_carnet=dossier_carnet,
+        table_comptes=table_comptes,
     )
     for etape in resultat.pop("journal_etapes", []):
         emettre(type="progression", courant=total, total=total, pourcentage=100, fichier="", message=etape)
@@ -160,7 +163,8 @@ def commande_generer(parametres: Dict[str, Any]) -> None:
     valeurs_manuelles = parametres.get("valeursManuelles") or None
     gestionnaires = parametres.get("gestionnaires") or None
     dossier_carnet = parametres.get("dossierCarnet") or None
-    releves_veille = parametres.get("relevesVeille") or None
+    releves_saisis = parametres.get("relevesSaisis") or None
+    table_comptes = charger_table(parametres.get("fichierTableComptes") or None)
 
     if not dossier_reference:
         emettre(type="erreur", message="Aucun dossier de référence n'est configuré (voir Paramètres).")
@@ -180,7 +184,8 @@ def commande_generer(parametres: Dict[str, Any]) -> None:
         valeurs_manuelles=valeurs_manuelles,
         gestionnaires=gestionnaires,
         dossier_carnet=dossier_carnet,
-        releves_veille=releves_veille,
+        releves_saisis=releves_saisis,
+        table_comptes=table_comptes,
     )
     if not resultat["ok"]:
         emettre(type="erreur", message=resultat["erreur"])
@@ -241,10 +246,32 @@ def commande_bordereau_lister(parametres: Dict[str, Any]) -> None:
     emettre(type="resultat", commande="bordereau_lister", version=VERSION, **resultat)
 
 
+def commande_table_comptes_construire(parametres: Dict[str, Any]) -> None:
+    """Construit la table « 15 comptes par agence » (décision du 05/10/2026).
+
+    Paramètres : {"dossiers": [dossier de fichiers renommés, un par jour de référence],
+    "fichierSortie": chemin du fichier JSON}. Les fichiers sources ne sont jamais modifiés.
+    """
+    dossiers = parametres.get("dossiers") or []
+    fichier_sortie = parametres.get("fichierSortie")
+    if not dossiers or not fichier_sortie:
+        emettre(type="erreur", message="Il faut au moins un dossier de référence et un fichier de sortie.")
+        return
+    table = construire_table_depuis_dossiers(dossiers)
+    enregistrer_table(fichier_sortie, table, [os.path.basename(os.path.normpath(d)) for d in dossiers])
+    emettre(
+        type="resultat", commande="table_comptes_construire", version=VERSION, ok=True,
+        fichier=fichier_sortie,
+        agences={a: len(c) for a, c in table.items()},
+        seuil=SEUIL_COMPTES, comptes_par_agence=NB_COMPTES_PAR_AGENCE,
+    )
+
+
 COMMANDES = {
     "ping": commande_ping,
     "analyser": commande_analyser,
     "classer": commande_classer,
+    "table_comptes_construire": commande_table_comptes_construire,
     "generer": commande_generer,
     "bordereau_creer": commande_bordereau_creer,
     "bordereau_evenement": commande_bordereau_evenement,

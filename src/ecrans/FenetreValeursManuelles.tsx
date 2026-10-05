@@ -1,43 +1,46 @@
 import { useState } from "react";
 import { LIBELLE_CHAMP_MANUEL } from "../lib/champsManuels";
-import type { ReleveManquant, RelevesVeille, ValeursManuelles } from "../lib/types";
+import type { ReleveManquant, RelevesSaisis, ValeursManuelles } from "../lib/types";
 
 interface Props {
   champs: string[];
   relevesManquants: ReleveManquant[];
   onAnnuler: () => void;
-  onConfirmer: (valeurs: ValeursManuelles, relevesVeille: RelevesVeille) => void;
+  onConfirmer: (valeurs: ValeursManuelles, relevesSaisis: RelevesSaisis) => void;
 }
 
 const formater = (montant: number) => `${montant.toLocaleString("fr-FR")} FCFA`;
 
-/** Fenêtre unique affichée avant de générer le classeur (demande du 02/10/2026) :
- * liste tous les montants qu'Orisflow ne peut pas remplir seul ce jour-là (UV, UBA,
- * Ecobank, Access Bank, et Western Union seulement si son relevé est absent). Une
- * ligne laissée vide reste simplement inchangée depuis la veille, avec un avertissement
- * visible dans le résultat — elle ne bloque jamais la génération. */
+/** Fenêtre unique affichée avant de générer le classeur.
+ * - Relevés absents aujourd'hui (règle du 05/10/2026) : la valeur de la veille est conservée. L'utilisateur
+ *   peut saisir le solde du jour ; s'il laisse le champ vide ou clique sur « Passer », la veille est maintenue.
+ * - Montants non lisibles automatiquement (UV, UBA, Ecobank, Access Bank…) : un champ vide garde la
+ *   valeur de la veille, avec un avertissement dans le résultat. Aucun champ ne bloque la génération. */
 export default function FenetreValeursManuelles({ champs, relevesManquants, onAnnuler, onConfirmer }: Props) {
   const [saisies, setSaisies] = useState<Record<string, string>>({});
-  // Relevés manquants pour lesquels l'utilisateur accepte la valeur de la veille. Décochée par
-  // défaut : Orisflow ne reprend jamais une valeur ancienne sans que l'utilisateur le dise.
-  const [veilleChoisie, setVeilleChoisie] = useState<Record<string, boolean>>({});
-  const relevesAvecVeille = relevesManquants.filter((r) => r.veille !== null);
-  const relevesSansVeille = relevesManquants.filter((r) => r.veille === null);
+  const [releves, setReleves] = useState<Record<string, string>>({});
 
-  const confirmer = () => {
+  const lireNombre = (texte: string | undefined): number | null => {
+    const propre = texte?.trim();
+    if (!propre) return null;
+    const nombre = Number(propre.replace(/\s/g, ""));
+    return Number.isNaN(nombre) ? null : nombre;
+  };
+
+  const confirmer = (passer = false) => {
     const valeurs: ValeursManuelles = {};
-    for (const champ of champs) {
-      const texte = saisies[champ]?.trim();
-      if (texte) {
-        const nombre = Number(texte.replace(/\s/g, ""));
-        if (!Number.isNaN(nombre)) valeurs[champ] = nombre;
+    const relevesSaisis: RelevesSaisis = {};
+    if (!passer) {
+      for (const champ of champs) {
+        const nombre = lireNombre(saisies[champ]);
+        if (nombre !== null) valeurs[champ] = nombre;
+      }
+      for (const releve of relevesManquants) {
+        const nombre = lireNombre(releves[releve.cle]);
+        if (nombre !== null) relevesSaisis[releve.cle] = nombre;
       }
     }
-    const relevesVeille: RelevesVeille = {};
-    for (const releve of relevesAvecVeille) {
-      if (veilleChoisie[releve.cle] && releve.veille !== null) relevesVeille[releve.cle] = releve.veille;
-    }
-    onConfirmer(valeurs, relevesVeille);
+    onConfirmer(valeurs, relevesSaisis);
   };
 
   return (
@@ -49,55 +52,59 @@ export default function FenetreValeursManuelles({ champs, relevesManquants, onAn
           <section className="releves-manquants" aria-labelledby="titre-releves-manquants">
             <h3 id="titre-releves-manquants">Relevés absents aujourd'hui</h3>
             <p className="aide">
-              Ces relevés bancaires n'ont pas été reçus. Faut-il considérer ceux de la veille ? Cochez seulement
-              ceux pour lesquels vous le confirmez.
+              Ces relevés n'ont pas été reçus. Saisissez leur solde du jour. Si vous laissez le champ vide ou si
+              vous cliquez sur « Passer », la valeur de la veille est conservée.
             </p>
-            {relevesAvecVeille.map((releve) => (
-              <div className="champ champ--case" key={releve.cle}>
-                <input
-                  id={`veille-${releve.cle}`}
-                  type="checkbox"
-                  checked={!!veilleChoisie[releve.cle]}
-                  onChange={(e) => setVeilleChoisie((precedent) => ({ ...precedent, [releve.cle]: e.target.checked }))}
-                />
-                <label htmlFor={`veille-${releve.cle}`}>
-                  {releve.libelle} : utiliser la valeur de la veille ({formater(releve.veille ?? 0)})
+            {relevesManquants.map((releve) => (
+              <div className="champ" key={releve.cle}>
+                <label htmlFor={`releve-${releve.cle}`}>
+                  {releve.libelle}
+                  {releve.veille !== null ? ` (veille : ${formater(releve.veille)})` : " (aucune valeur de la veille connue)"}
                 </label>
+                <input
+                  id={`releve-${releve.cle}`}
+                  type="text"
+                  inputMode="numeric"
+                  value={releves[releve.cle] ?? ""}
+                  onChange={(e) => setReleves((precedent) => ({ ...precedent, [releve.cle]: e.target.value }))}
+                  placeholder="Solde du jour en FCFA"
+                />
               </div>
-            ))}
-            {relevesSansVeille.map((releve) => (
-              <p className="aide" key={releve.cle}>
-                {releve.libelle} : aucune valeur de la veille connue. La ligne reste inchangée.
-              </p>
             ))}
           </section>
         )}
 
         {champs.length > 0 && (
-          <p className="aide">
-            Ces lignes ne sont pas lues automatiquement aujourd'hui. Laissez un champ vide pour garder la valeur
-            d'hier (signalé dans le rapport).
-          </p>
+          <>
+            <p className="aide">
+              Ces lignes ne sont pas lues automatiquement aujourd'hui. Laissez un champ vide pour garder la valeur
+              d'hier (signalé dans le rapport).
+            </p>
+            {champs.map((champ) => (
+              <div className="champ" key={champ}>
+                <label htmlFor={`champ-manuel-${champ}`}>{LIBELLE_CHAMP_MANUEL[champ] ?? champ}</label>
+                <input
+                  id={`champ-manuel-${champ}`}
+                  type="text"
+                  inputMode="numeric"
+                  value={saisies[champ] ?? ""}
+                  onChange={(e) => setSaisies((precedent) => ({ ...precedent, [champ]: e.target.value }))}
+                  placeholder="Montant en FCFA"
+                />
+              </div>
+            ))}
+          </>
         )}
 
-        {champs.map((champ) => (
-          <div className="champ" key={champ}>
-            <label htmlFor={`champ-manuel-${champ}`}>{LIBELLE_CHAMP_MANUEL[champ] ?? champ}</label>
-            <input
-              id={`champ-manuel-${champ}`}
-              type="text"
-              inputMode="numeric"
-              value={saisies[champ] ?? ""}
-              onChange={(e) => setSaisies((precedent) => ({ ...precedent, [champ]: e.target.value }))}
-              placeholder="Montant en FCFA"
-            />
-          </div>
-        ))}
-
         <div className="actions">
-          <button type="button" className="bouton bouton--principal" onClick={confirmer}>
+          <button type="button" className="bouton bouton--principal" onClick={() => confirmer(false)}>
             Confirmer et générer
           </button>
+          {relevesManquants.length > 0 && (
+            <button type="button" className="bouton" onClick={() => confirmer(true)}>
+              Passer
+            </button>
+          )}
           <button type="button" className="bouton" onClick={onAnnuler}>
             Annuler
           </button>

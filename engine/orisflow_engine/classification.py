@@ -31,6 +31,7 @@ from .regles_agences import (
     detecter_agence_depuis_texte,
 )
 from . import carnet
+from .comptes_agences import SEUIL_COMPTES, NB_COMPTES_PAR_AGENCE, identifier, lire_numeros
 from .regles_banques import (
     RELEVES_ATTENDUS,
     cle_releve,
@@ -347,6 +348,80 @@ def detecter_doublons(fichiers: list[dict[str, Any]]) -> None:
             )
 
 
+def identifier_agences_par_comptes(
+    fichiers: list[dict[str, Any]],
+    table: dict[str, list[str]],
+    gestionnaires: dict[str, str],
+) -> dict[str, int]:
+    """Identifie l'agence des listes de comptes par leurs numéros de compte (décision du
+    05/10/2026). Prime sur le nom du fichier. Si moins de SEUIL_COMPTES numéros correspondent,
+    le gestionnaire lève l'ambiguïté ; à défaut, le nom reste retenu avec un avertissement.
+    Ne touche jamais aux agences confirmées manuellement.
+
+    Retourne le décompte : {"identifiees": n, "contredisent_le_nom": n, "faibles": n}.
+    """
+    from .regles_agences import detecter_agence_depuis_gestionnaire
+
+    bilan = {"identifiees": 0, "contredisent_le_nom": 0, "faibles": 0}
+    if not table:
+        return bilan
+    for f in fichiers:
+        if f["type_detecte"] != "compte" or f["niveau"] == "bloquant" or f["confiance_agence"] == "manuelle":
+            continue
+        try:
+            numeros = lire_numeros(f["chemin"])
+        except (ValueError, OSError):
+            continue  # colonne introuvable : la lecture du comptage signalera le problème
+        ident = identifier(numeros, table)
+        nom_agence = f["agence_detectee"]
+        f["messages"] = [m for m in f["messages"] if not m.startswith("Aucune agence n'a pu être reconnue")]
+
+        if ident.agence is not None:
+            bilan["identifiees"] += 1
+            libelle = AGENCE_LIBELLES[ident.agence]
+            if nom_agence and nom_agence != ident.agence:
+                bilan["contredisent_le_nom"] += 1
+                f["messages"].append(
+                    f"Le nom du fichier indique {f['agence_libelle']}, mais ses numéros de compte "
+                    f"correspondent à {libelle} ({ident.score}/{NB_COMPTES_PAR_AGENCE}). {libelle} est retenue : "
+                    "vérifiez le nom de ce fichier."
+                )
+                _relever_niveau(f, "avertissement")
+            elif not nom_agence and f["niveau"] == "avertissement" and not f["messages"]:
+                # Le nom ne portait pas d'agence (seul motif d'avertissement) : levé par les comptes.
+                f["niveau"] = "information"
+            f["agence_detectee"] = ident.agence
+            f["agence_libelle"] = libelle
+            f["confiance_agence"] = "comptes"
+            continue
+
+        # Seuil non atteint : le gestionnaire lève l'ambiguïté, sinon le nom reste retenu.
+        bilan["faibles"] += 1
+        agence_gestionnaire = detecter_agence_depuis_gestionnaire(f.get("gestionnaire"), gestionnaires)
+        if agence_gestionnaire.cle is not None:
+            f["messages"].append(
+                f"Seulement {ident.score} comptes sur {NB_COMPTES_PAR_AGENCE} correspondent à une agence "
+                f"(seuil : {SEUIL_COMPTES}). Agence déduite du gestionnaire : {agence_gestionnaire.libelle}."
+            )
+            f["agence_detectee"] = agence_gestionnaire.cle
+            f["agence_libelle"] = agence_gestionnaire.libelle
+            f["confiance_agence"] = "gestionnaire"
+        else:
+            f["messages"].append(
+                f"Seulement {ident.score} comptes sur {NB_COMPTES_PAR_AGENCE} correspondent à une agence "
+                f"(seuil : {SEUIL_COMPTES}) : vérifiez l'agence de ce fichier."
+            )
+        _relever_niveau(f, "avertissement")
+    return bilan
+
+
+def _relever_niveau(f: dict[str, Any], niveau: str) -> None:
+    """Ne baisse jamais le niveau d'un fichier (un bloquant reste bloquant)."""
+    ordre = {"information": 0, "avertissement": 1, "bloquant": 2}
+    if ordre[niveau] > ordre[f["niveau"]]:
+        f["niveau"] = niveau
+
+
 def deduire_agences_manquantes_par_comptage(fichiers: list[dict[str, Any]], totaux_veille: dict[str, int]) -> int:
     """Pour les listes de comptes dont l'agence reste introuvable après le nom du fichier,
     propose une agence par proximité du total de comptes à la veille — **premier recours**
@@ -480,6 +555,7 @@ def classer_fichiers(
     sur_fichier_classe: Optional[Callable[[dict[str, Any]], None]] = None,
     dossier_carnet: Optional[str] = None,
     jour: Optional[date] = None,
+    table_comptes: Optional[dict[str, list[str]]] = None,
 ) -> dict[str, Any]:
     """`sur_fichier_classe` (optionnel) : appelé juste après chaque fichier individuel
     classé, avant les passes par lot ci-dessous — sert à construire un journal d'étapes
@@ -509,6 +585,25 @@ def classer_fichiers(
     n = appliquer_agences_manuelles(fichiers, agences_manuelles or {})
     if n:
         journal_etapes.append(f"{n} agence(s) confirmée(s) manuellement.")
+
+    # 1 bis. Numéros de compte (décision du 05/10/2026) : prime sur le nom du fichier.
+    table_comptes = table_comptes or {}
+    if table_comptes:
+        bilan = identifier_agences_par_comptes(fichiers, table_comptes, gestionnaires or {})
+        if bilan["identifiees"]:
+            journal_etapes.append(
+                f"{bilan['identifiees']} agence(s) identifiée(s) par leurs numéros de compte "
+                f"({SEUIL_COMPTES} comptes sur {NB_COMPTES_PAR_AGENCE} au minimum)."
+            )
+        if bilan["contredisent_le_nom"]:
+            journal_etapes.append(
+                f"{bilan['contredisent_le_nom']} nom(s) de fichier contredit(s) par les numéros de compte : à vérifier."
+            )
+        if bilan["faibles"]:
+            journal_etapes.append(
+                f"{bilan['faibles']} fichier(s) avec moins de {SEUIL_COMPTES} comptes reconnus : "
+                "gestionnaire ou confirmation demandés."
+            )
 
     detecter_fichiers_identiques(fichiers)
     detecter_doublons(fichiers)

@@ -13,7 +13,7 @@ import WorkInProgress from "./ecrans/WorkInProgress";
 import type {
   EtatGeneration,
   FichierImporte,
-  RelevesVeille,
+  RelevesSaisis,
   ResultatClassement,
   ValeursManuelles,
 } from "./lib/types";
@@ -155,7 +155,7 @@ export default function App() {
   );
 
   const genererClasseur = useCallback(
-    async (valeursManuelles: ValeursManuelles, relevesVeille: RelevesVeille = {}) => {
+    async (valeursManuelles: ValeursManuelles, relevesSaisis: RelevesSaisis = {}) => {
       if (!api) {
         setGeneration({ etat: "erreur", message: "Cette fonction n'est disponible que dans l'application Orisflow." });
         return;
@@ -168,7 +168,7 @@ export default function App() {
       setFenetreValeursOuverte(false);
       setGeneration({ etat: "encours" });
       try {
-        const reponse = await api.generer(chemins, valeursManuelles, relevesVeille);
+        const reponse = await api.generer(chemins, valeursManuelles, relevesSaisis);
         setGeneration({ etat: "succes", resultat: reponse });
       } catch (erreur) {
         setGeneration({ etat: "erreur", message: nettoyerErreur(erreur) });
@@ -299,7 +299,7 @@ export default function App() {
                 champs={resultat.champs_manuels_requis}
                 relevesManquants={resultat.releves_manquants ?? []}
                 onAnnuler={() => setFenetreValeursOuverte(false)}
-                onConfirmer={(valeurs, relevesVeille) => genererClasseur(valeurs, relevesVeille)}
+                onConfirmer={(valeurs, relevesSaisis) => genererClasseur(valeurs, relevesSaisis)}
               />
             )}
           </>

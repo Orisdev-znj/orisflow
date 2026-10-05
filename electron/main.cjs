@@ -14,7 +14,7 @@ const modeAutotest = cibleAutotest !== "";
 // Dossiers de travail et paramètres
 // ---------------------------------------------------------------------------
 
-const SOUS_DOSSIERS = ["Imports", "Resultats", "Sauvegardes", "SuiviCourrier", "Carnet"];
+const SOUS_DOSSIERS = ["Imports", "Resultats", "Sauvegardes", "SuiviCourrier", "Carnet", "Config"];
 
 function fichierParametres() {
   return path.join(app.getPath("userData"), "parametres.json");
@@ -226,6 +226,8 @@ function enregistrerCommunications() {
         gestionnaires: gestionnaires(),
         agencesManuelles: agencesManuelles || null,
         dossierCarnet: dossierCarnet(),
+        // Table « 15 comptes par agence » (décision du 05/10/2026) : fichier de configuration local.
+        fichierTableComptes: path.join(dossierTravail(), "Config", "comptes_par_agence.json"),
       },
       (message) => {
         evenement.sender.send("moteur:evenement", message);
@@ -233,7 +235,7 @@ function enregistrerCommunications() {
     ),
   );
 
-  ipcMain.handle("moteur:generer", async (evenement, chemins, valeursManuelles, relevesVeille) => {
+  ipcMain.handle("moteur:generer", async (evenement, chemins, valeursManuelles, relevesSaisis) => {
     const racine = preparerDossiers();
     return lancerMoteur(
       "generer",
@@ -244,7 +246,8 @@ function enregistrerCommunications() {
         valeursManuelles: valeursManuelles || null,
         gestionnaires: gestionnaires(),
         dossierCarnet: dossierCarnet(),
-        relevesVeille: relevesVeille || null,
+        relevesSaisis: relevesSaisis || null,
+        fichierTableComptes: path.join(dossierTravail(), "Config", "comptes_par_agence.json"),
       },
       (message) => {
         evenement.sender.send("moteur:evenement", message);

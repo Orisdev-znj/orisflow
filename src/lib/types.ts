@@ -105,8 +105,8 @@ export interface ResultatGeneration {
 /** Valeurs saisies dans la fenêtre unique avant de générer (voir lib/champsManuels.ts). */
 export type ValeursManuelles = Record<string, number>;
 
-/** Clé de relevé (ex. « cca:39 ») -> solde de la veille à utiliser, uniquement sur accord explicite. */
-export type RelevesVeille = Record<string, number>;
+/** Clé de relevé absent (ex. « cca:39 ») -> solde du jour saisi par l'utilisateur. Absent = la veille est conservée. */
+export type RelevesSaisis = Record<string, number>;
 
 export interface ResultatPing {
   type: "resultat";
@@ -227,7 +227,7 @@ export interface ApiOrisflow {
   generer(
     chemins: string[],
     valeursManuelles?: ValeursManuelles,
-    relevesVeille?: RelevesVeille,
+    relevesSaisis?: RelevesSaisis,
   ): Promise<ResultatGeneration>;
   surEvenementMoteur(rappel: (evenement: EvenementMoteur) => void): () => void;
   lireParametres(): Promise<ParametresApplication>;

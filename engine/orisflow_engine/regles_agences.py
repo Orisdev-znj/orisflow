@@ -39,6 +39,7 @@ _ALIAS_NOM: dict[str, str] = {
     "bafoussam": "bafoussam",
     "pk14": "pk14",
     "balessing": "balessing",
+    "balessong": "balessing",  # orthographe rencontrée dans les noms de fichiers (29/09 et 01/10)
     "marchecentral": "marchecentral",
     "marche_central": "marchecentral",
     "bepanda": "bepanda",

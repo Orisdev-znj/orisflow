@@ -37,7 +37,8 @@ from .classification import classer_fichiers
 from .reference_treso import NOM_FEUILLE_SYNTHESE, trouver_classeur_recent
 from . import carnet
 from .regles_agences import AGENCE_COLONNE, AGENCE_LIBELLES
-from .regles_banques import RELEVES_ATTENDUS, cle_releve
+from .regles_banques import BON_INCLUS_DANS_RELEVE, RELEVES_ATTENDUS, cle_releve
+from .comptes_agences import charger_table, NB_COMPTES_PAR_AGENCE
 from .regles_banques import BONS_DE_CAISSE, LIBELLE_CHAMP_MANUEL
 
 FEUILLES_A_EXCLURE = (
@@ -114,7 +115,7 @@ def _ecrire_montant(feuille, adresse: str, termes: list[int]) -> None:
 
 
 def _ecrire_banques(
-    feuille, classement: dict[str, Any], valeurs_manuelles: dict[str, Any]
+    feuille, classement: dict[str, Any], valeurs_manuelles: dict[str, Any], feuille_valeurs=None
 ) -> tuple[list[str], list[str], list[str]]:
     """Écrit les lignes banques (28 à 34) et avance le J-1 du total (36), pour toutes les
     agences. CCA-Bank est répartie par agence (voir `regles_banques.RIB_CCA_VERS_AGENCE`) ;
@@ -130,12 +131,13 @@ def _ecrire_banques(
     # J-1 du total banques, pour TOUTES les agences, lu avant toute écriture (même
     # principe que les comptes/dépôts/engagements : sinon on lirait nos propres valeurs
     # du jour au lieu de celles du modèle).
+    # Valeurs calculées (et non formules) : certaines cellules de banque sont des additions
+    # (ex. « =510000000+151847746+… ») qu'une lecture de la formule compterait pour zéro.
+    feuille_valeurs = feuille_valeurs if feuille_valeurs is not None else feuille
     for colonne in AGENCE_COLONNE.values():
         total = 0
         for r in range(LIGNE_CCA_BANK, LIGNE_WESTERN_UNION + 1):
-            v = feuille[f"{colonne}{r}"].value
-            if isinstance(v, (int, float)):
-                total += v
+            total += _valeur(feuille_valeurs, f"{colonne}{r}")
         feuille[f"{colonne}{LIGNE_TOTAL_BANQUES_J1}"] = total
 
     colonne_akwa = AGENCE_COLONNE["akwa"]
@@ -169,7 +171,7 @@ def _ecrire_banques(
         if f["niveau"] == "bloquant" or f["solde_releve"] is None:
             fichiers_ignores.append(f["nom"])
             continue
-        soldes_afriland.append(f["solde_releve"])
+        soldes_afriland.append(_terme_releve(f))
     if soldes_afriland:
         termes = list(BONS_DE_CAISSE.get(("afriland", "akwa"), [])) + soldes_afriland
         _ecrire_montant(feuille, f"{colonne_akwa}{LIGNE_AFRILAND}", termes)
@@ -219,20 +221,105 @@ def _ecrire_banques(
         avertissements.append(f"{LIBELLE_CHAMP_MANUEL['uba_solde_banque']} : ligne inchangée depuis la veille.")
 
     # Ecobank, Access Bank, UV : valeur manuelle directe (aucune lecture automatisée).
-    for champ, ligne in (
-        ("ecobank", LIGNE_ECOBANK),
-        ("access_bank", LIGNE_ACCESS_BANK),
-        ("uv_orange", LIGNE_UV_ORANGE),
-        ("uv_mtn", LIGNE_UV_MTN),
-        ("uv_maviance", LIGNE_UV_MAVIANCE),
+    # Access Bank est rangée sous Marché Central (colonne I), comme dans le classeur
+    # (confirmé par l'utilisateur le 05/10/2026) ; les autres lignes restent sous Akwa.
+    colonne_access = AGENCE_COLONNE["marchecentral"]
+    for champ, ligne, colonne in (
+        ("ecobank", LIGNE_ECOBANK, colonne_akwa),
+        ("access_bank", LIGNE_ACCESS_BANK, colonne_access),
+        ("uv_orange", LIGNE_UV_ORANGE, colonne_akwa),
+        ("uv_mtn", LIGNE_UV_MTN, colonne_akwa),
+        ("uv_maviance", LIGNE_UV_MAVIANCE, colonne_akwa),
     ):
         valeur = valeurs_manuelles.get(champ)
         if valeur is not None:
-            feuille[f"{colonne_akwa}{ligne}"] = valeur
+            feuille[f"{colonne}{ligne}"] = valeur
         else:
             avertissements.append(f"{LIBELLE_CHAMP_MANUEL[champ]} : ligne inchangée depuis la veille.")
 
     return agences_mises_a_jour, avertissements, fichiers_ignores
+
+
+def _terme_releve(f: dict[str, Any]) -> int:
+    """Montant à écrire pour un relevé lu : le solde, sans le bon de caisse permanent si le
+    solde le contient (règle du 05/10/2026, voir regles_banques.BON_INCLUS_DANS_RELEVE)."""
+    solde = int(f["solde_releve"])
+    bon = BON_INCLUS_DANS_RELEVE.get(cle_releve(f.get("type_detecte"), f.get("cle_rib"), f.get("numero_compte_pdf")) or "")
+    if bon is not None and solde >= bon:
+        return solde - bon
+    return solde
+
+
+def _valeur(feuille_valeurs, adresse: str) -> int:
+    """Valeur calculée d'une cellule (lue dans le modèle tel qu'enregistré par Excel) ; 0 si vide ou texte."""
+    v = feuille_valeurs[adresse].value
+    return v if isinstance(v, (int, float)) else 0
+
+
+def _ligne_par_libelle(feuille, libelle: str) -> int | None:
+    """Numéro de ligne dont le libellé (colonne A) vaut `libelle`, sans tenir compte des espaces
+    ni de la casse. Les numéros de ligne changent d'un classeur à l'autre : on ne les suppose jamais."""
+    cible = "".join(libelle.upper().split())
+    for r in range(1, feuille.max_row + 1):
+        v = feuille[f"A{r}"].value
+        if v is not None and "".join(str(v).upper().split()) == cible:
+            return r
+    return None
+
+
+def _ecrire_caisses(feuille, feuille_valeurs, classement: dict[str, Any]) -> tuple[list[str], list[str]]:
+    """Caisses par agence (balance classe 5, colonne « Débit Solde fin » de `Total : 57`, lue par
+    `balance_pdf.lire_balance_classe5`), écrites sur la ligne de chaque agence repérée par son libellé,
+    puis J-1 des caisses (total de la veille) et J-1 des liquidités (total de la veille)."""
+    from .regles_agences import detecter_agence_depuis_texte
+
+    avertissements: list[str] = []
+    agences_mises_a_jour: list[str] = []
+
+    lignes_caisse: dict[str, int] = {}
+    for r in range(1, feuille.max_row + 1):
+        libelle = feuille[f"A{r}"].value
+        if not libelle:
+            continue
+        lib = "".join(str(libelle).upper().split())
+        if not lib.startswith("CAISSE") or "TOTAL" in lib or "PLAFOND" in lib or "DEVISES" in lib:
+            continue
+        # « PK-14 » et « PK 14 » désignent la même agence (libellé du classeur).
+        agence = detecter_agence_depuis_texte(str(libelle).replace("PK-", "PK").replace("PK ", "PK"))
+        if agence.cle is not None:
+            lignes_caisse[agence.cle] = r
+
+    montants: dict[str, int] = {}
+    for f in classement["fichiers"]:
+        if f["type_detecte"] != "balance_classe5" or f["niveau"] == "bloquant" or f["agence_detectee"] is None:
+            continue
+        if f.get("caisse") is None:
+            continue
+        montants[f["agence_detectee"]] = int(f["caisse"])
+
+    for agence, ligne in lignes_caisse.items():
+        colonne = AGENCE_COLONNE[agence]
+        if agence in montants:
+            feuille[f"{colonne}{ligne}"] = montants[agence]
+            agences_mises_a_jour.append(agence)
+        else:
+            avertissements.append(
+                f"Caisse {AGENCE_LIBELLES[agence]} : ligne inchangée depuis la veille (balance classe 5 non reçue)."
+            )
+
+    ligne_total = _ligne_par_libelle(feuille, "TOTAL CAISSES")
+    ligne_total_j1 = _ligne_par_libelle(feuille, "TOTAL CAISSES J-1")
+    if ligne_total and ligne_total_j1:
+        for colonne in AGENCE_COLONNE.values():
+            feuille[f"{colonne}{ligne_total_j1}"] = _valeur(feuille_valeurs, f"{colonne}{ligne_total}")
+
+    ligne_liquidite = _ligne_par_libelle(feuille, "TOTAL LIQUIDITE")
+    ligne_liquidite_j1 = _ligne_par_libelle(feuille, "LIQUIDITES J-1")
+    if ligne_liquidite and ligne_liquidite_j1:
+        for colonne in AGENCE_COLONNE.values():
+            feuille[f"{colonne}{ligne_liquidite_j1}"] = _valeur(feuille_valeurs, f"{colonne}{ligne_liquidite}")
+
+    return agences_mises_a_jour, avertissements
 
 
 def _soldes_du_jour(classement: dict[str, Any]) -> dict[str, int]:
@@ -242,8 +329,29 @@ def _soldes_du_jour(classement: dict[str, Any]) -> dict[str, int]:
         cle = cle_releve(f.get("type_detecte"), f.get("cle_rib"), f.get("numero_compte_pdf"))
         if cle is None or cle in soldes or f["niveau"] == "bloquant" or f.get("solde_releve") is None:
             continue
-        soldes[cle] = int(f["solde_releve"])
+        soldes[cle] = _terme_releve(f)
+    for f in classement["fichiers"]:
+        if f["niveau"] == "bloquant" or f["agence_detectee"] is None:
+            continue
+        if f["type_detecte"] == "balance_classe3":
+            if f.get("depots") is not None:
+                soldes.setdefault(f"depots:{f['agence_detectee']}", int(f["depots"]))
+            if f.get("engagements") is not None:
+                soldes.setdefault(f"engagements:{f['agence_detectee']}", int(f["engagements"]))
+        elif f["type_detecte"] == "balance_classe5" and f.get("caisse") is not None:
+            soldes.setdefault(f"caisse:{f['agence_detectee']}", int(f["caisse"]))
     return soldes
+
+
+# Saisies manuelles enregistrées au carnet, sous les mêmes noms que dans le carnet existant.
+# Maviance n'y figure pas : saisie manuelle chaque jour (décision du 05/10/2026).
+_NOMS_CARNET_MANUELS = {
+    "uv_orange": "uv:orange_money",
+    "uv_mtn": "uv:mtn_momo",
+    "ecobank": "ecobank:akwa",
+    "access_bank": "access_bank:marche_central",
+    "uba_solde_banque": "uba:akwa",
+}
 
 
 _TYPE_PAR_BANQUE = {
@@ -254,18 +362,19 @@ _TYPE_PAR_BANQUE = {
 }
 
 
-def _releves_issus_de_la_veille(releves_veille: dict[str, int]) -> list[dict[str, Any]]:
+def _releves_fictifs(valeurs: dict[str, int], origine: str) -> list[dict[str, Any]]:
     """Transforme les soldes de la veille choisis par l'utilisateur en relevés « fictifs »,
     au même format que ceux lus dans les PDF, marqués comme provenant de la veille."""
     injectes: list[dict[str, Any]] = []
-    for cle, valeur in releves_veille.items():
+    for cle, valeur in valeurs.items():
         if cle not in RELEVES_ATTENDUS or valeur is None:
             continue
         libelle, banque, agence = RELEVES_ATTENDUS[cle]
         type_detecte = _TYPE_PAR_BANQUE[banque]
         identifiant = cle.split(":", 1)[1]
         injectes.append({
-            "nom": f"{libelle} (valeur de la veille)",
+            "nom": f"{libelle} ({'valeur saisie' if origine == 'saisi' else 'valeur de la veille'})",
+            "origine": origine,
             "type_detecte": type_detecte,
             "ligne_banque_cible": banque,
             "agence_detectee": agence,
@@ -273,7 +382,11 @@ def _releves_issus_de_la_veille(releves_veille: dict[str, int]) -> list[dict[str
             "numero_compte_pdf": identifiant if type_detecte == "releve_bgfi" else None,
             "solde_releve": int(valeur),
             "niveau": "avertissement",
-            "messages": ["Valeur reprise de la veille (relevé absent aujourd'hui)."],
+            "messages": [
+                "Valeur saisie pour un relevé absent aujourd'hui."
+                if origine == "saisi"
+                else "Valeur de la veille conservée (relevé absent aujourd'hui)."
+            ],
         })
     return injectes
 
@@ -286,7 +399,8 @@ def generer_classeur(
     valeurs_manuelles: Optional[dict[str, Any]] = None,
     gestionnaires: Optional[dict[str, str]] = None,
     dossier_carnet: Optional[str] = None,
-    releves_veille: Optional[dict[str, int]] = None,
+    releves_saisis: Optional[dict[str, int]] = None,
+    table_comptes: Optional[dict[str, list[str]]] = None,
 ) -> dict[str, Any]:
     # La trésorerie traitée un matin donné concerne la journée précédente (confirmé par
     # l'utilisateur le 01/10/2026) : par défaut, le classeur porte donc la date d'hier,
@@ -295,7 +409,8 @@ def generer_classeur(
     jour = jour or (date.today() - timedelta(days=1))
 
     classement = classer_fichiers(
-        fichiers, dossier_reference, gestionnaires=gestionnaires, dossier_carnet=dossier_carnet, jour=jour
+        fichiers, dossier_reference, gestionnaires=gestionnaires, dossier_carnet=dossier_carnet, jour=jour,
+        table_comptes=table_comptes,
     )
     # `avant=jour` : exclut tout classeur du dossier de référence daté du jour généré ou
     # plus tard, pour ne jamais prendre un classeur comme son propre modèle (bug corrigé
@@ -313,11 +428,13 @@ def generer_classeur(
     shutil.copyfile(chemin_modele, chemin_sortie)
 
     classeur = load_workbook(chemin_sortie)  # formules conservées (pas data_only)
+    classeur_valeurs = load_workbook(chemin_sortie, data_only=True)  # valeurs calculées, pour les J-1
     for nom_feuille in FEUILLES_A_EXCLURE:
         if nom_feuille in classeur.sheetnames:
             del classeur[nom_feuille]
 
     feuille = next((classeur[n] for n in NOM_FEUILLE_SYNTHESE if n in classeur.sheetnames), None)
+    feuille_valeurs = classeur_valeurs[feuille.title] if feuille is not None else None
     if feuille is None:
         return {
             "ok": False,
@@ -339,15 +456,11 @@ def generer_classeur(
     for colonne in AGENCE_COLONNE.values():
         total = 0
         for r in range(7, 16):
-            v = feuille[f"{colonne}{r}"].value
-            if isinstance(v, (int, float)):
-                total += v
+            total += _valeur(feuille_valeurs, f"{colonne}{r}")
         valeurs_precedentes[colonne] = total
 
-        v_depot = feuille[f"{colonne}{LIGNE_DEPOTS}"].value
-        depots_precedents[colonne] = v_depot if isinstance(v_depot, (int, float)) else 0
-        v_engagement = feuille[f"{colonne}{LIGNE_ENGAGEMENTS}"].value
-        engagements_precedents[colonne] = v_engagement if isinstance(v_engagement, (int, float)) else 0
+        depots_precedents[colonne] = _valeur(feuille_valeurs, f"{colonne}{LIGNE_DEPOTS}")
+        engagements_precedents[colonne] = _valeur(feuille_valeurs, f"{colonne}{LIGNE_ENGAGEMENTS}")
 
     # La veille avance d'un jour pour toutes les agences, que leur fichier du jour
     # soit arrivé ou non (le total « aujourd'hui » ne bouge alors pas pour celles
@@ -398,13 +511,23 @@ def generer_classeur(
     # Relevés manquants pour lesquels l'utilisateur a demandé la valeur de la veille (carnet) :
     # injectés comme des relevés ordinaires, pour que les écritures ci-dessus les traitent
     # de la même façon (aucune règle bancaire dupliquée). Jamais enregistrés au carnet du jour.
-    releves_veille = releves_veille or {}
-    injectes = _releves_issus_de_la_veille(releves_veille)
+    # Règle du 05/10/2026 : un relevé absent garde la valeur de la veille ; la génération demande
+    # de la saisir (fenêtre) ; « passer » = la valeur de la veille est conservée.
+    saisis = {cle: int(v) for cle, v in (releves_saisis or {}).items() if v is not None}
+    injectes = _releves_fictifs(saisis, "saisi")
+    absents_avec_veille = {
+        m["cle"]: m["veille"]
+        for m in classement["releves_manquants"]
+        if m["cle"] not in saisis and m["veille"] is not None
+    }
+    injectes += _releves_fictifs(absents_avec_veille, "veille")
     classement_banques = {**classement, "fichiers": classement["fichiers"] + injectes}
 
     agences_banques_mises_a_jour, avertissements_banques, fichiers_ignores_banques = _ecrire_banques(
-        feuille, classement_banques, valeurs_manuelles or {}
+        feuille, classement_banques, valeurs_manuelles or {}, feuille_valeurs=feuille_valeurs
     )
+    agences_caisses_mises_a_jour, avertissements_caisses = _ecrire_caisses(feuille, feuille_valeurs, classement)
+    avertissements_banques = list(avertissements_banques) + avertissements_caisses
     fichiers_ignores.extend(fichiers_ignores_banques)
 
     agences_non_mises_a_jour = [
@@ -415,9 +538,13 @@ def generer_classeur(
 
     # Carnet : on consigne les soldes réellement lus aujourd'hui (jamais ceux repris de la veille).
     if dossier_carnet:
-        carnet.enregistrer(
-            os.path.join(dossier_carnet, carnet.NOM_FICHIER), jour, _soldes_du_jour(classement)
+        soldes_a_consigner = _soldes_du_jour(
+            {"fichiers": classement["fichiers"] + [i for i in injectes if i["origine"] == "saisi"]}
         )
+        for champ, cle_carnet in _NOMS_CARNET_MANUELS.items():
+            if (valeurs_manuelles or {}).get(champ) is not None:
+                soldes_a_consigner[cle_carnet] = int(valeurs_manuelles[champ])
+        carnet.enregistrer(os.path.join(dossier_carnet, carnet.NOM_FICHIER), jour, soldes_a_consigner)
 
     return {
         "ok": True,
@@ -427,6 +554,9 @@ def generer_classeur(
         "agences_balance_mises_a_jour": [AGENCE_LIBELLES[c] for c in agences_balance_mises_a_jour],
         "agences_banques_mises_a_jour": [AGENCE_LIBELLES[c] for c in agences_banques_mises_a_jour],
         "avertissements_banques": avertissements_banques,
+        "agences_caisses_mises_a_jour": [AGENCE_LIBELLES[c] for c in agences_caisses_mises_a_jour],
+        "releves_repris_de_la_veille": [i["nom"] for i in injectes if i["origine"] == "veille"],
+        "releves_saisis": [i["nom"] for i in injectes if i["origine"] == "saisi"],
         "agences_mises_a_jour": [AGENCE_LIBELLES[c] for c in agences_comptes_mises_a_jour],
         "agences_non_mises_a_jour": [AGENCE_LIBELLES[c] for c in agences_non_mises_a_jour],
         "fichiers_ignores": fichiers_ignores,

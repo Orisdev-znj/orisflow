@@ -446,7 +446,7 @@ def test_ecobank_access_bank_uv_valeurs_manuelles_directes(contexte):
     classeur = openpyxl.load_workbook(resultat["chemin_genere"])
     synthese = classeur["Synthèse"]
     assert synthese["C33"].value == 21_000_000
-    assert synthese["C32"].value == 5_000_000
+    assert synthese["I32"].value == 5_000_000  # Access Bank : Marché Central (colonne I)
     assert synthese["C56"].value == 3_000_000
     assert synthese["C57"].value == 1_800_000
     assert synthese["C58"].value == 39_000_000
@@ -494,14 +494,18 @@ def test_releve_absent_repris_de_la_veille_puis_carnet_du_jour_enregistre(contex
         contexte["sortie"],
         jour=date(2026, 9, 29),
         dossier_carnet=dossier_carnet,
-        releves_veille={"cca:39": 42_000_000},
+        releves_saisis={"cca:39": 42_000_000},
     )
 
     classeur = openpyxl.load_workbook(resultat["chemin_genere"])
     feuille = classeur["Synthèse"]
     # Bons de caisse, relevé lu (clé 12), puis valeur de la veille (clé 39), ordre des clés RIB.
     assert feuille["C28"].value == "=510000000+151847746+555000000+42000000"
-    assert carnet.lire(os.path.join(dossier_carnet, carnet.NOM_FICHIER))["2026-09-29"] == {"cca:12": 555_000_000}
+    # Le relevé lu (12) et la valeur saisie pour le relevé absent (39) sont consignés ; la veille
+    # (cca:86 du 28/09) n'est jamais recopiée dans le carnet du jour.
+    assert carnet.lire(os.path.join(dossier_carnet, carnet.NOM_FICHIER))["2026-09-29"] == {
+        "cca:12": 555_000_000, "cca:39": 42_000_000,
+    }
 
 
 def test_releve_absent_sans_choix_nest_pas_repris_de_la_veille(contexte, tmp_path):
