@@ -22,7 +22,7 @@ NOM_FEUILLE_SYNTHESE = ("Synthèse", "Synthese")
 LIGNE_TOTAL_COMPTES = 16
 
 
-def _extraire_date_nom(chemin: str) -> date:
+def extraire_date_nom(chemin: str) -> date:
     nom = os.path.basename(chemin)
     correspondance = re.search(r"(\d{2})[-\s_](\d{2})[-\s_](\d{4})", nom)
     if correspondance:
@@ -47,10 +47,10 @@ def trouver_classeur_recent(dossier: str, avant: Optional[date] = None) -> Optio
     fichiers += glob.glob(os.path.join(dossier, "**", "*.xlsm"), recursive=True)
     fichiers = [f for f in fichiers if not os.path.basename(f).startswith("~$")]
     if avant is not None:
-        fichiers = [f for f in fichiers if _extraire_date_nom(f) < avant]
+        fichiers = [f for f in fichiers if extraire_date_nom(f) < avant]
     if not fichiers:
         return None
-    return max(fichiers, key=_extraire_date_nom)
+    return max(fichiers, key=extraire_date_nom)
 
 
 def lire_totaux_comptes_precedents(dossier_reference: str) -> dict:
@@ -78,7 +78,7 @@ def lire_totaux_comptes_precedents(dossier_reference: str) -> dict:
         # Un classeur illisible ne doit jamais empêcher l'import : on renvoie ce qui a pu être lu.
         pass
 
-    jour = _extraire_date_nom(chemin)
+    jour = extraire_date_nom(chemin)
     return {
         "chemin": chemin,
         "date": jour.isoformat() if jour != date.min else None,

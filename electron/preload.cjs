@@ -9,6 +9,10 @@ contextBridge.exposeInMainWorld("orisflow", {
     return ipcRenderer.invoke("fichiers:decrire", chemins);
   },
   testerMoteur: () => ipcRenderer.invoke("moteur:tester"),
+  lireTableComptesInfo: () => ipcRenderer.invoke("agences:tableComptesInfo"),
+  construireTableComptes: () => ipcRenderer.invoke("agences:construireTable"),
+  lireCarnetInfo: () => ipcRenderer.invoke("carnet:info"),
+  importerClasseurCarnet: () => ipcRenderer.invoke("carnet:importerClasseur"),
   classer: (chemins, agencesManuelles) => ipcRenderer.invoke("moteur:classer", chemins, agencesManuelles),
   generer: (chemins, valeursManuelles, relevesSaisis) =>
     ipcRenderer.invoke("moteur:generer", chemins, valeursManuelles, relevesSaisis),

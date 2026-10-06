@@ -81,8 +81,48 @@ function dossierCarnet() {
   return path.join(dossierTravail(), "Carnet");
 }
 
+/** Table « 15 comptes par agence » (décision du 05/10/2026), construite une fois pour
+ * toutes depuis des dossiers de référence (voir agences:construireTable) puis utilisée à
+ * chaque classement pour reconnaître une liste de comptes sans dépendre de son nom. */
+function fichierTableComptes() {
+  return path.join(dossierTravail(), "Config", "comptes_par_agence.json");
+}
+
+/** Résumé de la table de reconnaissance, pour l'afficher dans Paramètres sans relancer
+ * le moteur (lecture directe du fichier de configuration). */
+function lireTableComptesInfo() {
+  try {
+    const donnees = JSON.parse(fs.readFileSync(fichierTableComptes(), "utf-8"));
+    const agences = donnees.agences && typeof donnees.agences === "object" ? donnees.agences : {};
+    return {
+      existe: true,
+      construiteLe: donnees.construite_le || null,
+      joursDeReference: donnees.jours_de_reference || [],
+      agences: Object.fromEntries(Object.entries(agences).map(([cle, comptes]) => [cle, comptes.length])),
+    };
+  } catch {
+    return { existe: false, construiteLe: null, joursDeReference: [], agences: {} };
+  }
+}
+
 function gestionnaires() {
   return lireParametres().gestionnaires || {};
+}
+
+/** Résumé du carnet des soldes, pour l'afficher dans Paramètres (lecture directe, même
+ * fichier que celui que le moteur Python lit/écrit — voir orisflow_engine/carnet.py). */
+function lireCarnetInfo() {
+  try {
+    const donnees = JSON.parse(fs.readFileSync(path.join(dossierCarnet(), "soldes_bancaires.json"), "utf-8"));
+    const jours = Object.keys(donnees).sort();
+    const comptesConnus = new Set();
+    for (const jour of jours) {
+      for (const compte of Object.keys(donnees[jour] || {})) comptesConnus.add(compte);
+    }
+    return { existe: jours.length > 0, dernierJour: jours.at(-1) || null, nombreJours: jours.length, nombreComptes: comptesConnus.size };
+  } catch {
+    return { existe: false, dernierJour: null, nombreJours: 0, nombreComptes: 0 };
+  }
 }
 
 function preparerDossiers() {
@@ -215,7 +255,42 @@ function enregistrerCommunications() {
 
   ipcMain.handle("fichiers:decrire", (_evenement, chemins) => decrireFichiers(chemins));
 
-  ipcMain.handle("moteur:tester", async () => lancerMoteur("ping", {}));
+  ipcMain.handle("moteur:tester", async (evenement) =>
+    lancerMoteur("diagnostic", { fichierTableComptes: fichierTableComptes(), dossierTravail: dossierTravail() }, (message) => {
+      evenement.sender.send("moteur:evenement", message);
+    }),
+  );
+
+  ipcMain.handle("agences:tableComptesInfo", () => lireTableComptesInfo());
+
+  ipcMain.handle("agences:construireTable", async (evenement) => {
+    const fenetre = BrowserWindow.fromWebContents(evenement.sender);
+    const choix = await dialog.showOpenDialog(fenetre, {
+      title: "Choisir les dossiers de référence (un par jour, fichiers déjà nommés par agence)",
+      properties: ["openDirectory", "multiSelections"],
+    });
+    if (choix.canceled || choix.filePaths.length === 0) return null;
+    return lancerMoteur("table_comptes_construire", {
+      dossiers: choix.filePaths,
+      fichierSortie: fichierTableComptes(),
+    });
+  });
+
+  ipcMain.handle("carnet:info", () => lireCarnetInfo());
+
+  ipcMain.handle("carnet:importerClasseur", async (evenement) => {
+    const fenetre = BrowserWindow.fromWebContents(evenement.sender);
+    const choix = await dialog.showOpenDialog(fenetre, {
+      title: "Choisir un classeur de trésorerie déjà validé comme correct",
+      properties: ["openFile"],
+      filters: [{ name: "Classeurs Excel", extensions: ["xlsx", "xlsm"] }],
+    });
+    if (choix.canceled || choix.filePaths.length === 0) return null;
+    return lancerMoteur("carnet_importer_classeur", {
+      cheminClasseur: choix.filePaths[0],
+      dossierCarnet: dossierCarnet(),
+    });
+  });
 
   ipcMain.handle("moteur:classer", async (evenement, chemins, agencesManuelles) =>
     lancerMoteur(
@@ -227,7 +302,7 @@ function enregistrerCommunications() {
         agencesManuelles: agencesManuelles || null,
         dossierCarnet: dossierCarnet(),
         // Table « 15 comptes par agence » (décision du 05/10/2026) : fichier de configuration local.
-        fichierTableComptes: path.join(dossierTravail(), "Config", "comptes_par_agence.json"),
+        fichierTableComptes: fichierTableComptes(),
       },
       (message) => {
         evenement.sender.send("moteur:evenement", message);
@@ -247,7 +322,7 @@ function enregistrerCommunications() {
         gestionnaires: gestionnaires(),
         dossierCarnet: dossierCarnet(),
         relevesSaisis: relevesSaisis || null,
-        fichierTableComptes: path.join(dossierTravail(), "Config", "comptes_par_agence.json"),
+        fichierTableComptes: fichierTableComptes(),
       },
       (message) => {
         evenement.sender.send("moteur:evenement", message);

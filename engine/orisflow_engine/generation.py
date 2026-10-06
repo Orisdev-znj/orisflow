@@ -179,16 +179,19 @@ def _ecrire_banques(
             agences_mises_a_jour.append("akwa")
 
     # BGFI (Akwa uniquement, pas de bon de caisse — confirmé le 02/10/2026).
-    soldes_bgfi: list[int] = []
+    # Triés par numéro de compte (comme CCA-Bank par clé RIB) : sans ordre fixe, on ne peut
+    # plus retrouver, en relisant un classeur, quel terme appartient à quel compte (05/10/2026).
+    comptes_bgfi: list[tuple[str, int]] = []
     for f in classement["fichiers"]:
         if f["type_detecte"] != "releve_bgfi" or f.get("ligne_banque_cible") != "bgfi":
             continue
         if f["niveau"] == "bloquant" or f["solde_releve"] is None:
             fichiers_ignores.append(f["nom"])
             continue
-        soldes_bgfi.append(f["solde_releve"])
-    if soldes_bgfi:
-        _ecrire_montant(feuille, f"{colonne_akwa}{LIGNE_BGFI}", soldes_bgfi)
+        comptes_bgfi.append((f.get("numero_compte_pdf") or "", f["solde_releve"]))
+    if comptes_bgfi:
+        termes = [solde for _, solde in sorted(comptes_bgfi, key=lambda c: c[0])]
+        _ecrire_montant(feuille, f"{colonne_akwa}{LIGNE_BGFI}", termes)
         if "akwa" not in agences_mises_a_jour:
             agences_mises_a_jour.append("akwa")
 

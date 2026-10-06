@@ -20,6 +20,7 @@ from typing import Any, Dict
 
 from . import VERSION
 from .bordereau import ajouter_evenement, creer_transmission, lister_transmissions
+from . import carnet
 from .classification import classer_fichiers
 from .comptes_agences import charger_table, construire_table_depuis_dossiers, enregistrer_table, NB_COMPTES_PAR_AGENCE, SEUIL_COMPTES
 from .generation import generer_classeur
@@ -46,6 +47,116 @@ def commande_ping(_: Dict[str, Any]) -> None:
         version=VERSION,
         python=platform.python_version(),
         systeme=platform.platform(),
+    )
+
+
+def _etapes_diagnostic(parametres: Dict[str, Any]):
+    """Liste des vérifications du moteur (nom, fonction sans argument -> (ok, détail))."""
+    import tempfile
+
+    def _verifier_bibliotheques():
+        import importlib
+
+        manquantes = []
+        for module in ("pandas", "openpyxl", "xlrd", "pymupdf"):
+            try:
+                importlib.import_module(module)
+            except ImportError:
+                manquantes.append(module)
+        if manquantes:
+            return False, f"Bibliothèque(s) manquante(s) : {', '.join(manquantes)}."
+        return True, "pandas, openpyxl, xlrd, pymupdf présents."
+
+    def _verifier_lecture_excel():
+        import openpyxl
+        import pandas as pd
+
+        with tempfile.TemporaryDirectory() as dossier:
+            chemin = os.path.join(dossier, "test.xlsx")
+            classeur = openpyxl.Workbook()
+            classeur.active["A1"] = "orisflow"
+            classeur.save(chemin)
+            lu = pd.read_excel(chemin, sheet_name=0, header=None)
+            if lu.iloc[0, 0] != "orisflow":
+                return False, "La valeur relue ne correspond pas à la valeur écrite."
+        return True, "Écriture et lecture d'un classeur Excel réussies."
+
+    def _verifier_lecture_pdf():
+        import pymupdf
+
+        with tempfile.TemporaryDirectory() as dossier:
+            chemin = os.path.join(dossier, "test.pdf")
+            document = pymupdf.open()
+            page = document.new_page()
+            page.insert_text((72, 72), "orisflow")
+            document.save(chemin)
+            document.close()
+            relu = pymupdf.open(chemin)
+            texte = relu.load_page(0).get_text()
+            relu.close()
+            if "orisflow" not in texte:
+                return False, "Le texte relu ne correspond pas au texte écrit."
+        return True, "Écriture et lecture d'un PDF réussies."
+
+    def _verifier_dossier_travail():
+        dossier = parametres.get("dossierTravail")
+        if not dossier:
+            return True, "Non vérifié (dossier de travail non transmis)."
+        try:
+            os.makedirs(dossier, exist_ok=True)
+            chemin = os.path.join(dossier, ".orisflow_test_ecriture")
+            with open(chemin, "w", encoding="utf-8") as fichier:
+                fichier.write("test")
+            os.remove(chemin)
+        except OSError as erreur:
+            return False, f"Écriture impossible dans {dossier} ({erreur})."
+        return True, f"Écriture et suppression réussies dans {dossier}."
+
+    def _verifier_table_comptes():
+        table = charger_table(parametres.get("fichierTableComptes") or None)
+        if not table:
+            return True, "Table non construite : la reconnaissance par numéro de compte est inactive (voir Paramètres)."
+        return True, f"{len(table)} agence(s) reconnaissables par leurs numéros de compte."
+
+    return [
+        ("Interpréteur Python", lambda: (True, f"Python {platform.python_version()} ({platform.platform()}).")),
+        ("Bibliothèques requises", _verifier_bibliotheques),
+        ("Lecture/écriture Excel", _verifier_lecture_excel),
+        ("Lecture/écriture PDF", _verifier_lecture_pdf),
+        ("Dossier de travail", _verifier_dossier_travail),
+        ("Table de reconnaissance des agences", _verifier_table_comptes),
+    ]
+
+
+def commande_diagnostic(parametres: Dict[str, Any]) -> None:
+    """Fait tourner une série de vérifications concrètes du moteur (demande du 05/10/2026,
+    remplace le simple `ping`) : chaque étape émet sa progression et son détail, pour un
+    journal complet et une barre d'avancement en %, au lieu d'une réponse unique figée."""
+    etapes = _etapes_diagnostic(parametres)
+    total = len(etapes)
+    resultats = []
+    for position, (libelle, verifier) in enumerate(etapes, start=1):
+        try:
+            ok, detail = verifier()
+        except Exception as erreur:  # une vérification ne doit jamais interrompre les suivantes
+            ok, detail = False, f"Erreur inattendue : {erreur}"
+        resultats.append({"etape": libelle, "ok": ok, "detail": detail})
+        emettre(
+            type="progression",
+            courant=position,
+            total=total,
+            pourcentage=round(100 * position / total),
+            fichier="",
+            message=f"{'✓' if ok else '✗'} {libelle} — {detail}",
+        )
+    emettre(
+        type="resultat",
+        commande="diagnostic",
+        ok=all(r["ok"] for r in resultats),
+        version=VERSION,
+        python=platform.python_version(),
+        systeme=platform.platform(),
+        etapes=resultats,
     )
 
 
@@ -267,11 +378,39 @@ def commande_table_comptes_construire(parametres: Dict[str, Any]) -> None:
     )
 
 
+def commande_carnet_importer(parametres: Dict[str, Any]) -> None:
+    """Alimente rétroactivement le carnet des soldes depuis un classeur que l'utilisateur
+    a validé comme correct (décision du 05/10/2026, après comparaison d'un classeur généré
+    à un classeur de référence — voir carnet.extraire_soldes_classeur).
+
+    Paramètres : {"cheminClasseur": chemin du classeur validé, "dossierCarnet": dossier du
+    carnet (même convention que « classer »/« generer »)}. Le classeur source n'est jamais
+    modifié.
+    """
+    chemin_classeur = parametres.get("cheminClasseur")
+    dossier_carnet = parametres.get("dossierCarnet")
+    if not chemin_classeur or not dossier_carnet:
+        emettre(type="erreur", message="Il faut un classeur à importer et un dossier de carnet.")
+        return
+    try:
+        jour, soldes, avertissements = carnet.extraire_soldes_classeur(chemin_classeur)
+    except Exception as erreur:
+        emettre(type="erreur", message=f"Ce classeur n'a pas pu être lu : {erreur}")
+        return
+    carnet.enregistrer(os.path.join(dossier_carnet, carnet.NOM_FICHIER), jour, soldes)
+    emettre(
+        type="resultat", commande="carnet_importer_classeur", version=VERSION, ok=True,
+        jour=jour.isoformat(), comptes_importes=len(soldes), avertissements=avertissements,
+    )
+
+
 COMMANDES = {
     "ping": commande_ping,
+    "diagnostic": commande_diagnostic,
     "analyser": commande_analyser,
     "classer": commande_classer,
     "table_comptes_construire": commande_table_comptes_construire,
+    "carnet_importer_classeur": commande_carnet_importer,
     "generer": commande_generer,
     "bordereau_creer": commande_bordereau_creer,
     "bordereau_evenement": commande_bordereau_evenement,

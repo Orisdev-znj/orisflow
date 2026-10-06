@@ -28,6 +28,7 @@ const CONFIANCE_LIBELLES: Record<string, string> = {
   regle_banque: "règle bancaire",
   gestionnaire: "gestionnaire",
   comptage: "proximité du total — à vérifier absolument",
+  comptes: "numéros de compte",
   manuelle: "confirmée manuellement",
 };
 

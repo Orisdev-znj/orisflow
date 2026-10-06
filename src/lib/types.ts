@@ -16,6 +16,8 @@ export type ConfianceAgence =
   // dernier recours, par proximité du total de comptes avec la veille — 03/10/2026.
   | "gestionnaire"
   | "comptage"
+  // Reconnue par ses numéros de compte, via la table « 15 comptes par agence » — 05/10/2026.
+  | "comptes"
   // Choisie par l'utilisateur dans la fenêtre « Agence à confirmer » (03/10/2026).
   | "manuelle";
 
@@ -88,6 +90,10 @@ export interface ResultatGeneration {
   chemin_genere: string;
   date: string;
   modele_utilise: string;
+  // Copie automatique du classeur généré dans le dossier de référence, pour que la
+  // prochaine génération en reparte (chaînage J-1, décision du 06/10/2026) ; `null` si
+  // le dossier de référence est introuvable ou identique au dossier de sortie.
+  chemin_reference_mis_a_jour: string | null;
   agences_mises_a_jour: string[];
   // Dépôts/engagements (lignes 20/23), distincts des comptes : une agence peut être mise
   // à jour sur l'un sans l'être sur l'autre (ajouté le 01/10/2026, sprint 5).
@@ -115,6 +121,83 @@ export interface ResultatPing {
   version: string;
   python?: string;
   systeme?: string;
+}
+
+/** Une vérification concrète du moteur (ex. « Lecture/écriture Excel ») parmi celles
+ * effectuées par « Tester le moteur » (remplace le simple ping le 05/10/2026). */
+export interface EtapeDiagnostic {
+  etape: string;
+  ok: boolean;
+  detail: string;
+}
+
+export interface ResultatDiagnostic {
+  type: "resultat";
+  commande: "diagnostic";
+  ok: boolean;
+  version: string;
+  python: string;
+  systeme: string;
+  etapes: EtapeDiagnostic[];
+}
+
+/** État de la table « 15 comptes par agence » (décision du 05/10/2026), qui permet de
+ * reconnaître une liste de comptes sans dépendre de son nom de fichier. */
+export interface TableComptesInfo {
+  existe: boolean;
+  construiteLe: string | null;
+  joursDeReference: string[];
+  // Nombre de comptes stables retenus, par clé d'agence.
+  agences: Record<string, number>;
+}
+
+export interface ResultatTableComptesConstruite {
+  type: "resultat";
+  commande: "table_comptes_construire";
+  version: string;
+  ok: true;
+  fichier: string;
+  agences: Record<string, number>;
+  seuil: number;
+  comptes_par_agence: number;
+}
+
+/** État du carnet des soldes bancaires (décision du 03/10/2026, complété le 05/10/2026
+ * par l'import depuis un classeur validé — voir carnet.py). */
+export interface CarnetInfo {
+  existe: boolean;
+  dernierJour: string | null;
+  nombreJours: number;
+  nombreComptes: number;
+}
+
+export interface ResultatCarnetImporte {
+  type: "resultat";
+  commande: "carnet_importer_classeur";
+  version: string;
+  ok: true;
+  jour: string;
+  comptes_importes: number;
+  avertissements: string[];
+}
+
+/** État du carnet des soldes bancaires (décision du 03/10/2026, complété le 05/10/2026
+ * par l'import depuis un classeur validé — voir carnet.py). */
+export interface CarnetInfo {
+  existe: boolean;
+  dernierJour: string | null;
+  nombreJours: number;
+  nombreComptes: number;
+}
+
+export interface ResultatCarnetImporte {
+  type: "resultat";
+  commande: "carnet_importer_classeur";
+  version: string;
+  ok: true;
+  jour: string;
+  comptes_importes: number;
+  avertissements: string[];
 }
 
 export interface EvenementMoteur {
@@ -222,7 +305,11 @@ export interface ResultatEvenementCree {
 export interface ApiOrisflow {
   choisirFichiers(): Promise<FichierImporte[]>;
   decrireFichiersDeposes(fichiers: FileList | File[]): Promise<FichierImporte[]>;
-  testerMoteur(): Promise<ResultatPing>;
+  testerMoteur(): Promise<ResultatDiagnostic>;
+  lireTableComptesInfo(): Promise<TableComptesInfo>;
+  construireTableComptes(): Promise<ResultatTableComptesConstruite | null>;
+  lireCarnetInfo(): Promise<CarnetInfo>;
+  importerClasseurCarnet(): Promise<ResultatCarnetImporte | null>;
   classer(chemins: string[], agencesManuelles?: Record<string, string>): Promise<ResultatClassement>;
   generer(
     chemins: string[],
