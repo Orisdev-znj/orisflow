@@ -85,7 +85,10 @@ function dossierCarnet() {
  * toutes depuis des dossiers de référence (voir agences:construireTable) puis utilisée à
  * chaque classement pour reconnaître une liste de comptes sans dépendre de son nom. */
 function fichierTableComptes() {
-  return path.join(dossierTravail(), "Config", "comptes_par_agence.json");
+  // Emplacement fixe (décision du 06/10/2026) : la table ne dépend pas du dossier de travail,
+  // qui peut changer ; elle reste dans Documents\Orisflow\Config (jamais versionnée).
+  const racine = modeAutotest ? app.getPath("temp") : app.getPath("documents");
+  return path.join(racine, "Orisflow", "Config", "comptes_par_agence.json");
 }
 
 /** Résumé de la table de reconnaissance, pour l'afficher dans Paramètres sans relancer
