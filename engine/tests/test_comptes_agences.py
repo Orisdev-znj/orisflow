@@ -123,3 +123,25 @@ def test_table_enregistree_puis_relue(tmp_path):
     enregistrer_table(chemin, {"akwa": _comptes("37110", 15)}, ["jour1"])
     assert charger_table(chemin) == {"akwa": _comptes("37110", 15)}
     assert charger_table(str(tmp_path / "absent.json")) == {}
+
+
+def test_code_dans_un_identifiant_technique_nest_pas_une_alerte(jours, tmp_path):
+    """Constaté le 06/10/2026 : « ETListeCompte_NoHeader_0006914_10000-… » contient le code du
+    Siège, mais la liste appartient à Bépanda (15/15). Aucune alerte ne doit subsister."""
+    dossiers, akwa, mokolo, _ = jours
+    table = construire_table(dossiers)
+    fichier = _liste(tmp_path / "ETListeCompte_NoHeader_0006914_10000-5ca72a131a10.xls", mokolo)
+    r = classer_fichiers([fichier], None, table_comptes=table)
+    f = r["fichiers"][0]
+    assert f["agence_detectee"] == "mokolo"
+    assert f["niveau"] == "information"
+    assert not any("Siège" in m for m in f["messages"])
+
+
+def test_nom_d_agence_contredit_reste_signale(jours, tmp_path):
+    """Un vrai nom d'agence qui contredit les numéros de compte reste une alerte."""
+    dossiers, akwa, mokolo, _ = jours
+    table = construire_table(dossiers)
+    fichier = _liste(tmp_path / "Akwa_Compte.xls", mokolo)
+    r = classer_fichiers([fichier], None, table_comptes=table)
+    assert r["fichiers"][0]["niveau"] == "avertissement"

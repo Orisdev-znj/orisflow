@@ -379,7 +379,16 @@ def identifier_agences_par_comptes(
         if ident.agence is not None:
             bilan["identifiees"] += 1
             libelle = AGENCE_LIBELLES[ident.agence]
-            if nom_agence and nom_agence != ident.agence:
+            if f["confiance_agence"] == "code":
+                # Un code dans un identifiant technique (ex. « 10000-… ») n'est pas un nom de fichier
+                # fiable : les numéros de compte priment, sans alerte (demande du 06/10/2026).
+                f["messages"] = [m for m in f["messages"] if not m.startswith("Agence déduite d'un code")]
+                f["messages"].append(
+                    f"Agence confirmée par ses numéros de compte ({ident.score}/{NB_COMPTES_PAR_AGENCE})."
+                )
+                if f["niveau"] == "avertissement" and not f["doublons"] and not f["mal_formes"]:
+                    f["niveau"] = "information"  # l'avertissement ne venait que du nom
+            elif nom_agence and nom_agence != ident.agence:
                 bilan["contredisent_le_nom"] += 1
                 f["messages"].append(
                     f"Le nom du fichier indique {f['agence_libelle']}, mais ses numéros de compte "
