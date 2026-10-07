@@ -150,6 +150,16 @@ function SectionGeneration({ generation, onGenerer, peutGenerer, dossierReferenc
               ))}
             </p>
           )}
+          {generation.resultat.avertissements_modele.length > 0 && (
+            <p role="alert" className="message message--avertissement">
+              {generation.resultat.avertissements_modele.map((avertissement, index) => (
+                <span key={index}>
+                  {avertissement}
+                  <br />
+                </span>
+              ))}
+            </p>
+          )}
           {generation.resultat.agences_non_mises_a_jour.length > 0 && (
             <p>
               Non mises à jour aujourd'hui (aucun fichier reçu — à compléter comme avant) :{" "}

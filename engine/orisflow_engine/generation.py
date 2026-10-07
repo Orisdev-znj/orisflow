@@ -259,6 +259,34 @@ def _valeur(feuille_valeurs, adresse: str) -> int:
     return v if isinstance(v, (int, float)) else 0
 
 
+# Lignes (fixes, hors caisses/liquidité qui bougent d'un classeur à l'autre — voir
+# `_ecrire_caisses`) utilisées pour calculer un J-1 à partir du modèle.
+_LIGNES_J1_A_VERIFIER = list(range(7, 16)) + [LIGNE_DEPOTS, LIGNE_ENGAGEMENTS] + list(range(
+    LIGNE_CCA_BANK, LIGNE_WESTERN_UNION + 1
+))
+
+
+def _verifier_modele_recalcule(feuille, feuille_valeurs, lignes: list[int]) -> list[str]:
+    """Un classeur enregistré par openpyxl (donc aussi un classeur généré par Orisflow puis
+    jamais rouvert dans Excel) perd la valeur calculée de ses cellules-formules : les lire
+    pour un J-1 donnerait silencieusement 0 (constaté le 05/10/2026 sur les lignes banques).
+    Ici, on le détecte et on prévient, plutôt que de laisser passer un J-1 faux sans alerte."""
+    manquantes = 0
+    for colonne in AGENCE_COLONNE.values():
+        for r in lignes:
+            brute = feuille[f"{colonne}{r}"].value
+            est_formule = isinstance(brute, str) and brute.startswith("=")
+            if est_formule and feuille_valeurs[f"{colonne}{r}"].value is None:
+                manquantes += 1
+    if not manquantes:
+        return []
+    return [
+        f"Le classeur de référence n'a pas été recalculé par Excel depuis son enregistrement : "
+        f"{manquantes} cellule(s) utilisée(s) pour le « J-1 » n'ont pas de valeur connue et ont été "
+        "comptées comme 0. Ouvrez ce classeur dans Excel, enregistrez-le, puis régénérez pour un J-1 fiable."
+    ]
+
+
 def _ligne_par_libelle(feuille, libelle: str) -> int | None:
     """Numéro de ligne dont le libellé (colonne A) vaut `libelle`, sans tenir compte des espaces
     ni de la casse. Les numéros de ligne changent d'un classeur à l'autre : on ne les suppose jamais."""
@@ -438,6 +466,9 @@ def generer_classeur(
 
     feuille = next((classeur[n] for n in NOM_FEUILLE_SYNTHESE if n in classeur.sheetnames), None)
     feuille_valeurs = classeur_valeurs[feuille.title] if feuille is not None else None
+    avertissements_modele = (
+        _verifier_modele_recalcule(feuille, feuille_valeurs, _LIGNES_J1_A_VERIFIER) if feuille is not None else []
+    )
     if feuille is None:
         return {
             "ok": False,
@@ -557,6 +588,7 @@ def generer_classeur(
         "agences_balance_mises_a_jour": [AGENCE_LIBELLES[c] for c in agences_balance_mises_a_jour],
         "agences_banques_mises_a_jour": [AGENCE_LIBELLES[c] for c in agences_banques_mises_a_jour],
         "avertissements_banques": avertissements_banques,
+        "avertissements_modele": avertissements_modele,
         "agences_caisses_mises_a_jour": [AGENCE_LIBELLES[c] for c in agences_caisses_mises_a_jour],
         "releves_repris_de_la_veille": [i["nom"] for i in injectes if i["origine"] == "veille"],
         "releves_saisis": [i["nom"] for i in injectes if i["origine"] == "saisi"],

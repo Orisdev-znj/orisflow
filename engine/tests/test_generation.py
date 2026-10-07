@@ -524,3 +524,75 @@ def test_releve_absent_sans_choix_nest_pas_repris_de_la_veille(contexte, tmp_pat
     # Le relevé de la clé 39 manque et aucune valeur de la veille n'a été choisie : seul le
     # relevé lu (clé 12) entre dans la cellule, la clé 39 n'est jamais reprise d'office.
     assert classeur["Synthèse"]["C28"].value == "=510000000+151847746+555000000"
+
+
+# --- Robustesse : modèle jamais recalculé par Excel (06/10/2026) ------------------------
+
+
+def test_signale_une_cellule_formule_sans_valeur_calculee_dans_le_modele(contexte):
+    """Le modèle de `contexte` contient C31 (UBA Akwa) en formule jamais recalculée (écrite
+    par openpyxl, sans valeur en cache) : Orisflow doit le signaler plutôt que de compter 0
+    silencieusement pour le J-1 (constaté le 05/10/2026 sur les lignes banques réelles)."""
+    chemin_akwa = contexte["extractions"] / "Akwa_Compte.xlsx"
+    _extraction_comptes(chemin_akwa, ["37110"])
+
+    resultat = generer_classeur([str(chemin_akwa)], contexte["reference"], contexte["sortie"], jour=date(2026, 9, 29))
+
+    assert resultat["ok"] is True
+    assert len(resultat["avertissements_modele"]) == 1
+    assert "pas été recalculé par Excel" in resultat["avertissements_modele"][0]
+    assert "1 cellule" in resultat["avertissements_modele"][0]
+
+
+def test_aucune_fausse_alerte_quand_le_modele_na_que_des_valeurs(tmp_path):
+    """À l'inverse d'un modèle avec formule non recalculée : un modèle où toutes les
+    cellules utilisées pour le J-1 sont des valeurs simples ne doit déclencher aucune alerte."""
+    reference = tmp_path / "reference"
+    reference.mkdir()
+    sortie = tmp_path / "sortie"
+    classeur = openpyxl.Workbook()
+    synthese = classeur.active
+    synthese.title = "Synthèse"
+    synthese["A7"] = "COMPTES  COURANT ENTREPRISES"
+    synthese["C7"] = 50  # valeur simple, aucune formule
+    synthese["A20"] = "ENCOURS  DEPOTS"
+    synthese["C20"] = 1_000_000
+    synthese["A23"] = "ENCOURS ENGAGEMENTS"
+    synthese["C23"] = 500_000
+    synthese["C28"] = 100_000_000  # CCA-Bank Akwa, valeur simple
+    classeur.save(reference / "TRESORERIE JOURNALIÈRE et TDB DU  10 09 2026.xlsx")
+
+    resultat = generer_classeur([], str(reference), str(sortie), jour=date(2026, 9, 29))
+
+    assert resultat["ok"] is True
+    assert resultat["avertissements_modele"] == []
+
+
+def test_modele_sans_feuille_synthese_est_signale_clairement(tmp_path):
+    reference = tmp_path / "reference"
+    reference.mkdir()
+    classeur = openpyxl.Workbook()
+    classeur.active.title = "Autre chose"
+    classeur.save(reference / "TRESORERIE JOURNALIÈRE et TDB DU  10 09 2026.xlsx")
+
+    resultat = generer_classeur([], str(reference), str(tmp_path / "sortie"), jour=date(2026, 9, 29))
+
+    assert resultat["ok"] is False
+    assert "Synthèse" in resultat["erreur"]
+
+
+def test_modele_sans_aucune_ligne_de_caisse_reconnaissable_ne_plante_pas(tmp_path):
+    """Un classeur restructuré au point qu'aucun libellé « CAISSE… » n'existe plus (ou une
+    feuille quasi vide) ne doit jamais faire planter la génération : simplement rien à écrire."""
+    reference = tmp_path / "reference"
+    reference.mkdir()
+    classeur = openpyxl.Workbook()
+    synthese = classeur.active
+    synthese.title = "Synthèse"
+    synthese["A7"] = "COMPTES  COURANT ENTREPRISES"
+    classeur.save(reference / "TRESORERIE JOURNALIÈRE et TDB DU  10 09 2026.xlsx")
+
+    resultat = generer_classeur([], str(reference), str(tmp_path / "sortie"), jour=date(2026, 9, 29))
+
+    assert resultat["ok"] is True
+    assert resultat["agences_caisses_mises_a_jour"] == []

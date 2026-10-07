@@ -103,6 +103,9 @@ export interface ResultatGeneration {
   // Lignes banques restées inchangées faute de relevé ou de valeur saisie (avertissement
   // plus visible que la liste « agences_non_mises_a_jour », demande du 02/10/2026).
   avertissements_banques: string[];
+  // Cellules-formules du modèle sans valeur calculée (classeur jamais recalculé par Excel) :
+  // le J-1 correspondant aurait silencieusement valu 0 sans ce signalement (06/10/2026).
+  avertissements_modele: string[];
   agences_non_mises_a_jour: string[];
   fichiers_ignores: string[];
   classement: Classement;

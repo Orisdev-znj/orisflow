@@ -55,6 +55,7 @@ function fausseApi(surcharges: Partial<ApiOrisflow> = {}): ApiOrisflow {
       agences_balance_mises_a_jour: [],
       agences_banques_mises_a_jour: [],
       avertissements_banques: [],
+      avertissements_modele: [],
       agences_non_mises_a_jour: [],
       fichiers_ignores: [],
       classement: {
@@ -364,6 +365,7 @@ describe("Module Trésorerie (sans régression)", () => {
       agences_balance_mises_a_jour: [],
       agences_banques_mises_a_jour: [],
       avertissements_banques: [],
+      avertissements_modele: [],
       agences_non_mises_a_jour: [],
       fichiers_ignores: [],
       classement: {
@@ -446,6 +448,7 @@ describe("Module Trésorerie (sans régression)", () => {
       agences_balance_mises_a_jour: [],
       agences_banques_mises_a_jour: [],
       avertissements_banques: [],
+      avertissements_modele: [],
       agences_non_mises_a_jour: [],
       fichiers_ignores: [],
       classement: {

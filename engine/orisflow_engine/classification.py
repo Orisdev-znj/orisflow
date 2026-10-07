@@ -122,6 +122,23 @@ def classer_un_fichier(chemin: str) -> dict[str, Any]:
         "niveau": "information",
     }
 
+    try:
+        _classer_selon_extension(resultat, extension, nom, chemin)
+    except Exception as erreur:
+        # Filet de sécurité (06/10/2026) : une erreur inattendue dans un lecteur (fichier
+        # corrompu, gabarit jamais vu...) ne doit jamais interrompre le classement du reste
+        # du lot. On revient toujours à un résultat exploitable, jamais à une exception.
+        resultat["type_detecte"] = resultat["type_detecte"] or "illisible"
+        resultat["type_libelle"] = TYPE_LIBELLES.get(resultat["type_detecte"], "Fichier illisible")
+        resultat["niveau"] = "bloquant"
+        resultat["messages"].append(
+            f"Ce fichier n'a pas pu être lu ({erreur.__class__.__name__}) : vérifiez qu'il n'est pas "
+            "corrompu, qu'il correspond bien au type attendu, et qu'il n'est pas déjà ouvert ailleurs."
+        )
+    return resultat
+
+
+def _classer_selon_extension(resultat: dict[str, Any], extension: str, nom: str, chemin: str) -> None:
     if extension in (".xls", ".xlsx"):
         type_detecte = detecter_type_excel(nom, chemin)
         resultat["type_detecte"] = type_detecte
@@ -281,8 +298,6 @@ def classer_un_fichier(chemin: str) -> dict[str, Any]:
         resultat["type_libelle"] = TYPE_LIBELLES["inconnu"]
         resultat["niveau"] = "avertissement"
         resultat["messages"].append("Ce type de fichier n'est pas pris en charge (Excel ou PDF attendu).")
-
-    return resultat
 
 
 def detecter_fichiers_identiques(fichiers: list[dict[str, Any]]) -> None:

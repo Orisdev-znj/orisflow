@@ -107,3 +107,19 @@ def test_fichier_sans_ligne_totale_renvoie_aucune_valeur(tmp_path):
     resultat = lire_balance_classe3(str(chemin))
     assert resultat["depots"] is None
     assert resultat["engagements"] is None
+
+
+# --- Robustesse : fichier corrompu, ou pas un PDF malgré son extension (06/10/2026) --------
+
+
+def test_fichier_corrompu_ne_fait_jamais_planter_les_lecteurs(tmp_path):
+    """Trouvé le 06/10/2026 : un fichier renommé en .pdf sans en être un faisait planter
+    tout le classement du lot (FileDataError non interceptée). Plus aucun lecteur de ce
+    module ne doit laisser passer une exception : None/valeurs vides, jamais un plantage."""
+    chemin = tmp_path / "EtBalance_General_Consolide_corrompu.pdf"
+    chemin.write_bytes(b"ceci n'est pas un PDF valide, juste du texte quelconque")
+
+    assert detecter_type_balance(str(chemin)) is None
+    assert lire_agence(str(chemin)) is None
+    assert lire_balance_classe3(str(chemin)) == {"agence": None, "depots": None, "engagements": None}
+    assert lire_balance_classe5(str(chemin)) == {"agence": None, "caisse": None}

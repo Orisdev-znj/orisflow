@@ -86,7 +86,12 @@ def _trouver_ligne(chemin_pdf: str, motif_debut: str) -> Optional[dict]:
     commence par `motif_debut` (ex. "Total Classe : 3", "Total : 57")."""
     if pymupdf is None:
         raise RuntimeError("La lecture de PDF (PyMuPDF) n'est pas installée.")
-    document = pymupdf.open(chemin_pdf)
+    try:
+        document = pymupdf.open(chemin_pdf)
+    except Exception:
+        # Fichier corrompu, ou pas un PDF malgré son extension : jamais une exception qui
+        # remonterait jusqu'à l'appelant et interromprait le classement du lot (06/10/2026).
+        return None
     try:
         for page in document:
             lignes = _regrouper_mots_par_ligne(page)
@@ -101,6 +106,8 @@ def _trouver_ligne(chemin_pdf: str, motif_debut: str) -> Optional[dict]:
                 if texte.startswith(motif_debut):
                     return _extraire_valeurs_ligne(mots, ancres, decalage)
         return None
+    except Exception:
+        return None
     finally:
         document.close()
 
@@ -110,13 +117,16 @@ def detecter_type_balance(chemin_pdf: str) -> Optional[str]:
     (« Balance generale consolidée » + « Chapitre de : 3 » ou « ... : 5 »)."""
     if pymupdf is None:
         raise RuntimeError("La lecture de PDF (PyMuPDF) n'est pas installée.")
-    document = pymupdf.open(chemin_pdf)
     try:
-        if document.page_count == 0:
-            return None
-        texte = document[0].get_text().upper()
-    finally:
-        document.close()
+        document = pymupdf.open(chemin_pdf)
+        try:
+            if document.page_count == 0:
+                return None
+            texte = document[0].get_text().upper()
+        finally:
+            document.close()
+    except Exception:
+        return None  # fichier corrompu, ou pas un PDF malgré son extension (06/10/2026)
     if "BALANCE" not in texte:
         return None
     if "CHAPITRE DE : 3" in texte:
@@ -132,11 +142,14 @@ def lire_agence(chemin_pdf: str) -> Optional[str]:
     ne porte aucune information sur l'agence)."""
     if pymupdf is None:
         raise RuntimeError("La lecture de PDF (PyMuPDF) n'est pas installée.")
-    document = pymupdf.open(chemin_pdf)
     try:
-        texte = document[0].get_text()
-    finally:
-        document.close()
+        document = pymupdf.open(chemin_pdf)
+        try:
+            texte = document[0].get_text()
+        finally:
+            document.close()
+    except Exception:
+        return None  # fichier corrompu, ou pas un PDF malgré son extension (06/10/2026)
     correspondance = re.search(r"Groupe:\s*(\S+(?:\s+\S+){0,3}?)\s{2,}", texte)
     return correspondance.group(1).strip() if correspondance else None
 

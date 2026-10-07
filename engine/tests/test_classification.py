@@ -360,3 +360,37 @@ def test_releves_manquants_proposent_la_valeur_de_la_veille(tmp_path):
     assert len(manquants) == 10
     assert manquants["afriland:65"]["veille"] == 134_381_673
     assert manquants["cca:12"]["veille"] is None
+
+
+# --- Robustesse : aucun fichier ne doit jamais arrêter le classement du lot (06/10/2026) --
+
+
+def test_pdf_corrompu_nempeche_pas_le_classement_du_reste_du_lot(tmp_path):
+    """Un fichier renommé en .pdf sans en être un (cas réel : téléchargement interrompu)
+    ne doit jamais faire planter l'analyse des autres fichiers du même lot."""
+    corrompu = tmp_path / "EtBalance_General_Consolide_corrompu.pdf"
+    corrompu.write_bytes(b"ceci n'est pas un PDF valide")
+    bon = tmp_path / "Akwa_Compte.xlsx"
+    _extraction_comptes(bon, ["37110"])
+
+    resultat = classer_fichiers([str(corrompu), str(bon)])
+
+    fichier_corrompu = resultat["fichiers"][0]
+    assert fichier_corrompu["niveau"] == "bloquant"
+    assert fichier_corrompu["type_detecte"] == "illisible"
+    fichier_bon = resultat["fichiers"][1]
+    assert fichier_bon["type_detecte"] == "compte"
+    assert fichier_bon["total_comptes"] == 1
+
+
+def test_classeur_excel_tronque_est_signale_sans_planter(tmp_path):
+    """Un classeur `.xlsx` tronqué (téléchargement interrompu) lève une exception chez
+    openpyxl : le filet de sécurité générique doit la transformer en résultat bloquant."""
+    tronque = tmp_path / "Mokolo_Compte.xlsx"
+    tronque.write_bytes(b"PK\x03\x04 ceci n'est pas un vrai classeur Excel")
+
+    resultat = classer_fichiers([str(tronque)])
+
+    f = resultat["fichiers"][0]
+    assert f["niveau"] == "bloquant"
+    assert "n'a pas pu être lu" in f["messages"][0]
