@@ -305,7 +305,56 @@ export interface ResultatEvenementCree {
 }
 
 /** API exposée par l'application de bureau (fichier electron/preload.cjs). */
+// --- Authentification (06/10/2026) -----------------------------------------------------
+
+export type RoleUtilisateur = "admin" | "utilisateur";
+
+/** Jamais de mot de passe, de sel ni de hachage ici : uniquement ce qui peut être affiché. */
+export interface UtilisateurPublic {
+  identifiant: string;
+  nomAffiche: string;
+  role: RoleUtilisateur;
+  creeLe: string;
+}
+
+export interface EtatAuth {
+  premierLancement: boolean;
+  utilisateurConnecte: UtilisateurPublic | null;
+}
+
+export interface ResultatAuth {
+  ok: boolean;
+  utilisateur?: UtilisateurPublic;
+  erreur?: string;
+}
+
+export interface ResultatSimple {
+  ok: boolean;
+  erreur?: string;
+}
+
+export interface ResultatListeUtilisateurs {
+  ok: boolean;
+  utilisateurs?: UtilisateurPublic[];
+  erreur?: string;
+}
+
+export interface NouvelUtilisateur {
+  identifiant: string;
+  motDePasse: string;
+  nomAffiche?: string;
+  role?: RoleUtilisateur;
+}
+
 export interface ApiOrisflow {
+  etatAuth(): Promise<EtatAuth>;
+  creerCompteInitial(donnees: NouvelUtilisateur): Promise<ResultatAuth>;
+  connecter(identifiant: string, motDePasse: string): Promise<ResultatAuth>;
+  deconnecter(): Promise<boolean>;
+  listerUtilisateurs(): Promise<ResultatListeUtilisateurs>;
+  creerUtilisateur(donnees: NouvelUtilisateur): Promise<ResultatAuth>;
+  supprimerUtilisateur(identifiant: string): Promise<ResultatSimple>;
+  reinitialiserMotDePasse(identifiant: string, nouveauMotDePasse: string): Promise<ResultatSimple>;
   choisirFichiers(): Promise<FichierImporte[]>;
   decrireFichiersDeposes(fichiers: FileList | File[]): Promise<FichierImporte[]>;
   testerMoteur(): Promise<ResultatDiagnostic>;

@@ -2,7 +2,9 @@ import { useCallback, useEffect, useState } from "react";
 import BudgetDashboard from "./ecrans/BudgetDashboard";
 import EcranImport from "./ecrans/EcranImport";
 import EcranParametres from "./ecrans/EcranParametres";
+import EcranConnexion from "./ecrans/EcranConnexion";
 import EcranResultats from "./ecrans/EcranResultats";
+import FenetreUtilisateurs from "./ecrans/FenetreUtilisateurs";
 import EcranTraitement from "./ecrans/EcranTraitement";
 import type { EtatTraitement } from "./ecrans/EcranTraitement";
 import FenetreValeursManuelles from "./ecrans/FenetreValeursManuelles";
@@ -11,10 +13,12 @@ import Home from "./ecrans/Home";
 import ModuleBordereau from "./ecrans/ModuleBordereau";
 import WorkInProgress from "./ecrans/WorkInProgress";
 import type {
+  EtatAuth,
   EtatGeneration,
   FichierImporte,
   RelevesSaisis,
   ResultatClassement,
+  UtilisateurPublic,
   ValeursManuelles,
 } from "./lib/types";
 import logoOrisFinance from "./assets/logo-oris-finance.png";
@@ -42,6 +46,37 @@ const SOUS_TITRES: Record<Vue, string> = {
 };
 
 export default function App() {
+  // Authentification (06/10/2026) : rien d'autre ne s'affiche tant qu'aucune session n'est
+  // ouverte. `etatAuth` vaut `null` pendant la vérification initiale (évite un flash de
+  // l'écran de connexion « normal » si un premier lancement est en réalité détecté juste après).
+  const [etatAuth, setEtatAuth] = useState<EtatAuth | null>(null);
+  const [session, setSession] = useState<UtilisateurPublic | null>(null);
+  const [fenetreUtilisateursOuverte, setFenetreUtilisateursOuverte] = useState(false);
+
+  useEffect(() => {
+    const api = window.orisflow;
+    if (!api) {
+      // Aucun pont Electron (ex. aperçu dans un simple navigateur) : rien n'est authentifiable,
+      // donc rien à bloquer non plus. Chaque fonctionnalité continue de signaler elle-même
+      // qu'elle n'est disponible que dans l'application Orisflow, comme avant.
+      setSession({ identifiant: "", nomAffiche: "", role: "admin", creeLe: "" });
+      return;
+    }
+    api.etatAuth().then((reponse) => {
+      setEtatAuth(reponse);
+      // Une session déjà ouverte côté processus principal (ex. après un rechargement de la
+      // fenêtre en développement) est reprise directement, sans redemander la connexion.
+      if (reponse.utilisateurConnecte) setSession(reponse.utilisateurConnecte);
+    });
+  }, []);
+
+  const seDeconnecter = useCallback(() => {
+    window.orisflow?.deconnecter();
+    setSession(null);
+    setFenetreUtilisateursOuverte(false);
+    window.orisflow?.etatAuth().then(setEtatAuth);
+  }, []);
+
   const [vue, setVue] = useState<Vue>("accueil");
 
   // --- État du module Trésorerie (fonctionnalité B) : inchangé par rapport à avant. ---
@@ -190,6 +225,11 @@ export default function App() {
     }
   }, [resultat, genererClasseur]);
 
+  if (!session) {
+    if (!etatAuth) return null; // bref instant de vérification, avant de savoir quoi afficher
+    return <EcranConnexion etat={etatAuth} onConnecte={setSession} />;
+  }
+
   return (
     <div className="application">
       <header className="entete">
@@ -203,6 +243,17 @@ export default function App() {
           {vue !== "accueil" && (
             <button type="button" className="bouton-accueil" onClick={() => setVue("accueil")}>
               ← Accueil
+            </button>
+          )}
+          <span className="entete__utilisateur">
+            {session.nomAffiche}
+            <button type="button" className="bouton-accueil" onClick={seDeconnecter}>
+              Se déconnecter
+            </button>
+          </span>
+          {session.role === "admin" && (
+            <button type="button" className="bouton-accueil" onClick={() => setFenetreUtilisateursOuverte(true)}>
+              Utilisateurs
             </button>
           )}
           {vue === "bordereau" && (
@@ -305,6 +356,10 @@ export default function App() {
           </>
         )}
       </main>
+
+      {fenetreUtilisateursOuverte && (
+        <FenetreUtilisateurs onFermer={() => setFenetreUtilisateursOuverte(false)} />
+      )}
     </div>
   );
 }

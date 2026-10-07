@@ -4,8 +4,21 @@ import { vi } from "vitest";
 import App from "./App";
 import type { ApiOrisflow } from "./lib/types";
 
+const UTILISATEUR_TEST = { identifiant: "test", nomAffiche: "Test", role: "admin" as const, creeLe: "2026-01-01" };
+
 function fausseApi(surcharges: Partial<ApiOrisflow> = {}): ApiOrisflow {
   return {
+    // Authentification (06/10/2026) : une session est déjà ouverte par défaut, pour que les
+    // tests existants (écrits avant l'authentification) continuent de voir l'application
+    // normale sans passer par l'écran de connexion.
+    etatAuth: async () => ({ premierLancement: false, utilisateurConnecte: UTILISATEUR_TEST }),
+    creerCompteInitial: async () => ({ ok: true, utilisateur: UTILISATEUR_TEST }),
+    connecter: async () => ({ ok: true, utilisateur: UTILISATEUR_TEST }),
+    deconnecter: async () => true,
+    listerUtilisateurs: async () => ({ ok: true, utilisateurs: [UTILISATEUR_TEST] }),
+    creerUtilisateur: async () => ({ ok: true, utilisateur: UTILISATEUR_TEST }),
+    supprimerUtilisateur: async () => ({ ok: true }),
+    reinitialiserMotDePasse: async () => ({ ok: true }),
     choisirFichiers: async () => [],
     decrireFichiersDeposes: async () => [],
     testerMoteur: async () => ({
@@ -120,13 +133,21 @@ function fausseApi(surcharges: Partial<ApiOrisflow> = {}): ApiOrisflow {
 }
 
 /** Depuis l'accueil, entre dans le module Trésorerie (comme le ferait un utilisateur). */
+/** Monte l'application et attend que la session (déjà ouverte par `fausseApi`) soit reprise
+ * et que l'accueil s'affiche réellement — l'authentification (06/10/2026) vérifie la session
+ * de façon asynchrone avant d'afficher quoi que ce soit d'autre. */
+async function monterApplication() {
+  render(<App />);
+  await screen.findByRole("heading", { name: "Que voulez-vous faire aujourd'hui ?" });
+}
+
 async function ouvrirTresorerie(utilisateur: ReturnType<typeof userEvent.setup>) {
-  await utilisateur.click(screen.getByRole("button", { name: /Suivi de la trésorerie/ }));
+  await utilisateur.click(await screen.findByRole("button", { name: /Suivi de la trésorerie/ }));
 }
 
 describe("Accueil (hub)", () => {
-  it("affiche les quatre cartes de modules au démarrage", () => {
-    render(<App />);
+  it("affiche les quatre cartes de modules au démarrage", async () => {
+    await monterApplication();
     expect(screen.getByRole("heading", { name: "Que voulez-vous faire aujourd'hui ?" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Suivi de la trésorerie/ })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /États financiers/ })).toBeInTheDocument();
@@ -136,7 +157,7 @@ describe("Accueil (hub)", () => {
 
   it("ouvre le module Évaluation budgétaire avec des données fictives clairement annoncées", async () => {
     const utilisateur = userEvent.setup();
-    render(<App />);
+    await monterApplication();
 
     await utilisateur.click(screen.getByRole("button", { name: /Évaluation budgétaire/ }));
 
@@ -149,7 +170,7 @@ describe("Accueil (hub)", () => {
 
   it("ouvre le module Trésorerie sans régression sur son flux existant", async () => {
     const utilisateur = userEvent.setup();
-    render(<App />);
+    await monterApplication();
 
     await ouvrirTresorerie(utilisateur);
 
@@ -159,7 +180,7 @@ describe("Accueil (hub)", () => {
 
   it("ouvre le module États financiers sur l'écran « en cours de développement »", async () => {
     const utilisateur = userEvent.setup();
-    render(<App />);
+    await monterApplication();
 
     await utilisateur.click(screen.getByRole("button", { name: /États financiers/ }));
 
@@ -169,7 +190,7 @@ describe("Accueil (hub)", () => {
 
   it("revient à l'accueil depuis l'écran « en cours de développement »", async () => {
     const utilisateur = userEvent.setup();
-    render(<App />);
+    await monterApplication();
 
     await utilisateur.click(screen.getByRole("button", { name: /États financiers/ }));
     await utilisateur.click(screen.getByRole("button", { name: "Retour à l'accueil" }));
@@ -179,7 +200,7 @@ describe("Accueil (hub)", () => {
 
   it("revient à l'accueil depuis le module Trésorerie via le bouton d'en-tête", async () => {
     const utilisateur = userEvent.setup();
-    render(<App />);
+    await monterApplication();
 
     await ouvrirTresorerie(utilisateur);
     await utilisateur.click(screen.getByRole("button", { name: /Accueil/ }));
@@ -191,7 +212,7 @@ describe("Accueil (hub)", () => {
 describe("Module Trésorerie (sans régression)", () => {
   it("affiche l'écran d'import vide à l'ouverture du module", async () => {
     const utilisateur = userEvent.setup();
-    render(<App />);
+    await monterApplication();
     await ouvrirTresorerie(utilisateur);
 
     expect(screen.getByRole("heading", { name: "Importer les fichiers du jour" })).toBeInTheDocument();
@@ -204,7 +225,7 @@ describe("Module Trésorerie (sans régression)", () => {
       choisirFichiers: async () => [{ chemin: "C:\\x\\Akwa_Compte.xls", nom: "Akwa_Compte.xls", taille: 2048 }],
     });
     const utilisateur = userEvent.setup();
-    render(<App />);
+    await monterApplication();
     await ouvrirTresorerie(utilisateur);
 
     await utilisateur.click(screen.getByRole("button", { name: "Choisir des fichiers…" }));
@@ -219,7 +240,7 @@ describe("Module Trésorerie (sans régression)", () => {
     const fichier = { chemin: "C:\\x\\Akwa_Compte.xls", nom: "Akwa_Compte.xls", taille: 10 };
     window.orisflow = fausseApi({ choisirFichiers: async () => [fichier] });
     const utilisateur = userEvent.setup();
-    render(<App />);
+    await monterApplication();
     await ouvrirTresorerie(utilisateur);
 
     await utilisateur.click(screen.getByRole("button", { name: "Choisir des fichiers…" }));
@@ -235,7 +256,7 @@ describe("Module Trésorerie (sans régression)", () => {
       },
     });
     const utilisateur = userEvent.setup();
-    render(<App />);
+    await monterApplication();
     await ouvrirTresorerie(utilisateur);
 
     await utilisateur.click(screen.getByRole("button", { name: "Choisir des fichiers…" }));
@@ -289,7 +310,7 @@ describe("Module Trésorerie (sans régression)", () => {
       }),
     });
     const utilisateur = userEvent.setup();
-    render(<App />);
+    await monterApplication();
     await ouvrirTresorerie(utilisateur);
 
     await utilisateur.click(screen.getByRole("button", { name: "Choisir des fichiers…" }));
@@ -340,7 +361,7 @@ describe("Module Trésorerie (sans régression)", () => {
       }),
     });
     const utilisateur = userEvent.setup();
-    render(<App />);
+    await monterApplication();
     await ouvrirTresorerie(utilisateur);
 
     await utilisateur.click(screen.getByRole("button", { name: "Choisir des fichiers…" }));
@@ -416,7 +437,7 @@ describe("Module Trésorerie (sans régression)", () => {
       generer: genererEspion,
     });
     const utilisateur = userEvent.setup();
-    render(<App />);
+    await monterApplication();
     await ouvrirTresorerie(utilisateur);
 
     await utilisateur.click(screen.getByRole("button", { name: "Choisir des fichiers…" }));
@@ -526,7 +547,7 @@ describe("Module Trésorerie (sans régression)", () => {
       generer: genererEspion,
     });
     const utilisateur = userEvent.setup();
-    render(<App />);
+    await monterApplication();
     await ouvrirTresorerie(utilisateur);
 
     await utilisateur.click(screen.getByRole("button", { name: "Choisir des fichiers…" }));
@@ -578,7 +599,7 @@ describe("Module Trésorerie (sans régression)", () => {
       }),
     });
     const utilisateur = userEvent.setup();
-    render(<App />);
+    await monterApplication();
     await ouvrirTresorerie(utilisateur);
 
     await utilisateur.click(screen.getByRole("button", { name: "Choisir des fichiers…" }));
@@ -593,7 +614,7 @@ describe("Suivi Courrier (démarré le 30/09/2026)", () => {
   it("signale qu'un dossier de test local est utilisé tant qu'aucun dossier réseau n'est choisi", async () => {
     window.orisflow = fausseApi();
     const utilisateur = userEvent.setup();
-    render(<App />);
+    await monterApplication();
 
     await utilisateur.click(screen.getByRole("button", { name: /Suivi Courrier/ }));
 
@@ -660,7 +681,7 @@ describe("Suivi Courrier (démarré le 30/09/2026)", () => {
       },
     });
     const utilisateur = userEvent.setup();
-    render(<App />);
+    await monterApplication();
 
     await utilisateur.click(screen.getByRole("button", { name: /Suivi Courrier/ }));
     await utilisateur.click(await screen.findByRole("button", { name: "Nouvelle transmission" }));
@@ -683,7 +704,7 @@ describe("Gestionnaires (démarré le 03/10/2026)", () => {
     const enregistrerEspion = vi.fn(async (mapping: Record<string, string>) => mapping);
     window.orisflow = fausseApi({ enregistrerGestionnaires: enregistrerEspion });
     const utilisateur = userEvent.setup();
-    render(<App />);
+    await monterApplication();
     await ouvrirTresorerie(utilisateur);
 
     await utilisateur.click(screen.getByRole("button", { name: "Paramètres" }));
@@ -699,5 +720,76 @@ describe("Gestionnaires (démarré le 03/10/2026)", () => {
       expect(enregistrerEspion).toHaveBeenCalledWith({ "ECLADORE MBIAPOUO": "akwa" }),
     );
     expect(await screen.findByText("1 gestionnaire(s) configuré(s).")).toBeInTheDocument();
+  });
+});
+
+describe("Authentification (06/10/2026)", () => {
+  it("affiche le nom de l'utilisateur connecté et le bouton Utilisateurs pour un administrateur", async () => {
+    window.orisflow = fausseApi({
+      etatAuth: async () => ({
+        premierLancement: false,
+        utilisateurConnecte: { identifiant: "adminorisflow", nomAffiche: "Admin", role: "admin", creeLe: "x" },
+      }),
+    });
+    await monterApplication();
+    expect(screen.getByText("Admin")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Utilisateurs" })).toBeInTheDocument();
+  });
+
+  it("masque le bouton Utilisateurs pour un compte non administrateur", async () => {
+    window.orisflow = fausseApi({
+      etatAuth: async () => ({
+        premierLancement: false,
+        utilisateurConnecte: { identifiant: "julien", nomAffiche: "Julien", role: "utilisateur", creeLe: "x" },
+      }),
+    });
+    await monterApplication();
+    expect(screen.getByText("Julien")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Utilisateurs" })).not.toBeInTheDocument();
+  });
+
+  it("l'écran de connexion s'affiche tant qu'aucune session n'est reprise", async () => {
+    const connecter = vi.fn(async () => ({
+      ok: true,
+      utilisateur: { identifiant: "arnold", nomAffiche: "Arnold", role: "admin" as const, creeLe: "x" },
+    }));
+    window.orisflow = fausseApi({
+      etatAuth: async () => ({ premierLancement: false, utilisateurConnecte: null }),
+      connecter,
+    });
+    const utilisateur = userEvent.setup();
+    render(<App />);
+
+    expect(await screen.findByRole("heading", { name: "Connexion à Orisflow" })).toBeInTheDocument();
+    await utilisateur.type(screen.getByLabelText("Identifiant"), "arnold");
+    await utilisateur.type(screen.getByLabelText("Mot de passe"), "UnMotDePasseSolide1");
+    await utilisateur.click(screen.getByRole("button", { name: "Se connecter" }));
+
+    expect(await screen.findByRole("heading", { name: "Que voulez-vous faire aujourd'hui ?" })).toBeInTheDocument();
+    expect(connecter).toHaveBeenCalledWith("arnold", "UnMotDePasseSolide1");
+  });
+
+  it("se déconnecter renvoie à l'écran de connexion", async () => {
+    const deconnecter = vi.fn(async () => true);
+    let connecte = true;
+    window.orisflow = fausseApi({
+      etatAuth: async () => ({
+        premierLancement: false,
+        utilisateurConnecte: connecte
+          ? { identifiant: "arnold", nomAffiche: "Arnold", role: "admin", creeLe: "x" }
+          : null,
+      }),
+      deconnecter: async () => {
+        connecte = false;
+        return deconnecter();
+      },
+    });
+    const utilisateur = userEvent.setup();
+    await monterApplication();
+
+    await utilisateur.click(screen.getByRole("button", { name: "Se déconnecter" }));
+
+    expect(await screen.findByRole("heading", { name: "Connexion à Orisflow" })).toBeInTheDocument();
+    expect(deconnecter).toHaveBeenCalled();
   });
 });

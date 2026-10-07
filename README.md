@@ -178,7 +178,7 @@ Les tests du moteur travaillent uniquement sur des fichiers synthétiques (`open
   - `Documents\Orisflow\Carnet\soldes_bancaires.json` — carnet des soldes.
   - `Documents\Orisflow\{Imports, Resultats, Sauvegardes, SuiviCourrier}` — dossiers de travail.
 - **Aucun appel réseau externe** (OCR en ligne, API) sans configuration et autorisation explicites — aucun n'est actif à ce jour.
-- **Authentification** : en cours d'ajout en version 1.1.0 (identifiant et mot de passe par utilisateur, session locale tant qu'Orisflow reste ouvert). Les mots de passe ne sont jamais stockés en clair.
+- **Authentification** (version 1.1.0) : un identifiant et un mot de passe par utilisateur, demandés à l'ouverture d'Orisflow. Les mots de passe sont hachés (scrypt, salé, via le module `crypto` de Node — aucune dépendance ajoutée) avant d'être écrits dans `comptes.json`, au même endroit que `parametres.json`, jamais dans le dépôt. Le tout premier lancement crée le compte administrateur ; c'est ensuite l'administrateur qui crée un compte pour chaque autre utilisateur (écran « Utilisateurs »). La session reste ouverte tant qu'Orisflow n'est pas fermé ; un bouton « Se déconnecter » permet à un autre utilisateur de reprendre la main sans fermer l'application. Logique testée indépendamment de l'interface dans `electron/auth.cjs` / `electron/auth.test.cjs`.
 
 ---
 

@@ -4,6 +4,7 @@ const { app, BrowserWindow, ipcMain, dialog, shell } = require("electron");
 const { spawn } = require("child_process");
 const fs = require("fs");
 const path = require("path");
+const auth = require("./auth.cjs");
 
 const estEmpaquete = app.isPackaged;
 // Mode de vérification sans interface : défini par la variable ORISFLOW_AUTOTEST (chemin du rapport à écrire).
@@ -18,6 +19,27 @@ const SOUS_DOSSIERS = ["Imports", "Resultats", "Sauvegardes", "SuiviCourrier", "
 
 function fichierParametres() {
   return path.join(app.getPath("userData"), "parametres.json");
+}
+
+// ---------------------------------------------------------------------------
+// Authentification (version 1.1.0) : voir auth.cjs pour la logique (comptes, mots de
+// passe hachés, verrouillage anti-force brute). Ici, seulement le chemin du fichier
+// (jamais en dur ailleurs que dans ce dossier hors dépôt) et la session en cours — en
+// mémoire du processus seulement, donc remise à zéro à chaque lancement d'Orisflow,
+// et conservée tant que l'application reste ouverte (décision du 06/10/2026).
+function fichierComptes() {
+  return path.join(app.getPath("userData"), "comptes.json");
+}
+
+let sessionCourante = null;
+
+/** L'identité affichée dans Suivi Courrier suit désormais la session connectée : plus
+ * besoin de la saisir à part (l'ancien champ « Votre identité » reste utilisable en secours). */
+function synchroniserIdentite(nomAffiche) {
+  if (!nomAffiche) return;
+  const parametres = { ...lireParametres(), identite: nomAffiche };
+  fs.mkdirSync(app.getPath("userData"), { recursive: true });
+  fs.writeFileSync(fichierParametres(), JSON.stringify(parametres, null, 2), "utf-8");
 }
 
 function lireParametres() {
@@ -331,6 +353,73 @@ function enregistrerCommunications() {
         evenement.sender.send("moteur:evenement", message);
       },
     );
+  });
+
+  // --- Authentification -----------------------------------------------------------
+
+  ipcMain.handle("auth:etat", () => ({
+    premierLancement: !auth.aUnCompte(fichierComptes()),
+    utilisateurConnecte: sessionCourante,
+  }));
+
+  ipcMain.handle("auth:creerCompteInitial", (_evenement, donnees) => {
+    if (auth.aUnCompte(fichierComptes())) {
+      return { ok: false, erreur: "Un compte administrateur existe déjà." };
+    }
+    const resultat = auth.creerCompte(fichierComptes(), { ...donnees, role: "admin" });
+    if (resultat.ok) {
+      sessionCourante = resultat.utilisateur;
+      synchroniserIdentite(resultat.utilisateur.nomAffiche);
+    }
+    return resultat;
+  });
+
+  ipcMain.handle("auth:connecter", (_evenement, identifiant, motDePasse) => {
+    const resultat = auth.connecter(fichierComptes(), identifiant, motDePasse);
+    if (resultat.ok) {
+      sessionCourante = resultat.utilisateur;
+      synchroniserIdentite(resultat.utilisateur.nomAffiche);
+    }
+    return resultat;
+  });
+
+  ipcMain.handle("auth:deconnecter", () => {
+    sessionCourante = null;
+    return true;
+  });
+
+  function exigerAdmin() {
+    if (!sessionCourante || sessionCourante.role !== "admin") {
+      return { ok: false, erreur: "Réservé à l'administrateur." };
+    }
+    return null;
+  }
+
+  ipcMain.handle("auth:listerUtilisateurs", () => {
+    const refus = exigerAdmin();
+    if (refus) return refus;
+    return { ok: true, utilisateurs: auth.lireComptes(fichierComptes()).utilisateurs.map(auth.versPublic) };
+  });
+
+  ipcMain.handle("auth:creerUtilisateur", (_evenement, donnees) => {
+    const refus = exigerAdmin();
+    if (refus) return refus;
+    return auth.creerCompte(fichierComptes(), donnees);
+  });
+
+  ipcMain.handle("auth:supprimerUtilisateur", (_evenement, identifiant) => {
+    const refus = exigerAdmin();
+    if (refus) return refus;
+    if (String(identifiant || "").trim().toLowerCase() === String(sessionCourante.identifiant).trim().toLowerCase()) {
+      return { ok: false, erreur: "Vous ne pouvez pas supprimer le compte avec lequel vous êtes connecté." };
+    }
+    return auth.supprimerCompte(fichierComptes(), identifiant);
+  });
+
+  ipcMain.handle("auth:reinitialiserMotDePasse", (_evenement, identifiant, nouveauMotDePasse) => {
+    const refus = exigerAdmin();
+    if (refus) return refus;
+    return auth.reinitialiserMotDePasse(fichierComptes(), identifiant, nouveauMotDePasse);
   });
 
   ipcMain.handle("parametres:lire", () => ({

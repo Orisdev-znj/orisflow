@@ -2,6 +2,15 @@
 const { contextBridge, ipcRenderer, webUtils } = require("electron");
 
 contextBridge.exposeInMainWorld("orisflow", {
+  etatAuth: () => ipcRenderer.invoke("auth:etat"),
+  creerCompteInitial: (donnees) => ipcRenderer.invoke("auth:creerCompteInitial", donnees),
+  connecter: (identifiant, motDePasse) => ipcRenderer.invoke("auth:connecter", identifiant, motDePasse),
+  deconnecter: () => ipcRenderer.invoke("auth:deconnecter"),
+  listerUtilisateurs: () => ipcRenderer.invoke("auth:listerUtilisateurs"),
+  creerUtilisateur: (donnees) => ipcRenderer.invoke("auth:creerUtilisateur", donnees),
+  supprimerUtilisateur: (identifiant) => ipcRenderer.invoke("auth:supprimerUtilisateur", identifiant),
+  reinitialiserMotDePasse: (identifiant, nouveauMotDePasse) =>
+    ipcRenderer.invoke("auth:reinitialiserMotDePasse", identifiant, nouveauMotDePasse),
   choisirFichiers: () => ipcRenderer.invoke("fichiers:choisir"),
   // Fichiers glissés dans la fenêtre : on récupère leur chemin réel.
   decrireFichiersDeposes: (fichiers) => {
