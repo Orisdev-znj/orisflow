@@ -42,6 +42,16 @@ def lire_numeros(chemin: str) -> set[str]:
     return set(df[_colonne_numero(df)].dropna().str.strip())
 
 
+def _lire_numeros_sans_planter(chemin: str) -> set[str]:
+    """Comme `lire_numeros`, mais ne laisse jamais remonter d'exception : un fichier de
+    référence corrompu ou mal formé ne doit jamais empêcher la construction du reste de la
+    table (06/10/2026) — ce jour-là compte simplement comme absent pour cette agence."""
+    try:
+        return lire_numeros(chemin)
+    except Exception:
+        return set()
+
+
 def construire_table(fichiers_par_jour: list[dict[str, str]]) -> dict[str, list[str]]:
     """Construit la table agence -> comptes à partir de plusieurs jours de fichiers renommés.
 
@@ -54,7 +64,7 @@ def construire_table(fichiers_par_jour: list[dict[str, str]]) -> dict[str, list[
     if not fichiers_par_jour:
         return {}
     numeros_par_jour = [
-        {agence: lire_numeros(chemin) for agence, chemin in jour.items()}
+        {agence: _lire_numeros_sans_planter(chemin) for agence, chemin in jour.items()}
         for jour in fichiers_par_jour
     ]
     agences = set().union(*(set(jour) for jour in numeros_par_jour))

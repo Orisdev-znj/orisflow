@@ -394,3 +394,27 @@ def test_classeur_excel_tronque_est_signale_sans_planter(tmp_path):
     f = resultat["fichiers"][0]
     assert f["niveau"] == "bloquant"
     assert "n'a pas pu être lu" in f["messages"][0]
+
+
+# --- Robustesse : fichier ouvert dans Excel au moment de la lecture (06/10/2026) ---------
+
+
+def test_fichier_verrouille_par_excel_donne_un_message_clair(tmp_path, monkeypatch):
+    """Simule le cas le plus fréquent en pratique : le fichier est encore ouvert dans Excel
+    quand Orisflow essaie de le lire (PermissionError). Le message doit être compréhensible
+    par un comptable, pas un nom de classe Python, et ne doit jamais planter le lot."""
+    import orisflow_engine.classification as classification_module
+
+    chemin = tmp_path / "Akwa_Compte.xlsx"
+    _extraction_comptes(chemin, ["37110"])
+
+    def leve_permission_denied(*args, **kwargs):
+        raise PermissionError(13, "Permission denied", str(chemin))
+
+    monkeypatch.setattr(classification_module, "analyser_comptes", leve_permission_denied)
+
+    resultat = classer_fichiers([str(chemin)])
+    f = resultat["fichiers"][0]
+    assert f["niveau"] == "bloquant"
+    assert "ouvert dans Excel" in f["messages"][-1]
+    assert "PermissionError" not in f["messages"][-1]

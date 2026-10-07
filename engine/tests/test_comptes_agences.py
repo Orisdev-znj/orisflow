@@ -10,6 +10,7 @@ from orisflow_engine.classification import classer_fichiers
 from orisflow_engine.comptes_agences import (
     charger_table,
     construire_table,
+    construire_table_depuis_dossiers,
     enregistrer_table,
     identifier,
 )
@@ -145,3 +146,44 @@ def test_nom_d_agence_contredit_reste_signale(jours, tmp_path):
     fichier = _liste(tmp_path / "Akwa_Compte.xls", mokolo)
     r = classer_fichiers([fichier], None, table_comptes=table)
     assert r["fichiers"][0]["niveau"] == "avertissement"
+
+
+# --- Robustesse : fichiers corrompus et configuration illisible (06/10/2026) -------------
+
+
+def test_fichier_de_reference_illisible_ne_plante_pas_la_construction(jours, tmp_path):
+    """Un fichier de comptes corrompu parmi les jours de référence (ex. téléchargement
+    interrompu) ne doit jamais empêcher la construction de la table pour les autres
+    agences : il compte simplement comme absent ce jour-là."""
+    dossiers, akwa, mokolo, _ = jours
+    # Le fichier Akwa du premier jour est remplacé par un contenu illisible.
+    chemin_corrompu = dossiers[0]["akwa"]
+    with open(chemin_corrompu, "wb") as fichier:
+        fichier.write(b"ceci n'est pas un classeur Excel valide")
+
+    table = construire_table(dossiers)  # ne doit lever aucune exception
+
+    assert "mokolo" in table and len(table["mokolo"]) == 15
+    assert "akwa" not in table  # pas assez de jours lisibles pour en tirer 15 comptes stables
+
+
+def test_construire_table_depuis_dossiers_ignore_un_fichier_corrompu(tmp_path):
+    """Même garantie via `construire_table_depuis_dossiers` (utilisé par le bouton
+    Paramètres), avec un fichier corrompu nommé comme une vraie extraction."""
+    dossier = tmp_path / "jour1"
+    dossier.mkdir()
+    (dossier / "Akwa_Compte.xls").write_bytes(b"pas un fichier Excel valide")
+    table = construire_table_depuis_dossiers([str(dossier)])
+    assert table == {}  # un seul jour, illisible : rien d'exploitable, mais pas de plantage
+
+
+def test_table_json_corrompue_est_traitee_comme_absente(tmp_path):
+    chemin = tmp_path / "comptes_par_agence.json"
+    chemin.write_text("ceci n'est pas du JSON valide {{{", encoding="utf-8")
+    assert charger_table(str(chemin)) == {}
+
+
+def test_table_json_de_forme_inattendue_est_traitee_comme_absente(tmp_path):
+    chemin = tmp_path / "comptes_par_agence.json"
+    chemin.write_text('["pas", "le", "bon", "format"]', encoding="utf-8")
+    assert charger_table(str(chemin)) == {}

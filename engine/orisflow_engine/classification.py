@@ -89,6 +89,18 @@ def detecter_type_excel(nom_fichier: str, chemin: str) -> str:
     return "inconnu"
 
 
+def _message_erreur_lecture(erreur: Exception) -> str:
+    """Message clair pour une erreur de lecture, en priorité le cas le plus fréquent en
+    pratique : le fichier est encore ouvert dans Excel au moment où Orisflow le lit
+    (06/10/2026) — plutôt qu'un nom de classe Python incompréhensible pour un comptable."""
+    if isinstance(erreur, PermissionError):
+        return "Ce fichier n'a pas pu être lu : il est peut-être encore ouvert dans Excel. Fermez-le puis réessayez."
+    return (
+        f"Ce fichier n'a pas pu être lu ({erreur.__class__.__name__}) : vérifiez qu'il n'est pas "
+        "corrompu, qu'il correspond bien au type attendu, et qu'il n'est pas déjà ouvert ailleurs."
+    )
+
+
 def classer_un_fichier(chemin: str) -> dict[str, Any]:
     nom = os.path.basename(chemin)
     extension = os.path.splitext(nom)[1].lower()
@@ -131,10 +143,7 @@ def classer_un_fichier(chemin: str) -> dict[str, Any]:
         resultat["type_detecte"] = resultat["type_detecte"] or "illisible"
         resultat["type_libelle"] = TYPE_LIBELLES.get(resultat["type_detecte"], "Fichier illisible")
         resultat["niveau"] = "bloquant"
-        resultat["messages"].append(
-            f"Ce fichier n'a pas pu être lu ({erreur.__class__.__name__}) : vérifiez qu'il n'est pas "
-            "corrompu, qu'il correspond bien au type attendu, et qu'il n'est pas déjà ouvert ailleurs."
-        )
+        resultat["messages"].append(_message_erreur_lecture(erreur))
     return resultat
 
 
@@ -191,6 +200,9 @@ def _classer_selon_extension(resultat: dict[str, Any], extension: str, nom: str,
                         f"(5 chiffres-6 chiffres-2 chiffres) : {', '.join(analyse['mal_formes'][:5])}"
                         + (" …" if len(analyse["mal_formes"]) > 5 else "")
                     )
+            except PermissionError:
+                resultat["niveau"] = "bloquant"
+                resultat["messages"].append(_message_erreur_lecture(PermissionError()))
             except Exception as erreur:
                 resultat["niveau"] = "bloquant"
                 resultat["messages"].append(f"Ce fichier n'a pas pu être lu comme une liste de comptes : {erreur}")
