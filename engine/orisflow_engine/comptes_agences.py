@@ -7,7 +7,7 @@ Décision du 05/10/2026 : chaque agence possède des numéros de compte qui lui 
 
 Règle : l'agence dont le plus de comptes figurent dans le fichier est retenue, à condition
 d'en trouver au moins `SEUIL_COMPTES` (10 sur 15). En dessous, Orisflow ne décide pas seul :
-il se tourne vers le gestionnaire, puis demande confirmation.
+le nom du fichier reste retenu, signalé à vérifier par l'utilisateur.
 
 La table contient de vrais numéros de compte : elle vit dans le dossier de travail de
 l'utilisateur (`Documents\\Orisflow\\Config`), jamais dans le dépôt git.

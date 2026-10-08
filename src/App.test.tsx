@@ -1,4 +1,4 @@
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { vi } from "vitest";
 import App from "./App";
@@ -52,7 +52,6 @@ function fausseApi(surcharges: Partial<ApiOrisflow> = {}): ApiOrisflow {
       dossierBordereau: "C:\\Orisflow\\SuiviCourrier",
       dossierBordereauParDefaut: true,
       identite: "",
-      gestionnaires: {},
       version: "0.1.0",
       empaquete: false,
     }),
@@ -85,7 +84,6 @@ function fausseApi(surcharges: Partial<ApiOrisflow> = {}): ApiOrisflow {
     ouvrirDossierTravail: async () => "C:\\Orisflow",
     choisirDossierBordereau: async () => "\\\\reseau\\Orisflow\\Bordereau",
     definirIdentite: async (nom) => nom,
-    enregistrerGestionnaires: async (mapping) => mapping,
     bordereauChoisirPieceJointe: async () => null,
     bordereauCreer: async () => ({
       type: "resultat",
@@ -299,7 +297,6 @@ describe("Module Trésorerie (sans régression)", () => {
             code_client: null,
             solde_releve: null,
             ligne_banque_cible: null,
-            gestionnaire: null,
             niveau: "avertissement",
             messages: [
               "Écart anormal avec la veille : 1273 comptes aujourd'hui contre 2441 (Bafoussam, écart de 48 %).",
@@ -353,7 +350,6 @@ describe("Module Trésorerie (sans régression)", () => {
             code_client: null,
             solde_releve: null,
             ligne_banque_cible: null,
-            gestionnaire: null,
             niveau: "information",
             messages: [],
           },
@@ -428,7 +424,6 @@ describe("Module Trésorerie (sans régression)", () => {
             code_client: null,
             solde_releve: null,
             ligne_banque_cible: null,
-            gestionnaire: null,
             niveau: "information",
             messages: [],
           },
@@ -514,7 +509,6 @@ describe("Module Trésorerie (sans régression)", () => {
             code_client: null,
             solde_releve: null,
             ligne_banque_cible: null,
-            gestionnaire: null,
             niveau: "information",
             messages: [],
           },
@@ -538,7 +532,6 @@ describe("Module Trésorerie (sans régression)", () => {
             code_client: null,
             solde_releve: null,
             ligne_banque_cible: null,
-            gestionnaire: null,
             niveau: "information",
             messages: [],
           },
@@ -591,7 +584,6 @@ describe("Module Trésorerie (sans régression)", () => {
             code_client: null,
             solde_releve: null,
             ligne_banque_cible: null,
-            gestionnaire: null,
             niveau: "information",
             messages: [],
           },
@@ -631,8 +623,7 @@ describe("Suivi Courrier (démarré le 30/09/2026)", () => {
         dossierBordereau: "\\\\reseau\\Orisflow\\SuiviCourrier",
         dossierBordereauParDefaut: false,
         identite: "Julien",
-        gestionnaires: {},
-        version: "0.1.0",
+          version: "0.1.0",
         empaquete: false,
       }),
       bordereauLister: async () => ({
@@ -697,30 +688,6 @@ describe("Suivi Courrier (démarré le 30/09/2026)", () => {
     await utilisateur.click(screen.getByRole("button", { name: "Accuser réception" }));
 
     expect(await screen.findByText("Reçu")).toBeInTheDocument();
-  });
-});
-
-describe("Gestionnaires (démarré le 03/10/2026)", () => {
-  it("configure un gestionnaire et son agence depuis Paramètres", async () => {
-    const enregistrerEspion = vi.fn(async (mapping: Record<string, string>) => mapping);
-    window.orisflow = fausseApi({ enregistrerGestionnaires: enregistrerEspion });
-    const utilisateur = userEvent.setup();
-    await monterApplication();
-    await ouvrirTresorerie(utilisateur);
-
-    await utilisateur.click(screen.getByRole("button", { name: "Paramètres" }));
-    expect(await screen.findByText("Aucun gestionnaire configuré pour l'instant.")).toBeInTheDocument();
-
-    await utilisateur.click(screen.getByRole("button", { name: "Configurer les gestionnaires…" }));
-    const fenetre = within(await screen.findByRole("dialog"));
-    await utilisateur.type(fenetre.getByLabelText("Nom du gestionnaire"), "ECLADORE MBIAPOUO");
-    await utilisateur.selectOptions(fenetre.getByLabelText("Agence"), "akwa");
-    await utilisateur.click(fenetre.getByRole("button", { name: "Enregistrer" }));
-
-    await waitFor(() =>
-      expect(enregistrerEspion).toHaveBeenCalledWith({ "ECLADORE MBIAPOUO": "akwa" }),
-    );
-    expect(await screen.findByText("1 gestionnaire(s) configuré(s).")).toBeInTheDocument();
   });
 });
 

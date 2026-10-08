@@ -101,10 +101,6 @@ function identiteUtilisateur() {
   return lireParametres().identite || "";
 }
 
-/** Table gestionnaire → agence, configurée par l'utilisateur (écran Paramètres, démarré
- * le 03/10/2026) : sert à reconnaître l'agence d'une liste de comptes pas encore renommée,
- * à partir du champ « Gestionnaire » lu dans son en-tête — jamais une règle devinée par
- * Orisflow, entièrement fournie par l'utilisateur. Vide par défaut. */
 /** Carnet interne des soldes bancaires (décision du 03/10/2026) : dans le dossier de travail. */
 function dossierCarnet() {
   return path.join(dossierTravail(), "Carnet");
@@ -135,10 +131,6 @@ function lireTableComptesInfo() {
   } catch {
     return { existe: false, construiteLe: null, joursDeReference: [], agences: {} };
   }
-}
-
-function gestionnaires() {
-  return lireParametres().gestionnaires || {};
 }
 
 /** Résumé du carnet des soldes, pour l'afficher dans Paramètres (lecture directe, même
@@ -330,7 +322,6 @@ function enregistrerCommunications() {
       {
         fichiers: chemins,
         dossierReference: dossierReference() || null,
-        gestionnaires: gestionnaires(),
         agencesManuelles: agencesManuelles || null,
         dossierCarnet: dossierCarnet(),
         // Table « 15 comptes par agence » (décision du 05/10/2026) : fichier de configuration local.
@@ -351,7 +342,6 @@ function enregistrerCommunications() {
         dossierReference: dossierReference() || null,
         dossierSortie: path.join(racine, "Resultats"),
         valeursManuelles: valeursManuelles || null,
-        gestionnaires: gestionnaires(),
         dossierCarnet: dossierCarnet(),
         relevesSaisis: relevesSaisis || null,
         fichierTableComptes: fichierTableComptes(),
@@ -488,18 +478,9 @@ function enregistrerCommunications() {
     dossierBordereau: dossierBordereau(),
     dossierBordereauParDefaut: !dossierBordereauChoisiParUtilisateur(),
     identite: identiteUtilisateur(),
-    gestionnaires: gestionnaires(),
     version: app.getVersion(),
     empaquete: estEmpaquete,
   }));
-
-  ipcMain.handle("parametres:enregistrerGestionnaires", (_evenement, mapping) => {
-    const valeurs = mapping && typeof mapping === "object" ? mapping : {};
-    const parametres = { ...lireParametres(), gestionnaires: valeurs };
-    fs.mkdirSync(app.getPath("userData"), { recursive: true });
-    fs.writeFileSync(fichierParametres(), JSON.stringify(parametres, null, 2), "utf-8");
-    return parametres.gestionnaires;
-  });
 
   ipcMain.handle("parametres:choisirDossier", async (evenement) => {
     const fenetre = BrowserWindow.fromWebContents(evenement.sender);

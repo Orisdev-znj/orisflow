@@ -201,16 +201,14 @@ def commande_analyser(parametres: Dict[str, Any]) -> None:
 def commande_classer(parametres: Dict[str, Any]) -> None:
     """Sprint 2 : reconnaît le type et l'agence de chaque fichier, sans jamais les modifier.
 
-    Paramètres attendus : {"fichiers": [chemins...], "dossierReference": chemin|null,
-    "gestionnaires": {nom: agence}|null}. `dossierReference` est le dossier des classeurs
-    de trésorerie existants, utilisé pour comparer le nombre de comptes à celui de la
-    veille (lecture seule) et, depuis le 03/10/2026, pour suggérer l'agence d'une liste de
-    comptes par proximité de ce total quand ni le nom ni le gestionnaire ne suffisent.
-    `gestionnaires` est la table configurée par l'utilisateur (Paramètres), jamais devinée.
+    Paramètres attendus : {"fichiers": [chemins...], "dossierReference": chemin|null}.
+    `dossierReference` est le dossier des classeurs de trésorerie existants, utilisé pour
+    comparer le nombre de comptes à celui de la veille (lecture seule) et, depuis le
+    03/10/2026, pour suggérer l'agence d'une liste de comptes par proximité de ce total
+    quand le nom ne suffit pas.
     """
     chemins = parametres.get("fichiers", [])
     dossier_reference = parametres.get("dossierReference") or None
-    gestionnaires = parametres.get("gestionnaires") or None
     agences_manuelles = parametres.get("agencesManuelles") or None
     dossier_carnet = parametres.get("dossierCarnet") or None
     table_comptes = charger_table(parametres.get("fichierTableComptes") or None)
@@ -233,7 +231,6 @@ def commande_classer(parametres: Dict[str, Any]) -> None:
     resultat = classer_fichiers(
         chemins,
         dossier_reference,
-        gestionnaires=gestionnaires,
         agences_manuelles=agences_manuelles,
         sur_fichier_classe=rapporter_fichier,
         dossier_carnet=dossier_carnet,
@@ -272,7 +269,6 @@ def commande_generer(parametres: Dict[str, Any]) -> None:
     jour_parametre = parametres.get("date")
     jour = _date.fromisoformat(jour_parametre) if jour_parametre else None
     valeurs_manuelles = parametres.get("valeursManuelles") or None
-    gestionnaires = parametres.get("gestionnaires") or None
     dossier_carnet = parametres.get("dossierCarnet") or None
     releves_saisis = parametres.get("relevesSaisis") or None
     table_comptes = charger_table(parametres.get("fichierTableComptes") or None)
@@ -293,7 +289,6 @@ def commande_generer(parametres: Dict[str, Any]) -> None:
         dossier_sortie,
         jour=jour,
         valeurs_manuelles=valeurs_manuelles,
-        gestionnaires=gestionnaires,
         dossier_carnet=dossier_carnet,
         releves_saisis=releves_saisis,
         table_comptes=table_comptes,

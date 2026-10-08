@@ -7,7 +7,6 @@ from orisflow_engine.regles_agences import (
     agences_dont_le_total_serait_proche,
     deduire_agences_par_comptage,
     detecter_agence,
-    detecter_agence_depuis_gestionnaire,
 )
 
 
@@ -46,32 +45,6 @@ def test_suggestion_agence_proche():
     # Un total de 1273 aujourd'hui ne colle plus à Bafoussam (veille 2441) mais à Balessing.
     suggestions = agences_dont_le_total_serait_proche(1273, precedents)
     assert suggestions == ["balessing"]
-
-
-# --- Gestionnaire (démarré le 03/10/2026) ---------------------------------------------
-
-
-def test_agence_reconnue_par_le_gestionnaire():
-    mapping = {"ECLADORE MBIAPOUO": "akwa", "MATSIKOU KEGNE": "bepanda"}
-    agence = detecter_agence_depuis_gestionnaire("ECLADORE MBIAPOUO", mapping)
-    assert (agence.cle, agence.libelle, agence.confiance) == ("akwa", "Akwa", "gestionnaire")
-
-
-def test_gestionnaire_tolere_les_espaces_et_la_casse():
-    mapping = {"Matsikou Kegne  ": "bepanda"}  # espaces en trop, vus sur un vrai fichier
-    agence = detecter_agence_depuis_gestionnaire("  matsikou kegne", mapping)
-    assert agence.cle == "bepanda"
-
-
-def test_gestionnaire_absent_de_la_table():
-    agence = detecter_agence_depuis_gestionnaire("UN AUTRE NOM", {"ECLADORE MBIAPOUO": "akwa"})
-    assert agence.cle is None
-    assert agence.confiance == "aucune"
-
-
-def test_gestionnaire_ou_table_vide_ne_plante_pas():
-    assert detecter_agence_depuis_gestionnaire(None, {"X": "akwa"}).cle is None
-    assert detecter_agence_depuis_gestionnaire("X", {}).cle is None
 
 
 # --- Déduction par comptage, sur tout le lot (démarré le 03/10/2026) -----------------

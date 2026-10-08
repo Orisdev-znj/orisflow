@@ -133,7 +133,7 @@ export default function App() {
     return api.surEvenementMoteur((evenement) => {
       setTraitement((precedent) => {
         if (precedent.etat !== "encours") return precedent;
-        // Journal : une ligne par fichier classé, plus les étapes résumées (comptage, gestionnaire…).
+        // Journal : une ligne par fichier classé, plus les étapes résumées (comptage, numéros de compte…).
         const journal = evenement.message ? [...precedent.journal, evenement.message] : precedent.journal;
         return {
           ...precedent,

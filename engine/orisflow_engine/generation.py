@@ -428,7 +428,6 @@ def generer_classeur(
     dossier_sortie: str,
     jour: Optional[date] = None,
     valeurs_manuelles: Optional[dict[str, Any]] = None,
-    gestionnaires: Optional[dict[str, str]] = None,
     dossier_carnet: Optional[str] = None,
     releves_saisis: Optional[dict[str, int]] = None,
     table_comptes: Optional[dict[str, list[str]]] = None,
@@ -440,7 +439,7 @@ def generer_classeur(
     jour = jour or (date.today() - timedelta(days=1))
 
     classement = classer_fichiers(
-        fichiers, dossier_reference, gestionnaires=gestionnaires, dossier_carnet=dossier_carnet, jour=jour,
+        fichiers, dossier_reference, dossier_carnet=dossier_carnet, jour=jour,
         table_comptes=table_comptes,
     )
     # `avant=jour` : exclut tout classeur du dossier de référence daté du jour généré ou

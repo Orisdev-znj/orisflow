@@ -19,7 +19,7 @@ from typing import Any, Callable, Optional
 import pandas as pd
 
 from .balance_pdf import detecter_type_balance, lire_agence, lire_balance_classe3, lire_balance_classe5
-from .comptes import analyser_comptes, lire_gestionnaire, total_categorise
+from .comptes import analyser_comptes, total_categorise
 from .pdf_releves import detecter_releve
 from .reference_treso import lire_totaux_comptes_precedents
 from .regles_agences import (
@@ -27,7 +27,6 @@ from .regles_agences import (
     agences_dont_le_total_serait_proche,
     deduire_agences_par_comptage,
     detecter_agence,
-    detecter_agence_depuis_gestionnaire,
     detecter_agence_depuis_texte,
 )
 from . import carnet
@@ -127,9 +126,6 @@ def classer_un_fichier(chemin: str) -> dict[str, Any]:
         # Où ce relevé bancaire doit alimenter la génération : "cca_bank" | "afriland" |
         # "bgfi" | "western_union" | None (compte non reconnu, voir regles_banques.py).
         "ligne_banque_cible": None,
-        # Nom lu dans le champ « Gestionnaire : » de l'en-tête (uniquement pour les listes
-        # de comptes) — voir comptes.lire_gestionnaire, démarré le 03/10/2026.
-        "gestionnaire": None,
         "messages": [],
         "niveau": "information",
     }
@@ -159,12 +155,6 @@ def _classer_selon_extension(resultat: dict[str, Any], extension: str, nom: str,
             )
         agence = detecter_agence(nom)
 
-        if type_detecte == "compte":
-            # Toujours lu, même si le nom suffit déjà : utile pour la fenêtre Paramètres
-            # (voir le bouton « Configurer les gestionnaires ») et pour le recours
-            # gestionnaire plus bas dans `classer_fichiers` si le nom ne suffit pas.
-            resultat["gestionnaire"] = lire_gestionnaire(chemin)
-
         resultat["agence_detectee"] = agence.cle
         resultat["agence_libelle"] = agence.libelle
         resultat["confiance_agence"] = agence.confiance
@@ -173,7 +163,7 @@ def _classer_selon_extension(resultat: dict[str, Any], extension: str, nom: str,
             resultat["messages"].append(
                 "Aucune agence n'a pu être reconnue dans le nom de ce fichier. "
                 + (
-                    "Orisflow va essayer de la déduire par comparaison avec la veille, puis par le gestionnaire."
+                    "Orisflow va essayer de la déduire par comparaison avec la veille."
                     if type_detecte == "compte"
                     else "Choisissez-la manuellement."
                 )
@@ -378,17 +368,14 @@ def detecter_doublons(fichiers: list[dict[str, Any]]) -> None:
 def identifier_agences_par_comptes(
     fichiers: list[dict[str, Any]],
     table: dict[str, list[str]],
-    gestionnaires: dict[str, str],
 ) -> dict[str, int]:
     """Identifie l'agence des listes de comptes par leurs numéros de compte (décision du
     05/10/2026). Prime sur le nom du fichier. Si moins de SEUIL_COMPTES numéros correspondent,
-    le gestionnaire lève l'ambiguïté ; à défaut, le nom reste retenu avec un avertissement.
+    le nom reste retenu avec un avertissement (vérification demandée à l'utilisateur).
     Ne touche jamais aux agences confirmées manuellement.
 
     Retourne le décompte : {"identifiees": n, "contredisent_le_nom": n, "faibles": n}.
     """
-    from .regles_agences import detecter_agence_depuis_gestionnaire
-
     bilan = {"identifiees": 0, "contredisent_le_nom": 0, "faibles": 0}
     if not table:
         return bilan
@@ -431,22 +418,12 @@ def identifier_agences_par_comptes(
             f["confiance_agence"] = "comptes"
             continue
 
-        # Seuil non atteint : le gestionnaire lève l'ambiguïté, sinon le nom reste retenu.
+        # Seuil non atteint : le nom reste retenu, mais signalé à vérifier.
         bilan["faibles"] += 1
-        agence_gestionnaire = detecter_agence_depuis_gestionnaire(f.get("gestionnaire"), gestionnaires)
-        if agence_gestionnaire.cle is not None:
-            f["messages"].append(
-                f"Seulement {ident.score} comptes sur {NB_COMPTES_PAR_AGENCE} correspondent à une agence "
-                f"(seuil : {SEUIL_COMPTES}). Agence déduite du gestionnaire : {agence_gestionnaire.libelle}."
-            )
-            f["agence_detectee"] = agence_gestionnaire.cle
-            f["agence_libelle"] = agence_gestionnaire.libelle
-            f["confiance_agence"] = "gestionnaire"
-        else:
-            f["messages"].append(
-                f"Seulement {ident.score} comptes sur {NB_COMPTES_PAR_AGENCE} correspondent à une agence "
-                f"(seuil : {SEUIL_COMPTES}) : vérifiez l'agence de ce fichier."
-            )
+        f["messages"].append(
+            f"Seulement {ident.score} comptes sur {NB_COMPTES_PAR_AGENCE} correspondent à une agence "
+            f"(seuil : {SEUIL_COMPTES}) : vérifiez l'agence de ce fichier."
+        )
         _relever_niveau(f, "avertissement")
     return bilan
 
@@ -461,9 +438,9 @@ def _relever_niveau(f: dict[str, Any], niveau: str) -> None:
 def deduire_agences_manquantes_par_comptage(fichiers: list[dict[str, Any]], totaux_veille: dict[str, int]) -> int:
     """Pour les listes de comptes dont l'agence reste introuvable après le nom du fichier,
     propose une agence par proximité du total de comptes à la veille — **premier recours**
-    automatique après le nom (demande du 03/10/2026, avant le gestionnaire : l'utilisateur
-    important toujours les 12 listes ensemble, comparer le lot entier limite les conflits
-    entre fichiers, et ne demande aucune configuration préalable).
+    automatique après le nom (demande du 03/10/2026 : l'utilisateur important toujours les
+    12 listes ensemble, comparer le lot entier limite les conflits entre fichiers, et ne
+    demande aucune configuration préalable).
 
     Ne remplace jamais silencieusement : affecte `agence_detectee` avec `confiance_agence
     = "comptage"` (niveau avertissement, message explicite) — à vérifier absolument,
@@ -494,30 +471,6 @@ def deduire_agences_manquantes_par_comptage(fichiers: list[dict[str, Any]], tota
             f"({AGENCE_LIBELLES[agence_cle]}, écart de {ecart * 100:.0f} %). À vérifier absolument."
         )
     return len(affectations)
-
-
-def deduire_agences_manquantes_par_gestionnaire(
-    fichiers: list[dict[str, Any]], gestionnaires: dict[str, str]
-) -> int:
-    """Second recours (après le comptage) : rattache l'agence via la table gestionnaire
-    configurée par l'utilisateur (écran Paramètres), pour les fichiers encore sans agence.
-    Jamais devinée : seulement les correspondances explicitement renseignées par
-    l'utilisateur. Retourne le nombre de fichiers résolus."""
-    if not gestionnaires:
-        return 0
-    n = 0
-    for f in fichiers:
-        if f["type_detecte"] != "compte" or f["agence_detectee"] is not None or f["niveau"] == "bloquant":
-            continue
-        agence = detecter_agence_depuis_gestionnaire(f.get("gestionnaire"), gestionnaires)
-        if agence.cle is None:
-            continue
-        f["agence_detectee"] = agence.cle
-        f["agence_libelle"] = agence.libelle
-        f["confiance_agence"] = agence.confiance
-        f["messages"].append(f"Agence déduite du gestionnaire « {f['gestionnaire']} » ({agence.libelle}).")
-        n += 1
-    return n
 
 
 def appliquer_agences_manuelles(fichiers: list[dict[str, Any]], agences_manuelles: dict[str, str]) -> int:
@@ -586,7 +539,6 @@ def controler_coherence_comptes(
 def classer_fichiers(
     chemins: list[str],
     dossier_reference: Optional[str] = None,
-    gestionnaires: Optional[dict[str, str]] = None,
     agences_manuelles: Optional[dict[str, str]] = None,
     sur_fichier_classe: Optional[Callable[[dict[str, Any]], None]] = None,
     dossier_carnet: Optional[str] = None,
@@ -625,7 +577,7 @@ def classer_fichiers(
     # 1 bis. Numéros de compte (décision du 05/10/2026) : prime sur le nom du fichier.
     table_comptes = table_comptes or {}
     if table_comptes:
-        bilan = identifier_agences_par_comptes(fichiers, table_comptes, gestionnaires or {})
+        bilan = identifier_agences_par_comptes(fichiers, table_comptes)
         if bilan["identifiees"]:
             journal_etapes.append(
                 f"{bilan['identifiees']} agence(s) identifiée(s) par leurs numéros de compte "
@@ -638,7 +590,7 @@ def classer_fichiers(
         if bilan["faibles"]:
             journal_etapes.append(
                 f"{bilan['faibles']} fichier(s) avec moins de {SEUIL_COMPTES} comptes reconnus : "
-                "gestionnaire ou confirmation demandés."
+                "confirmation demandée."
             )
 
     detecter_fichiers_identiques(fichiers)
@@ -651,16 +603,11 @@ def classer_fichiers(
     )
     totaux_veille = reference_lue["totaux"]
 
-    # 2. Comptage : premier recours automatique (demande du 03/10/2026), avant le
-    # gestionnaire — ne demande aucune configuration, utilise ce qu'Orisflow a déjà.
+    # 2. Comptage : dernier recours automatique (demande du 03/10/2026) — ne demande
+    # aucune configuration, utilise ce qu'Orisflow a déjà.
     n = deduire_agences_manquantes_par_comptage(fichiers, totaux_veille)
     if n:
         journal_etapes.append(f"{n} agence(s) déduite(s) par proximité du total de comptes avec la veille.")
-
-    # 3. Gestionnaire : second recours, seulement si le comptage n'a pas suffi.
-    n = deduire_agences_manquantes_par_gestionnaire(fichiers, gestionnaires or {})
-    if n:
-        journal_etapes.append(f"{n} agence(s) déduite(s) de la table des gestionnaires.")
 
     reference = controler_coherence_comptes(fichiers, totaux_veille, reference_lue)
 

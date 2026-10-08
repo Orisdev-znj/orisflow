@@ -103,31 +103,3 @@ def analyser_comptes(chemin) -> dict:
 def total_categorise(comptages: dict[str, int]) -> int:
     """Somme des catégories, telle qu'écrite en ligne 16 du classeur (double compte inclus)."""
     return sum(comptages.values())
-
-
-_MOTIF_GESTIONNAIRE = re.compile(r"gestionnaire\s*:\s*(.+)", re.IGNORECASE)
-
-
-def lire_gestionnaire(chemin) -> "str | None":
-    """Lit le champ « Gestionnaire : NOM » dans l'en-tête d'un export « Liste des comptes »
-    (ex. « Gestionnaire:ECLADORE MBIAPOUO », ligne ~11). Démarré le 03/10/2026 : exploration
-    du 02/10/2026 ayant montré que le champ « Agence » de ces fichiers affiche toujours
-    « DIRECTION GENERALE » (l'exportateur, pas l'agence concernée) — le gestionnaire est le
-    seul champ distinctif trouvé dans le contenu, à rattacher à une agence via une table que
-    l'utilisateur configure lui-même (voir `regles_agences.py` et l'écran Paramètres :
-    aucune règle métier devinée ici, voir CLAUDE.md 3.5).
-
-    Lecture en lecture seule, tolérante : retourne None si le champ est absent ou le
-    fichier illisible (ne doit jamais bloquer la classification)."""
-    try:
-        apercu = pd.read_excel(chemin, sheet_name=0, header=None, nrows=20, dtype=str)
-    except Exception:
-        return None
-    for _, ligne in apercu.iterrows():
-        for valeur in ligne.values:
-            texte = str(valeur) if valeur is not None else ""
-            correspondance = _MOTIF_GESTIONNAIRE.search(texte)
-            if correspondance:
-                nom = correspondance.group(1).strip()
-                return nom or None
-    return None

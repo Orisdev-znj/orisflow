@@ -12,9 +12,7 @@ export type ConfianceAgence =
   | "sans_objet"
   | "contenu_document"
   | "regle_banque"
-  // Déduite du champ « Gestionnaire » (table configurée par l'utilisateur) ou, en
-  // dernier recours, par proximité du total de comptes avec la veille — 03/10/2026.
-  | "gestionnaire"
+  // Par proximité du total de comptes avec la veille — 03/10/2026.
   | "comptage"
   // Reconnue par ses numéros de compte, via la table « 15 comptes par agence » — 05/10/2026.
   | "comptes"
@@ -42,8 +40,6 @@ export interface FichierClasse {
   code_client: string | null;
   solde_releve: number | null;
   ligne_banque_cible: "cca_bank" | "afriland" | "bgfi" | "western_union" | null;
-  // Nom lu dans le champ « Gestionnaire » d'une liste de comptes (03/10/2026).
-  gestionnaire: string | null;
   niveau: NiveauFichier;
   messages: string[];
 }
@@ -63,7 +59,7 @@ export interface Classement {
   // UBA, Ecobank, Access Bank, et Western Union seulement en secours) — voir
   // lib/champsManuels.ts pour les libellés. Ajouté le 02/10/2026.
   champs_manuels_requis: string[];
-  // Étapes résumées de l'analyse (comptage, gestionnaire, confirmations) — 03/10/2026.
+  // Étapes résumées de l'analyse (comptage, numéros de compte, confirmations) — 03/10/2026.
   journal_etapes?: string[];
   // Relevés bancaires attendus mais absents aujourd'hui, avec la valeur de la veille si le
   // carnet la connaît (décision du 03/10/2026, option A). Jamais repris sans accord de l'utilisateur.
@@ -221,9 +217,6 @@ export interface ParametresApplication {
   // alors un repli local, sous le dossier de travail, pour rester testable dès maintenant).
   dossierBordereauParDefaut: boolean;
   identite: string;
-  // Table gestionnaire → agence (clé agence, ex. "akwa"), configurée par l'utilisateur
-  // (Paramètres → Gestionnaires, 03/10/2026). Vide par défaut, jamais devinée.
-  gestionnaires: Record<string, string>;
   version: string;
   empaquete: boolean;
 }
@@ -398,7 +391,6 @@ export interface ApiOrisflow {
   ouvrirDossierTravail(): Promise<string>;
   choisirDossierBordereau(): Promise<string>;
   definirIdentite(nom: string): Promise<string>;
-  enregistrerGestionnaires(mapping: Record<string, string>): Promise<Record<string, string>>;
   bordereauChoisirPieceJointe(): Promise<FichierImporte | null>;
   bordereauCreer(donnees: NouvelleTransmission): Promise<ResultatTransmissionCreee>;
   bordereauEvenement(donnees: NouvelEvenementTransmission): Promise<ResultatEvenementCree>;

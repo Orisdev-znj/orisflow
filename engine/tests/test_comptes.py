@@ -5,7 +5,7 @@ import openpyxl
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from orisflow_engine.comptes import compter_comptes, lire_gestionnaire, total_categorise
+from orisflow_engine.comptes import compter_comptes, total_categorise
 
 # Reproduit le format réel des extractions (voir CLAUDE.md §6) :
 # en-tête en ligne 24, colonne « Numero de compte », données à partir de la ligne 25.
@@ -64,32 +64,3 @@ def test_colonne_numero_absente_leve_une_erreur_claire(tmp_path):
         assert False, "une ValueError était attendue"
     except ValueError as erreur:
         assert "Numero de compte" in str(erreur)
-
-
-def test_lire_gestionnaire_dans_len_tete(tmp_path):
-    """Démarré le 03/10/2026 (CLAUDE.md §28) : le champ « Agence » de l'en-tête affiche
-    toujours « DIRECTION GENERALE » (vérifié sur des fichiers réels), le « Gestionnaire »
-    est le seul champ distinctif trouvé dans le contenu."""
-    chemin = tmp_path / "Brut_Compte.xlsx"
-    classeur = openpyxl.Workbook()
-    feuille = classeur.active
-    feuille.append(["Agence: DIRECTION GENERALE"])
-    for _ in range(9):
-        feuille.append([])
-    feuille.append([None, "Gestionnaire:ECLADORE MBIAPOUO"])  # ligne 11, comme le vrai fichier
-    for _ in range(11):
-        feuille.append([])
-    feuille.append(["N°", "Numero de compte", "Intitulé"])  # ligne 23
-    feuille.append([1, "37110-000001-00", "Client test"])
-    classeur.save(chemin)
-
-    assert lire_gestionnaire(chemin) == "ECLADORE MBIAPOUO"
-
-
-def test_lire_gestionnaire_absent_renvoie_none(tmp_path):
-    chemin = tmp_path / "Sans_Gestionnaire.xlsx"
-    classeur = openpyxl.Workbook()
-    classeur.active.append(["Rien d'utile ici"])
-    classeur.save(chemin)
-
-    assert lire_gestionnaire(chemin) is None

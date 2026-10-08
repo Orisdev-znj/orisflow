@@ -244,28 +244,6 @@ h2 {
   font-family: "Roboto Slab", Georgia, serif;
 }
 
-.ligne-gestionnaire {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  margin: 0.5rem 0;
-}
-
-.ligne-gestionnaire input[type="text"] {
-  flex: 1;
-  font: inherit;
-  padding: 0.45rem 0.6rem;
-  border: 1px solid var(--bordure);
-  border-radius: 6px;
-}
-
-.ligne-gestionnaire select {
-  font: inherit;
-  padding: 0.45rem 0.6rem;
-  border: 1px solid var(--bordure);
-  border-radius: 6px;
-}
-
 .zone-depot {
   margin: 1.2rem 0;
   padding: 1.6rem;

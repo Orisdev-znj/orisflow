@@ -10,7 +10,7 @@ interface Props {
 
 /** Fenêtre « Agence à confirmer » (demande du 03/10/2026) : une liste de comptes n'a pu être
  * rattachée à une agence ni par le nom, ni par comparaison avec la veille, ni par la table des
- * gestionnaires. Orisflow vous la demande ici plutôt que de la classer au hasard. */
+ * les numéros de compte. Orisflow vous la demande ici plutôt que de la classer au hasard. */
 export default function FenetreAgencesAConfirmer({ fichiers, onAnnuler, onConfirmer }: Props) {
   const [choix, setChoix] = useState<Record<string, string>>({});
 

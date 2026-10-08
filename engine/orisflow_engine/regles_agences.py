@@ -157,21 +157,6 @@ def _normaliser_nom(nom: str) -> str:
     return re.sub(r"\s+", " ", nom.strip().upper())
 
 
-def detecter_agence_depuis_gestionnaire(
-    gestionnaire: Optional[str], gestionnaires_vers_agence: dict[str, str]
-) -> AgenceDetectee:
-    """Reconnaît l'agence via la table gestionnaire → agence configurée par l'utilisateur
-    (écran Paramètres, démarré le 03/10/2026) : aucune règle métier devinée ici, la table
-    est entièrement fournie par l'utilisateur (voir CLAUDE.md 3.5)."""
-    if not gestionnaire or not gestionnaires_vers_agence:
-        return AgenceDetectee(None, None, "aucune")
-    nom_normalise = _normaliser_nom(gestionnaire)
-    for nom_connu, agence_cle in gestionnaires_vers_agence.items():
-        if _normaliser_nom(nom_connu) == nom_normalise and agence_cle in AGENCE_LIBELLES:
-            return AgenceDetectee(agence_cle, AGENCE_LIBELLES[agence_cle], "gestionnaire")
-    return AgenceDetectee(None, None, "aucune")
-
-
 def deduire_agences_par_comptage(
     fichiers_sans_agence: list[tuple[str, int]],
     totaux_precedents: dict[str, int],
@@ -179,7 +164,7 @@ def deduire_agences_par_comptage(
     tolerance: float = 0.20,
 ) -> dict[str, tuple[str, float]]:
     """Affecte, par proximité du total de comptes à la veille, les fichiers dont l'agence
-    n'a pu être déduite ni du nom ni du gestionnaire — demande du 03/10/2026 : l'utilisateur
+    n'a pu être déduite ni du nom ni des numéros de compte — demande du 03/10/2026 : l'utilisateur
     important toujours les 12 listes ensemble, Orisflow peut comparer le lot entier plutôt
     qu'un fichier isolé.
 

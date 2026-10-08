@@ -26,7 +26,6 @@ const CONFIANCE_LIBELLES: Record<string, string> = {
   sans_objet: "sans objet",
   contenu_document: "contenu du document",
   regle_banque: "règle bancaire",
-  gestionnaire: "gestionnaire",
   comptage: "proximité du total — à vérifier absolument",
   comptes: "numéros de compte",
   manuelle: "confirmée manuellement",
