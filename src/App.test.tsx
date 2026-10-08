@@ -19,6 +19,7 @@ function fausseApi(surcharges: Partial<ApiOrisflow> = {}): ApiOrisflow {
     creerUtilisateur: async () => ({ ok: true, utilisateur: UTILISATEUR_TEST }),
     supprimerUtilisateur: async () => ({ ok: true }),
     reinitialiserMotDePasse: async () => ({ ok: true }),
+    listerJournal: async () => ({ ok: true, evenements: [] }),
     choisirFichiers: async () => [],
     decrireFichiersDeposes: async () => [],
     testerMoteur: async () => ({

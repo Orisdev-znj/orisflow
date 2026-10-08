@@ -346,6 +346,28 @@ export interface NouvelUtilisateur {
   role?: RoleUtilisateur;
 }
 
+// --- Journal des actions (06/10/2026) ---------------------------------------------------
+
+export interface EvenementJournal {
+  horodatage: string;
+  utilisateur: string | null;
+  nomAffiche: string | null;
+  action: string;
+  details: Record<string, unknown>;
+}
+
+export interface FiltresJournal {
+  utilisateur?: string;
+  action?: string;
+  limite?: number;
+}
+
+export interface ResultatJournal {
+  ok: boolean;
+  evenements?: EvenementJournal[];
+  erreur?: string;
+}
+
 export interface ApiOrisflow {
   etatAuth(): Promise<EtatAuth>;
   creerCompteInitial(donnees: NouvelUtilisateur): Promise<ResultatAuth>;
@@ -355,6 +377,7 @@ export interface ApiOrisflow {
   creerUtilisateur(donnees: NouvelUtilisateur): Promise<ResultatAuth>;
   supprimerUtilisateur(identifiant: string): Promise<ResultatSimple>;
   reinitialiserMotDePasse(identifiant: string, nouveauMotDePasse: string): Promise<ResultatSimple>;
+  listerJournal(filtres?: FiltresJournal): Promise<ResultatJournal>;
   choisirFichiers(): Promise<FichierImporte[]>;
   decrireFichiersDeposes(fichiers: FileList | File[]): Promise<FichierImporte[]>;
   testerMoteur(): Promise<ResultatDiagnostic>;

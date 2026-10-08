@@ -5,6 +5,7 @@ const { spawn } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 const auth = require("./auth.cjs");
+const journal = require("./journal.cjs");
 
 const estEmpaquete = app.isPackaged;
 // Mode de vérification sans interface : défini par la variable ORISFLOW_AUTOTEST (chemin du rapport à écrire).
@@ -15,7 +16,7 @@ const modeAutotest = cibleAutotest !== "";
 // Dossiers de travail et paramètres
 // ---------------------------------------------------------------------------
 
-const SOUS_DOSSIERS = ["Imports", "Resultats", "Sauvegardes", "SuiviCourrier", "Carnet", "Config"];
+const SOUS_DOSSIERS = ["Imports", "Resultats", "Sauvegardes", "SuiviCourrier", "Carnet", "Config", "Journal"];
 
 function fichierParametres() {
   return path.join(app.getPath("userData"), "parametres.json");
@@ -29,6 +30,12 @@ function fichierParametres() {
 // et conservée tant que l'application reste ouverte (décision du 06/10/2026).
 function fichierComptes() {
   return path.join(app.getPath("userData"), "comptes.json");
+}
+
+// Journal des actions (06/10/2026) : qui a fait quoi, et quand — dans le dossier de travail,
+// au même titre que le carnet ou les résultats (jamais dans Documents\Orisflow caché).
+function dossierJournal() {
+  return path.join(dossierTravail(), "Journal");
 }
 
 let sessionCourante = null;
@@ -337,7 +344,7 @@ function enregistrerCommunications() {
 
   ipcMain.handle("moteur:generer", async (evenement, chemins, valeursManuelles, relevesSaisis) => {
     const racine = preparerDossiers();
-    return lancerMoteur(
+    const resultat = await lancerMoteur(
       "generer",
       {
         fichiers: chemins,
@@ -353,6 +360,24 @@ function enregistrerCommunications() {
         evenement.sender.send("moteur:evenement", message);
       },
     );
+    // Traçabilité (06/10/2026) : chaque classeur produit est consigné avec son auteur —
+    // demande explicite, indépendante du reste du résultat renvoyé à l'interface.
+    if (resultat && resultat.ok) {
+      journal.consignerEvenement(dossierJournal(), {
+        utilisateur: sessionCourante,
+        action: "generation_classeur",
+        details: {
+          cheminGenere: resultat.chemin_genere,
+          date: resultat.date,
+          modeleUtilise: resultat.modele_utilise,
+          agencesComptes: resultat.agences_mises_a_jour,
+          agencesBalances: resultat.agences_balance_mises_a_jour,
+          agencesBanques: resultat.agences_banques_mises_a_jour,
+          agencesCaisses: resultat.agences_caisses_mises_a_jour,
+        },
+      });
+    }
+    return resultat;
   });
 
   // --- Authentification -----------------------------------------------------------
@@ -370,6 +395,7 @@ function enregistrerCommunications() {
     if (resultat.ok) {
       sessionCourante = resultat.utilisateur;
       synchroniserIdentite(resultat.utilisateur.nomAffiche);
+      journal.consignerEvenement(dossierJournal(), { utilisateur: sessionCourante, action: "creation_compte_admin" });
     }
     return resultat;
   });
@@ -379,11 +405,15 @@ function enregistrerCommunications() {
     if (resultat.ok) {
       sessionCourante = resultat.utilisateur;
       synchroniserIdentite(resultat.utilisateur.nomAffiche);
+      journal.consignerEvenement(dossierJournal(), { utilisateur: sessionCourante, action: "connexion" });
     }
     return resultat;
   });
 
   ipcMain.handle("auth:deconnecter", () => {
+    if (sessionCourante) {
+      journal.consignerEvenement(dossierJournal(), { utilisateur: sessionCourante, action: "deconnexion" });
+    }
     sessionCourante = null;
     return true;
   });
@@ -404,7 +434,15 @@ function enregistrerCommunications() {
   ipcMain.handle("auth:creerUtilisateur", (_evenement, donnees) => {
     const refus = exigerAdmin();
     if (refus) return refus;
-    return auth.creerCompte(fichierComptes(), donnees);
+    const resultat = auth.creerCompte(fichierComptes(), donnees);
+    if (resultat.ok) {
+      journal.consignerEvenement(dossierJournal(), {
+        utilisateur: sessionCourante,
+        action: "creation_utilisateur",
+        details: { identifiantCree: resultat.utilisateur.identifiant, role: resultat.utilisateur.role },
+      });
+    }
+    return resultat;
   });
 
   ipcMain.handle("auth:supprimerUtilisateur", (_evenement, identifiant) => {
@@ -413,13 +451,35 @@ function enregistrerCommunications() {
     if (String(identifiant || "").trim().toLowerCase() === String(sessionCourante.identifiant).trim().toLowerCase()) {
       return { ok: false, erreur: "Vous ne pouvez pas supprimer le compte avec lequel vous êtes connecté." };
     }
-    return auth.supprimerCompte(fichierComptes(), identifiant);
+    const resultat = auth.supprimerCompte(fichierComptes(), identifiant);
+    if (resultat.ok) {
+      journal.consignerEvenement(dossierJournal(), {
+        utilisateur: sessionCourante,
+        action: "suppression_utilisateur",
+        details: { identifiantSupprime: identifiant },
+      });
+    }
+    return resultat;
   });
 
   ipcMain.handle("auth:reinitialiserMotDePasse", (_evenement, identifiant, nouveauMotDePasse) => {
     const refus = exigerAdmin();
     if (refus) return refus;
-    return auth.reinitialiserMotDePasse(fichierComptes(), identifiant, nouveauMotDePasse);
+    const resultat = auth.reinitialiserMotDePasse(fichierComptes(), identifiant, nouveauMotDePasse);
+    if (resultat.ok) {
+      journal.consignerEvenement(dossierJournal(), {
+        utilisateur: sessionCourante,
+        action: "reinitialisation_mot_de_passe",
+        details: { identifiantCible: identifiant },
+      });
+    }
+    return resultat;
+  });
+
+  ipcMain.handle("journal:lister", (_evenement, filtres) => {
+    const refus = exigerAdmin();
+    if (refus) return refus;
+    return { ok: true, evenements: journal.listerEvenements(dossierJournal(), filtres || {}) };
   });
 
   ipcMain.handle("parametres:lire", () => ({

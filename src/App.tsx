@@ -4,6 +4,7 @@ import EcranImport from "./ecrans/EcranImport";
 import EcranParametres from "./ecrans/EcranParametres";
 import EcranConnexion from "./ecrans/EcranConnexion";
 import EcranResultats from "./ecrans/EcranResultats";
+import FenetreJournal from "./ecrans/FenetreJournal";
 import FenetreUtilisateurs from "./ecrans/FenetreUtilisateurs";
 import EcranTraitement from "./ecrans/EcranTraitement";
 import type { EtatTraitement } from "./ecrans/EcranTraitement";
@@ -52,6 +53,7 @@ export default function App() {
   const [etatAuth, setEtatAuth] = useState<EtatAuth | null>(null);
   const [session, setSession] = useState<UtilisateurPublic | null>(null);
   const [fenetreUtilisateursOuverte, setFenetreUtilisateursOuverte] = useState(false);
+  const [fenetreJournalOuverte, setFenetreJournalOuverte] = useState(false);
 
   useEffect(() => {
     const api = window.orisflow;
@@ -74,6 +76,7 @@ export default function App() {
     window.orisflow?.deconnecter();
     setSession(null);
     setFenetreUtilisateursOuverte(false);
+    setFenetreJournalOuverte(false);
     window.orisflow?.etatAuth().then(setEtatAuth);
   }, []);
 
@@ -256,6 +259,11 @@ export default function App() {
               Utilisateurs
             </button>
           )}
+          {session.role === "admin" && (
+            <button type="button" className="bouton-accueil" onClick={() => setFenetreJournalOuverte(true)}>
+              Journal
+            </button>
+          )}
           {vue === "bordereau" && (
             // Paramètres reste porté par le module Trésorerie (dossiers + identité y sont
             // déjà centralisés) : ce raccourci évite d'obliger un détour par l'accueil pour
@@ -360,6 +368,7 @@ export default function App() {
       {fenetreUtilisateursOuverte && (
         <FenetreUtilisateurs onFermer={() => setFenetreUtilisateursOuverte(false)} />
       )}
+      {fenetreJournalOuverte && <FenetreJournal onFermer={() => setFenetreJournalOuverte(false)} />}
     </div>
   );
 }

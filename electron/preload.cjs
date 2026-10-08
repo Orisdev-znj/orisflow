@@ -11,6 +11,7 @@ contextBridge.exposeInMainWorld("orisflow", {
   supprimerUtilisateur: (identifiant) => ipcRenderer.invoke("auth:supprimerUtilisateur", identifiant),
   reinitialiserMotDePasse: (identifiant, nouveauMotDePasse) =>
     ipcRenderer.invoke("auth:reinitialiserMotDePasse", identifiant, nouveauMotDePasse),
+  listerJournal: (filtres) => ipcRenderer.invoke("journal:lister", filtres),
   choisirFichiers: () => ipcRenderer.invoke("fichiers:choisir"),
   // Fichiers glissés dans la fenêtre : on récupère leur chemin réel.
   decrireFichiersDeposes: (fichiers) => {
