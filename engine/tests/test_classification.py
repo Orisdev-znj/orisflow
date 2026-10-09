@@ -64,10 +64,15 @@ def test_agence_inconnue_est_un_avertissement(tmp_path):
 
 
 def test_deux_fichiers_pour_la_meme_agence_sont_bloquants(tmp_path):
+    """Contenus réellement différents (pas un simple doublon) : Orisflow ne peut pas deviner
+    lequel des deux est le bon pour cette agence, le blocage reste nécessaire pour les deux.
+    (Avant le 10/10/2026, ce test utilisait deux fichiers au contenu strictement identique :
+    ce cas est désormais couvert séparément, et n'est plus bloquant — voir
+    `test_doublon_au_contenu_identique_sur_meme_agence_ne_bloque_pas_le_fichier_conserve`.)"""
     chemin1 = tmp_path / "Akwa_Compte.xlsx"
     chemin2 = tmp_path / "Akwa_Compte_bis.xlsx"
     _extraction_comptes(chemin1, ["37110"])
-    _extraction_comptes(chemin2, ["37110"])
+    _extraction_comptes(chemin2, ["37120"])
 
     resultat = classer_fichiers([str(chemin1), str(chemin2)])
 
@@ -276,6 +281,50 @@ def test_fichiers_differents_ne_sont_pas_des_doublons(tmp_path):
     resultat = classer_fichiers([str(a), str(b)])
 
     assert all(f["niveau"] != "bloquant" for f in resultat["fichiers"])
+
+
+def test_doublon_au_contenu_identique_sur_meme_agence_ne_bloque_pas_le_fichier_conserve(tmp_path):
+    """Trouvé le 10/10/2026 sur un vrai lot d'export (Ndogpassi exporté 4 fois par erreur) :
+    même quand l'agence est reconnue avec certitude pour plusieurs fichiers identiques,
+    `detecter_doublons` ré-escaladait aussi le fichier conservé par `detecter_fichiers_identiques`,
+    bloquant l'agence entière alors qu'un seul exemplaire aurait suffi. Ici, deux fichiers au
+    contenu strictement identique forcés sur la même agence (confirmation manuelle, comme le
+    ferait une identification par numéros de compte à 15/15) : seul le second doit rester
+    bloquant, le premier doit rester utilisable."""
+    original = tmp_path / "ETListeCompte_NoHeader_0001.xlsx"
+    _extraction_comptes(original, ["37110"])
+    copie = tmp_path / "ETListeCompte_NoHeader_0002.xlsx"
+    copie.write_bytes(original.read_bytes())
+
+    resultat = classer_fichiers(
+        [str(original), str(copie)],
+        agences_manuelles={str(original): "ndogpassi", str(copie): "ndogpassi"},
+    )
+
+    premier, second = resultat["fichiers"]
+    assert premier["agence_detectee"] == "ndogpassi"
+    assert premier["niveau"] != "bloquant"
+    assert "Plusieurs fichiers correspondent" not in " ".join(premier["messages"])
+    assert second["niveau"] == "bloquant"
+    assert "identique" in " ".join(second["messages"])
+
+
+def test_doublon_au_contenu_different_sur_meme_agence_reste_bloquant(tmp_path):
+    """Deux fichiers réellement différents (pas de simple doublon de contenu) mais résolus
+    sur la même agence : Orisflow ne peut pas deviner lequel est le bon, le blocage reste
+    nécessaire pour les deux."""
+    a = tmp_path / "ETListeCompte_NoHeader_0003.xlsx"
+    _extraction_comptes(a, ["37110"])
+    b = tmp_path / "ETListeCompte_NoHeader_0004.xlsx"
+    _extraction_comptes(b, ["37120"])
+
+    resultat = classer_fichiers(
+        [str(a), str(b)],
+        agences_manuelles={str(a): "ndogpassi", str(b): "ndogpassi"},
+    )
+
+    assert all(f["niveau"] == "bloquant" for f in resultat["fichiers"])
+    assert all("Plusieurs fichiers correspondent" in " ".join(f["messages"]) for f in resultat["fichiers"])
 
 
 def test_releves_manquants_proposent_la_valeur_de_la_veille(tmp_path):

@@ -226,10 +226,14 @@ def test_ne_jamais_ecraser_un_fichier_deja_genere(contexte):
 
 
 def test_fichier_bloquant_est_ignore_pas_utilise(contexte):
+    """Deux fichiers au contenu réellement différent pour la même agence : Orisflow ne peut
+    pas deviner lequel est le bon, les deux restent ignorés. (Avant le 10/10/2026, ce test
+    utilisait deux fichiers au contenu strictement identique, qui n'est plus bloquant — voir
+    `test_doublon_identique_reste_utilisable`.)"""
     chemin_akwa = contexte["extractions"] / "Akwa_Compte.xlsx"
     _extraction_comptes(chemin_akwa, ["37110"])
     chemin_illisible = contexte["extractions"] / "Akwa_Compte_bis.xlsx"
-    _extraction_comptes(chemin_illisible, ["37110"])  # même agence : le doublon devient bloquant
+    _extraction_comptes(chemin_illisible, ["37120"])  # contenu différent : conflit réel, reste bloquant
 
     resultat = generer_classeur(
         [str(chemin_akwa), str(chemin_illisible)], contexte["reference"], contexte["sortie"], jour=date(2026, 9, 29)
@@ -237,6 +241,24 @@ def test_fichier_bloquant_est_ignore_pas_utilise(contexte):
 
     assert "Akwa" not in resultat["agences_mises_a_jour"]
     assert set(resultat["fichiers_ignores"]) == {"Akwa_Compte.xlsx", "Akwa_Compte_bis.xlsx"}
+
+
+def test_doublon_identique_reste_utilisable(contexte):
+    """Trouvé le 10/10/2026 sur un vrai lot d'export (une agence exportée plusieurs fois par
+    erreur, contenu strictement identique à chaque fois) : l'agence doit quand même être mise
+    à jour, à partir de l'un des exemplaires identiques — ce n'est plus une raison de bloquer."""
+    chemin_akwa = contexte["extractions"] / "Akwa_Compte.xlsx"
+    _extraction_comptes(chemin_akwa, ["37110"])
+    chemin_copie = contexte["extractions"] / "Akwa_Compte_bis.xlsx"
+    chemin_copie.write_bytes(chemin_akwa.read_bytes())
+
+    resultat = generer_classeur(
+        [str(chemin_akwa), str(chemin_copie)], contexte["reference"], contexte["sortie"], jour=date(2026, 9, 29)
+    )
+
+    assert "Akwa" in resultat["agences_mises_a_jour"]
+    assert "Akwa_Compte_bis.xlsx" in resultat["fichiers_ignores"]
+    assert "Akwa_Compte.xlsx" not in resultat["fichiers_ignores"]
 
 
 def test_aucun_modele_disponible_est_signale_clairement(tmp_path):

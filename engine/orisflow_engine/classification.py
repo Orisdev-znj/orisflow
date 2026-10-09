@@ -128,6 +128,11 @@ def classer_un_fichier(chemin: str) -> dict[str, Any]:
         "ligne_banque_cible": None,
         "messages": [],
         "niveau": "information",
+        # Marqué par `detecter_fichiers_identiques` (10/10/2026) : ce fichier est un doublon
+        # au contenu strictement identique à un autre déjà retenu. `detecter_doublons` doit
+        # alors ignorer son agence/type dans le regroupement (sinon il réescalade aussi le
+        # fichier conservé, qui n'a pourtant rien d'ambigu).
+        "doublon_contenu_identique": False,
     }
 
     try:
@@ -314,6 +319,7 @@ def detecter_fichiers_identiques(fichiers: list[dict[str, Any]]) -> None:
             empreinte = hashlib.sha256(fichier.read()).hexdigest()
         if empreinte in vus:
             f["niveau"] = "bloquant"
+            f["doublon_contenu_identique"] = True
             f["messages"].append(
                 f"Contenu identique à « {vus[empreinte]['nom']} » : ce fichier est un doublon. "
                 "Retirez-le de l'import."
@@ -342,9 +348,19 @@ def _cle_doublon(f: dict[str, Any]) -> Optional[tuple]:
 
 def detecter_doublons(fichiers: list[dict[str, Any]]) -> None:
     """Marque en « bloquant » les fichiers qui partagent le même type et, selon le type,
-    la même agence ou le même compte précis (voir `_cle_doublon`)."""
+    la même agence ou le même compte précis (voir `_cle_doublon`).
+
+    Un fichier déjà identifié comme doublon au contenu strictement identique (voir
+    `detecter_fichiers_identiques`, exécuté juste avant) ne compte pas dans ce regroupement :
+    Orisflow sait déjà lequel garder, ce n'est pas une ambiguïté (demande du 10/10/2026 —
+    reconnaître l'agence avec certitude, par exemple 15/15 numéros de compte, ne doit pas
+    rester bloqué simplement parce que le même fichier a été reçu plusieurs fois). Seuls des
+    fichiers dont le contenu diffère réellement pour la même agence restent bloquants : dans
+    ce cas, Orisflow ne peut pas deviner lequel est le bon."""
     vus: dict[tuple, list[dict[str, Any]]] = {}
     for f in fichiers:
+        if f.get("doublon_contenu_identique"):
+            continue
         cle = _cle_doublon(f)
         if cle is None:
             continue
