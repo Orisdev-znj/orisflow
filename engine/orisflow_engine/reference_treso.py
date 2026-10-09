@@ -16,6 +16,7 @@ from typing import Optional
 
 from openpyxl import load_workbook
 
+from .recalcul import nettoyer, recalculer_classeur
 from .regles_agences import AGENCE_COLONNE
 
 NOM_FEUILLE_SYNTHESE = ("Synthèse", "Synthese")
@@ -53,17 +54,7 @@ def trouver_classeur_recent(dossier: str, avant: Optional[date] = None) -> Optio
     return max(fichiers, key=extraire_date_nom)
 
 
-def lire_totaux_comptes_precedents(dossier_reference: str) -> dict:
-    """Retourne {agence_cle: total_ligne16} du dernier classeur trouvé, en LECTURE SEULE.
-
-    Résultat : {"chemin": str|None, "date": str|None, "totaux": {agence_cle: int}}.
-    Un total manquant ou illisible est simplement absent du dictionnaire `totaux`
-    (aucune exception : l'absence de référence ne doit jamais bloquer l'import).
-    """
-    chemin = trouver_classeur_recent(dossier_reference)
-    if chemin is None:
-        return {"chemin": None, "date": None, "totaux": {}}
-
+def _lire_totaux(chemin: str) -> dict[str, int]:
     totaux: dict[str, int] = {}
     try:
         classeur = load_workbook(chemin, data_only=True, read_only=True)
@@ -77,6 +68,33 @@ def lire_totaux_comptes_precedents(dossier_reference: str) -> dict:
     except Exception:
         # Un classeur illisible ne doit jamais empêcher l'import : on renvoie ce qui a pu être lu.
         pass
+    return totaux
+
+
+def lire_totaux_comptes_precedents(dossier_reference: str) -> dict:
+    """Retourne {agence_cle: total_ligne16} du dernier classeur trouvé, en LECTURE SEULE.
+
+    Résultat : {"chemin": str|None, "date": str|None, "totaux": {agence_cle: int}}.
+    Un total manquant ou illisible est simplement absent du dictionnaire `totaux`
+    (aucune exception : l'absence de référence ne doit jamais bloquer l'import).
+
+    Si le classeur n'a jamais été recalculé par Excel depuis son enregistrement (aucun total
+    lisible du tout), une tentative de recalcul via LibreOffice est faite sur une copie
+    jetable (voir `recalcul.py`, demande du 10/10/2026) avant d'abandonner — pour ne plus
+    dépendre d'une ouverture manuelle dans Excel.
+    """
+    chemin = trouver_classeur_recent(dossier_reference)
+    if chemin is None:
+        return {"chemin": None, "date": None, "totaux": {}}
+
+    totaux = _lire_totaux(chemin)
+    if not totaux:
+        chemin_recalcule = recalculer_classeur(chemin)
+        if chemin_recalcule is not None:
+            try:
+                totaux = _lire_totaux(chemin_recalcule)
+            finally:
+                nettoyer(chemin_recalcule)
 
     jour = extraire_date_nom(chemin)
     return {

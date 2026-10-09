@@ -35,6 +35,7 @@ from openpyxl import load_workbook
 
 from .classification import classer_fichiers
 from .reference_treso import NOM_FEUILLE_SYNTHESE, trouver_classeur_recent
+from .recalcul import recalculer_classeur, nettoyer
 from . import carnet
 from .regles_agences import AGENCE_COLONNE, AGENCE_LIBELLES
 from .regles_banques import BON_INCLUS_DANS_RELEVE, RELEVES_ATTENDUS, cle_releve
@@ -457,23 +458,38 @@ def generer_classeur(
     chemin_sortie = _chemin_disponible(dossier_sortie, _nom_fichier_du_jour(jour))
     shutil.copyfile(chemin_modele, chemin_sortie)
 
-    classeur = load_workbook(chemin_sortie)  # formules conservées (pas data_only)
+    classeur = load_workbook(chemin_sortie)  # formules conservées (pas data_only) : jamais touché par le recalcul
     classeur_valeurs = load_workbook(chemin_sortie, data_only=True)  # valeurs calculées, pour les J-1
     for nom_feuille in FEUILLES_A_EXCLURE:
         if nom_feuille in classeur.sheetnames:
             del classeur[nom_feuille]
 
     feuille = next((classeur[n] for n in NOM_FEUILLE_SYNTHESE if n in classeur.sheetnames), None)
-    feuille_valeurs = classeur_valeurs[feuille.title] if feuille is not None else None
-    avertissements_modele = (
-        _verifier_modele_recalcule(feuille, feuille_valeurs, _LIGNES_J1_A_VERIFIER) if feuille is not None else []
-    )
     if feuille is None:
         return {
             "ok": False,
             "erreur": "La feuille « Synthèse » est introuvable dans le classeur de référence.",
             "classement": classement,
         }
+    feuille_valeurs = classeur_valeurs[feuille.title]
+
+    # Le modèle n'a jamais été recalculé par Excel (aucune valeur mise en cache pour au
+    # moins une cellule-formule utile au J-1) : on essaie de le faire nous-mêmes via
+    # LibreOffice, sur une copie jetable du modèle d'origine (jamais `chemin_sortie`, qui
+    # doit garder exactement les formules et la mise en forme du modèle) — demande du
+    # 10/10/2026, pour ne plus dépendre d'une ouverture manuelle dans Excel.
+    if _verifier_modele_recalcule(feuille, feuille_valeurs, _LIGNES_J1_A_VERIFIER):
+        chemin_recalcule = recalculer_classeur(chemin_modele)
+        if chemin_recalcule is not None:
+            try:
+                classeur_recalcule = load_workbook(chemin_recalcule, data_only=True)
+                if feuille.title in classeur_recalcule.sheetnames:
+                    feuille_valeurs = classeur_recalcule[feuille.title]
+            finally:
+                nettoyer(chemin_recalcule)
+    # Revérifie après la tentative : s'il reste des cellules manquantes (LibreOffice absent,
+    # échec de conversion, feuille renommée dans le recalcul...), l'avertissement reste affiché.
+    avertissements_modele = _verifier_modele_recalcule(feuille, feuille_valeurs, _LIGNES_J1_A_VERIFIER)
 
     # Valeurs de la veille (celles qui vont devenir les « J-1 » du nouveau fichier) :
     # calculées nous-mêmes en sommant les lignes 7 à 15, comme le fait la formule de la

@@ -5,10 +5,12 @@ import sys
 from datetime import date
 
 import openpyxl
+import pytest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from orisflow_engine.reference_treso import trouver_classeur_recent
+from orisflow_engine.reference_treso import lire_totaux_comptes_precedents, trouver_classeur_recent
+from orisflow_engine.recalcul import _trouver_soffice
 
 
 def _classeur_vide(dossier, nom):
@@ -41,3 +43,40 @@ def test_avant_renvoie_none_si_aucun_classeur_anterieur(tmp_path):
     _classeur_vide(tmp_path, "TRESORERIE JOURNALIÈRE et TDB DU  30 09 2026.xlsx")
 
     assert trouver_classeur_recent(str(tmp_path), avant=date(2026, 9, 30)) is None
+
+
+def _classeur_avec_totaux_en_formule(dossier, nom):
+    """Classeur « Synthèse » dont la ligne 16 (TOTAUX COMPTES) est une formule jamais
+    recalculée par Excel : reproduit un classeur généré par Orisflow puis jamais rouvert."""
+    chemin = dossier / nom
+    classeur = openpyxl.Workbook()
+    feuille = classeur.active
+    feuille.title = "Synthèse"
+    feuille["C7"] = 10
+    feuille["C8"] = 5
+    feuille["C16"] = "=C7+C8"
+    classeur.save(chemin)
+    return str(chemin)
+
+
+@pytest.mark.skipif(_trouver_soffice() is None, reason="LibreOffice non installé sur ce poste")
+def test_recalcule_le_modele_si_aucun_total_nest_lisible(tmp_path):
+    """Trouvé le 10/10/2026 : un classeur de référence jamais rouvert dans Excel ne donnait
+    aucun total (« Aucun total de la veille disponible ») — recalculé automatiquement via
+    LibreOffice (voir recalcul.py) avant d'abandonner."""
+    _classeur_avec_totaux_en_formule(tmp_path, "TRESORERIE JOURNALIÈRE et TDB DU  30 09 2026.xlsx")
+
+    resultat = lire_totaux_comptes_precedents(str(tmp_path))
+
+    assert resultat["totaux"].get("akwa") == 15
+
+
+def test_sans_libreoffice_le_resultat_reste_vide_sans_planter(tmp_path, monkeypatch):
+    import orisflow_engine.reference_treso as reference_treso
+
+    monkeypatch.setattr(reference_treso, "recalculer_classeur", lambda chemin, **k: None)
+    _classeur_avec_totaux_en_formule(tmp_path, "TRESORERIE JOURNALIÈRE et TDB DU  30 09 2026.xlsx")
+
+    resultat = lire_totaux_comptes_precedents(str(tmp_path))
+
+    assert resultat["totaux"] == {}

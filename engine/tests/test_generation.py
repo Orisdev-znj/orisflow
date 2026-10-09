@@ -503,10 +503,11 @@ def test_total_banques_j1_avance_meme_sans_aucun_relever(contexte):
 
     classeur = openpyxl.load_workbook(resultat["chemin_genere"])
     synthese = classeur["Synthèse"]
-    # Ancien total banques Akwa = 100M (CCA) + 10M (Afriland) + 5M (BGFI) + 11M (UBA, formule
-    # non évaluée par openpyxl donc ignorée du calcul, voir note) + 2M (WU) — seules les
-    # valeurs littérales comptent (C31 est une formule, non recalculée par openpyxl).
-    assert synthese["C36"].value == 100_000_000 + 10_000_000 + 5_000_000 + 2_000_000
+    # Ancien total banques Akwa = 100M (CCA) + 10M (Afriland) + 5M (BGFI) + 11M (UBA) + 2M (WU).
+    # Depuis le recalcul automatique via LibreOffice (10/10/2026, voir recalcul.py), C31 (UBA,
+    # une formule jamais recalculée par openpyxl) est maintenant correctement évaluée et
+    # entre dans le total — elle n'est plus silencieusement ignorée.
+    assert synthese["C36"].value == 100_000_000 + 10_000_000 + 5_000_000 + 11_000_000 + 2_000_000
 
 
 def test_cle_rib_non_reconnue_est_ignoree_pas_bloquante(contexte):
@@ -575,10 +576,29 @@ def test_releve_absent_sans_choix_nest_pas_repris_de_la_veille(contexte, tmp_pat
 # --- Robustesse : modèle jamais recalculé par Excel (06/10/2026) ------------------------
 
 
-def test_signale_une_cellule_formule_sans_valeur_calculee_dans_le_modele(contexte):
+def test_recalcule_automatiquement_le_modele_via_libreoffice(contexte):
     """Le modèle de `contexte` contient C31 (UBA Akwa) en formule jamais recalculée (écrite
-    par openpyxl, sans valeur en cache) : Orisflow doit le signaler plutôt que de compter 0
-    silencieusement pour le J-1 (constaté le 05/10/2026 sur les lignes banques réelles)."""
+    par openpyxl, sans valeur en cache). Depuis le 10/10/2026 (voir recalcul.py), Orisflow
+    tente de la recalculer lui-même via LibreOffice avant d'abandonner : sur ce poste
+    (LibreOffice installé), le recalcul réussit, donc aucun avertissement ne doit apparaître
+    — avant cette correction, Orisflow se contentait de signaler le problème (constaté le
+    05/10/2026 sur les lignes banques réelles)."""
+    chemin_akwa = contexte["extractions"] / "Akwa_Compte.xlsx"
+    _extraction_comptes(chemin_akwa, ["37110"])
+
+    resultat = generer_classeur([str(chemin_akwa)], contexte["reference"], contexte["sortie"], jour=date(2026, 9, 29))
+
+    assert resultat["ok"] is True
+    assert resultat["avertissements_modele"] == []
+
+
+def test_avertissement_conserve_si_le_recalcul_echoue(contexte, monkeypatch):
+    """Si LibreOffice est absent ou que la conversion échoue (`recalculer_classeur` renvoie
+    None), le comportement d'avant le 10/10/2026 doit rester disponible : signaler le
+    problème plutôt que de compter 0 silencieusement."""
+    import orisflow_engine.generation as generation
+
+    monkeypatch.setattr(generation, "recalculer_classeur", lambda chemin, **k: None)
     chemin_akwa = contexte["extractions"] / "Akwa_Compte.xlsx"
     _extraction_comptes(chemin_akwa, ["37110"])
 
