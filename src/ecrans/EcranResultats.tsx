@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { EtatGeneration, FichierClasse, NiveauFichier, ResultatClassement } from "../lib/types";
 import TableauCompletude from "./TableauCompletude";
 
@@ -30,6 +31,39 @@ const CONFIANCE_LIBELLES: Record<string, string> = {
   comptes: "numéros de compte",
   manuelle: "confirmée manuellement",
 };
+
+/** Rapport en texte brut de l'analyse (09/10/2026) : pour que l'utilisateur puisse le copier
+ * et le coller directement dans une conversation de débogage, sans retaper ce qu'il voit
+ * à l'écran. Reprend les mêmes informations que le tableau, rien de plus. */
+function genererRapportTexte(resultat: ResultatClassement): string {
+  const lignes: string[] = [];
+  lignes.push(`Rapport d'analyse Orisflow — ${new Date().toLocaleString("fr-FR")}`);
+  lignes.push(
+    resultat.reference.chemin
+      ? `Dossier de référence : ${resultat.reference.chemin}`
+      : "Dossier de référence : aucun",
+  );
+  lignes.push(`Fichiers analysés : ${resultat.total}`);
+  lignes.push("");
+
+  if (resultat.journal_etapes && resultat.journal_etapes.length > 0) {
+    lignes.push("Étapes :");
+    for (const etape of resultat.journal_etapes) lignes.push(`- ${etape}`);
+    lignes.push("");
+  }
+
+  lignes.push("Détail par fichier :");
+  for (const f of resultat.fichiers) {
+    const niveau = NIVEAU_LIBELLES[f.niveau]?.texte ?? f.niveau;
+    const agence =
+      f.confiance_agence === "sans_objet"
+        ? "—"
+        : `${f.agence_libelle ?? "Non reconnue"} (${CONFIANCE_LIBELLES[f.confiance_agence] ?? f.confiance_agence})`;
+    lignes.push(`[${niveau}] ${f.nom} — ${f.type_libelle ?? "type inconnu"} — ${agence}`);
+    for (const message of f.messages) lignes.push(`    - ${message}`);
+  }
+  return lignes.join(String.fromCharCode(10));
+}
 
 function ligneFichier(fichier: FichierClasse, inclus: boolean, onBasculer: (chemin: string) => void) {
   const agence =
@@ -190,6 +224,24 @@ export default function EcranResultats({
       (f) => f.type_detecte === "compte" && f.niveau !== "bloquant" && !fichiersExclus.has(f.chemin),
     );
 
+  const [rapportCopie, setRapportCopie] = useState(false);
+  const [rapportTexte, setRapportTexte] = useState<string | null>(null);
+
+  const copierRapport = async () => {
+    if (!resultat) return;
+    const texte = genererRapportTexte(resultat);
+    try {
+      await navigator.clipboard.writeText(texte);
+      setRapportCopie(true);
+      setRapportTexte(null);
+      setTimeout(() => setRapportCopie(false), 2500);
+    } catch {
+      // Presse-papiers indisponible (ex. politique de sécurité) : on affiche le texte à
+      // sélectionner et copier à la main, plutôt que de ne rien proposer du tout.
+      setRapportTexte(texte);
+    }
+  };
+
   return (
     <section aria-labelledby="titre-resultats">
       <h1 id="titre-resultats">Résultats de l'analyse</h1>
@@ -203,6 +255,21 @@ export default function EcranResultats({
               ? `Les ${resultat.total} fichier(s) ont été reconnus sans anomalie bloquante.`
               : "Certains fichiers demandent votre attention avant d'aller plus loin."}
           </p>
+
+          <div className="actions">
+            <button type="button" className="bouton" onClick={copierRapport}>
+              Copier le rapport d'analyse
+            </button>
+            {rapportCopie && <span className="aide-inline">Copié dans le presse-papiers.</span>}
+          </div>
+          {rapportTexte && (
+            <div className="champ">
+              <label htmlFor="rapport-texte-secours">
+                Le presse-papiers n'a pas pu être utilisé : sélectionnez et copiez ce texte à la main.
+              </label>
+              <textarea id="rapport-texte-secours" readOnly rows={10} value={rapportTexte} />
+            </div>
+          )}
 
           {resultat.reference.disponible && (
             <p className="aide">
