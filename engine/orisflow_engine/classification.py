@@ -346,17 +346,49 @@ def _cle_doublon(f: dict[str, Any]) -> Optional[tuple]:
     return (type_detecte, f["agence_detectee"])
 
 
+def _signature_valeurs(f: dict[str, Any]) -> Optional[tuple]:
+    """Valeurs qui doivent être identiques pour que deux fichiers soient un doublon sans
+    ambiguïté, même si leur contenu binaire diffère — un même état réexporté à un autre
+    moment (horodatage interne différent dans le PDF/Excel, mêmes chiffres) n'est pas rare
+    avec CloudBank (trouvé le 10/10/2026 sur un vrai lot : les mêmes balances réexportées
+    plusieurs fois n'étaient jamais identiques au sens strict de `detecter_fichiers_identiques`,
+    donc jamais résolues). Si les valeurs ne peuvent pas être comparées (lecture échouée),
+    retourne None : le fichier reste alors toujours considéré comme en conflit avec les
+    autres, jamais auto-résolu."""
+    type_detecte = f["type_detecte"]
+    if type_detecte == "balance_classe3":
+        if f.get("depots") is None or f.get("engagements") is None:
+            return None
+        return ("depots_engagements", f["depots"], f["engagements"])
+    if type_detecte == "balance_classe5":
+        if f.get("caisse") is None:
+            return None
+        return ("caisse", f["caisse"])
+    if type_detecte == "compte":
+        if not f.get("comptages"):
+            return None
+        return ("comptages", tuple(sorted(f["comptages"].items())))
+    if type_detecte in ("releve_cca", "releve_afriland", "releve_bgfi"):
+        if f.get("solde_releve") is None:
+            return None
+        return ("solde", f["solde_releve"])
+    return None
+
+
 def detecter_doublons(fichiers: list[dict[str, Any]]) -> None:
     """Marque en « bloquant » les fichiers qui partagent le même type et, selon le type,
     la même agence ou le même compte précis (voir `_cle_doublon`).
 
     Un fichier déjà identifié comme doublon au contenu strictement identique (voir
     `detecter_fichiers_identiques`, exécuté juste avant) ne compte pas dans ce regroupement :
-    Orisflow sait déjà lequel garder, ce n'est pas une ambiguïté (demande du 10/10/2026 —
-    reconnaître l'agence avec certitude, par exemple 15/15 numéros de compte, ne doit pas
-    rester bloqué simplement parce que le même fichier a été reçu plusieurs fois). Seuls des
-    fichiers dont le contenu diffère réellement pour la même agence restent bloquants : dans
-    ce cas, Orisflow ne peut pas deviner lequel est le bon."""
+    Orisflow sait déjà lequel garder. Pour le reste du groupe, si toutes les valeurs utiles
+    (dépôts/engagements, caisse, comptages, solde selon le type — voir `_signature_valeurs`)
+    concordent exactement, ce n'est pas non plus une ambiguïté : un seul exemplaire est
+    conservé, les autres deviennent des doublons « mêmes valeurs ». Reconnaître l'agence avec
+    certitude ne doit pas rester bloqué simplement parce que le même état a été reçu plusieurs
+    fois (demande du 10/10/2026). Seuls des fichiers dont les valeurs diffèrent réellement, ou
+    dont les valeurs n'ont pas pu être lues, restent bloquants : dans ce cas, Orisflow ne peut
+    pas deviner lequel est le bon."""
     vus: dict[tuple, list[dict[str, Any]]] = {}
     for f in fichiers:
         if f.get("doublon_contenu_identique"):
@@ -368,16 +400,37 @@ def detecter_doublons(fichiers: list[dict[str, Any]]) -> None:
     for (type_detecte, deuxieme_cle), groupe in vus.items():
         if len(groupe) <= 1:
             continue
-        noms = ", ".join(g["nom"] for g in groupe)
         if type_detecte in ("releve_cca", "releve_afriland", "releve_bgfi"):
             designation = f"le compte {deuxieme_cle}"
         else:
             designation = AGENCE_LIBELLES.get(deuxieme_cle, deuxieme_cle)
+
+        sous_groupes: dict[Optional[tuple], list[dict[str, Any]]] = {}
+        for f in groupe:
+            sous_groupes.setdefault(_signature_valeurs(f), []).append(f)
+        signatures_connues = [s for s in sous_groupes if s is not None]
+
+        if len(sous_groupes) == 1 and len(signatures_connues) == 1:
+            # Toutes les valeurs concordent exactement : un seul exemplaire suffit.
+            survivant, *doublons = groupe
+            for f in doublons:
+                f["niveau"] = "bloquant"
+                f["messages"].append(
+                    f"Mêmes valeurs que « {survivant['nom']} » pour {designation} ({TYPE_LIBELLES.get(type_detecte, type_detecte)}) : "
+                    "ce fichier est un doublon. Retirez-le de l'import."
+                )
+            continue
+
+        # Valeurs différentes (ou illisibles pour au moins un fichier) : conflit réel, Orisflow
+        # ne peut pas deviner lequel est le bon. Noms tronqués pour rester lisible à l'écran.
+        noms = [g["nom"] for g in groupe]
+        noms_affiches = ", ".join(noms[:3]) + (f", … ({len(noms) - 3} autres)" if len(noms) > 3 else "")
         for f in groupe:
             f["niveau"] = "bloquant"
             f["messages"].append(
-                f"Plusieurs fichiers correspondent à « {TYPE_LIBELLES.get(type_detecte, type_detecte)} » "
-                f"pour {designation} : {noms}. Retirez les fichiers en trop."
+                f"{len(groupe)} fichiers correspondent à « {TYPE_LIBELLES.get(type_detecte, type_detecte)} » "
+                f"pour {designation}, avec des valeurs différentes : {noms_affiches}. "
+                "Retirez les fichiers en trop ou vérifiez lequel est le bon."
             )
 
 

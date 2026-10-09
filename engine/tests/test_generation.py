@@ -226,14 +226,15 @@ def test_ne_jamais_ecraser_un_fichier_deja_genere(contexte):
 
 
 def test_fichier_bloquant_est_ignore_pas_utilise(contexte):
-    """Deux fichiers au contenu réellement différent pour la même agence : Orisflow ne peut
-    pas deviner lequel est le bon, les deux restent ignorés. (Avant le 10/10/2026, ce test
-    utilisait deux fichiers au contenu strictement identique, qui n'est plus bloquant — voir
-    `test_doublon_identique_reste_utilisable`.)"""
+    """Deux fichiers au contenu et aux valeurs réellement différents pour la même agence :
+    Orisflow ne peut pas deviner lequel est le bon, les deux restent ignorés. (Avant le
+    10/10/2026, ce test utilisait deux fichiers au contenu strictement identique, qui n'est
+    plus bloquant — voir `test_doublon_identique_reste_utilisable`. 37110 et 37120 comptent
+    tous les deux comme « courants » : il faut 37420 pour des comptages réellement différents.)"""
     chemin_akwa = contexte["extractions"] / "Akwa_Compte.xlsx"
     _extraction_comptes(chemin_akwa, ["37110"])
     chemin_illisible = contexte["extractions"] / "Akwa_Compte_bis.xlsx"
-    _extraction_comptes(chemin_illisible, ["37120"])  # contenu différent : conflit réel, reste bloquant
+    _extraction_comptes(chemin_illisible, ["37420"])  # comptages différents : conflit réel, reste bloquant
 
     resultat = generer_classeur(
         [str(chemin_akwa), str(chemin_illisible)], contexte["reference"], contexte["sortie"], jour=date(2026, 9, 29)
@@ -357,6 +358,29 @@ def test_fichier_balance_bloquant_nest_jamais_utilise(contexte):
     assert synthese["C20"].value == 1_000_000  # inchangé : les deux fichiers en doublon sont ignorés
     assert "Akwa" not in resultat["agences_balance_mises_a_jour"]
     assert set(resultat["fichiers_ignores"]) == {"balance_akwa_1.pdf", "balance_akwa_2.pdf"}
+
+
+def test_balances_aux_memes_valeurs_mais_fichiers_differents_sont_utilisables(contexte):
+    """Trouvé le 10/10/2026 sur un vrai lot d'export CloudBank : une même agence réexportée
+    plusieurs fois le même jour (chaque PDF a un horodatage interne différent, donc jamais
+    strictement identique au sens octet par octet), mais avec les mêmes dépôts/engagements à
+    chaque fois. Avant la correction, `detecter_doublons` bloquait les deux (comme deux
+    fichiers réellement en conflit) : désormais, mêmes valeurs = pas une ambiguïté, un seul
+    exemplaire suffit et l'agence est mise à jour."""
+    chemin_1 = contexte["extractions"] / "balance_akwa_1.pdf"
+    _extraction_balance_classe3(chemin_1, "DOUALA AKWA", depots=1_200_000, engagements=600_000)
+    chemin_2 = contexte["extractions"] / "balance_akwa_2.pdf"
+    _extraction_balance_classe3(chemin_2, "DOUALA AKWA", depots=1_200_000, engagements=600_000)
+
+    resultat = generer_classeur(
+        [str(chemin_1), str(chemin_2)], contexte["reference"], contexte["sortie"], jour=date(2026, 9, 29)
+    )
+
+    classeur = openpyxl.load_workbook(resultat["chemin_genere"])
+    synthese = classeur["Synthèse"]
+    assert synthese["C20"].value == 1_200_000
+    assert "Akwa" in resultat["agences_balance_mises_a_jour"]
+    assert len(resultat["fichiers_ignores"]) == 1  # un seul des deux exemplaires est écarté, pas les deux
 
 
 # --- Banques (28-36), voir CLAUDE.md §26 — règles du 02/10/2026 ---------------------------

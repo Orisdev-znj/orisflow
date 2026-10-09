@@ -68,11 +68,13 @@ def test_deux_fichiers_pour_la_meme_agence_sont_bloquants(tmp_path):
     lequel des deux est le bon pour cette agence, le blocage reste nécessaire pour les deux.
     (Avant le 10/10/2026, ce test utilisait deux fichiers au contenu strictement identique :
     ce cas est désormais couvert séparément, et n'est plus bloquant — voir
-    `test_doublon_au_contenu_identique_sur_meme_agence_ne_bloque_pas_le_fichier_conserve`.)"""
+    `test_doublon_au_contenu_identique_sur_meme_agence_ne_bloque_pas_le_fichier_conserve`.)
+    37110 et 37120 comptent tous les deux comme « courants » : il faut une autre catégorie
+    (37420, garanties) pour obtenir des comptages réellement différents."""
     chemin1 = tmp_path / "Akwa_Compte.xlsx"
     chemin2 = tmp_path / "Akwa_Compte_bis.xlsx"
     _extraction_comptes(chemin1, ["37110"])
-    _extraction_comptes(chemin2, ["37120"])
+    _extraction_comptes(chemin2, ["37420"])
 
     resultat = classer_fichiers([str(chemin1), str(chemin2)])
 
@@ -310,13 +312,14 @@ def test_doublon_au_contenu_identique_sur_meme_agence_ne_bloque_pas_le_fichier_c
 
 
 def test_doublon_au_contenu_different_sur_meme_agence_reste_bloquant(tmp_path):
-    """Deux fichiers réellement différents (pas de simple doublon de contenu) mais résolus
-    sur la même agence : Orisflow ne peut pas deviner lequel est le bon, le blocage reste
-    nécessaire pour les deux."""
+    """Deux fichiers réellement différents (pas de simple doublon de contenu, ni de valeurs
+    identiques) mais résolus sur la même agence : Orisflow ne peut pas deviner lequel est le
+    bon, le blocage reste nécessaire pour les deux. 37110 et 37120 comptent tous les deux comme
+    « courants » : il faut 37420 (garanties) pour obtenir des comptages réellement différents."""
     a = tmp_path / "ETListeCompte_NoHeader_0003.xlsx"
     _extraction_comptes(a, ["37110"])
     b = tmp_path / "ETListeCompte_NoHeader_0004.xlsx"
-    _extraction_comptes(b, ["37120"])
+    _extraction_comptes(b, ["37420"])
 
     resultat = classer_fichiers(
         [str(a), str(b)],
@@ -324,7 +327,7 @@ def test_doublon_au_contenu_different_sur_meme_agence_reste_bloquant(tmp_path):
     )
 
     assert all(f["niveau"] == "bloquant" for f in resultat["fichiers"])
-    assert all("Plusieurs fichiers correspondent" in " ".join(f["messages"]) for f in resultat["fichiers"])
+    assert all("valeurs différentes" in " ".join(f["messages"]) for f in resultat["fichiers"])
 
 
 def test_releves_manquants_proposent_la_valeur_de_la_veille(tmp_path):
