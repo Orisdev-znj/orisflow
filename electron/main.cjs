@@ -370,6 +370,30 @@ function enregistrerCommunications() {
     return resultat;
   });
 
+  // Export du rapport d'analyse en Excel (10/10/2026) : les données viennent telles quelles
+  // de l'écran (résultat déjà reçu de « classer »), le moteur se contente de les écrire —
+  // aucune nouvelle lecture des fichiers sources, aucune règle ici.
+  ipcMain.handle("rapport:exporter", async (evenement, fichiers, journalEtapes) => {
+    const fenetre = BrowserWindow.fromWebContents(evenement.sender);
+    const racine = preparerDossiers();
+    const horodatage = new Date();
+    const deuxChiffres = (n) => String(n).padStart(2, "0");
+    const nomSuggere =
+      `Rapport-analyse-${deuxChiffres(horodatage.getDate())}-${deuxChiffres(horodatage.getMonth() + 1)}-` +
+      `${horodatage.getFullYear()}-${deuxChiffres(horodatage.getHours())}h${deuxChiffres(horodatage.getMinutes())}.xlsx`;
+    const choix = await dialog.showSaveDialog(fenetre, {
+      title: "Enregistrer le rapport d'analyse",
+      defaultPath: path.join(racine, "Resultats", nomSuggere),
+      filters: [{ name: "Classeur Excel", extensions: ["xlsx"] }],
+    });
+    if (choix.canceled || !choix.filePath) return null;
+    return lancerMoteur("rapport_exporter", {
+      fichiers: fichiers || [],
+      journalEtapes: journalEtapes || null,
+      chemin: choix.filePath,
+    });
+  });
+
   // --- Authentification -----------------------------------------------------------
 
   ipcMain.handle("auth:etat", () => ({

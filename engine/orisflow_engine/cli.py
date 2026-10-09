@@ -24,6 +24,7 @@ from . import carnet
 from .classification import classer_fichiers
 from .comptes_agences import charger_table, construire_table_depuis_dossiers, enregistrer_table, NB_COMPTES_PAR_AGENCE, SEUIL_COMPTES
 from .generation import generer_classeur
+from .rapport import exporter_rapport_excel
 
 EXTENSIONS_PRISES_EN_CHARGE = {".xls", ".xlsx", ".pdf"}
 
@@ -399,6 +400,29 @@ def commande_carnet_importer(parametres: Dict[str, Any]) -> None:
     )
 
 
+def commande_rapport_exporter(parametres: Dict[str, Any]) -> None:
+    """Exporte le détail d'une analyse déjà faite (résultat déjà reçu de `classer`) dans un
+    classeur Excel (demande du 10/10/2026 — même objectif que « Copier le rapport d'analyse »,
+    pour une trace durable plutôt qu'un collage dans une conversation). Ne relit ni ne
+    modifie aucun des fichiers analysés : les données viennent telles quelles de l'écran.
+
+    Paramètres attendus : {"fichiers": [...résultat de classer...], "journalEtapes":
+    [étapes]|null, "chemin": chemin de destination, choisi par l'utilisateur}.
+    """
+    fichiers = parametres.get("fichiers") or []
+    journal_etapes = parametres.get("journalEtapes") or None
+    chemin = parametres.get("chemin")
+    if not chemin:
+        emettre(type="erreur", message="Aucun emplacement n'a été choisi pour le rapport.")
+        return
+    try:
+        exporter_rapport_excel(fichiers, chemin, journal_etapes)
+    except OSError as erreur:
+        emettre(type="erreur", message=f"Le rapport n'a pas pu être enregistré : {erreur}")
+        return
+    emettre(type="resultat", commande="rapport_exporter", version=VERSION, ok=True, chemin=chemin)
+
+
 COMMANDES = {
     "ping": commande_ping,
     "diagnostic": commande_diagnostic,
@@ -410,6 +434,7 @@ COMMANDES = {
     "bordereau_creer": commande_bordereau_creer,
     "bordereau_evenement": commande_bordereau_evenement,
     "bordereau_lister": commande_bordereau_lister,
+    "rapport_exporter": commande_rapport_exporter,
 }
 
 

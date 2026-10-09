@@ -92,18 +92,26 @@ function ligneFichier(fichier: FichierClasse, inclus: boolean, onBasculer: (chem
       <td>
         <span className={NIVEAU_LIBELLES[fichier.niveau].classe}>{NIVEAU_LIBELLES[fichier.niveau].texte}</span>
       </td>
-      <td>
-        {fichier.messages.length === 0 ? (
-          "—"
-        ) : (
-          <ul className="liste-messages">
-            {fichier.messages.map((message, index) => (
-              <li key={index}>{message}</li>
-            ))}
-          </ul>
-        )}
-      </td>
+      <td>{detailsFichier(fichier.messages)}</td>
     </tr>
+  );
+}
+
+/** Affichage simplifié des messages (10/10/2026, demande de l'utilisateur) : un seul
+ * message reste en clair, plusieurs sont repliés sous un résumé — le détail complet reste
+ * disponible en un clic, sans noyer le tableau. */
+function detailsFichier(messages: string[]) {
+  if (messages.length === 0) return "—";
+  if (messages.length === 1) return messages[0];
+  return (
+    <details>
+      <summary>{messages.length} remarques</summary>
+      <ul className="liste-messages">
+        {messages.map((message, index) => (
+          <li key={index}>{message}</li>
+        ))}
+      </ul>
+    </details>
   );
 }
 
@@ -226,6 +234,8 @@ export default function EcranResultats({
 
   const [rapportCopie, setRapportCopie] = useState(false);
   const [rapportTexte, setRapportTexte] = useState<string | null>(null);
+  const [exportEtat, setExportEtat] = useState<"inactif" | "encours" | "fait" | "erreur">("inactif");
+  const [exportMessage, setExportMessage] = useState<string | null>(null);
 
   const copierRapport = async () => {
     if (!resultat) return;
@@ -239,6 +249,24 @@ export default function EcranResultats({
       // Presse-papiers indisponible (ex. politique de sécurité) : on affiche le texte à
       // sélectionner et copier à la main, plutôt que de ne rien proposer du tout.
       setRapportTexte(texte);
+    }
+  };
+
+  const telechargerRapportExcel = async () => {
+    if (!resultat) return;
+    setExportEtat("encours");
+    setExportMessage(null);
+    try {
+      const reponse = await window.orisflow?.exporterRapport(resultat.fichiers, resultat.journal_etapes ?? null);
+      if (!reponse) {
+        setExportEtat("inactif"); // boîte de dialogue annulée par l'utilisateur
+        return;
+      }
+      setExportEtat("fait");
+      setExportMessage(reponse.chemin);
+    } catch (erreur) {
+      setExportEtat("erreur");
+      setExportMessage(erreur instanceof Error ? erreur.message : String(erreur));
     }
   };
 
@@ -261,6 +289,15 @@ export default function EcranResultats({
               Copier le rapport d'analyse
             </button>
             {rapportCopie && <span className="aide-inline">Copié dans le presse-papiers.</span>}
+            <button type="button" className="bouton" onClick={telechargerRapportExcel} disabled={exportEtat === "encours"}>
+              {exportEtat === "encours" ? "Enregistrement…" : "Télécharger le rapport (Excel)"}
+            </button>
+            {exportEtat === "fait" && <span className="aide-inline">Enregistré : {exportMessage}</span>}
+            {exportEtat === "erreur" && (
+              <span className="aide-inline" role="alert">
+                {exportMessage}
+              </span>
+            )}
           </div>
           {rapportTexte && (
             <div className="champ">

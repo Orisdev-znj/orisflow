@@ -384,6 +384,12 @@ export interface ApiOrisflow {
     valeursManuelles?: ValeursManuelles,
     relevesSaisis?: RelevesSaisis,
   ): Promise<ResultatGeneration>;
+  // Export du rapport d'analyse en Excel (10/10/2026) : null si l'utilisateur annule la
+  // boîte de dialogue « Enregistrer sous ».
+  exporterRapport(
+    fichiers: FichierClasse[],
+    journalEtapes: string[] | null,
+  ): Promise<{ ok: boolean; chemin: string } | null>;
   surEvenementMoteur(rappel: (evenement: EvenementMoteur) => void): () => void;
   lireParametres(): Promise<ParametresApplication>;
   choisirDossierTravail(): Promise<string>;

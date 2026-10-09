@@ -180,5 +180,32 @@ def test_bordereau_sans_dossier_renvoie_une_erreur_claire(monkeypatch, capsys):
     assert "dossier" in messages[-1]["message"].lower()
 
 
+def test_rapport_exporter_via_le_protocole_cli(monkeypatch, capsys, tmp_path):
+    chemin = tmp_path / "Rapport-analyse.xlsx"
+    code, messages = executer(
+        "rapport_exporter",
+        {
+            "fichiers": [{"nom": "Akwa_Compte.xlsx", "type_libelle": "Liste de comptes",
+                          "agence_libelle": "Akwa", "confiance_agence": "nom",
+                          "total_comptes": 123, "niveau": "information", "messages": []}],
+            "journalEtapes": ["1 agence confirmée manuellement."],
+            "chemin": str(chemin),
+        },
+        monkeypatch,
+        capsys,
+    )
+    assert code == 0
+    assert messages[-1]["type"] == "resultat"
+    assert messages[-1]["ok"] is True
+    assert messages[-1]["chemin"] == str(chemin)
+    assert chemin.is_file()
+
+
+def test_rapport_exporter_sans_chemin_renvoie_une_erreur_claire(monkeypatch, capsys):
+    code, messages = executer("rapport_exporter", {"fichiers": []}, monkeypatch, capsys)
+    assert code == 0
+    assert messages[-1]["type"] == "erreur"
+
+
 if __name__ == "__main__":
     sys.exit(pytest.main([__file__, "-q"]))

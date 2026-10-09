@@ -127,6 +127,7 @@ function fausseApi(surcharges: Partial<ApiOrisflow> = {}): ApiOrisflow {
       transmissions: [],
       erreurs_lecture: [],
     }),
+    exporterRapport: async () => null,
     ...surcharges,
   };
 }
