@@ -13,6 +13,8 @@ from typing import Any, Optional
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, Font
 
+from .chemins import chemin_lecture
+
 COLONNES = ["Fichier", "Type détecté", "Agence", "Confiance agence", "Comptes", "Niveau", "Messages"]
 
 NIVEAU_LIBELLES = {"information": "Conforme", "avertissement": "À vérifier", "bloquant": "Rejeté"}
@@ -49,7 +51,7 @@ def exporter_rapport_excel(
             agence,
             f.get("confiance_agence"),
             f.get("total_comptes"),
-            NIVEAU_LIBELLES.get(f.get("niveau"), f.get("niveau")),
+            "Ignoré (doublon)" if f.get("est_doublon") else NIVEAU_LIBELLES.get(f.get("niveau"), f.get("niveau")),
             "\n".join(f.get("messages") or []),
         ]
         for colonne, valeur in enumerate(valeurs, start=1):
@@ -62,5 +64,5 @@ def exporter_rapport_excel(
         feuille.column_dimensions[colonne_lettre].width = largeur
     feuille.freeze_panes = f"A{ligne_entete + 1}"
 
-    os.makedirs(os.path.dirname(chemin) or ".", exist_ok=True)
-    classeur.save(chemin)
+    os.makedirs(chemin_lecture(os.path.dirname(chemin) or "."), exist_ok=True)
+    classeur.save(chemin_lecture(chemin))

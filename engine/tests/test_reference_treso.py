@@ -8,9 +8,10 @@ import openpyxl
 import pytest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+sys.path.insert(0, os.path.dirname(__file__))
+from aide_modele import poser_libelles
 
 from orisflow_engine.reference_treso import lire_totaux_comptes_precedents, trouver_classeur_recent
-from orisflow_engine.recalcul import _trouver_soffice
 
 
 def _classeur_vide(dossier, nom):
@@ -52,6 +53,7 @@ def _classeur_avec_totaux_en_formule(dossier, nom):
     classeur = openpyxl.Workbook()
     feuille = classeur.active
     feuille.title = "Synthèse"
+    poser_libelles(feuille)
     feuille["C7"] = 10
     feuille["C8"] = 5
     feuille["C16"] = "=C7+C8"
@@ -59,7 +61,7 @@ def _classeur_avec_totaux_en_formule(dossier, nom):
     return str(chemin)
 
 
-@pytest.mark.skipif(_trouver_soffice() is None, reason="LibreOffice non installé sur ce poste")
+@pytest.mark.libreoffice
 def test_recalcule_le_modele_si_aucun_total_nest_lisible(tmp_path):
     """Trouvé le 10/10/2026 : un classeur de référence jamais rouvert dans Excel ne donnait
     aucun total (« Aucun total de la veille disponible ») — recalculé automatiquement via

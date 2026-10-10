@@ -213,6 +213,7 @@ def commande_classer(parametres: Dict[str, Any]) -> None:
     agences_manuelles = parametres.get("agencesManuelles") or None
     dossier_carnet = parametres.get("dossierCarnet") or None
     table_comptes = charger_table(parametres.get("fichierTableComptes") or None)
+    dossier_cache = parametres.get("dossierCache") or None
     total = len(chemins)
     compteur = {"valeur": 0}
 
@@ -236,6 +237,7 @@ def commande_classer(parametres: Dict[str, Any]) -> None:
         sur_fichier_classe=rapporter_fichier,
         dossier_carnet=dossier_carnet,
         table_comptes=table_comptes,
+        dossier_cache=dossier_cache,
     )
     for etape in resultat.pop("journal_etapes", []):
         emettre(type="progression", courant=total, total=total, pourcentage=100, fichier="", message=etape)
@@ -273,6 +275,7 @@ def commande_generer(parametres: Dict[str, Any]) -> None:
     dossier_carnet = parametres.get("dossierCarnet") or None
     releves_saisis = parametres.get("relevesSaisis") or None
     table_comptes = charger_table(parametres.get("fichierTableComptes") or None)
+    dossier_cache = parametres.get("dossierCache") or None
 
     if not dossier_reference:
         emettre(type="erreur", message="Aucun dossier de référence n'est configuré (voir Paramètres).")
@@ -281,8 +284,12 @@ def commande_generer(parametres: Dict[str, Any]) -> None:
         emettre(type="erreur", message="Aucun dossier de sortie n'est configuré.")
         return
 
-    for position, chemin in enumerate(chemins, start=1):
-        emettre(type="progression", courant=position, total=len(chemins), fichier=os.path.basename(chemin))
+    etapes = {"numero": 0}
+
+    def signaler_etape(message: str) -> None:
+        etapes["numero"] += 1
+        emettre(type="progression", courant=etapes["numero"], total=6,
+                pourcentage=min(100, round(100 * etapes["numero"] / 6)), fichier="", message=message)
 
     resultat = generer_classeur(
         chemins,
@@ -293,6 +300,8 @@ def commande_generer(parametres: Dict[str, Any]) -> None:
         dossier_carnet=dossier_carnet,
         releves_saisis=releves_saisis,
         table_comptes=table_comptes,
+        dossier_cache=dossier_cache,
+        sur_etape=signaler_etape,
     )
     if not resultat["ok"]:
         emettre(type="erreur", message=resultat["erreur"])

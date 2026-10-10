@@ -25,7 +25,16 @@ powershell -ExecutionPolicy Bypass -File engine/build_engine.ps1; Verifier "mote
 
 Etape "Construction de l'exécutable portable"
 $env:CSC_IDENTITY_AUTO_DISCOVERY = "false"
-npm run package; Verifier "exécutable portable"
+# L'assemblage NSIS échoue parfois à rouvrir l'archive .7z qu'il vient d'écrire (verrou
+# passager, antivirus — constaté le 09/10/2026) : une seconde tentative, archive supprimée.
+npm run package
+if ($LASTEXITCODE -ne 0) {
+  Write-Host "Premier essai d'empaquetage en échec : nouvelle tentative dans 10 secondes." -ForegroundColor Yellow
+  Start-Sleep -Seconds 10
+  Remove-Item "$racine\release\*.7z" -ErrorAction SilentlyContinue
+  npm run package
+}
+Verifier "exécutable portable"
 
 Etape "Autotest de l'exécutable"
 $rapport = Join-Path $env:TEMP "orisflow-autotest.json"

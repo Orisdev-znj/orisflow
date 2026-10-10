@@ -5,6 +5,8 @@ import openpyxl
 import pymupdf
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+sys.path.insert(0, os.path.dirname(__file__))
+from aide_modele import poser_libelles
 
 from orisflow_engine.classification import classer_fichiers
 
@@ -27,6 +29,7 @@ def _classeur_reference(dossier, valeurs_ligne16):
     classeur = openpyxl.Workbook()
     feuille = classeur.active
     feuille.title = "Synthèse"
+    poser_libelles(feuille)
     for colonne, valeur in valeurs_ligne16.items():
         feuille[f"{colonne}16"] = valeur
     chemin = dossier / "TRESORERIE JOURNALIÈRE et TDB DU  10 09 2026.xlsx"
@@ -271,7 +274,9 @@ def test_fichiers_au_contenu_identique_sont_des_doublons(tmp_path):
     assert premier["niveau"] != "bloquant"
     assert second["niveau"] == "bloquant"
     assert "identique" in second["messages"][-1]
-    assert resultat["ok"] is False
+    assert second["est_doublon"] is True
+    # Un doublon est ignoré automatiquement : ce n'est pas une anomalie de l'analyse.
+    assert resultat["ok"] is True
 
 
 def test_fichiers_differents_ne_sont_pas_des_doublons(tmp_path):

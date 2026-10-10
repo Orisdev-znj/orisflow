@@ -9,6 +9,8 @@ import pymupdf
 import pytest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+sys.path.insert(0, os.path.dirname(__file__))
+from aide_modele import poser_libelles
 
 from orisflow_engine.generation import generer_classeur
 
@@ -80,7 +82,7 @@ def _classeur_modele(dossier, nom_fichier="TRESORERIE JOURNALIÈRE et TDB DU  10
     classeur = openpyxl.Workbook()
     synthese = classeur.active
     synthese.title = "Synthèse"
-    synthese["A7"] = "COMPTES  COURANT ENTREPRISES"
+    poser_libelles(synthese)
     synthese["C7"] = 50  # ancienne valeur Akwa, doit se retrouver en C17 (J-1)
     synthese["C16"] = "=SUM(C7:C15)"  # formule à préserver
     synthese["F7"] = 30  # ancienne valeur Bafoussam
@@ -258,8 +260,9 @@ def test_doublon_identique_reste_utilisable(contexte):
     )
 
     assert "Akwa" in resultat["agences_mises_a_jour"]
-    assert "Akwa_Compte_bis.xlsx" in resultat["fichiers_ignores"]
-    assert "Akwa_Compte.xlsx" not in resultat["fichiers_ignores"]
+    # Le doublon est ignoré à part : ce n'est pas une anomalie listée avec les fichiers rejetés.
+    assert resultat["doublons_ignores"] == ["Akwa_Compte_bis.xlsx"]
+    assert resultat["fichiers_ignores"] == []
 
 
 def test_aucun_modele_disponible_est_signale_clairement(tmp_path):
@@ -380,7 +383,8 @@ def test_balances_aux_memes_valeurs_mais_fichiers_differents_sont_utilisables(co
     synthese = classeur["Synthèse"]
     assert synthese["C20"].value == 1_200_000
     assert "Akwa" in resultat["agences_balance_mises_a_jour"]
-    assert len(resultat["fichiers_ignores"]) == 1  # un seul des deux exemplaires est écarté, pas les deux
+    assert resultat["doublons_ignores"] == ["balance_akwa_2.pdf"]  # un seul exemplaire écarté
+    assert resultat["fichiers_ignores"] == []
 
 
 # --- Banques (28-36), voir CLAUDE.md §26 — règles du 02/10/2026 ---------------------------
@@ -498,6 +502,7 @@ def test_ecobank_access_bank_uv_valeurs_manuelles_directes(contexte):
     assert synthese["C58"].value == 39_000_000
 
 
+@pytest.mark.libreoffice
 def test_total_banques_j1_avance_meme_sans_aucun_relever(contexte):
     resultat = generer_classeur([], contexte["reference"], contexte["sortie"], jour=date(2026, 9, 29))
 
@@ -576,6 +581,7 @@ def test_releve_absent_sans_choix_nest_pas_repris_de_la_veille(contexte, tmp_pat
 # --- Robustesse : modèle jamais recalculé par Excel (06/10/2026) ------------------------
 
 
+@pytest.mark.libreoffice
 def test_recalcule_automatiquement_le_modele_via_libreoffice(contexte):
     """Le modèle de `contexte` contient C31 (UBA Akwa) en formule jamais recalculée (écrite
     par openpyxl, sans valeur en cache). Depuis le 10/10/2026 (voir recalcul.py), Orisflow
@@ -619,7 +625,7 @@ def test_aucune_fausse_alerte_quand_le_modele_na_que_des_valeurs(tmp_path):
     classeur = openpyxl.Workbook()
     synthese = classeur.active
     synthese.title = "Synthèse"
-    synthese["A7"] = "COMPTES  COURANT ENTREPRISES"
+    poser_libelles(synthese)
     synthese["C7"] = 50  # valeur simple, aucune formule
     synthese["A20"] = "ENCOURS  DEPOTS"
     synthese["C20"] = 1_000_000
@@ -655,10 +661,94 @@ def test_modele_sans_aucune_ligne_de_caisse_reconnaissable_ne_plante_pas(tmp_pat
     classeur = openpyxl.Workbook()
     synthese = classeur.active
     synthese.title = "Synthèse"
-    synthese["A7"] = "COMPTES  COURANT ENTREPRISES"
+    poser_libelles(synthese)
     classeur.save(reference / "TRESORERIE JOURNALIÈRE et TDB DU  10 09 2026.xlsx")
 
     resultat = generer_classeur([], str(reference), str(tmp_path / "sortie"), jour=date(2026, 9, 29))
 
     assert resultat["ok"] is True
     assert resultat["agences_caisses_mises_a_jour"] == []
+
+
+# --- Structure du modèle : lignes retrouvées par leur libellé (audit du 09/10/2026, B1) -----
+
+
+def test_ligne_inseree_dans_le_modele_les_montants_suivent_leur_libelle(tmp_path):
+    """Une ligne ajoutée au-dessus des dépôts décale tout : les montants doivent suivre leur
+    libellé, pas l'ancien numéro de ligne (cas réel du 29/09/2026 avec ECOBANK)."""
+    reference = tmp_path / "reference"
+    reference.mkdir()
+    classeur = openpyxl.Workbook()
+    synthese = classeur.active
+    synthese.title = "Synthèse"
+    poser_libelles(synthese)
+    synthese.insert_rows(19)  # tout ce qui suit la ligne 18 descend d'une ligne
+    synthese["C21"] = 1_000_000  # ENCOURS DEPOTS, désormais en ligne 21
+    classeur.save(reference / "TRESORERIE JOURNALIÈRE et TDB DU  10 09 2026.xlsx")
+    extractions = tmp_path / "extractions"
+    extractions.mkdir()
+    chemin_balance = extractions / "balance_akwa.pdf"
+    _extraction_balance_classe3(chemin_balance, "DOUALA AKWA", depots=1_200_000, engagements=600_000)
+
+    resultat = generer_classeur([str(chemin_balance)], str(reference), str(tmp_path / "sortie"), jour=date(2026, 9, 29))
+
+    assert resultat["ok"] is True
+    feuille = openpyxl.load_workbook(resultat["chemin_genere"])["Synthèse"]
+    assert feuille["A21"].value == "ENCOURS  DEPOTS"
+    assert feuille["C21"].value == 1_200_000  # dépôt du jour, sur la ligne décalée
+    assert feuille["C22"].value == 1_000_000  # J-1 = ancien dépôt
+    assert feuille["C20"].value is None  # rien d'écrit à l'ancien numéro de ligne
+
+
+def test_modele_sans_ligne_attendue_rien_nest_genere(tmp_path):
+    reference = tmp_path / "reference"
+    reference.mkdir()
+    sortie = tmp_path / "sortie"
+    classeur = openpyxl.Workbook()
+    synthese = classeur.active
+    synthese.title = "Synthèse"
+    poser_libelles(synthese, sauf=(20,))  # « ENCOURS DEPOTS » a disparu
+    classeur.save(reference / "TRESORERIE JOURNALIÈRE et TDB DU  10 09 2026.xlsx")
+
+    resultat = generer_classeur([], str(reference), str(sortie), jour=date(2026, 9, 29))
+
+    assert resultat["ok"] is False
+    assert "ENCOURS DEPOTS" in resultat["erreur"]
+    assert not sortie.exists() or not list(sortie.iterdir())
+
+
+def test_ligne_en_double_dans_le_modele_rien_nest_genere(tmp_path):
+    reference = tmp_path / "reference"
+    reference.mkdir()
+    classeur = openpyxl.Workbook()
+    synthese = classeur.active
+    synthese.title = "Synthèse"
+    poser_libelles(synthese)
+    synthese["A40"] = "UBA"  # deuxième ligne « UBA » : ambigu, Orisflow ne choisit pas
+    classeur.save(reference / "TRESORERIE JOURNALIÈRE et TDB DU  10 09 2026.xlsx")
+
+    resultat = generer_classeur([], str(reference), str(tmp_path / "sortie"), jour=date(2026, 9, 29))
+
+    assert resultat["ok"] is False
+    assert "plusieurs fois" in resultat["erreur"]
+
+
+def test_recapitulatif_des_montants_ecrits(contexte):
+    chemin_balance = contexte["extractions"] / "balance_akwa.pdf"
+    _extraction_balance_classe3(chemin_balance, "DOUALA AKWA", depots=1_200_000, engagements=600_000)
+
+    resultat = generer_classeur(
+        [str(chemin_balance)], contexte["reference"], contexte["sortie"], jour=date(2026, 9, 29),
+        valeurs_manuelles={"ecobank": 21_000_000},
+    )
+
+    assert resultat["recapitulatif_agences"] == [{"agence": "Akwa", "depots": 1_200_000, "engagements": 600_000}]
+    assert {"ligne": "ECOBANK", "agence": "Akwa", "montant": 21_000_000} in resultat["recapitulatif_banques"]
+
+
+def test_etapes_de_generation_signalees(contexte):
+    etapes = []
+    generer_classeur([], contexte["reference"], contexte["sortie"], jour=date(2026, 9, 29), sur_etape=etapes.append)
+
+    assert etapes[0] == "Lecture des fichiers importés…"
+    assert etapes[-1] == "Enregistrement du classeur…"

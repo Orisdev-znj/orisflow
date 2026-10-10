@@ -1,7 +1,7 @@
 {
   "name": "orisflow",
   "productName": "Orisflow",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "description": "Orisflow : production automatique de la trésorerie journalière et des états financiers d'ORIS FINANCE",
   "author": "ORIS FINANCE",
   "private": true,

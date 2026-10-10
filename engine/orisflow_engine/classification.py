@@ -11,7 +11,6 @@ Principes (voir CLAUDE.md) :
 
 from __future__ import annotations
 
-import hashlib
 import os
 from datetime import date, timedelta
 from typing import Any, Callable, Optional
@@ -19,7 +18,10 @@ from typing import Any, Callable, Optional
 import pandas as pd
 
 from .balance_pdf import detecter_type_balance, lire_agence, lire_balance_classe3, lire_balance_classe5
+from .cache import SANS_CACHE, CacheFichiers
+from .chemins import chemin_lecture
 from .comptes import analyser_comptes, total_categorise
+from .doublons import detecter_doublons, detecter_fichiers_identiques
 from .pdf_releves import detecter_releve
 from .reference_treso import lire_totaux_comptes_precedents
 from .regles_agences import (
@@ -100,7 +102,21 @@ def _message_erreur_lecture(erreur: Exception) -> str:
     )
 
 
-def classer_un_fichier(chemin: str) -> dict[str, Any]:
+def classer_un_fichier(chemin: str, cache: CacheFichiers = SANS_CACHE) -> dict[str, Any]:
+    """Classe un fichier. `chemin` est conservé tel quel dans le résultat ; la lecture passe
+    par `chemin_lecture` (chemins Windows trop longs). Un résultat sans anomalie bloquante est
+    mis en cache : un fichier ouvert dans Excel, par exemple, sera relu à l'essai suivant."""
+    lecture = chemin_lecture(chemin)
+    en_cache = cache.lire("classement", lecture)
+    if isinstance(en_cache, dict) and en_cache.get("chemin") == chemin:
+        return en_cache
+    resultat = _classer_un_fichier(chemin, lecture)
+    if resultat["niveau"] != "bloquant":
+        cache.ecrire("classement", lecture, resultat)
+    return resultat
+
+
+def _classer_un_fichier(chemin: str, lecture: str) -> dict[str, Any]:
     nom = os.path.basename(chemin)
     extension = os.path.splitext(nom)[1].lower()
     resultat: dict[str, Any] = {
@@ -128,15 +144,13 @@ def classer_un_fichier(chemin: str) -> dict[str, Any]:
         "ligne_banque_cible": None,
         "messages": [],
         "niveau": "information",
-        # Marqué par `detecter_fichiers_identiques` (10/10/2026) : ce fichier est un doublon
-        # au contenu strictement identique à un autre déjà retenu. `detecter_doublons` doit
-        # alors ignorer son agence/type dans le regroupement (sinon il réescalade aussi le
-        # fichier conservé, qui n'a pourtant rien d'ambigu).
-        "doublon_contenu_identique": False,
+        # Vrai pour un exemplaire en trop d'un fichier déjà reçu (voir doublons.py) : ignoré,
+        # sans être une anomalie.
+        "est_doublon": False,
     }
 
     try:
-        _classer_selon_extension(resultat, extension, nom, chemin)
+        _classer_selon_extension(resultat, extension, nom, lecture)
     except Exception as erreur:
         # Filet de sécurité (06/10/2026) : une erreur inattendue dans un lecteur (fichier
         # corrompu, gabarit jamais vu...) ne doit jamais interrompre le classement du reste
@@ -307,136 +321,20 @@ def _classer_selon_extension(resultat: dict[str, Any], extension: str, nom: str,
         resultat["messages"].append("Ce type de fichier n'est pas pris en charge (Excel ou PDF attendu).")
 
 
-def detecter_fichiers_identiques(fichiers: list[dict[str, Any]]) -> None:
-    """Un doublon, c'est un fichier dont le contenu est strictement identique à un autre,
-    quel que soit son nom (décision du 03/10/2026). Le premier reste utilisable ; les
-    suivants sont bloquants, pour qu'un même contenu ne soit jamais compté deux fois."""
-    vus: dict[str, dict[str, Any]] = {}
-    for f in fichiers:
-        if f["type_detecte"] is None or not os.path.isfile(f["chemin"]):
-            continue
-        with open(f["chemin"], "rb") as fichier:
-            empreinte = hashlib.sha256(fichier.read()).hexdigest()
-        if empreinte in vus:
-            f["niveau"] = "bloquant"
-            f["doublon_contenu_identique"] = True
-            f["messages"].append(
-                f"Contenu identique à « {vus[empreinte]['nom']} » : ce fichier est un doublon. "
-                "Retirez-le de l'import."
-            )
-        else:
-            vus[empreinte] = f
-
-
-def _cle_doublon(f: dict[str, Any]) -> Optional[tuple]:
-    """D'habitude (type, agence) suffit. Mais une même agence peut légitimement recevoir
-    plusieurs comptes CCA-Bank/Afriland différents (ex. Akwa cumule les clés RIB 12 et 39,
-    voir regles_banques.py) : pour ces types, c'est le compte précis (clé RIB, ou le numéro
-    de compte pour BGFI qui n'a pas de clé RIB) qui distingue un doublon réel d'un second
-    compte légitime pour la même agence."""
-    type_detecte = f["type_detecte"]
-    if type_detecte in (None, "inconnu"):
-        return None
-    if type_detecte in ("releve_cca", "releve_afriland") and f.get("cle_rib"):
-        return (type_detecte, f["cle_rib"])
-    if type_detecte == "releve_bgfi" and f.get("numero_compte_pdf"):
-        return (type_detecte, f["numero_compte_pdf"])
-    if f["agence_detectee"] is None:
-        return None
-    return (type_detecte, f["agence_detectee"])
-
-
-def _signature_valeurs(f: dict[str, Any]) -> Optional[tuple]:
-    """Valeurs qui doivent être identiques pour que deux fichiers soient un doublon sans
-    ambiguïté, même si leur contenu binaire diffère — un même état réexporté à un autre
-    moment (horodatage interne différent dans le PDF/Excel, mêmes chiffres) n'est pas rare
-    avec CloudBank (trouvé le 10/10/2026 sur un vrai lot : les mêmes balances réexportées
-    plusieurs fois n'étaient jamais identiques au sens strict de `detecter_fichiers_identiques`,
-    donc jamais résolues). Si les valeurs ne peuvent pas être comparées (lecture échouée),
-    retourne None : le fichier reste alors toujours considéré comme en conflit avec les
-    autres, jamais auto-résolu."""
-    type_detecte = f["type_detecte"]
-    if type_detecte == "balance_classe3":
-        if f.get("depots") is None or f.get("engagements") is None:
-            return None
-        return ("depots_engagements", f["depots"], f["engagements"])
-    if type_detecte == "balance_classe5":
-        if f.get("caisse") is None:
-            return None
-        return ("caisse", f["caisse"])
-    if type_detecte == "compte":
-        if not f.get("comptages"):
-            return None
-        return ("comptages", tuple(sorted(f["comptages"].items())))
-    if type_detecte in ("releve_cca", "releve_afriland", "releve_bgfi"):
-        if f.get("solde_releve") is None:
-            return None
-        return ("solde", f["solde_releve"])
-    return None
-
-
-def detecter_doublons(fichiers: list[dict[str, Any]]) -> None:
-    """Marque en « bloquant » les fichiers qui partagent le même type et, selon le type,
-    la même agence ou le même compte précis (voir `_cle_doublon`).
-
-    Un fichier déjà identifié comme doublon au contenu strictement identique (voir
-    `detecter_fichiers_identiques`, exécuté juste avant) ne compte pas dans ce regroupement :
-    Orisflow sait déjà lequel garder. Pour le reste du groupe, si toutes les valeurs utiles
-    (dépôts/engagements, caisse, comptages, solde selon le type — voir `_signature_valeurs`)
-    concordent exactement, ce n'est pas non plus une ambiguïté : un seul exemplaire est
-    conservé, les autres deviennent des doublons « mêmes valeurs ». Reconnaître l'agence avec
-    certitude ne doit pas rester bloqué simplement parce que le même état a été reçu plusieurs
-    fois (demande du 10/10/2026). Seuls des fichiers dont les valeurs diffèrent réellement, ou
-    dont les valeurs n'ont pas pu être lues, restent bloquants : dans ce cas, Orisflow ne peut
-    pas deviner lequel est le bon."""
-    vus: dict[tuple, list[dict[str, Any]]] = {}
-    for f in fichiers:
-        if f.get("doublon_contenu_identique"):
-            continue
-        cle = _cle_doublon(f)
-        if cle is None:
-            continue
-        vus.setdefault(cle, []).append(f)
-    for (type_detecte, deuxieme_cle), groupe in vus.items():
-        if len(groupe) <= 1:
-            continue
-        if type_detecte in ("releve_cca", "releve_afriland", "releve_bgfi"):
-            designation = f"le compte {deuxieme_cle}"
-        else:
-            designation = AGENCE_LIBELLES.get(deuxieme_cle, deuxieme_cle)
-
-        sous_groupes: dict[Optional[tuple], list[dict[str, Any]]] = {}
-        for f in groupe:
-            sous_groupes.setdefault(_signature_valeurs(f), []).append(f)
-        signatures_connues = [s for s in sous_groupes if s is not None]
-
-        if len(sous_groupes) == 1 and len(signatures_connues) == 1:
-            # Toutes les valeurs concordent exactement : un seul exemplaire suffit.
-            survivant, *doublons = groupe
-            for f in doublons:
-                f["niveau"] = "bloquant"
-                f["messages"].append(
-                    f"Mêmes valeurs que « {survivant['nom']} » pour {designation} ({TYPE_LIBELLES.get(type_detecte, type_detecte)}) : "
-                    "ce fichier est un doublon. Retirez-le de l'import."
-                )
-            continue
-
-        # Valeurs différentes (ou illisibles pour au moins un fichier) : conflit réel, Orisflow
-        # ne peut pas deviner lequel est le bon. Noms tronqués pour rester lisible à l'écran.
-        noms = [g["nom"] for g in groupe]
-        noms_affiches = ", ".join(noms[:3]) + (f", … ({len(noms) - 3} autres)" if len(noms) > 3 else "")
-        for f in groupe:
-            f["niveau"] = "bloquant"
-            f["messages"].append(
-                f"{len(groupe)} fichiers correspondent à « {TYPE_LIBELLES.get(type_detecte, type_detecte)} » "
-                f"pour {designation}, avec des valeurs différentes : {noms_affiches}. "
-                "Retirez les fichiers en trop ou vérifiez lequel est le bon."
-            )
+def _numeros_du_fichier(chemin: str, cache: CacheFichiers) -> set[str]:
+    lecture = chemin_lecture(chemin)
+    en_cache = cache.lire("numeros", lecture)
+    if isinstance(en_cache, list):
+        return set(en_cache)
+    numeros = lire_numeros(lecture)
+    cache.ecrire("numeros", lecture, sorted(numeros))
+    return numeros
 
 
 def identifier_agences_par_comptes(
     fichiers: list[dict[str, Any]],
     table: dict[str, list[str]],
+    cache: CacheFichiers = SANS_CACHE,
 ) -> dict[str, int]:
     """Identifie l'agence des listes de comptes par leurs numéros de compte (décision du
     05/10/2026). Prime sur le nom du fichier. Si moins de SEUIL_COMPTES numéros correspondent,
@@ -452,7 +350,7 @@ def identifier_agences_par_comptes(
         if f["type_detecte"] != "compte" or f["niveau"] == "bloquant" or f["confiance_agence"] == "manuelle":
             continue
         try:
-            numeros = lire_numeros(f["chemin"])
+            numeros = _numeros_du_fichier(f["chemin"], cache)
         except (ValueError, OSError):
             continue  # colonne introuvable : la lecture du comptage signalera le problème
         ident = identifier(numeros, table)
@@ -613,25 +511,27 @@ def classer_fichiers(
     dossier_carnet: Optional[str] = None,
     jour: Optional[date] = None,
     table_comptes: Optional[dict[str, list[str]]] = None,
+    dossier_cache: Optional[str] = None,
 ) -> dict[str, Any]:
     """`sur_fichier_classe` (optionnel) : appelé juste après chaque fichier individuel
     classé, avant les passes par lot ci-dessous — sert à construire un journal d'étapes
     visible pendant l'analyse (demande du 03/10/2026, voir cli.py). `agences_manuelles`
     vient de la fenêtre « Agence à confirmer » : la correspondance la plus sûre, appliquée
     avant toute déduction automatique."""
+    cache = CacheFichiers(dossier_cache)
     fichiers = []
     for chemin in chemins:
-        if not os.path.isfile(chemin):
+        if not os.path.isfile(chemin_lecture(chemin)):
             f = {
                 "nom": os.path.basename(chemin), "chemin": chemin,
                 "extension": os.path.splitext(chemin)[1].lower(),
                 "type_detecte": None, "type_libelle": None,
                 "agence_detectee": None, "agence_libelle": None, "confiance_agence": "sans_objet",
                 "numero_compte_pdf": None, "total_comptes": None,
-                "niveau": "bloquant", "messages": ["Le fichier est introuvable."],
+                "niveau": "bloquant", "messages": ["Le fichier est introuvable."], "est_doublon": False,
             }
         else:
-            f = classer_un_fichier(chemin)
+            f = classer_un_fichier(chemin, cache)
         fichiers.append(f)
         if sur_fichier_classe:
             sur_fichier_classe(f)
@@ -646,7 +546,7 @@ def classer_fichiers(
     # 1 bis. Numéros de compte (décision du 05/10/2026) : prime sur le nom du fichier.
     table_comptes = table_comptes or {}
     if table_comptes:
-        bilan = identifier_agences_par_comptes(fichiers, table_comptes)
+        bilan = identifier_agences_par_comptes(fichiers, table_comptes, cache)
         if bilan["identifiees"]:
             journal_etapes.append(
                 f"{bilan['identifiees']} agence(s) identifiée(s) par leurs numéros de compte "
@@ -663,12 +563,15 @@ def classer_fichiers(
             )
 
     detecter_fichiers_identiques(fichiers)
-    detecter_doublons(fichiers)
+    detecter_doublons(fichiers, TYPE_LIBELLES)
+    n_doublons = sum(1 for f in fichiers if f.get("est_doublon"))
+    if n_doublons:
+        journal_etapes.append(f"{n_doublons} doublon(s) ignoré(s) automatiquement (un seul exemplaire utilisé).")
 
     reference_lue = (
         lire_totaux_comptes_precedents(dossier_reference)
         if dossier_reference
-        else {"chemin": None, "date": None, "totaux": {}}
+        else {"chemin": None, "date": None, "totaux": {}, "valeurs_manuelles": {}}
     )
     totaux_veille = reference_lue["totaux"]
 
@@ -687,8 +590,8 @@ def classer_fichiers(
     if n_restants:
         journal_etapes.append(f"{n_restants} fichier(s) encore sans agence : votre confirmation sera demandée.")
 
-    niveaux = {f["niveau"] for f in fichiers}
-    ok = "bloquant" not in niveaux
+    # Un doublon ignoré n'est pas une anomalie : seul un vrai blocage rend l'analyse « non ok ».
+    ok = not any(f["niveau"] == "bloquant" and not f.get("est_doublon") for f in fichiers)
 
     return {
         "total": len(fichiers),
@@ -698,6 +601,8 @@ def classer_fichiers(
         "champs_manuels_requis": _champs_manuels_requis(fichiers),
         "releves_manquants": _releves_manquants(fichiers, dossier_carnet, jour or date.today() - timedelta(days=1)),
         "journal_etapes": journal_etapes,
+        # Valeurs de la veille des champs saisis à la main, pour les afficher dans la fenêtre de saisie.
+        "valeurs_veille_manuelles": reference_lue.get("valeurs_manuelles", {}),
     }
 
 

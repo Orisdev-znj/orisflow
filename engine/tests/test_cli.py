@@ -8,6 +8,8 @@ import sys
 import pytest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+sys.path.insert(0, os.path.dirname(__file__))
+from aide_modele import poser_libelles
 
 from orisflow_engine import VERSION, cli  # noqa: E402
 
@@ -89,6 +91,7 @@ def test_generer_de_bout_en_bout_via_le_protocole_cli(monkeypatch, capsys, tmp_p
     dossier_reference.mkdir()
     classeur = openpyxl.Workbook()
     classeur.active.title = "Synthèse"
+    poser_libelles(classeur.active)
     classeur.save(dossier_reference / "TRESORERIE JOURNALIÈRE et TDB DU  10 09 2026.xlsx")
 
     code, messages = executer(

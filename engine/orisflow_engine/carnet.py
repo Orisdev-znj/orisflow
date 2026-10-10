@@ -21,12 +21,14 @@ from openpyxl import load_workbook
 from .reference_treso import NOM_FEUILLE_SYNTHESE, extraire_date_nom
 from .regles_agences import AGENCE_COLONNE
 from .regles_banques import BONS_DE_CAISSE, RELEVES_ATTENDUS
+from .structure_modele import localiser_lignes
+from .chemins import chemin_lecture
 
 NOM_FICHIER = "soldes_bancaires.json"
 
-# Lignes du classeur « Synthèse » pour les banques dont le carnet garde un historique par
-# compte (celles listées dans RELEVES_ATTENDUS) ; préfixe de carnet correspondant.
-_LIGNE_ET_PREFIXE_BANQUE = {"cca_bank": (28, "cca"), "afriland": (29, "afriland"), "bgfi": (30, "bgfi")}
+# Banques dont le carnet garde un historique par compte (celles de RELEVES_ATTENDUS) et préfixe
+# de carnet correspondant. La ligne de chaque banque est retrouvée par son libellé.
+_PREFIXE_BANQUE = {"cca_bank": "cca", "afriland": "afriland", "bgfi": "bgfi"}
 
 
 def lire(chemin: str) -> dict[str, dict[str, int]]:
@@ -89,13 +91,18 @@ def extraire_soldes_classeur(chemin_classeur: str) -> tuple[date, dict[str, int]
     Retourne (jour lu dans le nom du fichier, soldes {"cca:12": montant, ...}, avertissements).
     """
     jour = extraire_date_nom(chemin_classeur)
-    classeur = load_workbook(chemin_classeur, data_only=False)
+    classeur = load_workbook(chemin_lecture(chemin_classeur), data_only=False)
     nom_feuille = next((n for n in NOM_FEUILLE_SYNTHESE if n in classeur.sheetnames), classeur.sheetnames[0])
     feuille = classeur[nom_feuille]
 
     soldes: dict[str, int] = {}
     avertissements: list[str] = []
-    for banque, (ligne, prefixe) in _LIGNE_ET_PREFIXE_BANQUE.items():
+    lignes, erreurs = localiser_lignes(feuille, list(_PREFIXE_BANQUE))
+    avertissements.extend(f"Classeur : {erreur}, banque ignorée." for erreur in erreurs)
+    for banque, prefixe in _PREFIXE_BANQUE.items():
+        if banque not in lignes:
+            continue
+        ligne = lignes[banque]
         for agence, colonne in AGENCE_COLONNE.items():
             comptes = _comptes_attendus(banque, agence)
             if not comptes:

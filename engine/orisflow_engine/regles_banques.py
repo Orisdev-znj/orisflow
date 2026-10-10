@@ -69,6 +69,18 @@ LIBELLE_CHAMP_MANUEL: dict[str, str] = {
     "western_union_secours": "Western Union (relevé absent aujourd'hui)",
 }
 
+# Cellule du classeur alimentée par chaque champ manuel : (ligne, agence de la colonne).
+# Access Bank est rangée sous Marché Central (confirmé le 05/10/2026), le reste sous Akwa.
+CELLULE_CHAMP_MANUEL: dict[str, tuple[str, str]] = {
+    "uv_orange": ("uv_orange", "akwa"),
+    "uv_mtn": ("uv_mtn", "akwa"),
+    "uv_maviance": ("uv_maviance", "akwa"),
+    "uba_solde_banque": ("uba", "akwa"),
+    "ecobank": ("ecobank", "akwa"),
+    "access_bank": ("access_bank", "marchecentral"),
+    "western_union_secours": ("western_union", "akwa"),
+}
+
 # Relevés attendus chaque jour, identifiés par une clé stable (voir carnet.py).
 # Valeur : (libellé, banque cible, agence cible). Décision du 03/10/2026.
 RELEVES_ATTENDUS: dict[str, tuple[str, str, str]] = {

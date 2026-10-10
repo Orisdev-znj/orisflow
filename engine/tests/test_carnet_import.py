@@ -5,6 +5,8 @@ from datetime import date
 import openpyxl
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+sys.path.insert(0, os.path.dirname(__file__))
+from aide_modele import poser_libelles
 
 from orisflow_engine import carnet
 
@@ -14,6 +16,7 @@ def _classeur(dossier, cellules):
     classeur = openpyxl.Workbook()
     feuille = classeur.active
     feuille.title = "Synthèse"
+    poser_libelles(feuille)
     for adresse, valeur in cellules.items():
         feuille[adresse] = valeur
     chemin = os.path.join(dossier, "TRESORERIE JOURNALIÈRE et TDB DU  02 10 2026.xlsx")
