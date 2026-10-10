@@ -578,11 +578,55 @@ h2 {
 /* --- Authentification (06/10/2026) --------------------------------------------------- */
 
 .ecran-connexion {
+  position: relative;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--marine);
+  /* Marine = couleur de secours pendant le chargement de l'image. */
+  background: var(--marine) url("./assets/fond-connexion.png") center / cover no-repeat;
+}
+
+/* Logo clair posé directement sur le fond (aucune plaque), puis slogan en vrai texte. */
+.ecran-connexion__marque {
+  position: absolute;
+  left: 4.7vw;
+  top: 4.7vw;
+  width: clamp(240px, 22vw, 560px);
+}
+
+.ecran-connexion__logo {
+  display: block;
+  width: 100%;
+  filter: drop-shadow(0 0 10px rgba(36, 177, 175, 0.3)) drop-shadow(0 0 18px rgba(227, 28, 120, 0.2));
+}
+
+.ecran-connexion__slogan {
+  margin: 0.6rem 0 0;
+  font-family: "Roboto Slab", Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  font-size: clamp(16px, 1.5vw, 26px);
+  color: #6fe7e4;
+  /* Halo marine serré : garde le slogan lisible quand une courbe du fond passe derrière. */
+  text-shadow: 0 0 3px rgba(7, 28, 155, 0.95), 0 0 8px rgba(7, 28, 155, 0.9), 0 0 12px rgba(36, 177, 175, 0.45);
+}
+
+.ecran-connexion__pied {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 1rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 900px) {
+  .ecran-connexion__marque {
+    left: 1.5rem;
+    top: 1.5rem;
+    width: 180px;
+  }
 }
 
 .carte-connexion {
@@ -592,12 +636,6 @@ h2 {
   width: 100%;
   max-width: 24rem;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-}
-
-.carte-connexion__logo {
-  display: block;
-  height: 44px;
-  margin: 0 auto 1.2rem;
 }
 
 .carte-connexion h1 {

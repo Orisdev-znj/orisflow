@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { EtatAuth, UtilisateurPublic } from "../lib/types";
-import logoOrisFinance from "../assets/logo-oris-finance.png";
+import logoClair from "../assets/logo-oris-finance-clair.png";
 
 interface Props {
   etat: EtatAuth;
@@ -59,8 +59,12 @@ export default function EcranConnexion({ etat, onConnecte }: Props) {
 
   return (
     <div className="ecran-connexion">
+      <header className="ecran-connexion__marque">
+        <img src={logoClair} alt="ORIS FINANCE S.A" className="ecran-connexion__logo" />
+        <p className="ecran-connexion__slogan">Votre partenaire de croissance</p>
+      </header>
+
       <div className="carte-connexion">
-        <img src={logoOrisFinance} alt="Oris Finance" className="carte-connexion__logo" />
 
         {etat.premierLancement ? (
           <>
@@ -148,6 +152,8 @@ export default function EcranConnexion({ etat, onConnecte }: Props) {
           </div>
         </form>
       </div>
+
+      <footer className="ecran-connexion__pied">Orisflow v{__VERSION_APP__} · Usage interne ORIS FINANCE</footer>
     </div>
   );
 }

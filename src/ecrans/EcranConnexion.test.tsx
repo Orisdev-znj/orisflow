@@ -43,6 +43,15 @@ describe("EcranConnexion", () => {
     expect(creerCompteInitial).not.toHaveBeenCalled();
   });
 
+  it("affiche le logo, le slogan en vrai texte et la version lue dans package.json", () => {
+    render(<EcranConnexion etat={{ premierLancement: false, utilisateurConnecte: null }} onConnecte={vi.fn()} />);
+
+    expect(screen.getByAltText("ORIS FINANCE S.A")).toBeInTheDocument();
+    expect(screen.getByText("Votre partenaire de croissance")).toBeInTheDocument();
+    expect(screen.getByText(`Orisflow v${__VERSION_APP__} · Usage interne ORIS FINANCE`)).toBeInTheDocument();
+    expect(__VERSION_APP__).toMatch(/^\d+\.\d+\.\d+$/);
+  });
+
   it("connexion normale : identifiant ou mot de passe incorrect affiche le message renvoyé", async () => {
     const connecter = vi.fn(async () => ({ ok: false, erreur: "Identifiant ou mot de passe incorrect." }));
     window.orisflow = { connecter } as unknown as typeof window.orisflow;
