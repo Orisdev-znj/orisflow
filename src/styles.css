@@ -303,6 +303,16 @@ h2 {
 .tableau th {
   color: var(--marine);
   font-weight: 500;
+  /* En-tête visible au défilement des longs tableaux. Sous 1 100 px, .tableau devient lui-même le
+     conteneur de défilement : l'effet vertical disparaît (sans danger). */
+  position: sticky;
+  top: 0;
+  background: var(--fond);
+  z-index: 1;
+}
+
+.completude .tableau th {
+  background: #fafbff;
 }
 
 .tableau__action {
@@ -397,25 +407,32 @@ h2 {
 }
 
 .message {
-  padding: 0.7rem 1rem;
+  padding: 0.7rem 1rem 0.7rem 2.7rem; /* place pour l'icône, qui double la couleur (jamais la couleur seule) */
   border-radius: 6px;
   border-left: 4px solid;
   margin: 1rem 0;
 }
 
+/* `background:` est un raccourci qui remet l'image à zéro : couleur, image et position sont donnés ensemble. */
 .message--erreur {
   border-color: var(--rouge);
-  background: #fdecec;
+  background: #fdecec
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c40b0b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='m15 9-6 6'/%3E%3Cpath d='m9 9 6 6'/%3E%3C/svg%3E")
+    no-repeat 0.8rem 0.8rem / 1.2rem 1.2rem;
 }
 
 .message--succes {
   border-color: var(--turquoise);
-  background: #e8f7f7;
+  background: #e8f7f7
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23127c7a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E")
+    no-repeat 0.8rem 0.8rem / 1.2rem 1.2rem;
 }
 
 .message--avertissement {
   border-color: var(--orange);
-  background: #fff2e6;
+  background: #fff2e6
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b45309' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3'/%3E%3Cpath d='M12 9v4'/%3E%3Cpath d='M12 17h.01'/%3E%3C/svg%3E")
+    no-repeat 0.8rem 0.8rem / 1.2rem 1.2rem;
 }
 
 .badge {

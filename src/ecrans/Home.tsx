@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import illustrationTresorerie from "../assets/illustration-tresorerie.png";
 import illustrationEtatsFinanciers from "../assets/illustration-etats-financiers.png";
+import { IconeCourrier, IconeTeleversement } from "../lib/Icones";
 
 interface Props {
   onChoisirTresorerie: () => void;
@@ -54,14 +55,14 @@ export default function Home({ onChoisirTresorerie, onChoisirEtatsFinanciers, on
       id: "bordereau",
       titre: "Suivi Courrier",
       description: "Tracer la transmission d'un document à un collègue, avec accusé de réception et suivi du statut.",
-      symboleDeRepli: "📩",
+      icone: <IconeCourrier />,
       onClick: onChoisirBordereau,
     },
     {
       id: "cloudbank",
       titre: "Téléverser sur CloudBank",
       description: "Préparer les écritures (petite caisse, salaires, extournes) à téléverser dans CloudBank, avec confirmation des comptes.",
-      symboleDeRepli: "📤",
+      icone: <IconeTeleversement />,
       onClick: onChoisirCloudBank,
     },
     {

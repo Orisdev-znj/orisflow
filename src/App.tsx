@@ -266,7 +266,7 @@ export default function App() {
           )}
           {vue === "bordereau" && (
             <button type="button" className="bouton-accueil" onClick={() => setVue("parametres")}>
-              ⚙ Paramètres
+              Paramètres
             </button>
           )}
           <MenuUtilisateur
