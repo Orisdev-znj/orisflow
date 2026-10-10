@@ -1,6 +1,6 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { vi } from "vitest";
+import { afterEach, vi } from "vitest";
 import App from "./App";
 import type { ApiOrisflow } from "./lib/types";
 
@@ -136,6 +136,8 @@ function fausseApi(surcharges: Partial<ApiOrisflow> = {}): ApiOrisflow {
     annulerMoteur: async () => true,
     ouvrirResultat: async () => ({ ok: true }),
     listerHistorique: async () => [],
+    controlerModele: async () => null,
+    verifierClasseur: async () => ({ ok: true, statut: "conforme" as const }),
     ...surcharges,
   };
 }
@@ -461,7 +463,12 @@ describe("Module Trésorerie (sans régression)", () => {
     await utilisateur.click(screen.getByRole("button", { name: "Confirmer et générer" }));
 
     await waitFor(() =>
-      expect(genererEspion).toHaveBeenCalledWith(["C:\\x\\Akwa_Compte.xls"], { ecobank: 21000000 }, {}),
+      expect(genererEspion).toHaveBeenCalledWith(
+        ["C:\\x\\Akwa_Compte.xls"],
+        { ecobank: 21000000 },
+        {},
+        expect.stringMatching(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/),
+      ),
     );
   });
 
@@ -568,7 +575,14 @@ describe("Module Trésorerie (sans régression)", () => {
     await utilisateur.click(await screen.findByRole("checkbox", { name: /Mokolo_Compte.xls/ }));
     await utilisateur.click(screen.getByRole("button", { name: "Générer le classeur" }));
 
-    await waitFor(() => expect(genererEspion).toHaveBeenCalledWith(["C:\\x\\Akwa_Compte.xls"], {}, {}));
+    await waitFor(() =>
+      expect(genererEspion).toHaveBeenCalledWith(
+        ["C:\\x\\Akwa_Compte.xls"],
+        {},
+        {},
+        expect.stringMatching(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/),
+      ),
+    );
   });
 
   it("désactive « Générer le classeur » et prévient quand aucun dossier de référence n'est configuré", async () => {
@@ -839,10 +853,109 @@ describe("Navigation et parcours (audit du 09/10/2026)", () => {
     expect(await screen.findByText(/TDB DU\s+08 10 2026\.xlsx/)).toBeInTheDocument();
   });
 
+  it("l'historique permet de vérifier un classeur et affiche s'il a été modifié", async () => {
+    window.orisflow = fausseApi({
+      listerHistorique: async () => [
+        { nom: "TRESORERIE JOURNALIÈRE et TDB DU  08 10 2026.xlsx", chemin: "C:/R/t.xlsx", modifieLe: "2026-10-09T10:19:00Z", taille: 15688 },
+      ],
+      verifierClasseur: async () => ({ ok: true, statut: "modifie" as const }),
+    });
+    const utilisateur = userEvent.setup();
+    await monterApplication();
+    await ouvrirTresorerie(utilisateur);
+    await utilisateur.click(screen.getByRole("button", { name: "Historique" }));
+
+    await utilisateur.click(await screen.findByRole("button", { name: "Vérifier" }));
+
+    expect(await screen.findByText(/Contenu modifié depuis sa génération/)).toBeInTheDocument();
+  });
+
   it("les modules pas encore disponibles sont annoncés « Bientôt »", async () => {
     window.orisflow = fausseApi();
     await monterApplication();
     expect(screen.getByRole("button", { name: /États financiers.*Bientôt/ })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Suivi de la trésorerie/ })).not.toHaveTextContent("Bientôt");
+  });
+});
+
+describe("Date du classeur (10/10/2026)", () => {
+  afterEach(() => vi.useRealTimers());
+
+  it("propose « hier » par défaut et la transmet à l'analyse puis à la génération", async () => {
+    vi.useFakeTimers({ toFake: ["Date"], now: new Date(2026, 9, 10, 9, 0) });
+    const classer = vi.fn(async () => (await fausseApi().classer([])) as never);
+    const generer = vi.fn(async () => (await fausseApi().generer([])) as never);
+    window.orisflow = fausseApi({
+      choisirDossierImport: async () => [{ chemin: "E:/j/Akwa_Compte.xls", nom: "Akwa_Compte.xls", taille: 1 }],
+      classer,
+      generer,
+    });
+    const utilisateur = userEvent.setup({ advanceTimers: () => undefined });
+    await monterApplication();
+    await ouvrirTresorerie(utilisateur);
+
+    expect(screen.getByLabelText("Date du classeur")).toHaveValue("2026-10-09");
+    await utilisateur.click(screen.getByRole("button", { name: "Importer le dossier du jour…" }));
+    await utilisateur.click(await screen.findByRole("button", { name: "Analyser les fichiers" }));
+
+    expect(classer).toHaveBeenCalledWith(["E:/j/Akwa_Compte.xls"], undefined, "2026-10-09");
+    await screen.findByRole("button", { name: "Générer le classeur" });
+  });
+
+  it("une date modifiée (lundi : vendredi) part avec la génération ; un week-end est signalé", async () => {
+    vi.useFakeTimers({ toFake: ["Date"], now: new Date(2026, 9, 12, 9, 0) });
+    const generer = vi.fn(async (..._arguments: unknown[]) => (await fausseApi().generer([])) as never);
+    window.orisflow = fausseApi({
+      choisirDossierImport: async () => [{ chemin: "E:/j/Akwa_Compte.xls", nom: "Akwa_Compte.xls", taille: 1 }],
+      classer: async () => ({
+        ...(await fausseApi().classer([])),
+        total: 1,
+        reference: { disponible: true, chemin: "C:/ref/x.xlsx", date: "2026-10-09" },
+        fichiers: [
+          {
+            nom: "Akwa_Compte.xls", chemin: "E:/j/Akwa_Compte.xls", extension: ".xls", type_detecte: "compte",
+            type_libelle: "Liste de comptes", agence_detectee: "akwa", agence_libelle: "Akwa", confiance_agence: "nom",
+            numero_compte_pdf: null, total_comptes: 30, doublons: [], mal_formes: [], depots: null, engagements: null,
+            caisse: null, cle_rib: null, code_client: null, solde_releve: null, ligne_banque_cible: null,
+            niveau: "information", messages: [],
+          },
+        ],
+      }),
+      generer,
+    });
+    const utilisateur = userEvent.setup({ advanceTimers: () => undefined });
+    await monterApplication();
+    await ouvrirTresorerie(utilisateur);
+
+    // Lundi 12/10 : « hier » = dimanche, signalé comme week-end.
+    expect(screen.getByLabelText("Date du classeur")).toHaveValue("2026-10-11");
+    expect(screen.getByText(/dimanche 11 octobre 2026 — week-end/)).toBeInTheDocument();
+    fireEvent.change(screen.getByLabelText("Date du classeur"), { target: { value: "2026-10-09" } });
+    expect(screen.getByText("vendredi 9 octobre 2026")).toBeInTheDocument();
+
+    await utilisateur.click(screen.getByRole("button", { name: "Importer le dossier du jour…" }));
+    await utilisateur.click(await screen.findByRole("button", { name: "Analyser les fichiers" }));
+    await utilisateur.click(await screen.findByRole("button", { name: "Générer le classeur" }));
+
+    await waitFor(() => expect(generer).toHaveBeenCalled());
+    expect(generer.mock.calls[0][3]).toBe("2026-10-09");
+  });
+
+  it("une date vide ou future bloque l'analyse", async () => {
+    vi.useFakeTimers({ toFake: ["Date"], now: new Date(2026, 9, 10, 9, 0) });
+    window.orisflow = fausseApi({
+      choisirDossierImport: async () => [{ chemin: "E:/j/a.xls", nom: "a.xls", taille: 1 }],
+    });
+    const utilisateur = userEvent.setup({ advanceTimers: () => undefined });
+    await monterApplication();
+    await ouvrirTresorerie(utilisateur);
+    await utilisateur.click(screen.getByRole("button", { name: "Importer le dossier du jour…" }));
+
+    fireEvent.change(screen.getByLabelText("Date du classeur"), { target: { value: "2026-10-12" } });
+    expect(screen.getByText(/dans le futur/)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Analyser les fichiers" })).toBeDisabled();
+
+    fireEvent.change(screen.getByLabelText("Date du classeur"), { target: { value: "" } });
+    expect(screen.getByRole("button", { name: "Analyser les fichiers" })).toBeDisabled();
   });
 });

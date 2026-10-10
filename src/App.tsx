@@ -26,6 +26,7 @@ import type {
 } from "./lib/types";
 import logoOrisFinance from "./assets/logo-oris-finance.png";
 import { nettoyerErreur } from "./lib/format";
+import { aujourdhuiISO, dateValide, hierISO } from "./lib/dates";
 
 // Vue de premier niveau : l'accueil (hub) donne accès aux modules. Chaque module garde
 // son propre état interne (ex. `ecran` ci-dessous pour la trésorerie), inchangé.
@@ -94,6 +95,10 @@ export default function App() {
   // Fichiers décochés par l'utilisateur sur l'écran des résultats : reconnus par Orisflow
   // mais volontairement exclus de la génération (demande du 30/09/2026).
   const [fichiersExclus, setFichiersExclus] = useState<Set<string>>(new Set());
+  // Jour couvert par le classeur (AAAA-MM-JJ) : « hier » par défaut, modifiable à l'import et
+  // avant la génération (lundi, jour férié, rattrapage).
+  const [dateClasseur, setDateClasseur] = useState<string>(hierISO);
+  const dateUtilisable = dateValide(dateClasseur) && dateClasseur <= aujourdhuiISO();
   // Fenêtre unique de saisie manuelle (UV, UBA, Ecobank, Access Bank…) avant de générer
   // le classeur (demande du 02/10/2026) : ouverte quand l'analyse a signalé des champs
   // à compléter.
@@ -170,7 +175,7 @@ export default function App() {
     setTraitement({ etat: "encours", courant: 0, total: fichiers.length, pourcentage: 0, journal: [] });
     setEcran("traitement");
     try {
-      const reponse = await api.classer(fichiers.map((f) => f.chemin));
+      const reponse = await api.classer(fichiers.map((f) => f.chemin), undefined, dateClasseur);
       setResultat(reponse);
       setTraitement({ etat: "termine" });
       setEcran("resultats");
@@ -180,7 +185,7 @@ export default function App() {
     } catch (erreur) {
       setTraitement({ etat: "erreur", message: nettoyerErreur(erreur) });
     }
-  }, [api, fichiers]);
+  }, [api, fichiers, dateClasseur]);
 
   const confirmerAgences = useCallback(
     async (choix: Record<string, string>) => {
@@ -189,7 +194,7 @@ export default function App() {
       setTraitement({ etat: "encours", courant: 0, total: fichiers.length, pourcentage: 0, journal: [] });
       setEcran("traitement");
       try {
-        const reponse = await api.classer(fichiers.map((f) => f.chemin), choix);
+        const reponse = await api.classer(fichiers.map((f) => f.chemin), choix, dateClasseur);
         setResultat(reponse);
         setTraitement({ etat: "termine" });
         setEcran("resultats");
@@ -197,7 +202,7 @@ export default function App() {
         setTraitement({ etat: "erreur", message: nettoyerErreur(erreur) });
       }
     },
-    [api, fichiers],
+    [api, fichiers, dateClasseur],
   );
 
   const genererClasseur = useCallback(
@@ -214,13 +219,13 @@ export default function App() {
       setFenetreValeursOuverte(false);
       setGeneration({ etat: "encours" });
       try {
-        const reponse = await api.generer(chemins, valeursManuelles, relevesSaisis);
+        const reponse = await api.generer(chemins, valeursManuelles, relevesSaisis, dateClasseur);
         setGeneration({ etat: "succes", resultat: reponse });
       } catch (erreur) {
         setGeneration({ etat: "erreur", message: nettoyerErreur(erreur) });
       }
     },
-    [api, fichiers, resultat, fichiersExclus],
+    [api, fichiers, resultat, fichiersExclus, dateClasseur],
   );
 
   // Clic sur « Générer le classeur » : si des montants doivent être saisis à la main
@@ -337,6 +342,9 @@ export default function App() {
                 onRetirer={retirerFichier}
                 onVider={viderFichiers}
                 onLancer={lancerTraitement}
+                dateClasseur={dateClasseur}
+                onDateChange={setDateClasseur}
+                dateUtilisable={dateUtilisable}
               />
             )}
             {ecran === "traitement" && (
@@ -354,6 +362,9 @@ export default function App() {
                 onBasculerFichier={basculerFichierExclu}
                 onRetourImport={() => setEcran("import")}
                 onGenerer={demarrerGeneration}
+                dateClasseur={dateClasseur}
+                onDateChange={setDateClasseur}
+                dateUtilisable={dateUtilisable}
               />
             )}
             {ecran === "historique" && <EcranHistorique />}

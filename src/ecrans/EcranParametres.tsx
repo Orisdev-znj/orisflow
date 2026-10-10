@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { AGENCES_RESEAU } from "../lib/agences";
 import type { CarnetInfo, EtapeDiagnostic, ParametresApplication, TableComptesInfo } from "../lib/types";
 import { nettoyerErreur } from "../lib/format";
+import ControleModele from "./ControleModele";
 
 type EtatMoteur =
   | { etat: "inconnu" }
@@ -242,6 +243,8 @@ export default function EcranParametres() {
           {etatTableComptes.message}
         </p>
       )}
+
+      <ControleModele />
 
       <h2>Carnet des soldes bancaires</h2>
       <p className="aide">

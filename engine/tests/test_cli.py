@@ -212,3 +212,41 @@ def test_rapport_exporter_sans_chemin_renvoie_une_erreur_claire(monkeypatch, cap
 
 if __name__ == "__main__":
     sys.exit(pytest.main([__file__, "-q"]))
+
+
+def test_date_invalide_renvoie_un_message_clair(monkeypatch, capsys, tmp_path):
+    for commande in ("classer", "generer"):
+        code, messages = executer(
+            commande,
+            {"fichiers": [], "dossierReference": str(tmp_path), "dossierSortie": str(tmp_path / "s"), "date": "31/02/2026"},
+            monkeypatch,
+            capsys,
+        )
+        assert code == 0
+        assert messages[-1]["type"] == "erreur"
+        assert "n'est pas valide" in messages[-1]["message"]
+
+
+def test_classer_compare_au_classeur_anterieur_a_la_date(monkeypatch, capsys, tmp_path):
+    import openpyxl
+
+    sys.path.insert(0, os.path.dirname(__file__))
+    from aide_modele import poser_libelles
+
+    reference = tmp_path / "reference"
+    reference.mkdir()
+    for jour, total in (("01 10 2026", 111), ("05 10 2026", 555)):
+        classeur = openpyxl.Workbook()
+        feuille = classeur.active
+        feuille.title = "Synthèse"
+        poser_libelles(feuille)
+        feuille["C16"] = total
+        classeur.save(reference / f"TRESORERIE JOURNALIÈRE et TDB DU  {jour}.xlsx")
+
+    _, messages = executer(
+        "classer", {"fichiers": [], "dossierReference": str(reference), "date": "2026-10-03"}, monkeypatch, capsys
+    )
+
+    assert "01 10 2026" in messages[-1]["reference"]["chemin"]
+    _, messages = executer("classer", {"fichiers": [], "dossierReference": str(reference)}, monkeypatch, capsys)
+    assert "05 10 2026" in messages[-1]["reference"]["chemin"]

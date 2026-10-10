@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { formaterMontant } from "../lib/montants";
 import type { EtatGeneration, FichierClasse, NiveauFichier, ResultatClassement, ResultatGeneration } from "../lib/types";
+import ChampDateClasseur from "./ChampDateClasseur";
 import TableauCompletude from "./TableauCompletude";
 
 interface Props {
@@ -10,6 +11,9 @@ interface Props {
   onBasculerFichier: (chemin: string) => void;
   onRetourImport: () => void;
   onGenerer: () => void;
+  dateClasseur: string;
+  onDateChange: (valeur: string) => void;
+  dateUtilisable: boolean;
 }
 
 // Libellés choisis par l'utilisateur le 30/09/2026 ; les valeurs internes du moteur ne changent pas.
@@ -285,11 +289,20 @@ function ResultatGenere({ resultat }: { resultat: ResultatGeneration }) {
   );
 }
 
-function SectionGeneration({ generation, onGenerer, peutGenerer, dossierReferenceManquant }: {
+function SectionGeneration({
+  generation,
+  onGenerer,
+  peutGenerer,
+  dossierReferenceManquant,
+  dateClasseur,
+  onDateChange,
+}: {
   generation: EtatGeneration;
   onGenerer: () => void;
   peutGenerer: boolean;
   dossierReferenceManquant: boolean;
+  dateClasseur: string;
+  onDateChange: (valeur: string) => void;
 }) {
   return (
     <>
@@ -307,6 +320,8 @@ function SectionGeneration({ generation, onGenerer, peutGenerer, dossierReferenc
           avant de générer (Orisflow doit savoir de quel classeur partir).
         </p>
       )}
+
+      <ChampDateClasseur id="date-classeur-generation" valeur={dateClasseur} onChange={onDateChange} />
 
       <div className="actions">
         <button
@@ -347,12 +362,16 @@ export default function EcranResultats({
   onBasculerFichier,
   onRetourImport,
   onGenerer,
+  dateClasseur,
+  onDateChange,
+  dateUtilisable,
 }: Props) {
   const dossierReferenceManquant = !!resultat && !resultat.reference.chemin;
-  // Au moins un fichier exploitable (comptes ou balance) reste coché.
+  // Au moins un fichier exploitable (comptes ou balance) reste coché, et la date est utilisable.
   const peutGenerer =
     !!resultat &&
     !dossierReferenceManquant &&
+    dateUtilisable &&
     resultat.fichiers.some(
       (f) =>
         (f.type_detecte === "compte" || f.type_detecte === "balance_classe3" || f.type_detecte === "balance_classe5") &&
@@ -503,6 +522,8 @@ export default function EcranResultats({
             onGenerer={onGenerer}
             peutGenerer={peutGenerer}
             dossierReferenceManquant={dossierReferenceManquant}
+            dateClasseur={dateClasseur}
+            onDateChange={onDateChange}
           />
         </>
       )}

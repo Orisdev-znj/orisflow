@@ -14,6 +14,10 @@ import unicodedata
 from typing import Any, Callable, Iterable, Optional
 
 
+# Cellule nommée du modèle standard où Orisflow écrit la mention « Généré par Orisflow … ».
+NOM_CELLULE_SIGNATURE = "ORISFLOW_SIGNATURE"
+
+
 def normaliser_libelle(valeur: Any) -> str:
     """Majuscules, sans accents, sans espaces ni ponctuation (« ENCOURS  DEPOTS » →
     « ENCOURSDEPOTS ») : insensible aux variantes de saisie du classeur."""

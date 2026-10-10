@@ -24,6 +24,8 @@ from . import carnet
 from .classification import classer_fichiers
 from .comptes_agences import charger_table, construire_table_depuis_dossiers, enregistrer_table, NB_COMPTES_PAR_AGENCE, SEUIL_COMPTES
 from .generation import generer_classeur
+from .modele_standard import controler_modele
+from .signature import verifier_fichier
 from .rapport import exporter_rapport_excel
 
 EXTENSIONS_PRISES_EN_CHARGE = {".xls", ".xlsx", ".pdf"}
@@ -38,6 +40,18 @@ def lire_parametres() -> Dict[str, Any]:
         return {}
     brut = sys.stdin.read().strip()
     return json.loads(brut) if brut else {}
+
+
+def _lire_date(valeur: Any):
+    """Date du classeur (AAAA-MM-JJ) transmise par l'interface ; None = « hier » par défaut."""
+    from datetime import date as _date
+
+    if not valeur:
+        return None
+    try:
+        return _date.fromisoformat(str(valeur))
+    except ValueError:
+        raise ValueError(f"La date du classeur « {valeur} » n'est pas valide (format attendu : AAAA-MM-JJ).") from None
 
 
 def commande_ping(_: Dict[str, Any]) -> None:
@@ -214,6 +228,11 @@ def commande_classer(parametres: Dict[str, Any]) -> None:
     dossier_carnet = parametres.get("dossierCarnet") or None
     table_comptes = charger_table(parametres.get("fichierTableComptes") or None)
     dossier_cache = parametres.get("dossierCache") or None
+    try:
+        jour_classeur = _lire_date(parametres.get("date"))
+    except ValueError as erreur:
+        emettre(type="erreur", message=str(erreur))
+        return
     total = len(chemins)
     compteur = {"valeur": 0}
 
@@ -238,6 +257,7 @@ def commande_classer(parametres: Dict[str, Any]) -> None:
         dossier_carnet=dossier_carnet,
         table_comptes=table_comptes,
         dossier_cache=dossier_cache,
+        jour=jour_classeur,
     )
     for etape in resultat.pop("journal_etapes", []):
         emettre(type="progression", courant=total, total=total, pourcentage=100, fichier="", message=etape)
@@ -254,6 +274,20 @@ def _message_etape(fichier: dict[str, Any]) -> str:
     return f"{fichier['nom']} : {type_libelle} — agence non encore identifiée."
 
 
+def commande_verifier_classeur(parametres: Dict[str, Any]) -> None:
+    """Relit un classeur (lecture seule) et renvoie son empreinte et sa mention inscrite."""
+    chemin = parametres.get("chemin")
+    if not chemin or not os.path.isfile(chemin):
+        emettre(type="erreur", message="Le classeur à vérifier est introuvable.")
+        return
+    try:
+        lecture = verifier_fichier(chemin)
+    except Exception:
+        emettre(type="erreur", message="Ce classeur n'a pas pu être lu : est-il bien un fichier Excel (.xlsx) ?")
+        return
+    emettre(type="resultat", commande="verifier_classeur", version=VERSION, ok=True, **lecture)
+
+
 def commande_generer(parametres: Dict[str, Any]) -> None:
     """Sprint 4 : génère un nouveau classeur daté à partir du dernier classeur existant.
 
@@ -264,13 +298,14 @@ def commande_generer(parametres: Dict[str, Any]) -> None:
     Ne modifie jamais le classeur de référence ni les fichiers importés ; n'écrase jamais
     un fichier déjà généré.
     """
-    from datetime import date as _date
-
     chemins = parametres.get("fichiers", [])
     dossier_reference = parametres.get("dossierReference") or None
     dossier_sortie = parametres.get("dossierSortie")
-    jour_parametre = parametres.get("date")
-    jour = _date.fromisoformat(jour_parametre) if jour_parametre else None
+    try:
+        jour = _lire_date(parametres.get("date"))
+    except ValueError as erreur:
+        emettre(type="erreur", message=str(erreur))
+        return
     valeurs_manuelles = parametres.get("valeursManuelles") or None
     dossier_carnet = parametres.get("dossierCarnet") or None
     releves_saisis = parametres.get("relevesSaisis") or None
@@ -302,6 +337,7 @@ def commande_generer(parametres: Dict[str, Any]) -> None:
         table_comptes=table_comptes,
         dossier_cache=dossier_cache,
         sur_etape=signaler_etape,
+        auteur=parametres.get("auteur") or None,
     )
     if not resultat["ok"]:
         emettre(type="erreur", message=resultat["erreur"])
@@ -432,6 +468,17 @@ def commande_rapport_exporter(parametres: Dict[str, Any]) -> None:
     emettre(type="resultat", commande="rapport_exporter", version=VERSION, ok=True, chemin=chemin)
 
 
+def commande_controler_modele(parametres: Dict[str, Any]) -> None:
+    """Contrôle un classeur modèle standard (lecture seule) : ce dont Orisflow a besoin, ce
+    qu'il ne conserverait pas en l'écrivant, ce qui manque à la standardisation.
+    Paramètres : {"chemin": classeur à contrôler}."""
+    chemin = parametres.get("chemin")
+    if not chemin or not os.path.isfile(chemin):
+        emettre(type="erreur", message="Le classeur à contrôler est introuvable.")
+        return
+    emettre(type="resultat", commande="controler_modele", version=VERSION, **controler_modele(chemin))
+
+
 COMMANDES = {
     "ping": commande_ping,
     "diagnostic": commande_diagnostic,
@@ -440,10 +487,12 @@ COMMANDES = {
     "table_comptes_construire": commande_table_comptes_construire,
     "carnet_importer_classeur": commande_carnet_importer,
     "generer": commande_generer,
+    "verifier_classeur": commande_verifier_classeur,
     "bordereau_creer": commande_bordereau_creer,
     "bordereau_evenement": commande_bordereau_evenement,
     "bordereau_lister": commande_bordereau_lister,
     "rapport_exporter": commande_rapport_exporter,
+    "controler_modele": commande_controler_modele,
 }
 
 

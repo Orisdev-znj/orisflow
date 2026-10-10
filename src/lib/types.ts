@@ -133,6 +133,33 @@ export interface RecapitulatifBanque {
   montant: number;
 }
 
+/** Vérification d'un classeur généré : comparaison avec l'empreinte consignée au journal. */
+export interface ResultatVerification {
+  ok: boolean;
+  erreur?: string;
+  // conforme : identique à la génération ; modifie : contenu changé depuis ; inconnu : absent du journal.
+  statut?: "conforme" | "modifie" | "inconnu";
+  mention?: string | null;
+  genereLe?: string;
+  auteur?: string | null;
+}
+
+/** Contrôle d'un classeur modèle standard (Paramètres) : lecture seule. */
+export interface ControleModeleLigne {
+  libelle: string;
+  ok: boolean;
+  detail: string;
+  // « bloquant » : Orisflow ne peut pas s'en servir ; « a_corriger » : standardisation incomplète.
+  gravite: "bloquant" | "a_corriger";
+}
+
+export interface ResultatControleModele {
+  ok: boolean;
+  bloquants: number;
+  a_corriger: number;
+  controles: ControleModeleLigne[];
+}
+
 /** Classeur déjà généré, listé dans l'historique. */
 export interface ClasseurHistorique {
   nom: string;
@@ -395,11 +422,17 @@ export interface ApiOrisflow {
   construireTableComptes(): Promise<ResultatTableComptesConstruite | null>;
   lireCarnetInfo(): Promise<CarnetInfo>;
   importerClasseurCarnet(): Promise<ResultatCarnetImporte | null>;
-  classer(chemins: string[], agencesManuelles?: Record<string, string>): Promise<ResultatClassement>;
+  // `dateClasseur` : jour couvert par le classeur (AAAA-MM-JJ) ; absent = « hier » côté moteur.
+  classer(
+    chemins: string[],
+    agencesManuelles?: Record<string, string>,
+    dateClasseur?: string,
+  ): Promise<ResultatClassement>;
   generer(
     chemins: string[],
     valeursManuelles?: ValeursManuelles,
     relevesSaisis?: RelevesSaisis,
+    dateClasseur?: string,
   ): Promise<ResultatGeneration>;
   // Export du rapport d'analyse en Excel (10/10/2026) : null si l'utilisateur annule la
   // boîte de dialogue « Enregistrer sous ».
@@ -412,6 +445,9 @@ export interface ApiOrisflow {
   annulerMoteur(): Promise<boolean>;
   ouvrirResultat(chemin: string, mode: "fichier" | "dossier"): Promise<{ ok: boolean; erreur?: string }>;
   listerHistorique(): Promise<ClasseurHistorique[]>;
+  // Choisit un classeur et le contrôle ; null si la boîte de dialogue est annulée.
+  verifierClasseur(chemin: string): Promise<ResultatVerification>;
+  controlerModele(): Promise<ResultatControleModele | null>;
   surEvenementMoteur(rappel: (evenement: EvenementMoteur) => void): () => void;
   lireParametres(): Promise<ParametresApplication>;
   choisirDossierTravail(): Promise<string>;

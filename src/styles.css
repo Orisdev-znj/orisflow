@@ -861,3 +861,60 @@ h2 {
     min-width: 180px;
   }
 }
+
+/* --- Date du classeur ------------------------------------------------------------------- */
+.champ--date {
+  max-width: 420px;
+}
+
+.champ__ligne {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.champ--date input[type="date"] {
+  font: inherit;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--bordure);
+  border-radius: 6px;
+}
+
+/* --- Contrôle du modèle standard ---------------------------------------------------------- */
+.liste-controles {
+  list-style: none;
+  margin: 0.6rem 0 1rem;
+  padding: 0;
+}
+
+.liste-controles li {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.4rem 0.2rem;
+  border-bottom: 1px solid var(--bordure);
+}
+
+.controle__marque {
+  flex: none;
+  width: 1.4rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.controle--ok .controle__marque {
+  color: var(--turquoise);
+}
+
+.controle--a_corriger .controle__marque {
+  color: var(--orange);
+}
+
+.controle--bloquant .controle__marque {
+  color: var(--rouge);
+}
+
+/* --- Vérification d'un classeur ------------------------------------------------------------- */
+.verif { display: block; font-size: 0.85rem; margin-top: 0.2rem; }
+.verif--conforme { color: var(--turquoise); }
+.verif--modifie { color: var(--rouge); }
+.verif--inconnu { color: var(--orange); }

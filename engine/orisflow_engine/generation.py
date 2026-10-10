@@ -21,6 +21,7 @@ from typing import Any, Callable, Optional
 
 from openpyxl import load_workbook
 
+from .signature import signer_classeur, verifier_fichier
 from . import carnet
 from .classification import classer_fichiers
 from .generation_banques import ecrire_banques, releves_fictifs, soldes_du_jour
@@ -106,10 +107,17 @@ def generer_classeur(
     table_comptes: Optional[dict[str, list[str]]] = None,
     dossier_cache: Optional[str] = None,
     sur_etape: Optional[Callable[[str], None]] = None,
+    auteur: Optional[str] = None,
 ) -> dict[str, Any]:
     etape = sur_etape or (lambda _message: None)
     jour = jour or (date.today() - timedelta(days=1))
     valeurs_manuelles = valeurs_manuelles or {}
+    if jour > date.today():
+        return {
+            "ok": False,
+            "erreur": f"La date du classeur ({jour.strftime('%d/%m/%Y')}) est dans le futur : choisissez un jour déjà écoulé.",
+            "classement": None,
+        }
 
     etape("Lecture des fichiers importés…")
     classement = classer_fichiers(
@@ -239,7 +247,13 @@ def generer_classeur(
     etape("Enregistrement du classeur…")
     os.makedirs(chemin_lecture(dossier_sortie), exist_ok=True)
     chemin_sortie = _chemin_disponible(dossier_sortie, _nom_fichier_du_jour(jour))
+    signature = signer_classeur(classeur, auteur)
     classeur.save(chemin_lecture(chemin_sortie))
+    if not signature["avertissement"]:
+        # Contrôle : l'empreinte recalculée sur le fichier enregistré doit être identique.
+        relu = verifier_fichier(chemin_sortie)
+        if relu["empreinte"] != signature["empreinte"]:
+            avertissements_modele.append("L'empreinte relue après enregistrement diffère : classeur à vérifier.")
 
     # Carnet : soldes réellement lus ou saisis aujourd'hui (jamais ceux repris de la veille).
     if dossier_carnet:
@@ -268,5 +282,6 @@ def generer_classeur(
         "doublons_ignores": doublons_ignores,
         "recapitulatif_agences": [recap[a] for a in sorted(recap, key=ordre.index)],
         "recapitulatif_banques": banques["recapitulatif"],
+        "signature": signature,
         "classement": classement,
     }

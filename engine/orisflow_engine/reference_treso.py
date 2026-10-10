@@ -91,15 +91,16 @@ def _lire_valeurs(chemin: str) -> tuple[dict[str, int], dict[str, int]]:
     return totaux, manuels
 
 
-def lire_totaux_comptes_precedents(dossier_reference: str) -> dict:
-    """Lit, en LECTURE SEULE, le dernier classeur du dossier de référence.
+def lire_totaux_comptes_precedents(dossier_reference: str, avant: Optional[date] = None) -> dict:
+    """Lit, en LECTURE SEULE, le dernier classeur du dossier de référence (ou le dernier
+    antérieur à `avant`, quand on traite un jour passé : jamais un classeur plus récent).
 
     Résultat : {"chemin", "date", "totaux": {agence: total de comptes},
     "valeurs_manuelles": {champ manuel: valeur de la veille}}.
     Si le classeur n'a jamais été recalculé par Excel (aucun total lisible), il est recalculé
     via LibreOffice (copie en cache, voir `recalcul.py`) avant d'abandonner.
     """
-    chemin = trouver_classeur_recent(dossier_reference)
+    chemin = trouver_classeur_recent(dossier_reference, avant=avant)
     if chemin is None:
         return {"chemin": None, "date": None, "totaux": {}, "valeurs_manuelles": {}}
 

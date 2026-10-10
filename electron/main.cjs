@@ -359,6 +359,18 @@ function enregistrerCommunications() {
     return decrireFichiers(fichiersDuDossier(choix.filePaths[0]));
   }));
 
+  ipcMain.handle("modele:controler", avecSession(async (evenement) => {
+    const fenetre = BrowserWindow.fromWebContents(evenement.sender);
+    const choix = await dialog.showOpenDialog(fenetre, {
+      title: "Choisir le classeur modèle à contrôler (il ne sera pas modifié)",
+      properties: ["openFile"],
+      filters: [{ name: "Classeurs Excel", extensions: ["xlsx", "xlsm"] }],
+      defaultPath: dossierReference() || undefined,
+    });
+    if (choix.canceled || choix.filePaths.length === 0) return null;
+    return lancerMoteur("controler_modele", { chemin: choix.filePaths[0] });
+  }));
+
   ipcMain.handle("moteur:annuler", avecSession(() => {
     for (const processus of processusMoteur) processus.arreter("annulation");
     return true;
@@ -390,6 +402,29 @@ function enregistrerCommunications() {
       })
       .sort((a, b) => (a.modifieLe < b.modifieLe ? 1 : -1))
       .slice(0, 100);
+  }));
+
+  // Vérifie un classeur : son contenu est-il celui que le journal a consigné à la génération ?
+  ipcMain.handle("classeur:verifier", avecSession(async (_evenement, chemin) => {
+    const lecture = await lancerMoteur("verifier_classeur", { chemin });
+    if (!lecture || lecture.ok === false || lecture.type === "erreur") {
+      return { ok: false, erreur: (lecture && lecture.message) || "Vérification impossible." };
+    }
+    const nom = path.basename(chemin).toLowerCase();
+    const trace = journal
+      .listerEvenements(dossierJournal(), { action: "generation_classeur" })
+      .find((e) => e.details && e.details.empreinte && String(e.details.nomFichier || "").toLowerCase() === nom);
+    if (!trace) {
+      return { ok: true, statut: "inconnu", mention: lecture.mention || null };
+    }
+    const conforme = trace.details.empreinte === lecture.empreinte;
+    return {
+      ok: true,
+      statut: conforme ? "conforme" : "modifie",
+      mention: lecture.mention || null,
+      genereLe: trace.details.horodatage || trace.horodatage,
+      auteur: trace.details.auteur || null,
+    };
   }));
 
   ipcMain.handle("fichiers:choisir", avecSession(async (evenement) => {
@@ -444,13 +479,15 @@ function enregistrerCommunications() {
     });
   }));
 
-  ipcMain.handle("moteur:classer", avecSession(async (evenement, chemins, agencesManuelles) =>
+  ipcMain.handle("moteur:classer", avecSession(async (evenement, chemins, agencesManuelles, dateClasseur) =>
     lancerMoteur(
       "classer",
       {
         fichiers: chemins,
         dossierReference: dossierReference() || null,
         agencesManuelles: agencesManuelles || null,
+        // Date du classeur choisie à l'écran (AAAA-MM-JJ) ; absente = « hier » côté moteur.
+        date: dateClasseur || null,
         dossierCarnet: dossierCarnet(),
         // Table « 15 comptes par agence » (décision du 05/10/2026) : fichier de configuration local.
         fichierTableComptes: fichierTableComptes(),
@@ -462,7 +499,7 @@ function enregistrerCommunications() {
     ),
   ));
 
-  ipcMain.handle("moteur:generer", avecSession(async (evenement, chemins, valeursManuelles, relevesSaisis) => {
+  ipcMain.handle("moteur:generer", avecSession(async (evenement, chemins, valeursManuelles, relevesSaisis, dateClasseur) => {
     const racine = preparerDossiers();
     const resultat = await lancerMoteur(
       "generer",
@@ -470,6 +507,9 @@ function enregistrerCommunications() {
         fichiers: chemins,
         dossierReference: dossierReference() || null,
         dossierSortie: path.join(racine, "Resultats"),
+        date: dateClasseur || null,
+        // Personne connectée : inscrite dans la mention signée du classeur (étape de signature).
+        auteur: (sessionCourante && (sessionCourante.nomAffiche || sessionCourante.identifiant)) || null,
         valeursManuelles: valeursManuelles || null,
         dossierCarnet: dossierCarnet(),
         relevesSaisis: relevesSaisis || null,
@@ -494,6 +534,12 @@ function enregistrerCommunications() {
           agencesBalances: resultat.agences_balance_mises_a_jour,
           agencesBanques: resultat.agences_banques_mises_a_jour,
           agencesCaisses: resultat.agences_caisses_mises_a_jour,
+          // Signature (empreinte complète) : sert à vérifier plus tard que le classeur n'a pas été modifié.
+          nomFichier: path.basename(resultat.chemin_genere || ""),
+          empreinte: resultat.signature && resultat.signature.empreinte,
+          horodatage: resultat.signature && resultat.signature.horodatage,
+          auteur: resultat.signature && resultat.signature.auteur,
+          versionOrisflow: resultat.signature && resultat.signature.version,
         },
       });
     }

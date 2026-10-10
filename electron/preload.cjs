@@ -23,14 +23,17 @@ contextBridge.exposeInMainWorld("orisflow", {
   construireTableComptes: () => ipcRenderer.invoke("agences:construireTable"),
   lireCarnetInfo: () => ipcRenderer.invoke("carnet:info"),
   importerClasseurCarnet: () => ipcRenderer.invoke("carnet:importerClasseur"),
-  classer: (chemins, agencesManuelles) => ipcRenderer.invoke("moteur:classer", chemins, agencesManuelles),
-  generer: (chemins, valeursManuelles, relevesSaisis) =>
-    ipcRenderer.invoke("moteur:generer", chemins, valeursManuelles, relevesSaisis),
+  classer: (chemins, agencesManuelles, dateClasseur) =>
+    ipcRenderer.invoke("moteur:classer", chemins, agencesManuelles, dateClasseur),
+  generer: (chemins, valeursManuelles, relevesSaisis, dateClasseur) =>
+    ipcRenderer.invoke("moteur:generer", chemins, valeursManuelles, relevesSaisis, dateClasseur),
   exporterRapport: (fichiers, journalEtapes) => ipcRenderer.invoke("rapport:exporter", fichiers, journalEtapes),
   choisirDossierImport: () => ipcRenderer.invoke("fichiers:choisirDossier"),
   annulerMoteur: () => ipcRenderer.invoke("moteur:annuler"),
   ouvrirResultat: (chemin, mode) => ipcRenderer.invoke("resultats:ouvrir", chemin, mode),
   listerHistorique: () => ipcRenderer.invoke("historique:lister"),
+  verifierClasseur: (chemin) => ipcRenderer.invoke("classeur:verifier", chemin),
+  controlerModele: () => ipcRenderer.invoke("modele:controler"),
   surEvenementMoteur: (rappel) => {
     const ecouteur = (_evenement, message) => rappel(message);
     ipcRenderer.on("moteur:evenement", ecouteur);

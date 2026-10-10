@@ -58,6 +58,9 @@ describe("Rapport d'analyse copiable et téléchargeable (10/10/2026)", () => {
         onBasculerFichier={() => undefined}
         onRetourImport={() => undefined}
         onGenerer={() => undefined}
+        dateClasseur="2026-10-08"
+        onDateChange={() => undefined}
+        dateUtilisable
       />,
     );
 
@@ -79,6 +82,9 @@ describe("Rapport d'analyse copiable et téléchargeable (10/10/2026)", () => {
         onBasculerFichier={() => undefined}
         onRetourImport={() => undefined}
         onGenerer={() => undefined}
+        dateClasseur="2026-10-08"
+        onDateChange={() => undefined}
+        dateUtilisable
       />,
     );
 
@@ -103,6 +109,9 @@ describe("Rapport d'analyse copiable et téléchargeable (10/10/2026)", () => {
         onBasculerFichier={() => undefined}
         onRetourImport={() => undefined}
         onGenerer={() => undefined}
+        dateClasseur="2026-10-08"
+        onDateChange={() => undefined}
+        dateUtilisable
       />,
     );
 
@@ -122,6 +131,9 @@ describe("Lisibilité des résultats (audit du 09/10/2026)", () => {
         onBasculerFichier={() => undefined}
         onRetourImport={() => undefined}
         onGenerer={() => undefined}
+        dateClasseur="2026-10-08"
+        onDateChange={() => undefined}
+        dateUtilisable
       />,
     );
 

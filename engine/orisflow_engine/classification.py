@@ -568,8 +568,10 @@ def classer_fichiers(
     if n_doublons:
         journal_etapes.append(f"{n_doublons} doublon(s) ignoré(s) automatiquement (un seul exemplaire utilisé).")
 
+    # Date choisie explicitement : la référence est le dernier classeur ANTÉRIEUR à ce jour
+    # (traiter un jour passé ne doit jamais comparer à un classeur plus récent).
     reference_lue = (
-        lire_totaux_comptes_precedents(dossier_reference)
+        lire_totaux_comptes_precedents(dossier_reference, avant=jour)
         if dossier_reference
         else {"chemin": None, "date": None, "totaux": {}, "valeurs_manuelles": {}}
     )

@@ -752,3 +752,41 @@ def test_etapes_de_generation_signalees(contexte):
 
     assert etapes[0] == "Lecture des fichiers importés…"
     assert etapes[-1] == "Enregistrement du classeur…"
+
+
+# --- Date du classeur choisie à l'écran (10/10/2026) -------------------------------------
+
+
+def test_une_date_passee_part_du_classeur_anterieur_a_cette_date(tmp_path):
+    """Rattrapage : générer le 02/10 alors que le dossier contient déjà des classeurs plus
+    récents. Le modèle est le dernier classeur ANTÉRIEUR à la date, jamais un plus récent."""
+    reference = tmp_path / "reference"
+    reference.mkdir()
+    for jour, valeur in (("01 10 2026", 1_000_000), ("05 10 2026", 5_000_000)):
+        classeur = openpyxl.Workbook()
+        synthese = classeur.active
+        synthese.title = "Synthèse"
+        poser_libelles(synthese)
+        synthese["C20"] = valeur
+        classeur.save(reference / f"TRESORERIE JOURNALIÈRE et TDB DU  {jour}.xlsx")
+
+    resultat = generer_classeur([], str(reference), str(tmp_path / "sortie"), jour=date(2026, 10, 2))
+
+    assert resultat["ok"] is True
+    assert "01 10 2026" in resultat["modele_utilise"]
+    assert os.path.basename(resultat["chemin_genere"]) == "TRESORERIE JOURNALIÈRE et TDB DU  02 10 2026.xlsx"
+    assert openpyxl.load_workbook(resultat["chemin_genere"])["Synthèse"]["C21"].value == 1_000_000  # J-1 du 01/10
+
+
+def test_une_date_future_est_refusee_sans_rien_ecrire(contexte):
+    demain = date.today() + timedelta(days=1)
+
+    resultat = generer_classeur([], contexte["reference"], contexte["sortie"], jour=demain)
+
+    assert resultat["ok"] is False
+    assert "futur" in resultat["erreur"]
+    assert not os.path.exists(contexte["sortie"]) or not os.listdir(contexte["sortie"])
+
+
+def test_aujourdhui_est_accepte(contexte):
+    assert generer_classeur([], contexte["reference"], contexte["sortie"], jour=date.today())["ok"] is True

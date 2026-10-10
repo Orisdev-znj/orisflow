@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { DragEvent } from "react";
 import { extensionDe, formaterTaille } from "../lib/format";
+import ChampDateClasseur from "./ChampDateClasseur";
 import type { FichierImporte } from "../lib/types";
 
 interface Props {
@@ -9,9 +10,21 @@ interface Props {
   onRetirer: (chemin: string) => void;
   onVider: () => void;
   onLancer: () => void;
+  dateClasseur: string;
+  onDateChange: (valeur: string) => void;
+  dateUtilisable: boolean;
 }
 
-export default function EcranImport({ fichiers, onAjouter, onRetirer, onVider, onLancer }: Props) {
+export default function EcranImport({
+  fichiers,
+  onAjouter,
+  onRetirer,
+  onVider,
+  onLancer,
+  dateClasseur,
+  onDateChange,
+  dateUtilisable,
+}: Props) {
   const [survol, setSurvol] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const api = window.orisflow;
@@ -130,8 +143,15 @@ export default function EcranImport({ fichiers, onAjouter, onRetirer, onVider, o
         </table>
       )}
 
+      <ChampDateClasseur id="date-classeur-import" valeur={dateClasseur} onChange={onDateChange} />
+
       <div className="actions">
-        <button type="button" className="bouton bouton--principal" disabled={fichiers.length === 0} onClick={onLancer}>
+        <button
+          type="button"
+          className="bouton bouton--principal"
+          disabled={fichiers.length === 0 || !dateUtilisable}
+          onClick={onLancer}
+        >
           Analyser les fichiers
         </button>
       </div>
