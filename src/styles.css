@@ -144,7 +144,7 @@ h2 {
 .contenu {
   flex: 1;
   padding: 1.6rem 1.5rem 2rem;
-  max-width: 980px;
+  max-width: 1180px;
   width: 100%;
   margin: 0 auto;
 }
@@ -606,11 +606,258 @@ h2 {
   color: var(--marine);
 }
 
-.entete__utilisateur {
+/* --- Menu utilisateur de l'en-tête ----------------------------------------------------- */
+.menu-utilisateur {
+  position: relative;
   margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-size: 0.9rem;
+}
+
+.bouton-accueil + .menu-utilisateur {
+  margin-left: 0;
+}
+
+.menu-utilisateur__bouton {
+  margin-left: 0;
+  font-weight: 500;
+}
+
+.menu-utilisateur__liste {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  z-index: 20;
+  min-width: 210px;
+  margin: 0;
+  padding: 0.35rem 0;
+  list-style: none;
+  background: var(--fond);
+  border: 1px solid var(--bordure);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(7, 28, 155, 0.12);
+}
+
+.menu-utilisateur__liste button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  font-size: 0.92rem;
+  color: var(--encre);
+  background: none;
+  border: none;
+  padding: 0.55rem 1rem;
+  cursor: pointer;
+}
+
+.menu-utilisateur__liste button:hover,
+.menu-utilisateur__liste button:focus-visible {
+  background: var(--fond-doux);
   color: var(--marine);
+  outline: none;
+}
+
+/* --- Étapes du module Trésorerie --------------------------------------------------------- */
+.etapes {
+  display: flex;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.onglet__numero {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  margin-right: 0.45rem;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  font-size: 0.78rem;
+}
+
+.onglet--fait .onglet__numero {
+  background: var(--turquoise);
+  border-color: var(--turquoise);
+  color: #fff;
+}
+
+.onglet--droite {
+  margin-left: auto;
+}
+
+.visuellement-cache {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* --- Résultats : résumé, doublons, récapitulatif ------------------------------------------ */
+.badge--doublon {
+  background: var(--fond-doux);
+  color: var(--discret);
+  border: 1px solid var(--bordure);
+}
+
+.resume {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0.8rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.resume__case {
+  display: flex;
+  flex-direction: column;
+  min-width: 120px;
+  padding: 0.55rem 0.9rem;
+  border-radius: 8px;
+  border-left: 4px solid var(--bordure);
+  background: var(--fond-doux);
+}
+
+.resume__nombre {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--encre);
+}
+
+.resume__libelle {
+  font-size: 0.85rem;
+  color: var(--texte);
+}
+
+.resume__case--info {
+  border-left-color: var(--turquoise);
+}
+
+.resume__case--avertissement {
+  border-left-color: var(--orange);
+}
+
+.resume__case--bloquant {
+  border-left-color: var(--rouge);
+}
+
+.resume__case--doublon {
+  border-left-color: var(--discret);
+}
+
+.doublons,
+.recapitulatif,
+.avertissements {
+  margin: 1rem 0;
+}
+
+.doublons summary,
+.recapitulatif summary,
+.avertissements summary {
+  cursor: pointer;
+  color: var(--marine);
+  font-weight: 500;
+}
+
+.doublons .tableau {
+  opacity: 0.85;
+}
+
+.resultat-genere .tableau--compact {
+  margin: 0.6rem 0;
+  background: var(--fond);
+}
+
+.liste-mises-a-jour {
+  margin: 0.6rem 0;
+  padding-left: 1.1rem;
+}
+
+.tableau .nombre,
+.nombre {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.tableau__details {
+  min-width: 220px;
+}
+
+.case-a-cocher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: var(--texte);
+}
+
+.champ__erreur {
+  color: var(--rouge);
+  font-size: 0.85em;
+}
+
+.champ input[aria-invalid="true"] {
+  border-color: var(--rouge);
+}
+
+.actions--centre {
+  justify-content: center;
+}
+
+.carte-module__badge {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.05rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-family: Roboto, Arial, sans-serif;
+  vertical-align: middle;
+  color: var(--discret);
+  background: var(--fond-doux);
+  border: 1px solid var(--bordure);
+}
+
+.carte-module__symbole--icone {
+  color: var(--marine);
+}
+
+/* --- Écrans plus étroits (portables 1366 × 768, fenêtre réduite) -------------------------- */
+@media (max-width: 1100px) {
+  .entete__marque {
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .entete__logo {
+    height: 40px;
+  }
+
+  .entete__nav {
+    padding: 0 1rem;
+    overflow-x: auto;
+  }
+
+  .onglet {
+    padding: 0.55rem 0.7rem;
+    white-space: nowrap;
+  }
+
+  .contenu {
+    padding: 1.2rem 1rem 1.6rem;
+  }
+
+  .tableau {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .tableau__details {
+    min-width: 180px;
+  }
 }

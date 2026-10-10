@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import illustrationTresorerie from "../assets/illustration-tresorerie.png";
 import illustrationEtatsFinanciers from "../assets/illustration-etats-financiers.png";
 
@@ -16,8 +17,20 @@ interface Carte {
   // Pas encore d'illustration dédiée pour le bordereau (aucune image fournie au 30/09/2026) :
   // un symbole de repli, à remplacer facilement plus tard sans changer la mise en page.
   symboleDeRepli?: string;
+  icone?: ReactNode;
+  // Module pas encore utilisable : la carte reste cliquable mais l'annonce clairement.
+  bientot?: boolean;
   onClick: () => void;
 }
+
+const ICONE_BUDGET = (
+  <svg viewBox="0 0 48 48" width="56" height="56" aria-hidden="true" focusable="false">
+    <rect x="6" y="26" width="8" height="14" rx="1.5" fill="currentColor" opacity="0.55" />
+    <rect x="20" y="16" width="8" height="24" rx="1.5" fill="currentColor" opacity="0.8" />
+    <rect x="34" y="8" width="8" height="32" rx="1.5" fill="currentColor" />
+    <path d="M4 42h40" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+  </svg>
+);
 
 export default function Home({ onChoisirTresorerie, onChoisirEtatsFinanciers, onChoisirBordereau, onChoisirBudget }: Props) {
   const cartes: Carte[] = [
@@ -33,6 +46,7 @@ export default function Home({ onChoisirTresorerie, onChoisirEtatsFinanciers, on
       titre: "États financiers",
       description: "Bilan actif, bilan passif et comptes de résultat à partir de la balance comptable.",
       illustration: illustrationEtatsFinanciers,
+      bientot: true,
       onClick: onChoisirEtatsFinanciers,
     },
     {
@@ -46,7 +60,8 @@ export default function Home({ onChoisirTresorerie, onChoisirEtatsFinanciers, on
       id: "budget",
       titre: "Évaluation budgétaire",
       description: "Comparer prévisions et réalisations par catégorie (module en préparation, données fictives pour l'instant).",
-      symboleDeRepli: "📊",
+      icone: ICONE_BUDGET,
+      bientot: true,
       onClick: onChoisirBudget,
     },
   ];
@@ -64,13 +79,18 @@ export default function Home({ onChoisirTresorerie, onChoisirEtatsFinanciers, on
             <span className="carte-module__image-cadre">
               {carte.illustration ? (
                 <img src={carte.illustration} alt="" className="carte-module__image" />
+              ) : carte.icone ? (
+                <span className="carte-module__symbole carte-module__symbole--icone">{carte.icone}</span>
               ) : (
                 <span className="carte-module__symbole" aria-hidden="true">
                   {carte.symboleDeRepli}
                 </span>
               )}
             </span>
-            <span className="carte-module__titre">{carte.titre}</span>
+            <span className="carte-module__titre">
+              {carte.titre}
+              {carte.bientot && <span className="carte-module__badge">Bientôt</span>}
+            </span>
             <span className="carte-module__description">{carte.description}</span>
           </button>
         ))}

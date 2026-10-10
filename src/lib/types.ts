@@ -42,6 +42,8 @@ export interface FichierClasse {
   ligne_banque_cible: "cca_bank" | "afriland" | "bgfi" | "western_union" | null;
   niveau: NiveauFichier;
   messages: string[];
+  // Exemplaire en trop d'un fichier déjà reçu : ignoré automatiquement, ce n'est pas une anomalie.
+  est_doublon?: boolean;
 }
 
 export interface ReferenceComparaison {
@@ -64,6 +66,8 @@ export interface Classement {
   // Relevés bancaires attendus mais absents aujourd'hui, avec la valeur de la veille si le
   // carnet la connaît (décision du 03/10/2026, option A). Jamais repris sans accord de l'utilisateur.
   releves_manquants: ReleveManquant[];
+  // Valeurs de la veille des champs saisis à la main, lues dans le classeur de référence.
+  valeurs_veille_manuelles?: Record<string, number>;
 }
 
 export interface ReleveManquant {
@@ -103,8 +107,38 @@ export interface ResultatGeneration {
   // le J-1 correspondant aurait silencieusement valu 0 sans ce signalement (06/10/2026).
   avertissements_modele: string[];
   agences_non_mises_a_jour: string[];
+  agences_caisses_mises_a_jour: string[];
   fichiers_ignores: string[];
+  // Exemplaires en trop, ignorés sans être une anomalie.
+  doublons_ignores: string[];
+  recapitulatif_agences: RecapitulatifAgence[];
+  recapitulatif_banques: RecapitulatifBanque[];
+  releves_repris_de_la_veille?: string[];
+  releves_saisis?: string[];
   classement: Classement;
+}
+
+/** Montants écrits pour une agence (champ absent = pas de fichier du jour pour cette donnée). */
+export interface RecapitulatifAgence {
+  agence: string;
+  comptes?: number;
+  depots?: number;
+  engagements?: number;
+  caisse?: number;
+}
+
+export interface RecapitulatifBanque {
+  ligne: string;
+  agence: string;
+  montant: number;
+}
+
+/** Classeur déjà généré, listé dans l'historique. */
+export interface ClasseurHistorique {
+  nom: string;
+  chemin: string;
+  modifieLe: string;
+  taille: number;
 }
 
 /** Valeurs saisies dans la fenêtre unique avant de générer (voir lib/champsManuels.ts). */
@@ -180,25 +214,6 @@ export interface ResultatCarnetImporte {
   avertissements: string[];
 }
 
-/** État du carnet des soldes bancaires (décision du 03/10/2026, complété le 05/10/2026
- * par l'import depuis un classeur validé — voir carnet.py). */
-export interface CarnetInfo {
-  existe: boolean;
-  dernierJour: string | null;
-  nombreJours: number;
-  nombreComptes: number;
-}
-
-export interface ResultatCarnetImporte {
-  type: "resultat";
-  commande: "carnet_importer_classeur";
-  version: string;
-  ok: true;
-  jour: string;
-  comptes_importes: number;
-  avertissements: string[];
-}
-
 export interface EvenementMoteur {
   type: "progression";
   courant: number;
@@ -223,7 +238,7 @@ export interface ParametresApplication {
 
 export type EtatGeneration =
   | { etat: "attente" }
-  | { etat: "encours" }
+  | { etat: "encours"; etape?: string }
   | { etat: "succes"; resultat: ResultatGeneration }
   | { etat: "erreur"; message: string };
 
@@ -312,6 +327,8 @@ export interface UtilisateurPublic {
 
 export interface EtatAuth {
   premierLancement: boolean;
+  // Fichier des comptes présent mais illisible (et sa sauvegarde aussi) : connexion impossible.
+  comptesIllisibles?: boolean;
   utilisateurConnecte: UtilisateurPublic | null;
 }
 
@@ -390,6 +407,11 @@ export interface ApiOrisflow {
     fichiers: FichierClasse[],
     journalEtapes: string[] | null,
   ): Promise<{ ok: boolean; chemin: string } | null>;
+  // Import de tous les fichiers d'un dossier (sous-dossiers compris) ; [] si annulé.
+  choisirDossierImport(): Promise<FichierImporte[]>;
+  annulerMoteur(): Promise<boolean>;
+  ouvrirResultat(chemin: string, mode: "fichier" | "dossier"): Promise<{ ok: boolean; erreur?: string }>;
+  listerHistorique(): Promise<ClasseurHistorique[]>;
   surEvenementMoteur(rappel: (evenement: EvenementMoteur) => void): () => void;
   lireParametres(): Promise<ParametresApplication>;
   choisirDossierTravail(): Promise<string>;

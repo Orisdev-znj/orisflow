@@ -31,7 +31,55 @@ describe("FenetreValeursManuelles : relevés absents", () => {
     render(
       <FenetreValeursManuelles champs={[]} relevesManquants={releves} onAnnuler={() => {}} onConfirmer={() => {}} />,
     );
-    expect(screen.getByText(/veille : 42 000 000 FCFA/)).toBeInTheDocument();
-    expect(screen.getByText(/aucune valeur de la veille connue/)).toBeInTheDocument();
+    expect(screen.getByText(/la valeur de la veille \(42.000.000 FCFA\) est conservée/)).toBeInTheDocument();
+    expect(screen.getByText("Vide : la valeur de la veille est conservée.")).toBeInTheDocument();
+  });
+});
+
+describe("FenetreValeursManuelles : saisie des montants (audit du 09/10/2026)", () => {
+  it.each([
+    ["1 234 567,50", 1_234_567.5],
+    ["1.234.567", 1_234_567],
+    ["2 500 000 FCFA", 2_500_000],
+    ["2 500 000", 2_500_000],
+  ])("« %s » est compris comme %d", (texte, attendu) => {
+    const onConfirmer = vi.fn();
+    render(
+      <FenetreValeursManuelles champs={["ecobank"]} relevesManquants={[]} onAnnuler={() => {}} onConfirmer={onConfirmer} />,
+    );
+    fireEvent.change(screen.getByLabelText("Ecobank"), { target: { value: texte } });
+    fireEvent.click(screen.getByRole("button", { name: "Confirmer et générer" }));
+    expect(onConfirmer).toHaveBeenLastCalledWith({ ecobank: attendu }, {});
+  });
+
+  it("un montant illisible est signalé et bloque la génération, au lieu d'être ignoré", () => {
+    const onConfirmer = vi.fn();
+    render(
+      <FenetreValeursManuelles champs={["ecobank"]} relevesManquants={[]} onAnnuler={() => {}} onConfirmer={onConfirmer} />,
+    );
+    fireEvent.change(screen.getByLabelText("Ecobank"), { target: { value: "deux millions" } });
+    expect(screen.getByText(/Montant non reconnu/)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Confirmer et générer" })).toBeDisabled();
+    expect(onConfirmer).not.toHaveBeenCalled();
+  });
+
+  it("rappelle la valeur de la veille d'un champ manuel", () => {
+    render(
+      <FenetreValeursManuelles
+        champs={["ecobank"]}
+        relevesManquants={[]}
+        valeursVeille={{ ecobank: 20_000_000 }}
+        onAnnuler={() => {}}
+        onConfirmer={() => {}}
+      />,
+    );
+    expect(screen.getByText(/veille \(20.000.000 FCFA\)/)).toBeInTheDocument();
+  });
+
+  it("Échap ferme la fenêtre", () => {
+    const onAnnuler = vi.fn();
+    render(<FenetreValeursManuelles champs={["ecobank"]} relevesManquants={[]} onAnnuler={onAnnuler} onConfirmer={() => {}} />);
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(onAnnuler).toHaveBeenCalled();
   });
 });

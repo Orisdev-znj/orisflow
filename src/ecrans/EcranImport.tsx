@@ -26,6 +26,17 @@ export default function EcranImport({ fichiers, onAjouter, onRetirer, onVider, o
     if (choisis.length > 0) onAjouter(choisis);
   };
 
+  // Tout le dossier du jour d'un coup (Classe 3, Classe 5, listes de comptes, relevés…).
+  const choisirDossier = async () => {
+    if (!api) {
+      setMessage("L'import d'un dossier n'est disponible que dans l'application Orisflow.");
+      return;
+    }
+    setMessage(null);
+    const trouves = await api.choisirDossierImport();
+    if (trouves.length > 0) onAjouter(trouves);
+  };
+
   const deposer = async (evenement: DragEvent<HTMLDivElement>) => {
     evenement.preventDefault();
     setSurvol(false);
@@ -57,10 +68,17 @@ export default function EcranImport({ fichiers, onAjouter, onRetirer, onVider, o
       >
         <p>Glissez vos fichiers ici</p>
         <p className="aide">ou</p>
-        <button type="button" className="bouton bouton--principal" onClick={choisir}>
-          Choisir des fichiers…
-        </button>
-        <p className="aide">Formats acceptés : Excel (.xls, .xlsx) et PDF</p>
+        <div className="actions actions--centre">
+          <button type="button" className="bouton bouton--principal" onClick={choisirDossier}>
+            Importer le dossier du jour…
+          </button>
+          <button type="button" className="bouton" onClick={choisir}>
+            Choisir des fichiers…
+          </button>
+        </div>
+        <p className="aide">
+          Le dossier choisi est parcouru avec ses sous-dossiers. Formats acceptés : Excel (.xls, .xlsx) et PDF.
+        </p>
       </div>
 
       {message && (

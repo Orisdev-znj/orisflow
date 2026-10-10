@@ -32,6 +32,11 @@ export default function EcranTraitement({ traitement, onRetourImport, onRelancer
             aria-label="Avancement de l'analyse"
           />
           {traitement.fichier && <p className="aide">Fichier en cours : {traitement.fichier}</p>}
+          <div className="actions">
+            <button type="button" className="bouton" onClick={() => window.orisflow?.annulerMoteur()}>
+              Annuler l'analyse
+            </button>
+          </div>
           {traitement.journal.length > 0 && (
             <ol className="journal-etapes" aria-label="Journal de l'analyse">
               {traitement.journal.map((ligne, index) => (

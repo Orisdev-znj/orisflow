@@ -1,8 +1,8 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { vi } from "vitest";
 import EcranResultats from "./EcranResultats";
-import type { FichierClasse, ResultatClassement } from "../lib/types";
+import type { EtatGeneration, FichierClasse, ResultatClassement } from "../lib/types";
 
 function fichier(partiel: Partial<FichierClasse> = {}): FichierClasse {
   return {
@@ -109,5 +109,91 @@ describe("Rapport d'analyse copiable et téléchargeable (10/10/2026)", () => {
     const resume = screen.getByText("2 remarques");
     expect(resume.closest("details")).not.toBeNull();
     expect(resume.closest("details")).not.toHaveAttribute("open");
+  });
+});
+
+describe("Lisibilité des résultats (audit du 09/10/2026)", () => {
+  const afficher = (fichiers: FichierClasse[], generation: EtatGeneration = { etat: "attente" }) =>
+    render(
+      <EcranResultats
+        resultat={resultat(fichiers)}
+        generation={generation}
+        fichiersExclus={new Set()}
+        onBasculerFichier={() => undefined}
+        onRetourImport={() => undefined}
+        onGenerer={() => undefined}
+      />,
+    );
+
+  it("les doublons sont regroupés à part, en gris, et ne comptent pas comme des rejets", () => {
+    afficher([
+      fichier({ nom: "Akwa_Compte.xlsx", chemin: "C:/a/Akwa_Compte.xlsx" }),
+      fichier({ nom: "Akwa_bis.xlsx", chemin: "C:/a/Akwa_bis.xlsx", niveau: "bloquant", est_doublon: true }),
+    ]);
+
+    const sectionDoublons = screen.getByText(/1 doublon\(s\) ignoré\(s\) automatiquement/).closest("details")!;
+    expect(within(sectionDoublons).getByText("Akwa_bis.xlsx")).toBeInTheDocument();
+    expect(within(sectionDoublons).getByText("Ignoré (doublon)")).toHaveClass("badge--doublon");
+    const resume = screen.getByRole("list", { name: "Résumé de l'analyse" });
+    expect(within(resume).getByText("Rejetés").previousSibling).toHaveTextContent("0");
+    expect(within(resume).getByText("Doublons ignorés").previousSibling).toHaveTextContent("1");
+  });
+
+  it("les fichiers à traiter apparaissent en tête du tableau", () => {
+    afficher([
+      fichier({ nom: "conforme.xlsx", chemin: "C:/a/1" }),
+      fichier({ nom: "rejete.xlsx", chemin: "C:/a/2", niveau: "bloquant", messages: ["Conflit."] }),
+      fichier({ nom: "a_verifier.xlsx", chemin: "C:/a/3", niveau: "avertissement" }),
+    ]);
+
+    // Seules les lignes de fichiers ont une case « utiliser pour la génération ».
+    const noms = screen
+      .getAllByRole("row")
+      .filter((ligne) => within(ligne).queryByRole("checkbox"))
+      .map((ligne) => (ligne as HTMLTableRowElement).cells[1].textContent);
+    expect(noms).toEqual(["rejete.xlsx", "a_verifier.xlsx", "conforme.xlsx"]);
+  });
+
+  it("après génération : ouvrir le classeur, caisses mises à jour et récapitulatif des montants", async () => {
+    const ouvrirResultat = vi.fn().mockResolvedValue({ ok: true });
+    window.orisflow = { ouvrirResultat } as unknown as typeof window.orisflow;
+    const utilisateur = userEvent.setup();
+    afficher([fichier()], {
+      etat: "succes",
+      resultat: {
+        type: "resultat",
+        commande: "generer",
+        version: "1.1.0",
+        ok: true,
+        chemin_genere: "C:/Orisflow/Resultats/TRESORERIE.xlsx",
+        date: "2026-10-08",
+        modele_utilise: "C:/ref/x.xlsx",
+        chemin_reference_mis_a_jour: null,
+        agences_mises_a_jour: ["Akwa"],
+        agences_balance_mises_a_jour: ["Akwa"],
+        agences_banques_mises_a_jour: [],
+        agences_caisses_mises_a_jour: ["Akwa", "PK14"],
+        avertissements_banques: ["Ecobank : ligne inchangée depuis la veille."],
+        avertissements_modele: [],
+        agences_non_mises_a_jour: [],
+        fichiers_ignores: [],
+        doublons_ignores: [],
+        recapitulatif_agences: [{ agence: "Akwa", depots: 2_978_331_528, caisse: 61_170_275 }],
+        recapitulatif_banques: [],
+        classement: resultat([]),
+      },
+    });
+
+    expect(screen.getByText((_, el) => el?.tagName === "LI" && el.textContent === "Caisses : Akwa, PK14")).toBeInTheDocument();
+    expect(screen.getByText(/2.978.331.528/)).toBeInTheDocument();
+    expect(screen.getByText(/1 ligne\(s\) gardent la valeur de la veille/)).toBeInTheDocument();
+    await utilisateur.click(screen.getByRole("button", { name: "Ouvrir le classeur" }));
+    expect(ouvrirResultat).toHaveBeenCalledWith("C:/Orisflow/Resultats/TRESORERIE.xlsx", "fichier");
+  });
+
+  it("pendant la génération : étape en cours et bouton Annuler", () => {
+    afficher([fichier()], { etat: "encours", etape: "Écriture des banques et des caisses…" });
+    expect(screen.getByText("Écriture des banques et des caisses…")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Annuler" })).toBeInTheDocument();
   });
 });

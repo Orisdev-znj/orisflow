@@ -3,7 +3,9 @@ import BudgetDashboard from "./ecrans/BudgetDashboard";
 import EcranImport from "./ecrans/EcranImport";
 import EcranParametres from "./ecrans/EcranParametres";
 import EcranConnexion from "./ecrans/EcranConnexion";
+import EcranHistorique from "./ecrans/EcranHistorique";
 import EcranResultats from "./ecrans/EcranResultats";
+import MenuUtilisateur from "./ecrans/MenuUtilisateur";
 import FenetreJournal from "./ecrans/FenetreJournal";
 import FenetreUtilisateurs from "./ecrans/FenetreUtilisateurs";
 import EcranTraitement from "./ecrans/EcranTraitement";
@@ -27,15 +29,15 @@ import { nettoyerErreur } from "./lib/format";
 
 // Vue de premier niveau : l'accueil (hub) donne accès aux modules. Chaque module garde
 // son propre état interne (ex. `ecran` ci-dessous pour la trésorerie), inchangé.
-type Vue = "accueil" | "tresorerie" | "etatsFinanciers" | "bordereau" | "budget";
+type Vue = "accueil" | "tresorerie" | "etatsFinanciers" | "bordereau" | "budget" | "parametres";
 
-type Ecran = "import" | "traitement" | "resultats" | "parametres";
+type Ecran = "import" | "traitement" | "resultats" | "historique";
 
-const ONGLETS: { id: Ecran; libelle: string }[] = [
-  { id: "import", libelle: "1. Import" },
-  { id: "traitement", libelle: "2. Analyse" },
-  { id: "resultats", libelle: "3. Résultats" },
-  { id: "parametres", libelle: "Paramètres" },
+// Parcours quotidien, dans l'ordre ; l'historique est à part (pas une étape).
+const ETAPES: { id: Exclude<Ecran, "historique">; numero: number; libelle: string }[] = [
+  { id: "import", numero: 1, libelle: "Import" },
+  { id: "traitement", numero: 2, libelle: "Analyse" },
+  { id: "resultats", numero: 3, libelle: "Résultats et génération" },
 ];
 
 const SOUS_TITRES: Record<Vue, string> = {
@@ -44,6 +46,7 @@ const SOUS_TITRES: Record<Vue, string> = {
   etatsFinanciers: "États financiers",
   bordereau: "Suivi Courrier",
   budget: "Évaluation budgétaire",
+  parametres: "Paramètres",
 };
 
 export default function App() {
@@ -131,6 +134,11 @@ export default function App() {
   useEffect(() => {
     if (!api) return;
     return api.surEvenementMoteur((evenement) => {
+      if (evenement.message) {
+        setGeneration((precedent) =>
+          precedent.etat === "encours" ? { etat: "encours", etape: evenement.message } : precedent,
+        );
+      }
       setTraitement((precedent) => {
         if (precedent.etat !== "encours") return precedent;
         // Journal : une ligne par fichier classé, plus les étapes résumées (comptage, numéros de compte…).
@@ -248,51 +256,54 @@ export default function App() {
               ← Accueil
             </button>
           )}
-          <span className="entete__utilisateur">
-            {session.nomAffiche}
-            <button type="button" className="bouton-accueil" onClick={seDeconnecter}>
-              Se déconnecter
-            </button>
-          </span>
-          {session.role === "admin" && (
-            <button type="button" className="bouton-accueil" onClick={() => setFenetreUtilisateursOuverte(true)}>
-              Utilisateurs
-            </button>
-          )}
-          {session.role === "admin" && (
-            <button type="button" className="bouton-accueil" onClick={() => setFenetreJournalOuverte(true)}>
-              Journal
-            </button>
-          )}
           {vue === "bordereau" && (
-            // Paramètres reste porté par le module Trésorerie (dossiers + identité y sont
-            // déjà centralisés) : ce raccourci évite d'obliger un détour par l'accueil pour
-            // configurer son nom ou le dossier partagé avant d'utiliser le bordereau.
-            <button
-              type="button"
-              className="bouton-accueil"
-              onClick={() => {
-                setVue("tresorerie");
-                setEcran("parametres");
-              }}
-            >
+            <button type="button" className="bouton-accueil" onClick={() => setVue("parametres")}>
               ⚙ Paramètres
             </button>
           )}
+          <MenuUtilisateur
+            session={session}
+            onParametres={() => setVue("parametres")}
+            onUtilisateurs={() => setFenetreUtilisateursOuverte(true)}
+            onJournal={() => setFenetreJournalOuverte(true)}
+            onDeconnecter={seDeconnecter}
+          />
         </div>
         {vue === "tresorerie" && (
-          <nav className="entete__nav" aria-label="Navigation du module Trésorerie">
-            {ONGLETS.map((onglet) => (
-              <button
-                key={onglet.id}
-                type="button"
-                className={onglet.id === ecran ? "onglet onglet--actif" : "onglet"}
-                aria-current={onglet.id === ecran ? "page" : undefined}
-                onClick={() => setEcran(onglet.id)}
-              >
-                {onglet.libelle}
-              </button>
-            ))}
+          <nav className="entete__nav" aria-label="Étapes du module Trésorerie">
+            <ol className="etapes">
+              {ETAPES.map((etape) => {
+                const faite =
+                  (etape.id === "import" && fichiers.length > 0) ||
+                  (etape.id === "traitement" && resultat !== null) ||
+                  (etape.id === "resultats" && generation.etat === "succes");
+                const active = etape.id === ecran;
+                return (
+                  <li key={etape.id}>
+                    <button
+                      type="button"
+                      className={["onglet", active ? "onglet--actif" : "", faite ? "onglet--fait" : ""].join(" ").trim()}
+                      aria-current={active ? "step" : undefined}
+                      onClick={() => setEcran(etape.id)}
+                    >
+                      <span className="onglet__numero" aria-hidden="true">
+                        {faite ? "✓" : etape.numero}
+                      </span>
+                      {etape.libelle}
+                      {faite && <span className="visuellement-cache"> (terminé)</span>}
+                    </button>
+                  </li>
+                );
+              })}
+            </ol>
+            <button
+              type="button"
+              className={ecran === "historique" ? "onglet onglet--actif onglet--droite" : "onglet onglet--droite"}
+              aria-current={ecran === "historique" ? "page" : undefined}
+              onClick={() => setEcran("historique")}
+            >
+              Historique
+            </button>
           </nav>
         )}
       </header>
@@ -314,6 +325,8 @@ export default function App() {
         {vue === "bordereau" && <ModuleBordereau />}
 
         {vue === "budget" && <BudgetDashboard onRetourAccueil={() => setVue("accueil")} />}
+
+        {vue === "parametres" && <EcranParametres />}
 
         {vue === "tresorerie" && (
           <>
@@ -343,7 +356,7 @@ export default function App() {
                 onGenerer={demarrerGeneration}
               />
             )}
-            {ecran === "parametres" && <EcranParametres />}
+            {ecran === "historique" && <EcranHistorique />}
             {fenetreAgencesOuverte && resultat && (
               <FenetreAgencesAConfirmer
                 fichiers={resultat.fichiers.filter(
@@ -357,6 +370,7 @@ export default function App() {
               <FenetreValeursManuelles
                 champs={resultat.champs_manuels_requis}
                 relevesManquants={resultat.releves_manquants ?? []}
+                valeursVeille={resultat.valeurs_veille_manuelles}
                 onAnnuler={() => setFenetreValeursOuverte(false)}
                 onConfirmer={(valeurs, relevesSaisis) => genererClasseur(valeurs, relevesSaisis)}
               />

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { RoleUtilisateur, UtilisateurPublic } from "../lib/types";
+import { useFenetreModale } from "../lib/useFenetreModale";
 
 interface Props {
   onFermer: () => void;
@@ -11,6 +12,7 @@ const LONGUEUR_MOT_DE_PASSE_MIN = 8;
  * (vérifié côté moteur Electron, pas seulement ici). C'est l'administrateur qui crée le
  * compte de chaque autre utilisateur (décision du 06/10/2026) — il n'y a pas d'auto-inscription. */
 export default function FenetreUtilisateurs({ onFermer }: Props) {
+  const fenetre = useFenetreModale<HTMLDivElement>(onFermer);
   const api = window.orisflow;
   const [utilisateurs, setUtilisateurs] = useState<UtilisateurPublic[] | null>(null);
   const [erreur, setErreur] = useState<string | null>(null);
@@ -80,7 +82,7 @@ export default function FenetreUtilisateurs({ onFermer }: Props) {
 
   return (
     <div className="superposition" role="presentation">
-      <div className="fenetre-modale" role="dialog" aria-modal="true" aria-labelledby="titre-utilisateurs">
+      <div ref={fenetre} className="fenetre-modale" role="dialog" aria-modal="true" aria-labelledby="titre-utilisateurs">
         <h2 id="titre-utilisateurs">Utilisateurs</h2>
         <p className="aide">
           Chaque utilisateur se connecte avec son propre identifiant et son propre mot de passe. C'est vous,

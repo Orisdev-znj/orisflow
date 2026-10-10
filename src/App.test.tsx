@@ -71,6 +71,10 @@ function fausseApi(surcharges: Partial<ApiOrisflow> = {}): ApiOrisflow {
       avertissements_modele: [],
       agences_non_mises_a_jour: [],
       fichiers_ignores: [],
+      agences_caisses_mises_a_jour: [],
+      doublons_ignores: [],
+      recapitulatif_agences: [],
+      recapitulatif_banques: [],
       classement: {
         ok: true,
         total: 0,
@@ -128,6 +132,10 @@ function fausseApi(surcharges: Partial<ApiOrisflow> = {}): ApiOrisflow {
       erreurs_lecture: [],
     }),
     exporterRapport: async () => null,
+    choisirDossierImport: async () => [],
+    annulerMoteur: async () => true,
+    ouvrirResultat: async () => ({ ok: true }),
+    listerHistorique: async () => [],
     ...surcharges,
   };
 }
@@ -315,9 +323,9 @@ describe("Module Trésorerie (sans régression)", () => {
     await utilisateur.click(screen.getByRole("button", { name: "Choisir des fichiers…" }));
     await utilisateur.click(await screen.findByRole("button", { name: "Analyser les fichiers" }));
 
-    expect(await screen.findByText("À vérifier")).toBeInTheDocument();
+    expect(await screen.findByText("À vérifier", { selector: ".badge" })).toBeInTheDocument();
     expect(screen.getByText(/Ce total ressemble plutôt à celui de la veille pour : Balessing/)).toBeInTheDocument();
-    expect(screen.getByText(/Comparaison faite avec le classeur du 2026-09-10/)).toBeInTheDocument();
+    expect(screen.getByText(/Comparaison faite avec le classeur du 10\/09\/2026/)).toBeInTheDocument();
   });
 
   it("permet de générer le classeur et affiche le résultat", async () => {
@@ -366,8 +374,9 @@ describe("Module Trésorerie (sans régression)", () => {
     await utilisateur.click(await screen.findByRole("button", { name: "Analyser les fichiers" }));
     await utilisateur.click(await screen.findByRole("button", { name: "Générer le classeur" }));
 
-    expect(await screen.findByText(/Fichier généré/)).toBeInTheDocument();
-    expect(screen.getByText(/Comptes mis à jour : Akwa/)).toBeInTheDocument();
+    expect(await screen.findByText(/Classeur généré/)).toBeInTheDocument();
+    expect(screen.getByText((_, element) => element?.tagName === "LI" && element.textContent === "Comptes : Akwa")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Ouvrir le classeur" })).toBeInTheDocument();
   });
 
   it("ouvre la fenêtre de saisie manuelle avant de générer quand des champs sont requis", async () => {
@@ -387,6 +396,10 @@ describe("Module Trésorerie (sans régression)", () => {
       avertissements_modele: [],
       agences_non_mises_a_jour: [],
       fichiers_ignores: [],
+      agences_caisses_mises_a_jour: [],
+      doublons_ignores: [],
+      recapitulatif_agences: [],
+      recapitulatif_banques: [],
       classement: {
         ok: true,
         total: 0,
@@ -469,6 +482,10 @@ describe("Module Trésorerie (sans régression)", () => {
       avertissements_modele: [],
       agences_non_mises_a_jour: [],
       fichiers_ignores: [],
+      agences_caisses_mises_a_jour: [],
+      doublons_ignores: [],
+      recapitulatif_agences: [],
+      recapitulatif_banques: [],
       classement: {
         ok: true,
         total: 0,
@@ -700,9 +717,11 @@ describe("Authentification (06/10/2026)", () => {
         utilisateurConnecte: { identifiant: "adminorisflow", nomAffiche: "Admin", role: "admin", creeLe: "x" },
       }),
     });
+    const utilisateur = userEvent.setup();
     await monterApplication();
-    expect(screen.getByText("Admin")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Utilisateurs" })).toBeInTheDocument();
+    await utilisateur.click(screen.getByRole("button", { name: /Admin/ }));
+    expect(screen.getByRole("menuitem", { name: "Utilisateurs" })).toBeInTheDocument();
+    expect(screen.getByRole("menuitem", { name: "Journal des actions" })).toBeInTheDocument();
   });
 
   it("masque le bouton Utilisateurs pour un compte non administrateur", async () => {
@@ -712,9 +731,11 @@ describe("Authentification (06/10/2026)", () => {
         utilisateurConnecte: { identifiant: "julien", nomAffiche: "Julien", role: "utilisateur", creeLe: "x" },
       }),
     });
+    const utilisateur = userEvent.setup();
     await monterApplication();
-    expect(screen.getByText("Julien")).toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: "Utilisateurs" })).not.toBeInTheDocument();
+    await utilisateur.click(screen.getByRole("button", { name: /Julien/ }));
+    expect(screen.getByRole("menuitem", { name: "Paramètres" })).toBeInTheDocument();
+    expect(screen.queryByRole("menuitem", { name: "Utilisateurs" })).not.toBeInTheDocument();
   });
 
   it("l'écran de connexion s'affiche tant qu'aucune session n'est reprise", async () => {
@@ -756,9 +777,72 @@ describe("Authentification (06/10/2026)", () => {
     const utilisateur = userEvent.setup();
     await monterApplication();
 
-    await utilisateur.click(screen.getByRole("button", { name: "Se déconnecter" }));
+    await utilisateur.click(screen.getByRole("button", { name: /Arnold/ }));
+    await utilisateur.click(screen.getByRole("menuitem", { name: "Se déconnecter" }));
 
     expect(await screen.findByRole("heading", { name: "Connexion à Orisflow" })).toBeInTheDocument();
     expect(deconnecter).toHaveBeenCalled();
+  });
+
+  it("signale un fichier de comptes endommagé sur l'écran de connexion", async () => {
+    window.orisflow = fausseApi({
+      etatAuth: async () => ({ premierLancement: false, comptesIllisibles: true, utilisateurConnecte: null }),
+    });
+    render(<App />);
+    expect(await screen.findByText(/fichier des comptes utilisateurs est endommagé/)).toBeInTheDocument();
+  });
+});
+
+describe("Navigation et parcours (audit du 09/10/2026)", () => {
+  it("Paramètres s'ouvre depuis le menu utilisateur, quel que soit le module", async () => {
+    window.orisflow = fausseApi();
+    const utilisateur = userEvent.setup();
+    await monterApplication();
+
+    await utilisateur.click(screen.getByRole("button", { name: /Test/ }));
+    await utilisateur.click(screen.getByRole("menuitem", { name: "Paramètres" }));
+
+    expect(await screen.findByRole("heading", { name: "Paramètres" })).toBeInTheDocument();
+  });
+
+  it("importe tous les fichiers d'un dossier en une fois", async () => {
+    window.orisflow = fausseApi({
+      choisirDossierImport: async () => [
+        { chemin: "E:/08-10-2026/Classe 3/a.pdf", nom: "a.pdf", taille: 1 },
+        { chemin: "E:/08-10-2026/Classe 5/b.pdf", nom: "b.pdf", taille: 1 },
+      ],
+    });
+    const utilisateur = userEvent.setup();
+    await monterApplication();
+    await ouvrirTresorerie(utilisateur);
+
+    await utilisateur.click(screen.getByRole("button", { name: "Importer le dossier du jour…" }));
+
+    expect(await screen.findByText("Fichiers importés (2)")).toBeInTheDocument();
+    const etape = screen.getAllByRole("button").find((b) => b.classList.contains("onglet") && /Import/.test(b.textContent ?? ""));
+    expect(etape).toHaveClass("onglet--fait");
+    expect(etape).toHaveTextContent("(terminé)");
+  });
+
+  it("l'historique liste les classeurs déjà générés", async () => {
+    window.orisflow = fausseApi({
+      listerHistorique: async () => [
+        { nom: "TRESORERIE JOURNALIÈRE et TDB DU  08 10 2026.xlsx", chemin: "C:/R/t.xlsx", modifieLe: "2026-10-09T10:19:00Z", taille: 15688 },
+      ],
+    });
+    const utilisateur = userEvent.setup();
+    await monterApplication();
+    await ouvrirTresorerie(utilisateur);
+
+    await utilisateur.click(screen.getByRole("button", { name: "Historique" }));
+
+    expect(await screen.findByText(/TDB DU\s+08 10 2026\.xlsx/)).toBeInTheDocument();
+  });
+
+  it("les modules pas encore disponibles sont annoncés « Bientôt »", async () => {
+    window.orisflow = fausseApi();
+    await monterApplication();
+    expect(screen.getByRole("button", { name: /États financiers.*Bientôt/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Suivi de la trésorerie/ })).not.toHaveTextContent("Bientôt");
   });
 });

@@ -74,6 +74,14 @@ export default function EcranConnexion({ etat, onConnecte }: Props) {
           <h1>Connexion à Orisflow</h1>
         )}
 
+        {etat.comptesIllisibles && (
+          <p role="alert" className="message message--erreur">
+            Le fichier des comptes utilisateurs est endommagé et sa sauvegarde aussi : la connexion est impossible
+            pour l'instant. Aucun compte n'a été effacé. Contactez l'administrateur pour restaurer le fichier
+            « comptes.json ».
+          </p>
+        )}
+
         <form onSubmit={valider}>
           <div className="champ">
             <label htmlFor="connexion-identifiant">Identifiant</label>

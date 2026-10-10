@@ -28,15 +28,9 @@ export default function TableauCompletude({ fichiers }: Props) {
   const complet = (l: (typeof lignes)[number]) => l.compte && l.classe3 && l.classe5;
   const nbCompletes = lignes.filter(complet).length;
 
-  const banques = ["releve_cca", "releve_bgfi"] as const;
-  const libellesBanques: Record<(typeof banques)[number], string> = {
-    releve_cca: "CCA-Bank",
-    releve_bgfi: "BGFI",
-  };
-  const nbRelevesBanques = banques.reduce(
-    (total, type) => total + fichiers.filter((f) => f.type_detecte === type && f.niveau !== "bloquant").length,
-    0,
-  );
+  // Relevés lus automatiquement : CCA-Bank (dont le compte Western Union), Afriland, BGFI.
+  const typesReleves = new Set(["releve_cca", "releve_afriland", "releve_bgfi"]);
+  const nbRelevesBanques = fichiers.filter((f) => typesReleves.has(f.type_detecte ?? "") && f.niveau !== "bloquant").length;
 
   return (
     <details className="completude" open>
@@ -67,9 +61,9 @@ export default function TableauCompletude({ fichiers }: Props) {
       </table>
 
       <p className="aide">
-        Relevés bancaires reçus : {nbRelevesBanques} ({Object.values(libellesBanques).join(", ")} uniquement pour
-        le moment — Afriland, UBA, Access Bank et Western Union n'ont pas encore d'exemple). Unités virtuelles
-        (Orange Money, MTN MoMo, Maviance) : non disponibles pour l'instant.
+        Relevés bancaires reçus : {nbRelevesBanques} (lus automatiquement : CCA-Bank, Western Union, Afriland, BGFI).
+        UBA, Ecobank, Access Bank et unités virtuelles (Orange Money, MTN MoMo, Maviance) : montants demandés au
+        moment de générer.
       </p>
     </details>
   );

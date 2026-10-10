@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { EvenementJournal } from "../lib/types";
+import { useFenetreModale } from "../lib/useFenetreModale";
 
 interface Props {
   onFermer: () => void;
@@ -45,6 +46,7 @@ function resumerDetails(evenement: EvenementJournal): string {
  * d'un fichier distinct (voir electron/journal.cjs) — Orisflow ne réécrit jamais le journal
  * lui-même, il ne fait qu'en ajouter. */
 export default function FenetreJournal({ onFermer }: Props) {
+  const fenetre = useFenetreModale<HTMLDivElement>(onFermer);
   const api = window.orisflow;
   const [evenements, setEvenements] = useState<EvenementJournal[] | null>(null);
   const [erreur, setErreur] = useState<string | null>(null);
@@ -63,7 +65,7 @@ export default function FenetreJournal({ onFermer }: Props) {
 
   return (
     <div className="superposition" role="presentation">
-      <div className="fenetre-modale" role="dialog" aria-modal="true" aria-labelledby="titre-journal">
+      <div ref={fenetre} className="fenetre-modale" role="dialog" aria-modal="true" aria-labelledby="titre-journal">
         <h2 id="titre-journal">Journal des actions</h2>
         <p className="aide">
           Qui s'est connecté, qui a généré quel classeur, qui a créé ou supprimé un compte. Les 200 dernières
