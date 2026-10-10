@@ -32,8 +32,9 @@ export default function TableauCompletude({ fichiers }: Props) {
   const typesReleves = new Set(["releve_cca", "releve_afriland", "releve_bgfi"]);
   const nbRelevesBanques = fichiers.filter((f) => typesReleves.has(f.type_detecte ?? "") && f.niveau !== "bloquant").length;
 
+  // Replié quand les 12 agences sont au complet (le résumé reste visible) ; ouvert dès qu'il manque quelque chose.
   return (
-    <details className="completude" open>
+    <details className="completude" open={nbCompletes < AGENCES_RESEAU.length}>
       <summary>
         Complétude des documents reçus — {nbCompletes}/{AGENCES_RESEAU.length} agences au complet (comptes +
         classe 3 + classe 5)

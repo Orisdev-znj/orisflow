@@ -15,6 +15,7 @@ import FenetreAgencesAConfirmer from "./ecrans/FenetreAgencesAConfirmer";
 import Home from "./ecrans/Home";
 import ModuleBordereau from "./ecrans/ModuleBordereau";
 import EcranCloudBank from "./ecrans/EcranCloudBank";
+import FiltreErreurs from "./ecrans/FiltreErreurs";
 import WorkInProgress from "./ecrans/WorkInProgress";
 import type {
   EtatAuth,
@@ -316,6 +317,9 @@ export default function App() {
       </header>
 
       <main className="contenu">
+        {/* Filet de sécurité : un écran qui plante n'emporte pas la fenêtre. `key` le réinitialise à
+            chaque changement de module ; l'état de la trésorerie vit ici, au-dessus : il est conservé. */}
+        <FiltreErreurs key={vue} onAccueil={() => setVue("accueil")}>
         {vue === "accueil" && (
           <Home
             onChoisirTresorerie={() => setVue("tresorerie")}
@@ -393,6 +397,7 @@ export default function App() {
             )}
           </>
         )}
+        </FiltreErreurs>
       </main>
 
       <footer className="pied-application">Orisflow v{__VERSION_APP__} · Usage interne ORIS FINANCE</footer>

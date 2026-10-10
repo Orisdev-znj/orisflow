@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { DragEvent } from "react";
 import { extensionDe, formaterTaille } from "../lib/format";
 import ChampDateClasseur from "./ChampDateClasseur";
+import FenetreConfirmation from "./FenetreConfirmation";
 import type { FichierImporte } from "../lib/types";
 
 interface Props {
@@ -27,6 +28,9 @@ export default function EcranImport({
 }: Props) {
   const [survol, setSurvol] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  // « Tout retirer » vide la liste d'un clic : confirmation dès 2 fichiers (avec un seul, le
+  // bouton « Retirer » de la ligne fait déjà la même chose, une fenêtre serait pénible).
+  const [confirmerVider, setConfirmerVider] = useState(false);
   const api = window.orisflow;
 
   const choisir = async () => {
@@ -103,7 +107,11 @@ export default function EcranImport({
       <div className="liste-entete">
         <h2>Fichiers importés ({fichiers.length})</h2>
         {fichiers.length > 0 && (
-          <button type="button" className="bouton bouton--lien" onClick={onVider}>
+          <button
+            type="button"
+            className="bouton bouton--lien"
+            onClick={() => (fichiers.length > 1 ? setConfirmerVider(true) : onVider())}
+          >
             Tout retirer
           </button>
         )}
@@ -159,6 +167,19 @@ export default function EcranImport({
         Cette étape reconnaît le type et l'agence de chaque fichier et signale les anomalies. Elle ne modifie
         aucun fichier et ne produit pas encore le classeur de trésorerie.
       </p>
+
+      {confirmerVider && (
+        <FenetreConfirmation
+          titre="Retirer tous les fichiers ?"
+          message={`${fichiers.length} fichiers seront retirés de la liste d'import. Vos fichiers ne sont pas supprimés : ils restent à leur place sur le disque.`}
+          libelleConfirmer="Tout retirer"
+          onConfirmer={() => {
+            onVider();
+            setConfirmerVider(false);
+          }}
+          onAnnuler={() => setConfirmerVider(false)}
+        />
+      )}
     </section>
   );
 }

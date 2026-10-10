@@ -212,3 +212,52 @@ describe("Lisibilité des résultats (audit du 09/10/2026)", () => {
     expect(screen.getByRole("button", { name: "Annuler" })).toBeInTheDocument();
   });
 });
+
+describe("Accès rapide à la génération (UI/UX 2.3, 10/10/2026)", () => {
+  const afficher = (fichiers: FichierClasse[], exclus: string[] = []) =>
+    render(
+      <EcranResultats
+        resultat={resultat(fichiers)}
+        generation={{ etat: "attente" }}
+        fichiersExclus={new Set(exclus)}
+        onBasculerFichier={() => undefined}
+        onRetourImport={() => undefined}
+        onGenerer={() => undefined}
+        dateClasseur="2026-10-08"
+        onDateChange={() => undefined}
+        dateUtilisable
+      />,
+    );
+
+  it("rappelle en haut le nombre de fichiers retenus et la date, avec un lien vers la génération", () => {
+    afficher([fichier({ chemin: "C:/a/1" }), fichier({ nom: "Mokolo.xlsx", chemin: "C:/a/2" })]);
+
+    expect(screen.getByText(/Prêt à générer/)).toHaveTextContent("2 fichier(s) retenu(s), classeur du 08/10/2026");
+    expect(screen.getByRole("button", { name: "Aller à la génération" })).toBeInTheDocument();
+  });
+
+  it("le lien place le focus sur le titre « Générer le classeur de trésorerie »", async () => {
+    afficher([fichier()]);
+
+    await userEvent.setup().click(screen.getByRole("button", { name: "Aller à la génération" }));
+
+    expect(screen.getByRole("heading", { name: /Générer le classeur de trésorerie/ })).toHaveFocus();
+  });
+
+  it("si tous les fichiers sont décochés, le rappel n'apparaît pas", () => {
+    afficher([fichier({ chemin: "C:/a/1" })], ["C:/a/1"]);
+
+    expect(screen.queryByText(/Prêt à générer/)).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Aller à la génération" })).not.toBeInTheDocument();
+  });
+
+  it("ne compte pas les doublons ni les fichiers rejetés comme « retenus »", () => {
+    afficher([
+      fichier({ chemin: "C:/a/1" }),
+      fichier({ nom: "bis.xlsx", chemin: "C:/a/2", est_doublon: true }),
+      fichier({ nom: "rejete.xlsx", chemin: "C:/a/3", niveau: "bloquant" }),
+    ]);
+
+    expect(screen.getByText(/Prêt à générer/)).toHaveTextContent("1 fichier(s) retenu(s)");
+  });
+});

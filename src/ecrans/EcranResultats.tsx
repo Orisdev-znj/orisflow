@@ -306,7 +306,9 @@ function SectionGeneration({
 }) {
   return (
     <>
-      <h2>Générer le classeur de trésorerie</h2>
+      <h2 id="section-generation" tabIndex={-1}>
+        Générer le classeur de trésorerie
+      </h2>
       <p className="aide">
         Un nouveau fichier est créé à partir du dernier classeur existant, qui n'est jamais modifié. Sont remplis
         automatiquement : comptes, dépôts, engagements, caisses et banques lues dans les relevés. Les montants non
@@ -379,6 +381,21 @@ export default function EcranResultats({
         !fichiersExclus.has(f.chemin),
     );
 
+  // Rappel en haut de l'écran : avec une trentaine de fichiers, l'action principale du jour sort de
+  // l'écran. Le lien amène à la section « Générer » et y place le focus.
+  const nbRetenus = (resultat?.fichiers ?? []).filter(
+    (f) => !f.est_doublon && f.niveau !== "bloquant" && !fichiersExclus.has(f.chemin),
+  ).length;
+
+  const allerAGeneration = () => {
+    const cible = document.getElementById("section-generation");
+    if (!cible) return;
+    // jsdom n'implémente ni scrollIntoView ni matchMedia : appels gardés, sinon les tests plantent.
+    const reduit = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    cible.scrollIntoView?.({ behavior: reduit ? "auto" : "smooth", block: "start" });
+    cible.focus();
+  };
+
   const [rapportCopie, setRapportCopie] = useState(false);
   const [rapportTexte, setRapportTexte] = useState<string | null>(null);
   const [exportEtat, setExportEtat] = useState<"inactif" | "encours" | "fait" | "erreur">("inactif");
@@ -438,6 +455,16 @@ export default function EcranResultats({
           </p>
 
           <Resume fichiers={resultat.fichiers} />
+
+          {peutGenerer && (
+            <p className="aide" role="status">
+              Prêt à générer : <strong>{nbRetenus} fichier(s) retenu(s)</strong>, classeur du{" "}
+              <strong>{formaterDate(dateClasseur)}</strong>.{" "}
+              <button type="button" className="bouton bouton--lien" onClick={allerAGeneration}>
+                Aller à la génération
+              </button>
+            </p>
+          )}
 
           <div className="actions">
             <button type="button" className="bouton" onClick={copierRapport}>
