@@ -26,6 +26,7 @@ const LONGUEUR_MOT_DE_PASSE_MIN = 8;
 const MAX_ECHECS_AVANT_PAUSE = 5;
 const DUREE_PAUSE_MS = 30_000;
 const tentatives = new Map(); // identifiant (normalisé) -> { echecs, bloqueJusque }
+const SEL_FACTICE = crypto.randomBytes(16).toString("hex");
 
 function normaliserIdentifiant(identifiant) {
   return String(identifiant || "").trim().toLowerCase();
@@ -48,25 +49,46 @@ function hachagesEgaux(a, b) {
   return crypto.timingSafeEqual(bufA, bufB);
 }
 
+function lireFichierComptes(chemin) {
+  const donnees = JSON.parse(fs.readFileSync(chemin, "utf-8"));
+  if (!donnees || !Array.isArray(donnees.utilisateurs)) throw new Error("structure inattendue");
+  return { utilisateurs: donnees.utilisateurs };
+}
+
+/** Comptes enregistrés. Si le fichier est corrompu, la sauvegarde `.bak` (état précédent)
+ * prend le relais ; si elle l'est aussi, `illisible` est vrai : le fichier existe mais ne peut
+ * pas être lu. Il ne doit alors jamais être traité comme « aucun compte » — sinon l'écran de
+ * premier lancement réapparaîtrait et créer un administrateur effacerait tous les comptes. */
 function lireComptes(cheminComptes) {
-  if (!cheminComptes || !fs.existsSync(cheminComptes)) return { utilisateurs: [] };
+  if (!cheminComptes || !fs.existsSync(cheminComptes)) return { utilisateurs: [], illisible: false };
   try {
-    const donnees = JSON.parse(fs.readFileSync(cheminComptes, "utf-8"));
-    return { utilisateurs: Array.isArray(donnees.utilisateurs) ? donnees.utilisateurs : [] };
+    return { ...lireFichierComptes(cheminComptes), illisible: false };
   } catch {
-    // Fichier corrompu ou illisible : traité comme vide, jamais une exception qui
-    // empêcherait Orisflow de démarrer (même principe que le carnet et la table des
-    // comptes côté moteur Python).
-    return { utilisateurs: [] };
+    try {
+      return { ...lireFichierComptes(cheminComptes + ".bak"), illisible: false };
+    } catch {
+      return { utilisateurs: [], illisible: true };
+    }
   }
 }
 
 function enregistrerComptes(cheminComptes, donnees) {
   fs.mkdirSync(path.dirname(cheminComptes), { recursive: true });
+  // Sauvegarde de l'état précédent, seulement s'il est lisible (jamais une copie corrompue).
+  try {
+    lireFichierComptes(cheminComptes);
+    fs.copyFileSync(cheminComptes, cheminComptes + ".bak");
+  } catch {
+    /* pas encore de fichier, ou fichier illisible : on garde la sauvegarde existante */
+  }
   const temporaire = cheminComptes + ".tmp";
-  fs.writeFileSync(temporaire, JSON.stringify(donnees, null, 2), "utf-8");
+  fs.writeFileSync(temporaire, JSON.stringify({ utilisateurs: donnees.utilisateurs }, null, 2), "utf-8");
   fs.renameSync(temporaire, cheminComptes);
 }
+
+const MESSAGE_COMPTES_ILLISIBLES =
+  "Le fichier des comptes utilisateurs est illisible (et sa sauvegarde aussi). Aucune modification n'est possible : " +
+  "contactez l'administrateur pour le restaurer.";
 
 function versPublic(utilisateur) {
   return {
@@ -77,8 +99,15 @@ function versPublic(utilisateur) {
   };
 }
 
+/** Vrai dès qu'un fichier de comptes existe, même illisible : le premier lancement (création
+ * libre d'un administrateur) n'est proposé que s'il n'y a réellement aucun fichier. */
 function aUnCompte(cheminComptes) {
-  return lireComptes(cheminComptes).utilisateurs.length > 0;
+  const comptes = lireComptes(cheminComptes);
+  return comptes.illisible || comptes.utilisateurs.length > 0;
+}
+
+function comptesIllisibles(cheminComptes) {
+  return lireComptes(cheminComptes).illisible;
 }
 
 function nombreAdmins(utilisateurs) {
@@ -97,6 +126,7 @@ function creerCompte(cheminComptes, { identifiant, motDePasse, nomAffiche, role 
     return { ok: false, erreur: `Le mot de passe doit contenir au moins ${LONGUEUR_MOT_DE_PASSE_MIN} caractères.` };
   }
   const comptes = lireComptes(cheminComptes);
+  if (comptes.illisible) return { ok: false, erreur: MESSAGE_COMPTES_ILLISIBLES };
   if (comptes.utilisateurs.some((u) => normaliserIdentifiant(u.identifiant) === identifiantNormalise)) {
     return { ok: false, erreur: "Cet identifiant est déjà utilisé." };
   }
@@ -117,6 +147,7 @@ function creerCompte(cheminComptes, { identifiant, motDePasse, nomAffiche, role 
 function supprimerCompte(cheminComptes, identifiant) {
   const identifiantNormalise = normaliserIdentifiant(identifiant);
   const comptes = lireComptes(cheminComptes);
+  if (comptes.illisible) return { ok: false, erreur: MESSAGE_COMPTES_ILLISIBLES };
   const cible = comptes.utilisateurs.find((u) => normaliserIdentifiant(u.identifiant) === identifiantNormalise);
   if (!cible) {
     return { ok: false, erreur: "Cet identifiant est introuvable." };
@@ -135,6 +166,7 @@ function reinitialiserMotDePasse(cheminComptes, identifiant, nouveauMotDePasse) 
   }
   const identifiantNormalise = normaliserIdentifiant(identifiant);
   const comptes = lireComptes(cheminComptes);
+  if (comptes.illisible) return { ok: false, erreur: MESSAGE_COMPTES_ILLISIBLES };
   const cible = comptes.utilisateurs.find((u) => normaliserIdentifiant(u.identifiant) === identifiantNormalise);
   if (!cible) {
     return { ok: false, erreur: "Cet identifiant est introuvable." };
@@ -154,12 +186,16 @@ function connecter(cheminComptes, identifiant, motDePasse) {
   }
 
   const comptes = lireComptes(cheminComptes);
+  if (comptes.illisible) return { ok: false, erreur: MESSAGE_COMPTES_ILLISIBLES };
   const utilisateur = comptes.utilisateurs.find((u) => normaliserIdentifiant(u.identifiant) === identifiantNormalise);
   // Message volontairement générique (identifiant ou mot de passe) : ne jamais révéler si
   // c'est l'identifiant qui n'existe pas ou le mot de passe qui est faux.
   const echec = { ok: false, erreur: "Identifiant ou mot de passe incorrect." };
+  // Un hachage est calculé même pour un identifiant inconnu : sinon la réponse, plus rapide,
+  // trahirait quels identifiants existent.
+  const hachageCalcule = hacherMotDePasse(motDePasse, utilisateur ? utilisateur.sel : SEL_FACTICE);
 
-  if (!utilisateur || !hachagesEgaux(hacherMotDePasse(motDePasse, utilisateur.sel), utilisateur.hachage)) {
+  if (!utilisateur || !hachagesEgaux(hachageCalcule, utilisateur.hachage)) {
     const precedent = tentatives.get(identifiantNormalise) || { echecs: 0, bloqueJusque: 0 };
     const echecs = precedent.echecs + 1;
     const bloqueJusque = echecs >= MAX_ECHECS_AVANT_PAUSE ? Date.now() + DUREE_PAUSE_MS : 0;
@@ -174,6 +210,7 @@ function connecter(cheminComptes, identifiant, motDePasse) {
 module.exports = {
   LONGUEUR_MOT_DE_PASSE_MIN,
   aUnCompte,
+  comptesIllisibles,
   connecter,
   creerCompte,
   enregistrerComptes,

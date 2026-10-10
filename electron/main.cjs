@@ -16,7 +16,7 @@ const modeAutotest = cibleAutotest !== "";
 // Dossiers de travail et paramètres
 // ---------------------------------------------------------------------------
 
-const SOUS_DOSSIERS = ["Imports", "Resultats", "Sauvegardes", "SuiviCourrier", "Carnet", "Config", "Journal"];
+const SOUS_DOSSIERS = ["Imports", "Resultats", "Sauvegardes", "SuiviCourrier", "Carnet", "Config", "Journal", "Cache"];
 
 function fichierParametres() {
   return path.join(app.getPath("userData"), "parametres.json");
@@ -44,9 +44,18 @@ let sessionCourante = null;
  * besoin de la saisir à part (l'ancien champ « Votre identité » reste utilisable en secours). */
 function synchroniserIdentite(nomAffiche) {
   if (!nomAffiche) return;
-  const parametres = { ...lireParametres(), identite: nomAffiche };
+  ecrireParametres({ identite: nomAffiche });
+}
+
+/** Met à jour `parametres.json` de façon atomique (fichier temporaire puis renommage) : un
+ * arrêt brutal pendant l'écriture ne peut jamais laisser un fichier vide ou tronqué. */
+function ecrireParametres(maj) {
+  const parametres = { ...lireParametres(), ...maj };
   fs.mkdirSync(app.getPath("userData"), { recursive: true });
-  fs.writeFileSync(fichierParametres(), JSON.stringify(parametres, null, 2), "utf-8");
+  const temporaire = fichierParametres() + ".tmp";
+  fs.writeFileSync(temporaire, JSON.stringify(parametres, null, 2), "utf-8");
+  fs.renameSync(temporaire, fichierParametres());
+  return parametres;
 }
 
 function lireParametres() {
@@ -173,11 +182,17 @@ function commandeMoteur() {
   };
 }
 
+// Processus du moteur en cours, pour pouvoir les arrêter (bouton « Annuler ») et pour ne
+// jamais laisser un moteur bloqué figer l'écran indéfiniment.
+const processusMoteur = new Set();
+const DELAI_MOTEUR_MS = 15 * 60 * 1000;
+
 /**
  * Lance le moteur, lui envoie les paramètres en JSON et relaie ses messages.
- * Retourne le résultat final, ou lève une erreur en français.
+ * Retourne le résultat final, ou lève une erreur en français. Arrêté au bout de
+ * `delaiMs` (15 minutes par défaut) ou sur demande (`annulerMoteur`).
  */
-function lancerMoteur(commande, parametres, surEvenement) {
+function lancerMoteur(commande, parametres, surEvenement, { delaiMs = DELAI_MOTEUR_MS } = {}) {
   return new Promise((resolve, reject) => {
     const { cmd, args, cwd } = commandeMoteur();
     if (estEmpaquete && !fs.existsSync(cmd)) {
@@ -200,6 +215,13 @@ function lancerMoteur(commande, parametres, surEvenement) {
     let messageErreur = null;
     let tampon = "";
     let sortieErreur = "";
+    let arret = null; // "delai" | "annulation"
+    processusMoteur.add(processus);
+    processus.arreter = (motif) => {
+      arret = motif;
+      processus.kill();
+    };
+    const minuterie = setTimeout(() => processus.arreter("delai"), delaiMs);
 
     const traiterLigne = (ligne) => {
       if (!ligne.trim()) return;
@@ -226,6 +248,8 @@ function lancerMoteur(commande, parametres, surEvenement) {
       sortieErreur += morceau;
     });
     processus.on("error", (erreur) => {
+      clearTimeout(minuterie);
+      processusMoteur.delete(processus);
       const introuvable = erreur.code === "ENOENT";
       reject(
         new Error(
@@ -236,8 +260,12 @@ function lancerMoteur(commande, parametres, surEvenement) {
       );
     });
     processus.on("close", (code) => {
+      clearTimeout(minuterie);
+      processusMoteur.delete(processus);
       traiterLigne(tampon);
-      if (resultat) resolve(resultat);
+      if (arret === "annulation") reject(new Error("Opération annulée."));
+      else if (arret === "delai") reject(new Error("Le traitement a pris trop de temps et a été arrêté. Réessayez ; si le problème persiste, vérifiez les fichiers importés."));
+      else if (resultat) resolve(resultat);
       else if (messageErreur) reject(new Error(messageErreur));
       else reject(new Error(`Le moteur s'est arrêté sans réponse (code ${code}). ${sortieErreur.trim()}`.trim()));
     });
@@ -263,8 +291,108 @@ function decrireFichiers(chemins) {
   });
 }
 
+/** Les commandes ne sont accessibles qu'avec une session ouverte : la connexion protège
+ * aussi le processus principal, pas seulement l'affichage. */
+function exigerSession() {
+  if (!sessionCourante) throw new Error("Votre session n'est plus ouverte : reconnectez-vous.");
+}
+
+function avecSession(traitement) {
+  return (...args) => {
+    exigerSession();
+    return traitement(...args);
+  };
+}
+
+function dossierResultats() {
+  return path.join(dossierTravail(), "Resultats");
+}
+
+function dossierCache() {
+  return path.join(dossierTravail(), "Cache");
+}
+
+const EXTENSIONS_IMPORT = new Set([".xls", ".xlsx", ".pdf"]);
+
+/** Fichiers importables d'un dossier et de ses sous-dossiers (les fichiers temporaires
+ * d'Excel `~$…` sont ignorés). */
+function fichiersDuDossier(dossier, profondeur = 0) {
+  if (profondeur > 6) return [];
+  let entrees;
+  try {
+    entrees = fs.readdirSync(dossier, { withFileTypes: true });
+  } catch {
+    return [];
+  }
+  const trouves = [];
+  for (const entree of entrees) {
+    const chemin = path.join(dossier, entree.name);
+    if (entree.isDirectory()) trouves.push(...fichiersDuDossier(chemin, profondeur + 1));
+    else if (EXTENSIONS_IMPORT.has(path.extname(entree.name).toLowerCase()) && !entree.name.startsWith("~$")) {
+      trouves.push(chemin);
+    }
+  }
+  return trouves;
+}
+
+/** Vrai seulement pour un classeur produit par Orisflow (dans le dossier Résultats) : rien
+ * d'autre ne peut être ouvert depuis l'interface. */
+function estClasseurGenere(chemin) {
+  if (typeof chemin !== "string") return false;
+  const resolu = path.resolve(chemin);
+  const racine = path.resolve(dossierResultats()) + path.sep;
+  return resolu.toLowerCase().startsWith(racine.toLowerCase()) && path.extname(resolu).toLowerCase() === ".xlsx" && fs.existsSync(resolu);
+}
+
 function enregistrerCommunications() {
-  ipcMain.handle("fichiers:choisir", async (evenement) => {
+  ipcMain.handle("fichiers:choisirDossier", avecSession(async (evenement) => {
+    const fenetre = BrowserWindow.fromWebContents(evenement.sender);
+    const dernier = lireParametres().dernierDossierImport;
+    const choix = await dialog.showOpenDialog(fenetre, {
+      title: "Choisir le dossier des fichiers du jour (sous-dossiers compris)",
+      properties: ["openDirectory"],
+      defaultPath: dernier && fs.existsSync(dernier) ? dernier : undefined,
+    });
+    if (choix.canceled || choix.filePaths.length === 0) return [];
+    // On mémorise le dossier parent : le lendemain, le dossier du nouveau jour sera à côté.
+    ecrireParametres({ dernierDossierImport: path.dirname(choix.filePaths[0]) });
+    return decrireFichiers(fichiersDuDossier(choix.filePaths[0]));
+  }));
+
+  ipcMain.handle("moteur:annuler", avecSession(() => {
+    for (const processus of processusMoteur) processus.arreter("annulation");
+    return true;
+  }));
+
+  ipcMain.handle("resultats:ouvrir", avecSession(async (_evenement, chemin, mode) => {
+    if (!estClasseurGenere(chemin)) return { ok: false, erreur: "Ce fichier ne peut pas être ouvert depuis Orisflow." };
+    if (mode === "dossier") {
+      shell.showItemInFolder(path.resolve(chemin));
+      return { ok: true };
+    }
+    const erreur = await shell.openPath(path.resolve(chemin));
+    return erreur ? { ok: false, erreur: `Le classeur n'a pas pu être ouvert : ${erreur}` } : { ok: true };
+  }));
+
+  ipcMain.handle("historique:lister", avecSession(() => {
+    const dossier = dossierResultats();
+    let noms = [];
+    try {
+      noms = fs.readdirSync(dossier).filter((n) => n.toLowerCase().endsWith(".xlsx") && !n.startsWith("~$"));
+    } catch {
+      return [];
+    }
+    return noms
+      .map((nom) => {
+        const chemin = path.join(dossier, nom);
+        const infos = fs.statSync(chemin);
+        return { nom, chemin, modifieLe: infos.mtime.toISOString(), taille: infos.size };
+      })
+      .sort((a, b) => (a.modifieLe < b.modifieLe ? 1 : -1))
+      .slice(0, 100);
+  }));
+
+  ipcMain.handle("fichiers:choisir", avecSession(async (evenement) => {
     const fenetre = BrowserWindow.fromWebContents(evenement.sender);
     const choix = await dialog.showOpenDialog(fenetre, {
       title: "Choisir les fichiers du jour",
@@ -275,19 +403,19 @@ function enregistrerCommunications() {
       ],
     });
     return choix.canceled ? [] : decrireFichiers(choix.filePaths);
-  });
+  }));
 
-  ipcMain.handle("fichiers:decrire", (_evenement, chemins) => decrireFichiers(chemins));
+  ipcMain.handle("fichiers:decrire", avecSession((_evenement, chemins) => decrireFichiers(chemins)));
 
-  ipcMain.handle("moteur:tester", async (evenement) =>
+  ipcMain.handle("moteur:tester", avecSession(async (evenement) =>
     lancerMoteur("diagnostic", { fichierTableComptes: fichierTableComptes(), dossierTravail: dossierTravail() }, (message) => {
       evenement.sender.send("moteur:evenement", message);
     }),
-  );
+  ));
 
   ipcMain.handle("agences:tableComptesInfo", () => lireTableComptesInfo());
 
-  ipcMain.handle("agences:construireTable", async (evenement) => {
+  ipcMain.handle("agences:construireTable", avecSession(async (evenement) => {
     const fenetre = BrowserWindow.fromWebContents(evenement.sender);
     const choix = await dialog.showOpenDialog(fenetre, {
       title: "Choisir les dossiers de référence (un par jour, fichiers déjà nommés par agence)",
@@ -298,11 +426,11 @@ function enregistrerCommunications() {
       dossiers: choix.filePaths,
       fichierSortie: fichierTableComptes(),
     });
-  });
+  }));
 
   ipcMain.handle("carnet:info", () => lireCarnetInfo());
 
-  ipcMain.handle("carnet:importerClasseur", async (evenement) => {
+  ipcMain.handle("carnet:importerClasseur", avecSession(async (evenement) => {
     const fenetre = BrowserWindow.fromWebContents(evenement.sender);
     const choix = await dialog.showOpenDialog(fenetre, {
       title: "Choisir un classeur de trésorerie déjà validé comme correct",
@@ -314,9 +442,9 @@ function enregistrerCommunications() {
       cheminClasseur: choix.filePaths[0],
       dossierCarnet: dossierCarnet(),
     });
-  });
+  }));
 
-  ipcMain.handle("moteur:classer", async (evenement, chemins, agencesManuelles) =>
+  ipcMain.handle("moteur:classer", avecSession(async (evenement, chemins, agencesManuelles) =>
     lancerMoteur(
       "classer",
       {
@@ -326,14 +454,15 @@ function enregistrerCommunications() {
         dossierCarnet: dossierCarnet(),
         // Table « 15 comptes par agence » (décision du 05/10/2026) : fichier de configuration local.
         fichierTableComptes: fichierTableComptes(),
+        dossierCache: dossierCache(),
       },
       (message) => {
         evenement.sender.send("moteur:evenement", message);
       },
     ),
-  );
+  ));
 
-  ipcMain.handle("moteur:generer", async (evenement, chemins, valeursManuelles, relevesSaisis) => {
+  ipcMain.handle("moteur:generer", avecSession(async (evenement, chemins, valeursManuelles, relevesSaisis) => {
     const racine = preparerDossiers();
     const resultat = await lancerMoteur(
       "generer",
@@ -345,6 +474,7 @@ function enregistrerCommunications() {
         dossierCarnet: dossierCarnet(),
         relevesSaisis: relevesSaisis || null,
         fichierTableComptes: fichierTableComptes(),
+        dossierCache: dossierCache(),
       },
       (message) => {
         evenement.sender.send("moteur:evenement", message);
@@ -368,12 +498,12 @@ function enregistrerCommunications() {
       });
     }
     return resultat;
-  });
+  }));
 
   // Export du rapport d'analyse en Excel (10/10/2026) : les données viennent telles quelles
   // de l'écran (résultat déjà reçu de « classer »), le moteur se contente de les écrire —
   // aucune nouvelle lecture des fichiers sources, aucune règle ici.
-  ipcMain.handle("rapport:exporter", async (evenement, fichiers, journalEtapes) => {
+  ipcMain.handle("rapport:exporter", avecSession(async (evenement, fichiers, journalEtapes) => {
     const fenetre = BrowserWindow.fromWebContents(evenement.sender);
     const racine = preparerDossiers();
     const horodatage = new Date();
@@ -392,12 +522,13 @@ function enregistrerCommunications() {
       journalEtapes: journalEtapes || null,
       chemin: choix.filePath,
     });
-  });
+  }));
 
   // --- Authentification -----------------------------------------------------------
 
   ipcMain.handle("auth:etat", () => ({
     premierLancement: !auth.aUnCompte(fichierComptes()),
+    comptesIllisibles: auth.comptesIllisibles(fichierComptes()),
     utilisateurConnecte: sessionCourante,
   }));
 
@@ -493,7 +624,8 @@ function enregistrerCommunications() {
   ipcMain.handle("journal:lister", (_evenement, filtres) => {
     const refus = exigerAdmin();
     if (refus) return refus;
-    return { ok: true, evenements: journal.listerEvenements(dossierJournal(), filtres || {}) };
+    // 500 évènements au plus par affichage : le journal grossit chaque jour.
+    return { ok: true, evenements: journal.listerEvenements(dossierJournal(), { limite: 500, ...(filtres || {}) }) };
   });
 
   ipcMain.handle("parametres:lire", () => ({
@@ -506,38 +638,34 @@ function enregistrerCommunications() {
     empaquete: estEmpaquete,
   }));
 
-  ipcMain.handle("parametres:choisirDossier", async (evenement) => {
+  ipcMain.handle("parametres:choisirDossier", avecSession(async (evenement) => {
     const fenetre = BrowserWindow.fromWebContents(evenement.sender);
     const choix = await dialog.showOpenDialog(fenetre, {
       title: "Choisir le dossier de travail d'Orisflow",
       properties: ["openDirectory", "createDirectory"],
     });
     if (choix.canceled || choix.filePaths.length === 0) return dossierTravail();
-    const parametres = { ...lireParametres(), dossierTravail: choix.filePaths[0] };
-    fs.mkdirSync(app.getPath("userData"), { recursive: true });
-    fs.writeFileSync(fichierParametres(), JSON.stringify(parametres, null, 2), "utf-8");
+    const parametres = ecrireParametres({ dossierTravail: choix.filePaths[0] });
     preparerDossiers();
     return parametres.dossierTravail;
-  });
+  }));
 
-  ipcMain.handle("parametres:ouvrirDossier", async () => {
+  ipcMain.handle("parametres:ouvrirDossier", avecSession(async () => {
     const racine = preparerDossiers();
     await shell.openPath(racine);
     return racine;
-  });
+  }));
 
-  ipcMain.handle("parametres:choisirDossierReference", async (evenement) => {
+  ipcMain.handle("parametres:choisirDossierReference", avecSession(async (evenement) => {
     const fenetre = BrowserWindow.fromWebContents(evenement.sender);
     const choix = await dialog.showOpenDialog(fenetre, {
       title: "Choisir le dossier des classeurs de trésorerie (pour comparer avec la veille)",
       properties: ["openDirectory"],
     });
     if (choix.canceled || choix.filePaths.length === 0) return dossierReference();
-    const parametres = { ...lireParametres(), dossierReference: choix.filePaths[0] };
-    fs.mkdirSync(app.getPath("userData"), { recursive: true });
-    fs.writeFileSync(fichierParametres(), JSON.stringify(parametres, null, 2), "utf-8");
+    const parametres = ecrireParametres({ dossierReference: choix.filePaths[0] });
     return parametres.dossierReference;
-  });
+  }));
 
   ipcMain.handle("parametres:choisirDossierBordereau", async (evenement) => {
     const fenetre = BrowserWindow.fromWebContents(evenement.sender);
@@ -546,16 +674,12 @@ function enregistrerCommunications() {
       properties: ["openDirectory", "createDirectory"],
     });
     if (choix.canceled || choix.filePaths.length === 0) return dossierBordereau();
-    const parametres = { ...lireParametres(), dossierBordereau: choix.filePaths[0] };
-    fs.mkdirSync(app.getPath("userData"), { recursive: true });
-    fs.writeFileSync(fichierParametres(), JSON.stringify(parametres, null, 2), "utf-8");
+    const parametres = ecrireParametres({ dossierBordereau: choix.filePaths[0] });
     return parametres.dossierBordereau;
   });
 
   ipcMain.handle("identite:definir", (_evenement, nom) => {
-    const parametres = { ...lireParametres(), identite: (nom || "").trim() };
-    fs.mkdirSync(app.getPath("userData"), { recursive: true });
-    fs.writeFileSync(fichierParametres(), JSON.stringify(parametres, null, 2), "utf-8");
+    const parametres = ecrireParametres({ identite: (nom || "").trim() });
     return parametres.identite;
   });
 
@@ -618,6 +742,11 @@ function creerFenetre() {
     },
   });
   fenetre.removeMenu();
+  // Aucune nouvelle fenêtre, aucune navigation hors de l'application.
+  fenetre.webContents.setWindowOpenHandler(() => ({ action: "deny" }));
+  fenetre.webContents.on("will-navigate", (evenement, url) => {
+    if (!url.startsWith("file://")) evenement.preventDefault();
+  });
   fenetre.loadFile(path.join(__dirname, "..", "dist-renderer", "index.html"));
   return fenetre;
 }

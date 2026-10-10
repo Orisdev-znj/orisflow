@@ -114,19 +114,38 @@ describe("auth.cjs : comptes et connexion", () => {
   // --- jamais empêcher Orisflow de démarrer) -----------------------------------------------
 
   it("un fichier de comptes absent est traité comme un départ sans compte", () => {
-    expect(auth.lireComptes(path.join(dossier, "absent.json"))).toEqual({ utilisateurs: [] });
+    expect(auth.lireComptes(path.join(dossier, "absent.json"))).toEqual({ utilisateurs: [], illisible: false });
   });
 
-  it("un fichier de comptes corrompu est traité comme vide, sans exception", () => {
+  it("un fichier corrompu n'est jamais pris pour « aucun compte » (sinon un nouvel admin effacerait tout)", () => {
     fs.writeFileSync(cheminComptes, "ceci n'est pas du JSON valide {{{");
     expect(() => auth.lireComptes(cheminComptes)).not.toThrow();
-    expect(auth.lireComptes(cheminComptes)).toEqual({ utilisateurs: [] });
-    expect(auth.aUnCompte(cheminComptes)).toBe(false);
+    expect(auth.lireComptes(cheminComptes)).toEqual({ utilisateurs: [], illisible: true });
+    expect(auth.aUnCompte(cheminComptes)).toBe(true);
+    expect(auth.creerCompte(cheminComptes, { identifiant: "intrus", motDePasse: "UnMotDePasseSolide1" }).ok).toBe(false);
+    expect(fs.readFileSync(cheminComptes, "utf-8")).toContain("pas du JSON"); // jamais écrasé
   });
 
-  it("un fichier de comptes de forme inattendue (pas un objet) est traité comme vide", () => {
+  it("un fichier de forme inattendue (pas un objet) est signalé illisible", () => {
     fs.writeFileSync(cheminComptes, JSON.stringify(["pas", "le", "bon", "format"]));
-    expect(auth.lireComptes(cheminComptes)).toEqual({ utilisateurs: [] });
+    expect(auth.lireComptes(cheminComptes).illisible).toBe(true);
+  });
+
+  it("si le fichier est corrompu, la sauvegarde de l'état précédent prend le relais", () => {
+    // Identifiant propre à ce test : le verrouillage anti-force brute d'un autre test ne s'applique pas.
+    auth.creerCompte(cheminComptes, { identifiant: "sauvegarde", motDePasse: "UnMotDePasseSolide1", role: "admin" });
+    auth.creerCompte(cheminComptes, { identifiant: "julien", motDePasse: "UnMotDePasseSolide2" });
+    fs.writeFileSync(cheminComptes, "corrompu");
+
+    const comptes = auth.lireComptes(cheminComptes);
+    expect(comptes.illisible).toBe(false);
+    expect(comptes.utilisateurs.map((u) => u.identifiant)).toEqual(["sauvegarde"]);
+    expect(auth.connecter(cheminComptes, "sauvegarde", "UnMotDePasseSolide1").ok).toBe(true);
+  });
+
+  it("identifiant inconnu : même message générique, sans exception", () => {
+    auth.creerCompte(cheminComptes, { identifiant: "arnold", motDePasse: "UnMotDePasseSolide1" });
+    expect(auth.connecter(cheminComptes, "personne", "peu importe").erreur).toBe("Identifiant ou mot de passe incorrect.");
   });
 
   it("l'écriture du fichier de comptes est atomique (pas de fichier à moitié écrit)", () => {
