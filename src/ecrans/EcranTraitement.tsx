@@ -20,7 +20,7 @@ export default function EcranTraitement({ traitement, onRetourImport, onRelancer
       )}
 
       {traitement.etat === "encours" && (
-        <div role="status" aria-live="polite">
+        <div role="status" aria-live="polite" className="zone-flux">
           <p>
             Analyse en cours… <strong>{traitement.pourcentage} %</strong> ({traitement.courant} sur{" "}
             {traitement.total} fichier(s))

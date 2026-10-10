@@ -115,7 +115,8 @@ h2 {
 .entete__nav {
   display: flex;
   gap: 0.25rem;
-  background: var(--marine);
+  /* Motif de courbes statique, très discret (7-16 % d'opacité intégrée au fichier), à droite. */
+  background: var(--marine) url("./assets/motif-flow-sombre.svg") right center / 420px 100% no-repeat;
   padding: 0 1.5rem;
 }
 
@@ -454,6 +455,17 @@ h2 {
   font-size: 1.9rem;
 }
 
+/* Filet turquoise → magenta sous le titre : écho du filet magenta de l'en-tête. */
+.accueil__titre::after {
+  content: "";
+  display: block;
+  height: 3px;
+  width: 72px;
+  margin: 0.6rem auto 0;
+  background: linear-gradient(90deg, var(--turquoise), var(--magenta));
+  border-radius: 2px;
+}
+
 .accueil__sous-titre {
   margin-bottom: 2.2rem;
 }
@@ -560,6 +572,32 @@ h2 {
 
 .en-construction .actions {
   justify-content: center;
+}
+
+/* Écran d'attente de l'analyse : motif en filigrane (opacité 5 %, via un calque, pas dans le SVG). */
+.zone-flux,
+.en-construction {
+  position: relative;
+  isolation: isolate;
+}
+
+.zone-flux::after,
+.en-construction::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url("./assets/motif-flow.svg") center / 100% 100% no-repeat;
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+.pied-application {
+  margin-top: 2.2rem;
+  padding-bottom: 1.2rem;
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--discret);
 }
 
 .journal-etapes {

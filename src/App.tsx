@@ -390,6 +390,8 @@ export default function App() {
         )}
       </main>
 
+      <footer className="pied-application">Orisflow v{__VERSION_APP__} · Usage interne ORIS FINANCE</footer>
+
       {fenetreUtilisateursOuverte && (
         <FenetreUtilisateurs onFermer={() => setFenetreUtilisateursOuverte(false)} />
       )}

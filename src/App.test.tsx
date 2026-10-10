@@ -870,6 +870,12 @@ describe("Navigation et parcours (audit du 09/10/2026)", () => {
     expect(await screen.findByText(/Contenu modifié depuis sa génération/)).toBeInTheDocument();
   });
 
+  it("affiche le pied de page avec la version, une fois connecté", async () => {
+    window.orisflow = fausseApi();
+    await monterApplication();
+    expect(screen.getByText(`Orisflow v${__VERSION_APP__} · Usage interne ORIS FINANCE`)).toBeInTheDocument();
+  });
+
   it("les modules pas encore disponibles sont annoncés « Bientôt »", async () => {
     window.orisflow = fausseApi();
     await monterApplication();
