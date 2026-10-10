@@ -1,0 +1,5517 @@
+[
+  {
+    "code": "1011000000001",
+    "intitule": "CAPITAL SOUSCRIT NON APPELE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1012000000001",
+    "intitule": "CAPITAL SOUSCRIT NON VERSE EMF 2E ET 3E CATEGORIE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1012000000101",
+    "intitule": "CAPITAL SOUSCRIT NON VERSE EMF 2E ET 3E CATEGORIE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1013000000001",
+    "intitule": "CAPITAL SOUSCRIT APPELE VERSE NON AMORTI EMF 2E ET 3E CATEGORIE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1014000000001",
+    "intitule": "CAPITAL SOUSCRIT APPELE VERSE AMORTI",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1020000000001",
+    "intitule": "FONDS DE DOTATION",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1030000000001",
+    "intitule": "ACTIONS PROPRES DETENUES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1031000000001",
+    "intitule": "AUTRES ACTIONNAIRES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1041000000001",
+    "intitule": "PRIMES D’EMISSION",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1042000000001",
+    "intitule": "PRIMES D’APPORT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1043000000001",
+    "intitule": "PRIMES DE FUSION",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1044000000001",
+    "intitule": "PRIMES DE CONVERSION",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1045000000001",
+    "intitule": "AUTRES PRIMES LIEES AU CAPITAL",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1110000000001",
+    "intitule": "RESERVES LEGALES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1120000000001",
+    "intitule": "RESERVES OBLIGATOIRES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1120000000101",
+    "intitule": "RESERVES REGLEMENTAIRES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1130000000001",
+    "intitule": "RESERVES STATUTAIRES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1130000000101",
+    "intitule": "RESERVES CONTRACTUELLES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1140000000201",
+    "intitule": "AUTRES RESERVES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1210000000001",
+    "intitule": "REPORT A NOUVEAU CREDITEUR",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1220000000001",
+    "intitule": "REPORT A NOUVEAU DEBITEUR",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1310000000001",
+    "intitule": "BENEFICE DE L’EXERCICE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1320000000001",
+    "intitule": "PERTE DE L’EXERCICE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1410000000001",
+    "intitule": "AMORTISSEMENTS DEROGATOIRES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1411000000001",
+    "intitule": "ECARTS DE REEVALUATION DES IMMOBILISATIONS AMORTISSABLES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1412000000001",
+    "intitule": "ECARTS DE REEVALUATION DES CREANCES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1413000000001",
+    "intitule": "PLUS-VALUE DE CESSION A REINVESTIR",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1414000000001",
+    "intitule": "AUTRES PROVISIONS REGLEMENTEES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1420000000001",
+    "intitule": "ECARTS DE REEVALUATION DES IMMOBILISATIONS NON AMORTISSABLES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1421000000001",
+    "intitule": "AUTRES RESERVES REGLEMENTEES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1511000000001",
+    "intitule": "SUBVENTIONS D’EQUIPEMENT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1521000000001",
+    "intitule": "SUBVENTIONS D’INVESTISSEMENT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1600000000001",
+    "intitule": "FONDS DE SOLIDARITE REGLEMENTAIRE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1611000000001",
+    "intitule": "FONDS AFFECTES DE BONIFICATION DES INTERETS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1612000000001",
+    "intitule": "FONDS AFFECTES DE GARANTIE DES AVALS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1613000000001",
+    "intitule": "FONDS AFFECTES DE FINANCEMENT DES ETUDES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1614000000001",
+    "intitule": "FONDS AFFECTES DE FINANCEMENT DES PARTICIPATIONS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1621000000001",
+    "intitule": "FONDS D’AFFECTATION DE BONIFICATION DES INTERETS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1622000000001",
+    "intitule": "FONDS D’AFFECTATION DE GARANTIE DES AVALS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1623000000001",
+    "intitule": "FONDS D’AFFECTATION DE FINANCEMENT DES ETUDES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1624000000001",
+    "intitule": "FONDS D’AFFECTATION DE FINANCEMENT DES PARTICIPATIONS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1710000000001",
+    "intitule": "Emprunts-Obligations souscrits",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1720000000001",
+    "intitule": "OBLIGATIONS ECHUES A REMBOURSER",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1740000000001",
+    "intitule": "DETTES RATTACHEES AUX EMPRUNTS OBLIGATAIRES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1811000000001",
+    "intitule": "EMPRUNTS PARTICIPATIFS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1812000000001",
+    "intitule": "DETTES SUBORDONNEES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1821000000001",
+    "intitule": "COMPTES BLOQUES ACTIONNAIRES HORS RESEAU",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1823000000001",
+    "intitule": "Comptes bloqués EMF affiliés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1831000000001",
+    "intitule": "LIGNE DE FINANCEMENT REÇUE DE L’ETAT ET ASSORTIE D’UNE CLAUSE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1832000000001",
+    "intitule": "LIGNE DE FINANCEMENT REÇUE D’ORGANISMES ET ASSORTIE D’UNE CLAUSE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1833000000001",
+    "intitule": "AUTRES COMPTES BLOQUES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1840000000001",
+    "intitule": "TITRES DE CREANCES NEGOCIABLES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1851000000001",
+    "intitule": "EMPRUNT LT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1851100000001",
+    "intitule": "Fournisseurs LT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1852000000001",
+    "intitule": "EMPRUNT MT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1852100000001",
+    "intitule": "FOURNISSEURS MT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1860000000001",
+    "intitule": "EMPRUNTS EQUIVALENTS DE CREDIT-BAIL MOBILIER",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1861000000001",
+    "intitule": "EMPRUNTS EQUIVALENTS DE CREDIT-BAIL IMMOBILIER",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1862000000001",
+    "intitule": "AUTRES CONTRATS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1870000000001",
+    "intitule": "DEPOTS DE GARANTIE REÇUS HORS RESEAU",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1871000000001",
+    "intitule": "CAUTIONNEMENTS REÇUS HORS RESEAU",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1882000000001",
+    "intitule": "Dettes rattachées autres ressources permanentes hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1901000000001",
+    "intitule": "PROVISIONS POUR RISQUES BANCAIRES GENERAUX",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1902000000001",
+    "intitule": "AUTRES PROVISIONS POUR RISQUES GENERAUX",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1911000000001",
+    "intitule": "PROVISIONS POUR LITIGES EN COURS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1912000000001",
+    "intitule": "PROVISIONS POUR PERTES SUR MARCHES A TERME",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1913000000001",
+    "intitule": "PROVISIONS POUR PERTES ET CHANGE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1914000000001",
+    "intitule": "PROVISIONS POUR EXECUTION D’ENGAGEMENTS D’AVALS ET CAUTIONS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1915000000001",
+    "intitule": "PROVISIONS DE PROPRE ASSUREUR",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1916000000001",
+    "intitule": "Provisions pour grosses réparations",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1917000000001",
+    "intitule": "PROVISIONS RELATIVES AU PERSONNEL",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1921000000001",
+    "intitule": "PROVISIONS POUR PERTES LATENTES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1922000000001",
+    "intitule": "PROVISIONS POUR RISQUE DE NON PERCEPTION DE LOYERS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "1930000000001",
+    "intitule": "AUTRES PROVISIONS HORS RESEAU",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2011000000001",
+    "intitule": "FRAIS RELATIFS AU PACTE SOCIAL",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2011000000101",
+    "intitule": "FRAIS RELATIFS AU PACTE SOCIAL",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2012000000001",
+    "intitule": "FRAIS D’ÉMISSION DES EMPRUNTS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2013000000001",
+    "intitule": "FRAIS D’ACQUISITION DES IMMOBILISATIONS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2014000000001",
+    "intitule": "FRAIS À ÉTALER SUR PLUSIEURS EXERCICES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2017000000001",
+    "intitule": "PRIMES DE REMBOURSEMENT DES EMPRUNTS OBLIGATAIRES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2021000000001",
+    "intitule": "IMMOBILISATIONS INCORPORELLES EN COURS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2022000000001",
+    "intitule": "FONDS DE COMMERCE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2023000000001",
+    "intitule": "DROIT AU BAIL",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2024000000001",
+    "intitule": "BREVETS, LOGICIELS, LICENCES, MARQUES, PROCÉDÉS, MODÈLES, DESSINS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2024000000113",
+    "intitule": "Brevets, logiciels, licences, marques",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2025000000001",
+    "intitule": "ETUDES ET RECHERCHES IMMOBILISABLES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2025000000176",
+    "intitule": "Etudes et recherches immobilisables",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2026000000001",
+    "intitule": "AUTRES IMMOBILISATIONS INCORPORELLES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2110000000001",
+    "intitule": "TERRAINS EN EXPLOITATION",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2120000000001",
+    "intitule": "TERRAINS DONNÉS EN LOCATION SIMPLE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2130000000001",
+    "intitule": "TERRAINS AFFECTES AU CREDIT-BAIL OU A LA LOCATION  AVEC OPTION D’ACHAT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2140000000001",
+    "intitule": "TERRAINS ACQUIS PAR RÉALISATION DE GARANTIE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2151000000001",
+    "intitule": "TERRAINS EN EXPLOITATION BANCAIRE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2152000000001",
+    "intitule": "TERRAINS DONNÉS EN LOCATION",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2190000000001",
+    "intitule": "AUTRES TERRAINS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2211000000001",
+    "intitule": "Immeubles d’exploitation construits sur sol propre",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2212000000001",
+    "intitule": "Immeubles d’exploitation construits sur sol d’autrui",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2212000000101",
+    "intitule": "AMENAGEMENTS, AGENCEMENTS, INSTALLATIONS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2221000000001",
+    "intitule": "Immeubles donnés en location simple construits sur sol propre",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2222000000001",
+    "intitule": "Immeubles donnés en location simple construits sur sol d’autrui",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2230000000001",
+    "intitule": "Immeubles affectés au crédit bail ou à la location avec option d’achat",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2240000000001",
+    "intitule": "IMMEUBLES ACQUIS PAR RÉALISATION DE GARANTIE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2250000000001",
+    "intitule": "MATERIELS ET MOBILIERS DE BUREAU",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2250000000101",
+    "intitule": "MATERIEL INFORMATIQUE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2250000000201",
+    "intitule": "Materiel de Transport",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2260000000001",
+    "intitule": "MATÉRIEL ET MOBILIER EN LOCATION SIMPLE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2270000000001",
+    "intitule": "MATÉRIEL ET MOBILIER AFFECTÉS AU CRÉDIT BAIL OU À LA LOCATION AVEC OPTION D’ACHAT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2280000000001",
+    "intitule": "MATÉRIEL ET MOBILIER ACQUIS EN RÉALISATION DE GARANTIES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2290000000001",
+    "intitule": "AUTRES IMMOBILISATIONS CORPORELLES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2310000000001",
+    "intitule": "IMMEUBLES D’EXPLOITATION",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2320000000001",
+    "intitule": "Immeubles destinés à la location simple",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2330000000001",
+    "intitule": "IMMEUBLES DESTINÉS AU CRÉDIT-BAIL OU À LA LOCATION AVEC OPTION D’ACHAT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2350000000001",
+    "intitule": "MATÉRIEL ET MOBILIER D’EXPLOITATION",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2360000000001",
+    "intitule": "MATÉRIEL ET MOBILIER EN LOCATION SIMPLE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2370000000001",
+    "intitule": "MATÉRIEL ET MOBILIER DESTINÉS AU CRÉDIT-BAIL OU À LA LOCATION AVEC OPTION D’ACHAT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2390000000001",
+    "intitule": "AUTRES IMMOBILISATIONS CORPORELLES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2410000000001",
+    "intitule": "IMMEUBLES D’EXPLOITATION",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2420000000001",
+    "intitule": "IMMEUBLES EN LOCATION SIMPLE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2430000000001",
+    "intitule": "AVANCES ET ACOMPTES SUR IMMEUBLES DESTINÉS AUX CRÉDIT-BAIL OU À LA LOCATION AVEC OPTION D’ACHAT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2450000000001",
+    "intitule": "MATÉRIEL ET MOBILIER D’EXPLOITATION",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2460000000001",
+    "intitule": "MATÉRIEL ET MOBILIER DESTINÉS À LA LOCATION",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2470000000001",
+    "intitule": "AVANCES ET ACOMPTES SUR MATÉRIEL ET MOBILIER DESTINÉS AU CRÉDIT-BAIL OU À LA LOCATION AVEC OPTION D’ACHAT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2490000000001",
+    "intitule": "AUTRES IMMOBILISATIONS CORPORELLES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2510000000001",
+    "intitule": "Dépôts de garantie",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2511000000101",
+    "intitule": "CAUTIONNEMENTS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2621000000001",
+    "intitule": "Actions et parts sociales hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2622000000001",
+    "intitule": "Actions et parts sociales d’établissements de crédit",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2640000000001",
+    "intitule": "TITRES DE L’ACTIVITÉ DE PORTEFEUILLE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2651000000001",
+    "intitule": "TITRES D’INVESTISSEMENT PRIVÉS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2652000000001",
+    "intitule": "Titres d’investissement publics",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2661000000001",
+    "intitule": "TITRES IMPAYÉS HORS RÉSEAU",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2662000000001",
+    "intitule": "TITRES DOUTEUX HORS RÉSEAU",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2670000000001",
+    "intitule": "ACTIONS OU PARTS SOCIALES PROPRES RACHETÉES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2681000000001",
+    "intitule": "COMPTES ASSOCIÉS BLOQUÉS AUPRÈS D’AUTRES EMF",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2682000000001",
+    "intitule": "FONDS DE GARANTIES MUTUELLES EMF HORS RÉSEAU",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2683000000001",
+    "intitule": "AUTRES COMPTES BLOQUÉS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2691000000001",
+    "intitule": "CRÉANCES RATTACHÉES SUR TITRES DE PARTICIPATION",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2692000000001",
+    "intitule": "CRÉANCES RATTACHÉES SUR AUTRES IMMOBILISATIONS FINANCIÈRES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2710000000001",
+    "intitule": "TITRES PUBLICS ET ASSIMILÉS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2720000000001",
+    "intitule": "AUTRES PRÊTS ET TITRES PUBLICS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2730000000001",
+    "intitule": "PRÊTS ET TITRES IMPAYÉS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2740000000001",
+    "intitule": "CRÉANCES RATTACHÉES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2801100000001",
+    "intitule": "FONDS DE COMMERCE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2801200000001",
+    "intitule": "BREVETS, LOGICIELS, LICENCES, MARQUES, PROCÉDÉS, MODÈLES, DESSINS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2801300000001",
+    "intitule": "ETUDES ET RECHERCHES IMMOBILISABLES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2801400000001",
+    "intitule": "AUTRES IMMOBILISATIONS INCORPORELLES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2821000000001",
+    "intitule": "IMMEUBLES D’EXPLOITATION",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2822000000001",
+    "intitule": "IMMEUBLES EN LOCATION SIMPLE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2823000000001",
+    "intitule": "IMMEUBLES AFFECTÉS AU CRÉDIT-BAIL OU À LA LOCATION AVEC OPTION D’ACHAT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2824000000001",
+    "intitule": "Immeubles acquis par réalisation de garantie",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2825000000001",
+    "intitule": "Amort mat. Et Mob. De Bureau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2825000000101",
+    "intitule": "Amort matériel informatique",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2825000000201",
+    "intitule": "Amort matériel de transport",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2826000000001",
+    "intitule": "Matériel et mobilier en location simple",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2827000000001",
+    "intitule": "Matériel et mobilier affectés au crédit-bail ou à la location avec option d’achat",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2828000000001",
+    "intitule": "MATÉRIEL ET MOBILIER ACQUIS EN RÉALISATION DE GARANTIES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2829000000001",
+    "intitule": "AUTRES IMMOBILISATIONS CORPORELLES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2902100000001",
+    "intitule": "IMMOBILISATIONS INCORPORELLES EN COURS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2902200000001",
+    "intitule": "FONDS DE COMMERCE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2902300000001",
+    "intitule": "BREVETS, LOGICIELS, LICENCES, MARQUES, PROCÉDÉS, MODÈLES, DESSINS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2902400000001",
+    "intitule": "ETUDES ET RECHERCHES IMMOBILISABLES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2902500000001",
+    "intitule": "Autres immobilisations incorporelles",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2910000000001",
+    "intitule": "Terrains",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2921000000001",
+    "intitule": "IMMEUBLES D’EXPLOITATION",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2922000000001",
+    "intitule": "IMMEUBLES EN LOCATION SIMPLE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2923000000001",
+    "intitule": "IMMEUBLES AFFECTÉS AU CRÉDIT-BAIL OU À LA LOCATION AVEC OPTION D’ACHAT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2924000000001",
+    "intitule": "IMMEUBLES ACQUIS PAR RÉALISATION DE GARANTIE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2925000000001",
+    "intitule": "MATÉRIEL ET MOBILIER D’EXPLOITATION",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2926000000001",
+    "intitule": "MATÉRIEL ET MOBILIER EN LOCATION SIMPLE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2927000000001",
+    "intitule": "MATÉRIEL ET MOBILIER AFFECTÉS AU CRÉDIT-BAIL OU À LA LOCATION AVEC OPTION D’ACHAT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2928000000001",
+    "intitule": "MATÉRIEL ET MOBILIER ACQUIS EN RÉALISATION DE GARANTIES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2929000000001",
+    "intitule": "AUTRES IMMOBILISATIONS CORPORELLES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2930000000101",
+    "intitule": "AUTRES IMMOBILISATIONS CORPORELLES EN COURS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2940000000001",
+    "intitule": "AVANCES ET ACOMPTES SUR COMMANDES D’IMMOBILISATIONS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2951000000001",
+    "intitule": "DÉPÔTS DE GARANTIE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2952000000001",
+    "intitule": "CAUTIONNEMENTS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2962000000001",
+    "intitule": "ACTIONS ET PARTS D’ÉTABLISSEMENTS DE CRÉDIT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2963000000001",
+    "intitule": "AUTRES TITRES DE PARTICIPATION",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2965100000001",
+    "intitule": "TITRES D’INVESTISSEMENT PRIVÉS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2965200000001",
+    "intitule": "TITRES D’INVESTISSEMENT PUBLICS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2966000000001",
+    "intitule": "TITRES DE PARTICIPATION HORS RÉSEAU",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2968000000001",
+    "intitule": "PROV. POUR DÉPRÉCIATION DES AUTRES IMMOB. FINANCIÈRES HORS RÉSEAU",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2971000000001",
+    "intitule": "TITRES PUBLICS ET ASSIMILÉS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "2972000000001",
+    "intitule": "AUTRES PRÊTS ET TITRES PUBLICS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3400000000001",
+    "intitule": "Stock Carnets Collectes",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3400000000101",
+    "intitule": "Stock Chéquiers",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3400000000201",
+    "intitule": "Stock de carte visa S1",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3400000000301",
+    "intitule": "Stock de carte visa S2",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3400000000401",
+    "intitule": "Stock de carte visa S3",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3410000000001",
+    "intitule": "Autres opérations engagées pour le compte de la clientèle hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3501900000001",
+    "intitule": "Dépôts réglementaires des EMF affiliés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3502900000001",
+    "intitule": "Dépôts statutaires des EMF affiliés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3510000000001",
+    "intitule": "Bons de caisse hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3521000000001",
+    "intitule": "Certificat de dépôts hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3530000000001",
+    "intitule": "Comptes et plans épargne logement",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3540000000001",
+    "intitule": "Plans d’épargne retraite",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3550000000001",
+    "intitule": "Autres comptes d’épargne à régime spécial",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3590000000001",
+    "intitule": "Dettes rattachées sur opérations hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3610000000001",
+    "intitule": "Dépôts à terme hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3690000000001",
+    "intitule": "Dettes rattachées sur opération hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3712000000001",
+    "intitule": "Comptes courants clients",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3730000000001",
+    "intitule": "Compte d'Epargne",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3731000000001",
+    "intitule": "Compte d'épargne obligatoire bloqué",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3732000000001",
+    "intitule": "Compte d'Epargne Mobile",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3742000000001",
+    "intitule": "Dépôts de garantie clients",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3810000000001",
+    "intitule": "DAP EMPLOYE MINFI",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3810000000101",
+    "intitule": "D.A.P Salaire du personnel ORIS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3810000000201",
+    "intitule": "D.A.P Commerciaux",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3810000000207",
+    "intitule": "DISPOSITION A PAYER",
+    "origine": "corrigé par l'utilisateur dans EXTOURNE TRANSPORT COMMERCIAUX OCTOBRE 2026 A TELEVERSER.xlsx, confirmé 09/10/2026"
+  },
+  {
+    "code": "3810000000260",
+    "intitule": "DISPOSITION A PAYER",
+    "origine": "corrigé par l'utilisateur dans EXTOURNE TRANSPORT COMMERCIAUX OCTOBRE 2026 A TELEVERSER.xlsx, confirmé 09/10/2026"
+  },
+  {
+    "code": "3810000000267",
+    "intitule": "DISPOSITION A PAYER",
+    "origine": "corrigé par l'utilisateur dans EXTOURNE TRANSPORT COMMERCIAUX OCTOBRE 2026 A TELEVERSER.xlsx, confirmé 09/10/2026"
+  },
+  {
+    "code": "3810000000501",
+    "intitule": "D.A.P MAD",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3810000000601",
+    "intitule": "D.A.P. sur clôture de compte",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3810000000887",
+    "intitule": "DAP FONCTIONNAIRES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3810000000984",
+    "intitule": "DAP MUTUELLE ORIS (MORIS)",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3821000000001",
+    "intitule": "Comptes bloqués",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3822000000001",
+    "intitule": "Recouvrement sur prets radiés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3823000000001",
+    "intitule": "Cpte Encaissement après clôture juridique",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3830000000001",
+    "intitule": "Avoirs en cours de prescription",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3840000000001",
+    "intitule": "Dépôts et cautionnement commerciaux reçus",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3841000000001",
+    "intitule": "Autres sommes dues",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3860000000001",
+    "intitule": "Autres sommes dues par la clientèle",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3860000000101",
+    "intitule": "MTN Mobile-Money/Distributeur Central",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3860000000201",
+    "intitule": "MTN Mobile-Money/Super Marchand",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3860000000301",
+    "intitule": "MTN Mobile-Money/Marchand",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3860000000401",
+    "intitule": "ORANGE-MONEY/ SIM MERE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3860000000501",
+    "intitule": "ORANGE-MONEY/ SIM REGIONALE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3860000000601",
+    "intitule": "ORANGE-MONEY/ SIM MARCHANDE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3870000000001",
+    "intitule": "Valeurs non imputées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3910000000001",
+    "intitule": "Provisions sur créances douteuses. couv. par la garantie de l’état hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3921000000001",
+    "intitule": "Prov. sur créances couv. par des sûretés réelles douteuses depuis moins d’un an",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3922000000001",
+    "intitule": "Prov. sur créances couv. par des sûretés réelles douteuses depuis 1 à 2 ans",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3923000000001",
+    "intitule": "Prov. sur créances couv. par des sûretés réelles douteuses depuis 2 à 3 ans",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3924000000001",
+    "intitule": "Prov. sur créances couv. par des sûretés réelles douteuses depuis plus de 3 ans",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3931000000001",
+    "intitule": "Provisions sur autres créances douteuses depuis moins d’un an",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3932000000001",
+    "intitule": "Provisions sur autres créances douteuses depuis 1 à 2 ans",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3940000000001",
+    "intitule": "Provisions sur créances douteuses sur le crédit bail hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "3970000000001",
+    "intitule": "Provisions sur dépréciation des stocks hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4010000000101",
+    "intitule": "HCC SOLUTIONS SARL",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000000001",
+    "intitule": "FOURNISSEURS, DETTES EN COMPTE HORS RESEAU",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000000102",
+    "intitule": "NG DESIGN",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000000201",
+    "intitule": "ENEO",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000000202",
+    "intitule": "CULTURE ALU",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000000301",
+    "intitule": "CAMWATER",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000000401",
+    "intitule": "CAMTEL",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000000455",
+    "intitule": "KAP SOLUTIONS SARL",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000000552",
+    "intitule": "LEABAK",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000000649",
+    "intitule": "NEW GENERATION OF TECHNOLOGY",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000000746",
+    "intitule": "PANO INDUS CAM SARL",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000000843",
+    "intitule": "ETS TSAS ET TAS SERVICES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000000940",
+    "intitule": "NEST ELECT BUILDING SARL",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000001037",
+    "intitule": "ENCOMAD SARL",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000001134",
+    "intitule": "KOAGNE LA BALEINE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000001231",
+    "intitule": "SPARTAN SECURITY SARL",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000001328",
+    "intitule": "SOTRAF SARL",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000001425",
+    "intitule": "FUTURAMA COMMUNICATION SARL",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000001522",
+    "intitule": "ETS DARLINGS STAR INTERNATIONAL",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000001619",
+    "intitule": "INET CONSULTING SARL",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000001716",
+    "intitule": "BAILLEUR PK14",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000001813",
+    "intitule": "BAILLEUR BAFOUSSAM",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000001910",
+    "intitule": "SOPADIS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000002007",
+    "intitule": "AJC GRAPHIC",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000002104",
+    "intitule": "PAPETERIE ACHILLE SARL",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000002201",
+    "intitule": "AREA ASSURANCES SA",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000002395",
+    "intitule": "SURE SECURITY",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000002492",
+    "intitule": "DREAM MILLENIUM COMPUTER SARL",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000002589",
+    "intitule": "SWECOM",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000002686",
+    "intitule": "BIS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000002783",
+    "intitule": "ERIC SONO",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000002880",
+    "intitule": "CLEPLOM",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000002977",
+    "intitule": "ETS POIDS LOURD",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000003074",
+    "intitule": "SEFAREMSF",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000003171",
+    "intitule": "ETS BEST",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000003268",
+    "intitule": "COMPUFIRST",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000003365",
+    "intitule": "MBE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000003462",
+    "intitule": "FIDESS SARL",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000003559",
+    "intitule": "BALAFON MEDIA",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4011000003656",
+    "intitule": "CREDIX CAM SA",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4021000000001",
+    "intitule": "FOURNISSEURS, EFFETS A PAYER HORS RESEAU",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4031000000001",
+    "intitule": "FOURNISSEURS, FACTURES NON PARVENUES HORS RESEAU",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4091000000001",
+    "intitule": "FOURNISSEURS DEBITEURS HORS RESEAU",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4110000000001",
+    "intitule": "INSTRUMENTS DE PAIEMENT A RECOUVRER AUPRES DES CORRESPONDANTS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4111100000001",
+    "intitule": "Chèques à recouvrer AFB",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4111100000101",
+    "intitule": "Chèques à recouvrer AFB",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4111100000201",
+    "intitule": "Chèques à recouvrer ECOBANK",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4111100000301",
+    "intitule": "Chèques à recouvrer BGFI",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4111100000401",
+    "intitule": "Chèques à recouvrer UBA",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4111200000001",
+    "intitule": "Chèques à recouvrer reçus des clients",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4112100000001",
+    "intitule": "Cartes à recouvrer reçues des correspondants",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4112200000001",
+    "intitule": "Cartes à recouvrer reçues des clients",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4113100000001",
+    "intitule": "Effets à recouvrer reçus des correspondants",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4113200000001",
+    "intitule": "Effets à recouvrer reçus des clients",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4121000000001",
+    "intitule": "Compte d’encaissement client",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4122000000001",
+    "intitule": "Compte d’encaissement correspondant",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4191000000001",
+    "intitule": "VALEURS NON PAYEES A PRESENTATION CLIENT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4192000000001",
+    "intitule": "Valeurs non payées à présentation correspondant",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4210000000001",
+    "intitule": "ACOMPTES ET AVANCES MENSUELS SUR TRAITEMENT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4220000000001",
+    "intitule": "RÉMUNÉRATIONS DUES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4230000000001",
+    "intitule": "OPPOSITIONS SUR TRAITEMENT ET SALAIRE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4240000000001",
+    "intitule": "CONGES PAYES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4250000000001",
+    "intitule": "AUTRES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4301000000001",
+    "intitule": "Etat, impôt sur le bénéfice",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4302000000001",
+    "intitule": "ETAT, AUTRES IMPOTS ET TAXES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4303000000001",
+    "intitule": "ETAT, TVA FACTUREE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4303000000101",
+    "intitule": "TVA FACTURÉE/AUTRES SERVICES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4304000000001",
+    "intitule": "ETAT, TVA DUE OU CREDIT DE TVA",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4305000000001",
+    "intitule": "ETAT, TVA DEDUCTIBLE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4306000000001",
+    "intitule": "ETAT, AUTRES IMPOTS SUR CHIFFRE D'AFFAIRES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4306000000125",
+    "intitule": "ETAT,  AUTRES IMPOTS SUR LE CHIFFRE D’AFFAIRES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4307000000101",
+    "intitule": "CAC",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4307000000201",
+    "intitule": "TAXE COMMUNALE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4307000000301",
+    "intitule": "CRÉDIT FONCIER",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4307000000401",
+    "intitule": "RAV",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4307000000501",
+    "intitule": "IMPÔT SUR SALAIRE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4307000000601",
+    "intitule": "FNE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4307000000701",
+    "intitule": "DROITS D'ENREGISTREMENT ET PRÉCOMPTE SUR LOYER",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4307000000801",
+    "intitule": "PRÉCOMPTE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4307000000901",
+    "intitule": "PRÉCOMPTE/PUBLICITE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4307000001001",
+    "intitule": "TAXE SPECIALE SUR LE REVENU",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4307000001061",
+    "intitule": "ETAT, IMPOTS RETENUS A LA SOURCE SUR LE REVENU",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4307000001101",
+    "intitule": "ETAT TVA RETENUE À LA SOURCE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4307000001201",
+    "intitule": "TVA DÛ",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4307000001301",
+    "intitule": "IRCM",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4307000001401",
+    "intitule": "IRCM A REVERSER",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4311000000001",
+    "intitule": "ETAT, CHARGES A PAYER",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4312000000001",
+    "intitule": "ETAT, PRODUITS A RECEVOIR",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4320000000001",
+    "intitule": "COLLECTIVITES PUBLIQUES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4321000000197",
+    "intitule": "PATENTE À PAYER",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4330000000001",
+    "intitule": "ORGANISMES INTERNATIONAUX",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4341000000001",
+    "intitule": "SUBVENTIONS D’EQUIPEMENT A RECEVOIR",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4342000000001",
+    "intitule": "SUBVENTIONS D’EXPLOITATION A RECEVOIR",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4343000000001",
+    "intitule": "SUBVENTION D’EQUILIBRE A RECEVOIR",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4344000000001",
+    "intitule": "AVANCE SUR SUBVENTION À OBTENIR",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4346000000001",
+    "intitule": "FONDS DE DOTATIONS A RECEVOIR",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4350000000001",
+    "intitule": "FONDS D’AFFECTATION À RECEVOIR",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4410000000001",
+    "intitule": "SOCIETAIRES ET ACTIONNAIRES, APPORT EN NATURE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4412000000001",
+    "intitule": "ACTIONNAIRES, APPORTS EN NUMERAIRE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4413000000001",
+    "intitule": "ACTIONNAIRES, CAPITAL APPELE NON VERSE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4414000000001",
+    "intitule": "ACTIONNAIRES DEFAILLANTS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4415000000001",
+    "intitule": "ACTIONNAIRES, VERSEMENTS REÇUS SUR AUGMENTATION DE CAPITAL",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4416000000001",
+    "intitule": "ACTIONNAIRES, VERSEMENTS ANTICIPES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4417000000001",
+    "intitule": "CAPITAL A REMBOURSER",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4420000000001",
+    "intitule": "SOCIÉTAIRES ET ACTIONNAIRES, COMPTES COURANT HORS RÉSEAU",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4420000000323",
+    "intitule": "SOCIETAIRES ET ACTIONNAIRES, MEGUDJOU ANDRE ALEXIS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4420000000420",
+    "intitule": "SOCIETAIRES ET ACTIONNAIRES, GROUPE MAGNONG SARL",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4420000000517",
+    "intitule": "SOCIETAIRES ET ACTIONNAIRES, MARTIAL ZANG",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4420000000614",
+    "intitule": "SOCIETAIRES ET ACTIONNAIRES, SCI EVOLUTION",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4420000000711",
+    "intitule": "SOCIETAIRES ET ACTIONNAIRES, NGOUANA ACHILLE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4420000000808",
+    "intitule": "SOCIETAIRES ET ACTIONNAIRES, KENNE GERMAIN",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4420000000905",
+    "intitule": "SOCIETAIRES ET ACTIONNAIRES, DANLADI EMMANUEL",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4420000001002",
+    "intitule": "SOCIETAIRES ET ACTIONNAIRES, MAISON DG SARL",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4420000001196",
+    "intitule": "SOCIETAIRES ET ACTIONNAIRES, DJOU SAMUEL",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4420000001293",
+    "intitule": "SOCIETAIRES ET ACTIONNAIRES, SONKENG DONGMO CELESTIN",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4420000001390",
+    "intitule": "SOCIETAIRES ET ACTIONNAIRES, YEMPIE JEREMIE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4420000001487",
+    "intitule": "SOCIETAIRES ET ACTIONNAIRES, MBASSA ALEXIS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4420000001584",
+    "intitule": "SOCIETAIRES ET ACTIONNAIRES, DEMANO INNOCENT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4420000001681",
+    "intitule": "SOCIETAIRES ET ACTIONNAIRES, BOUOPDA SERGE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4420000001778",
+    "intitule": "SOCIETAIRES ET ACTIONNAIRES, NINGAHI DYLAN",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4420000001875",
+    "intitule": "SOCIETAIRES ET ACTIONNAIRES, TOULEPI DJIATSA FLORIAN",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4420000001972",
+    "intitule": "SOCIETAIRES ET ACTIONNAIRES, DZOGNING TELEZING",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4420000002069",
+    "intitule": "SOCIETAIRES ET ACTIONNAIRES, TAKUETE DONNAT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4420000002166",
+    "intitule": "SOCIETAIRES ET ACTIONNAIRES, NOGNIN KUETE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4420900000001",
+    "intitule": "SOCIETAIRES ET ACTIONNAIRES, COMPTES COURANT RESEAU",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4430000000001",
+    "intitule": "Actionnaires, dividendes à payer hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4450000000001",
+    "intitule": "Sociétaires et actionnaires jetons de présences et autres rémunérations hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4470000000001",
+    "intitule": "Sociétaires et actionnaires subventions à recevoir hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4480000000001",
+    "intitule": "Sociétaires et actionnaires, créances rattachées hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4490000000001",
+    "intitule": "Sociétaires et actionnaires, dettes rattachées hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4510000000101",
+    "intitule": "LIAISON OD SIEGE-AGENCES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4510000000270",
+    "intitule": "LIAISON MANUEL OD SIEGE-AKWA",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4510000000367",
+    "intitule": "LIAISON MANUEL OD SIEGE-MOKOLO",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4510000000464",
+    "intitule": "LIAISON MANUEL OD SIEGE-PK14",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4510000000561",
+    "intitule": "LIAISON MANUEL OD SIEGE-BAFOUSSAM",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4510000000658",
+    "intitule": "LIAISON MANUEL OD SIEGE-ETOUDI",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4510000000755",
+    "intitule": "LIAISON MANUEL OD SIEGE-AKWA",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4510000000852",
+    "intitule": "LIAISON MANUEL OD SIEGE-INTENDANCE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4510000001046",
+    "intitule": "LIAISON MANUEL OD SIEGE-BALESSING",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4510100000101",
+    "intitule": "LIAISON TRESORERIE SIEGE AGENCE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4520900000001",
+    "intitule": "Opérations de liaison entre EMF affiliés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4590000000001",
+    "intitule": "Mouvements de fonds et autres virements internes",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4590000010001",
+    "intitule": "Mouvement de fonds intra-agence",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4601000000001",
+    "intitule": "Subventions, fonds de dotation, dons et libéralités à recevoir hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4610000000401",
+    "intitule": "PRUDENTIAL BENEFICIAL LIFE INSURANCE/AGF INSURANCE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4610000000801",
+    "intitule": "Assurance Prêts Collectes",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4620000000001",
+    "intitule": "Organismes de Prévoyance ou de Sécurité Sociale",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4631000000001",
+    "intitule": "Erreurs (manquants)",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4631000000101",
+    "intitule": "Manquant caisse guichet 1",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4631000000201",
+    "intitule": "Manquant caisse guichet 2",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4631000000301",
+    "intitule": "Manquant caisse guichet 3",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4631000000401",
+    "intitule": "Manquant caisse guichet 4",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4631000000501",
+    "intitule": "MANQUANT COMMERCIAUX",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4631000000601",
+    "intitule": "Manquant  Mobile Money",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4631000000701",
+    "intitule": "Autres Manquants",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4632000000001",
+    "intitule": "Erreurs (excédents)",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4632000000101",
+    "intitule": "Excédent caisse guichet 1",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4632000000201",
+    "intitule": "Excédent caisse guichet 2",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4632000000301",
+    "intitule": "Excédent caisse guichet 3",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4632000000401",
+    "intitule": "Excédent caisse guichet 4",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4632000000501",
+    "intitule": "EXCEDENT COMMERCIAUX",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4632000000601",
+    "intitule": "Excédent Mobile Money",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4632000000701",
+    "intitule": "Autres Excédents",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4633000000001",
+    "intitule": "Ecarts d’inventaires (manquants)",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4634000000001",
+    "intitule": "Ecarts d’inventaires (excédents)",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4635000000001",
+    "intitule": "Vols et détournements",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4640000000001",
+    "intitule": "Obligataires, opérations sur les emprunts obligations",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4650000000001",
+    "intitule": "Vers. restant à effectuer sur des titres en portefeuille hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4660000000001",
+    "intitule": "Créances sur cession d’immobilisations hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4670000000001",
+    "intitule": "Créances sur cession de valeurs mobilières hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4680000000001",
+    "intitule": "Autres débiteurs et créditeurs hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4680000000018",
+    "intitule": "Autres débiteurs et créditeurs hors réseau",
+    "origine": "OD manuel confirmé (Ekounou, 07/10/2026)"
+  },
+  {
+    "code": "4680000000071",
+    "intitule": "Autres débiteurs et créditeurs hors réseau",
+    "origine": "nom du fichier « Historique compte » CloudBank"
+  },
+  {
+    "code": "4680000000078",
+    "intitule": "Autres débiteurs et créditeurs hors réseau",
+    "origine": "OD manuel confirmé (Mokolo, 07/10/2026)"
+  },
+  {
+    "code": "4680000000310",
+    "intitule": "CORRESPONDANT JUBA",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4680000000401",
+    "intitule": "UBA -- RECHARGE CARTE VISA",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4680000000407",
+    "intitule": "PASSAGE WESTERN UNION",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4680000000701",
+    "intitule": "FRAIS DE CONVENTION",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4680000000801",
+    "intitule": "RECOUVREMENT /VOLS OU DETOURNEMENTS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4680000000989",
+    "intitule": "DEBITEURS GROUPE MAGNON",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4680000001086",
+    "intitule": "DEBITEUR MBASSA TCHOFFO",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4680000001183",
+    "intitule": "DEBITEUR PETITE CAISSE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4680000001280",
+    "intitule": "AUTRES DEBITEURS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4680000001377",
+    "intitule": "UV MAVIANCE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4680000001474",
+    "intitule": "PARTENAIRE C-CASH",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4680000001571",
+    "intitule": "CORRESPONDANT RIA FINANCE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4680000001668",
+    "intitule": "CORRESPONDANT WU CCA-SIEGE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4680000001862",
+    "intitule": "CORRESPONDANT PRODUITS INET",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4680000001959",
+    "intitule": "PASSAGE RIA FINANCE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4690000000001",
+    "intitule": "Débiteurs litigieux ou douteux hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4711000000001",
+    "intitule": "Autres charges comptabilisées d'avance",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4711000000101",
+    "intitule": "Interets Précomptés sur bon de caisse",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4712000000001",
+    "intitule": "Produits à recevoir hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4713000000001",
+    "intitule": "Loyers de crédit-bail à recevoir",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4721000000001",
+    "intitule": "Charges à payer hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4722000000001",
+    "intitule": "Produits perçus ou comptabilisés d’avance hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4722300000001",
+    "intitule": "Intérêts consolidés à percevoir",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4723000000001",
+    "intitule": "Loyers de crédit-bail perçus ou comptabilisés d’avance",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4731000000001",
+    "intitule": "Subventions d’équipement obtenues non encore encaissées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4732000000001",
+    "intitule": "Subventions d’exploitation obtenues non encore encaissées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4733000000001",
+    "intitule": "Avance sur subventions à obtenir",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4736000000001",
+    "intitule": "Fonds de dotation obtenu, non encore encaissé",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4740000000001",
+    "intitule": "Fonds d’affectation obtenus non encore encaissés hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4750000000001",
+    "intitule": "Position de change",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4760000000001",
+    "intitule": "Contre valeur de la position de change",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4780000000001",
+    "intitule": "Différés ordinateurs",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4800000000001",
+    "intitule": "Avances aux fournisseurs de biens et services en souffrance",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4810000000001",
+    "intitule": "Valeurs à l’encaissement en souffrance",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4820000000001",
+    "intitule": "Avances consenties au personnel en souffrance",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4830000000001",
+    "intitule": "Créances sur les débiteurs divers en souffrance",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4850000000001",
+    "intitule": "Opérations entre sièges et agences en souffrance",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4900000000001",
+    "intitule": "PROVISIONS POUR DÉPRÉCIATION DES COMPTES FOURNISSEURS DÉBITEURS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4910000000001",
+    "intitule": "Provisions pour dépréciation des comptes de recouvrement",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4930000000001",
+    "intitule": "Provisions pour dépréciation des comptes de débiteurs divers",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "4950000000001",
+    "intitule": "Provisions pour dépréciation des comptes de liaison hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5111000000001",
+    "intitule": "ACTIONS ET PARTS D’ETABLISSEMENTS DE CREDIT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5112000000001",
+    "intitule": "BONS DU TRESOR",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5113000000001",
+    "intitule": "AUTRES ACTIONS ET PARTS NEGOCIABLES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5114000000001",
+    "intitule": "OBLIGATIONS ET BONS ASSIMILES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5115000000001",
+    "intitule": "OBLIGATIONS PROPRES RACHETEES PAR ANTICIPATION",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5116000000001",
+    "intitule": "AUTRES TITRES A COURT TERME",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5117000000001",
+    "intitule": "TITRES DOUTEUX",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5118000000001",
+    "intitule": "CREANCES RATTACHEES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5121000000001",
+    "intitule": "ACTIONS ET PARTS D’ETABLISSEMENTS DE CREDIT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5122000000001",
+    "intitule": "BONS DU TRESOR",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5123000000001",
+    "intitule": "AUTRES ACTIONS ET PARTS NEGOCIABLES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5124000000001",
+    "intitule": "OBLIGATIONS ET BONS ASSIMILES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5125000000001",
+    "intitule": "OBLIGATIONS PROPRES RACHETEES PAR ANTICIPATION",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5126000000001",
+    "intitule": "Autres titres à court terme",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5128000000001",
+    "intitule": "Créances rattachées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5211000000001",
+    "intitule": "Prêts au jour le jour",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5212000000001",
+    "intitule": "Prêts à terme",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5213000000001",
+    "intitule": "Valeurs reçues en pension",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5214000000001",
+    "intitule": "Emprunts au jour le jour",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5215000000001",
+    "intitule": "Emprunts à terme",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5216000000001",
+    "intitule": "Valeurs données en pension",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5221000000001",
+    "intitule": "Emprunts sur appel d’offres",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5222000000001",
+    "intitule": "Emprunts sur mise en pension",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5223000000001",
+    "intitule": "Emprunts sur interventions ponctuelles",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5224000000001",
+    "intitule": "Emprunts exceptionnels sur placement",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5225000000001",
+    "intitule": "Autres emprunts au guichet A",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5241000000001",
+    "intitule": "Dépassement de la faculté d’avances sur guichet A",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5242000000001",
+    "intitule": "Sanctions disciplinaires",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5243000000001",
+    "intitule": "Autres avances au taux de pénalité",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5251000000001",
+    "intitule": "Placements à 7 jours",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5252000000001",
+    "intitule": "Placements à 28 jours",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5253000000001",
+    "intitule": "Placements à 84 jours",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5254000000001",
+    "intitule": "Autres placements",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5260000000001",
+    "intitule": "Réserves obligatoires",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5280000000001",
+    "intitule": "Créances rattachées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5290000000001",
+    "intitule": "Dettes rattachées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5310000000001",
+    "intitule": "Autres valeurs reçues en pension ou achetées ferme",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5320000000001",
+    "intitule": "Autres valeurs données en pension ou vendues ferme",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5380000000001",
+    "intitule": "Créances rattachées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5390000000001",
+    "intitule": "Dettes rattachées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5410000000001",
+    "intitule": "Prêts à terme, Banque Centrale",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5411000000001",
+    "intitule": "Prêts à terme, Institutions financières spécialisées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5412000000001",
+    "intitule": "Prêts à terme, Banques associées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5413000000001",
+    "intitule": "Prêts à terme, Banques non associées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5414000000001",
+    "intitule": "Prêts à terme, Chèques postaux",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5415000000001",
+    "intitule": "Prêts à terme, Etablissements financiers associés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5416000000001",
+    "intitule": "Prêts à terme, Etablissements financiers non associés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5417000000001",
+    "intitule": "Prêts à terme, Caisse d’Epargne Postale",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5418000000001",
+    "intitule": "Prêts à terme, Autres institutions financières",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5419000000001",
+    "intitule": "Prêts à terme, EMF hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5420000000001",
+    "intitule": "Comptes à terme nostri, Banque Centrale",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5421000000001",
+    "intitule": "Comptes à terme nostri, Institutions financières spécialisées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5422000000001",
+    "intitule": "Comptes à terme nostri, Banques associées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5423000000001",
+    "intitule": "Comptes à terme nostri, Banques non associées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5424000000001",
+    "intitule": "Comptes à terme nostri, Chèques postaux",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5425000000001",
+    "intitule": "Comptes à terme nostri, Etablissements financiers associés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5426000000001",
+    "intitule": "Comptes à terme nostri, Etablissements financiers non associés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5427000000001",
+    "intitule": "Comptes à terme nostri, Caisse d’Epargne Postale",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5428000000001",
+    "intitule": "Comptes à terme nostri, Autres institutions financières",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5429000000001",
+    "intitule": "Comptes à terme nostri, hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5430000000001",
+    "intitule": "Comptes à terme lori, Banque Centrale",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5431000000001",
+    "intitule": "Comptes à terme lori, Institutions financières spécialisées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5432000000001",
+    "intitule": "Comptes à terme lori, Banques associées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5433000000001",
+    "intitule": "Comptes à terme lori, Banques non associées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5434000000001",
+    "intitule": "Comptes à terme lori, Chèques postaux",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5435000000001",
+    "intitule": "Comptes à terme lori, Etablissements financiers associés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5436000000001",
+    "intitule": "Comptes à terme lori, Etablissements financiers non associés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5437000000001",
+    "intitule": "Comptes à terme lori, Caisse d’Epargne Postale",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5438000000001",
+    "intitule": "Comptes à terme lori, Autres institutions financières",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5439000000001",
+    "intitule": "Comptes à terme lori, hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5440000000001",
+    "intitule": "Emprunts à terme",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5441000000001",
+    "intitule": "Emprunts à terme, Institutions financières spécialisées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5442000000001",
+    "intitule": "Emprunts à terme, Banques associées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5443000000001",
+    "intitule": "Emprunts à terme, Banques non associées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5444000000001",
+    "intitule": "Emprunts à terme, Chèques postaux",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5445000000001",
+    "intitule": "Emprunts à terme, Etablissements financiers associés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5446000000001",
+    "intitule": "Emprunts à terme, Etablissements financiers non associés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5447000000001",
+    "intitule": "Emprunts à terme, Caisse d’Epargne Postale",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5448000000001",
+    "intitule": "Emprunts à terme, Autres institutions financières",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5481000000001",
+    "intitule": "Créances rattachées, hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5491000000001",
+    "intitule": "Dettes rattachées, hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5511000000001",
+    "intitule": "Prêts au jour le jour, Banques Centrales",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5512000000001",
+    "intitule": "Prêts au jour le jour, Institutions financières spécialisées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5513000000001",
+    "intitule": "Prêts au jour le jour, Banques associées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5514000000001",
+    "intitule": "Prêts au jour le jour, Banques non associées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5515000000001",
+    "intitule": "Prêts au jour le jour, Chèques postaux",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5516000000001",
+    "intitule": "Prêts au jour le jour, Etablissements Financiers associés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5517000000001",
+    "intitule": "Prêts au jour le jour, Etablissements Financiers non associés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5518000000001",
+    "intitule": "Prêts au jour le jour, Caisse d’Epargne Postale",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5519000000001",
+    "intitule": "Prêts au jour le jour, hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5521000000001",
+    "intitule": "Emprunts au jour le jour, Banques Centrales",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5522000000001",
+    "intitule": "Emprunts au jour le jour, Institutions financières spécialisées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5523000000001",
+    "intitule": "Emprunts au jour le jour, Banques associées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5524000000001",
+    "intitule": "Emprunts au jour le jour, Banques non associées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5525000000001",
+    "intitule": "Emprunts au jour le jour, Chèques postaux",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5526000000001",
+    "intitule": "Emprunts au jour le jour, Etablissements Financiers associés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5527000000001",
+    "intitule": "Emprunts au jour le jour, Etablissements Financiers non associés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5528000000001",
+    "intitule": "Emprunts au jour le jour, Caisse d’Epargne Postale",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5529000000001",
+    "intitule": "Emprunts au jour le jour, hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5581000000001",
+    "intitule": "Créances rattachées, hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5591000000001",
+    "intitule": "Dettes rattachées, hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5600000000001",
+    "intitule": "Comptes à vue nostri, Banque Centrale",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5601000000001",
+    "intitule": "Comptes à vue nostri, Institutions financières spécialisées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5602000000001",
+    "intitule": "Comptes à vue nostri, Banques associées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5602000000196",
+    "intitule": "BGFI COMPTE COURANT ASSOCIES (82)",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5603000000001",
+    "intitule": "COMPTES A VUE NOSTRI, BANQUES NON ASSOCIEES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5603000000201",
+    "intitule": "AFRILAND FIRST BANK COURANT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5603000000301",
+    "intitule": "CCA BANK COURANT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5603000000738",
+    "intitule": "BGFI COMPTE COURANT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5603000300001",
+    "intitule": "UBA COURANT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5603000800001",
+    "intitule": "CCA BANK",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5603000800101",
+    "intitule": "CCA BANK ASSOCIE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5603000800121",
+    "intitule": "BGFI COMPTE COURANT ASSOCIES (85)",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5603000800218",
+    "intitule": "CCA AGENCE BAFOUSSAM",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5603000800315",
+    "intitule": "CCA AGENCE MOKOLO",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5603000800897",
+    "intitule": "ACCESS BANK COURANT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5604000000001",
+    "intitule": "Comptes à vue nostri, Chèques postaux",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5605000000001",
+    "intitule": "Comptes à vue nostri, Etablissements financiers associés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5606000000001",
+    "intitule": "Comptes à vue nostri, Etablissements financiers non associés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5607000000001",
+    "intitule": "Comptes à vue nostri, Caisse d’Epargne Postale",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5608000000001",
+    "intitule": "Comptes à vue nostri, Autres institutions financières",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5609000000001",
+    "intitule": "Comptes à vue nostri, hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5610000000001",
+    "intitule": "Comptes à vue lori, Banque Centrale",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5611000000001",
+    "intitule": "Comptes à vue lori, Institutions financières spécialisées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5612000000001",
+    "intitule": "Comptes à vue lori, Banques associées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5613000000001",
+    "intitule": "Comptes à vue lori, Banques non associées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5614000000001",
+    "intitule": "Comptes à vue lori, Chèques postaux",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5615000000001",
+    "intitule": "Comptes à vue lori, Etablissements financiers associés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5616000000001",
+    "intitule": "Comptes à vue lori, Etablissements financiers non associés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5617000000001",
+    "intitule": "Comptes à vue lori, Caisse d’ Epargne Postale",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5618000000001",
+    "intitule": "Comptes à vue lori, Autres institutions financières",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5619000000001",
+    "intitule": "Comptes à vue lori, hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5631000000001",
+    "intitule": "Dépôts de garantie donnés, hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5681000000001",
+    "intitule": "Créances rattachées, hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5691000000001",
+    "intitule": "Dettes rattachées, hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5710000000001",
+    "intitule": "Caisse Principale",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5710000000101",
+    "intitule": "Caisse secondaire 1",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5710000000201",
+    "intitule": "Caisse secondaire 2",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5710000000301",
+    "intitule": "Caisse secondaire 3",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5710000000401",
+    "intitule": "Caisse secondaire 4",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5711000000001",
+    "intitule": "Caisse devises",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5720000000001",
+    "intitule": "Avoirs en or et pierres précieuses",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5730000000001",
+    "intitule": "Chèques de voyage",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5740000000001",
+    "intitule": "Timbres postaux et fiscaux",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5811000000001",
+    "intitule": "Créances impayées sur les corresp.  hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5821000000001",
+    "intitule": "Créances immobilisées sur les corresp. hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5831000000001",
+    "intitule": "Créances douteuses sur les corresp.  hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5911000000001",
+    "intitule": "Provisions pour dépréciation des actions et parts d’Ets de crédit",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5912000000001",
+    "intitule": "Provisions pour dépréciation des Bons du Trésor",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5913000000001",
+    "intitule": "Prov. pour dépréciation des autres actions et parts négociables",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5914000000001",
+    "intitule": "Provisions pour dépréciation des obligations et bons assimilés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5915000000001",
+    "intitule": "Provisions pour dépréciation des obligations propres rachetées par anticipation",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5916000000001",
+    "intitule": "Provisions pour dépréciation des autres titres à court terme",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5917000000001",
+    "intitule": "Provisions pour dépréciation des titres douteux",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "5921000000001",
+    "intitule": "Provisions pour dépréciation des créances douteuses sur les correspondants",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6011000000001",
+    "intitule": "Opérations interbancaires",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6012000000001",
+    "intitule": "BEAC",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6020000000001",
+    "intitule": "Intérêts sur autres valeurs données en pension",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6030000000001",
+    "intitule": "Intérêts sur emprunts et comptes à terme",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6040000000001",
+    "intitule": "Intérêts sur emprunts au jour le jour",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6050000000193",
+    "intitule": "Intérêts sur comptes à vue",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6061000000001",
+    "intitule": "Commissions sur opérations du marché monétaire",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6062000000001",
+    "intitule": "Commissions sur autres valeurs données en pension",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6063000000001",
+    "intitule": "Commissions sur emprunts et comptes à terme",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6064000000001",
+    "intitule": "Commissions sur emprunts au jour le jour",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6065000000001",
+    "intitule": "Frais de tenue de compte",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6065000000101",
+    "intitule": "Commissions sur mouvement",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6065000000201",
+    "intitule": "Commissions sur découvert",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6065000000301",
+    "intitule": "Autres commissions et frais bancaires",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6111000000001",
+    "intitule": "Intérêts sur bons de caisse",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6112000000001",
+    "intitule": "Intérêts sur certificats de dépôts",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6113000000001",
+    "intitule": "Intérêts sur comptes et plans épargne-logement",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6114000000001",
+    "intitule": "Intérêts sur plans d’épargne-retraite",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6115000000001",
+    "intitule": "Intérêts sur Epargne Projet",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6120000000001",
+    "intitule": "Intérêts sur dépôts à terme",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6130000000001",
+    "intitule": "Intérêts sur comptes sur livrets",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6140000000001",
+    "intitule": "Intérêts sur autres comptes à vue",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6151000000001",
+    "intitule": "Intérêts sur opérations à vue hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6151100000001",
+    "intitule": "Intérêts sur opérations à terme hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6160000000001",
+    "intitule": "Charges sur opérations de location",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6190000000001",
+    "intitule": "Intérêts sur autres comptes de la clientèle",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6210000000001",
+    "intitule": "Frais engagés et commissions sur instruments de paiement",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6220000000001",
+    "intitule": "Commissions et frais sur titres",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6230000000001",
+    "intitule": "Commissions, frais et pertes sur opération de change effectuées à titre principal",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6240000000001",
+    "intitule": "Commissions et frais versés sur opérations de transfert de fonds",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6250000000001",
+    "intitule": "Commissions sur engagements par signature",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6260000000001",
+    "intitule": "Autres commissions et frais bancaires",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6260000000101",
+    "intitule": "Frais d'achat sms banking",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6270000000001",
+    "intitule": "Pertes sur titres de placement ou de transaction",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6281000000001",
+    "intitule": "Charges diverses sur opérations hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6311000000001",
+    "intitule": "Intérêts sur emprunts obligataires",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6312000000001",
+    "intitule": "Intérêts sur emprunts participatifs",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6313000000001",
+    "intitule": "Intérêts sur dettes subordonnées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6314000000001",
+    "intitule": "INTERETS SUR COMPTE BLOQUES DES ACTIONNAIRES OU SOCIETAIRES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6315000000001",
+    "intitule": "Intérêts sur autres comptes bloqués",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6316000000001",
+    "intitule": "Intérêts sur titres de créances négociables",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6317000000001",
+    "intitule": "Intérêts sur autres emprunts à moyen et long terme",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6318000000001",
+    "intitule": "Intérêts payés sur emprunts équivalents crédit bail",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6319000000001",
+    "intitule": "Intérêts sur ressources permanentes hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6321000000001",
+    "intitule": "Commissions sur emprunts obligataires",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6322000000001",
+    "intitule": "Commissions sur emprunts participatifs",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6323000000001",
+    "intitule": "Commissions sur dettes subordonnées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6324000000001",
+    "intitule": "Commissions sur comptes bloqués des actionnaires",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6325000000001",
+    "intitule": "Commissions sur autres comptes bloqués",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6326000000001",
+    "intitule": "Commissions sur titres de créances négociables",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6327000000001",
+    "intitule": "Commissions sur autres emprunts à moyen et long terme",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6328000000001",
+    "intitule": "Comm. sur ressources permanentes hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6401000000001",
+    "intitule": "Achat carnet collecte",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6401000000101",
+    "intitule": "Achat chequiers",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6401000000201",
+    "intitule": "Achat carte visa",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6402000000001",
+    "intitule": "Variations de stocks Carnets Collectes",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6402000000101",
+    "intitule": "Variations de stocks Chéquiers",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6402000000201",
+    "intitule": "Variations de stocks Cartes Visa",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6410000000001",
+    "intitule": "Charges sur location de coffre-forts",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6411000000001",
+    "intitule": "Charges sur opérations de change",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6412000000001",
+    "intitule": "Charges sur les actions de formations",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6413000000001",
+    "intitule": "Charges liées aux conseils et assistance de gestion",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6414000000001",
+    "intitule": "Autres charges liées aux opérations de crédit-bail avec option d’achat",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6415000000001",
+    "intitule": "Charges liées aux opérations de location simple des valeurs immobilisées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6416000000001",
+    "intitule": "Autres charges liées aux activités Access. hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6429100000001",
+    "intitule": "Charges sur opérations de crédit-bail et opérations assimilées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6510100000001",
+    "intitule": "RENUMERATIONS DIRECTES DES CADRES SUPERIEURS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6510200000001",
+    "intitule": "Rémunérations directes des agents de maîtrise",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6511000000001",
+    "intitule": "Rémunérations directes des employés permanents",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6512000000001",
+    "intitule": "Rémunérations directes du personnel de service",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6512000000102",
+    "intitule": "PRIME DE BILAN",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6513000000001",
+    "intitule": "Rémunérations directes du personnel temporaire",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6514000000001",
+    "intitule": "Cotisations sociales (part patronale)",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6515000000001",
+    "intitule": "Indemnité de transport",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6515000000201",
+    "intitule": "Indemnités de lait",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6515000000253",
+    "intitule": "Indemnités de lait",
+    "origine": "OD manuel confirmé (Mokolo, 07/10/2026)"
+  },
+  {
+    "code": "6515000000290",
+    "intitule": "Indemnités de lait",
+    "origine": "OD manuel confirmé (Ekounou, 07/10/2026)"
+  },
+  {
+    "code": "6515000000301",
+    "intitule": "Indemnités de Licenciement",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6516000000001",
+    "intitule": "Avantages en nature",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6517000000001",
+    "intitule": "Prime de responsabilité",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6517000000101",
+    "intitule": "Prime d'intérim",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6517000000201",
+    "intitule": "Indemnité de salissure",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6517000000301",
+    "intitule": "Indemnité de voiture",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6517000000401",
+    "intitule": "Indemnité de representation",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6517000000501",
+    "intitule": "Prime d'ancienneté",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6517000000601",
+    "intitule": "Préavis",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6518000000001",
+    "intitule": "Droits à congé",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6519000000001",
+    "intitule": "Charges du personnel transféré hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6521100000001",
+    "intitule": "Eau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6521100000101",
+    "intitule": "Electricité",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6521100000201",
+    "intitule": "Gaz et Carburant",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6521200000001",
+    "intitule": "Petit outillage",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6521200000081",
+    "intitule": "Petit outillage",
+    "origine": "OD manuel confirmé (Mokolo, 07/10/2026)"
+  },
+  {
+    "code": "6521200000102",
+    "intitule": "MATERIEL DE BUREAU",
+    "origine": "Confirmé par l'utilisateur (Kousseri, 07/10/2026)"
+  },
+  {
+    "code": "6521200000118",
+    "intitule": "MATERIEL DE BUREAU",
+    "origine": "OD manuel confirmé (Ekounou, 07/10/2026)"
+  },
+  {
+    "code": "6521200000119",
+    "intitule": "MATERIEL DE BUREAU",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6521200000148",
+    "intitule": "MATERIEL DE BUREAU",
+    "origine": "OD manuel confirmé (Marché Central, 08/10/2026)"
+  },
+  {
+    "code": "6521200000216",
+    "intitule": "MATERIEL INFORMATIQUE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6521300000001",
+    "intitule": "Fournitures de bureau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6521300000101",
+    "intitule": "Documentation générale",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6521300000201",
+    "intitule": "Imprimés consommés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6521400000001",
+    "intitule": "Fournitures d’entretien",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6521400000016",
+    "intitule": "Fournitures d’entretien",
+    "origine": "OD manuel confirmé (Mokolo, 07/10/2026)"
+  },
+  {
+    "code": "6521500000001",
+    "intitule": "Fournitures non ventilées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6522000000015",
+    "intitule": "Transports et déplacements hors réseau",
+    "origine": "OD manuel confirmé (Mokolo, 07/10/2026)"
+  },
+  {
+    "code": "6522000000052",
+    "intitule": "Transports et déplacements hors réseau",
+    "origine": "OD manuel confirmé (Ekounou, 07/10/2026)"
+  },
+  {
+    "code": "6522000000105",
+    "intitule": "TRANSPORT COMMERCIAUX",
+    "origine": "grand livre auxiliaire ABCJTemp, confirmé 09/10/2026 (TRANSPORT COMMERCIAUX par agence)"
+  },
+  {
+    "code": "6522000000149",
+    "intitule": "TRANSPORT COMMERCIAUX",
+    "origine": "grand livre auxiliaire ABCJTemp, confirmé 09/10/2026 (TRANSPORT COMMERCIAUX par agence)"
+  },
+  {
+    "code": "6522000000209",
+    "intitule": "TRANSPORT COMMERCIAUX",
+    "origine": "grand livre auxiliaire ABCJTemp, confirmé 09/10/2026 (TRANSPORT COMMERCIAUX par agence)"
+  },
+  {
+    "code": "6522000000217",
+    "intitule": "TRANSPORT COMMERCIAUX",
+    "origine": "grand livre auxiliaire ABCJTemp, confirmé 09/10/2026 (TRANSPORT COMMERCIAUX par agence)"
+  },
+  {
+    "code": "6522000000232",
+    "intitule": "TRANSPORT COMMERCIAUX",
+    "origine": "grand livre auxiliaire ABCJTemp, confirmé 09/10/2026 (TRANSPORT COMMERCIAUX par agence)"
+  },
+  {
+    "code": "6522000000247",
+    "intitule": "CHARGES COMMERCIAUX",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6522000000253",
+    "intitule": "TRANSPORT COMMERCIAUX",
+    "origine": "grand livre auxiliaire ABCJTemp, confirmé 09/10/2026 (TRANSPORT COMMERCIAUX par agence)"
+  },
+  {
+    "code": "6522000000268",
+    "intitule": "TRANSPORT COMMERCIAUX",
+    "origine": "grand livre auxiliaire ABCJTemp, confirmé 09/10/2026 (TRANSPORT COMMERCIAUX par agence)"
+  },
+  {
+    "code": "6522000000276",
+    "intitule": "TRANSPORT COMMERCIAUX",
+    "origine": "grand livre auxiliaire ABCJTemp, confirmé 09/10/2026 (TRANSPORT COMMERCIAUX par agence)"
+  },
+  {
+    "code": "6522000000291",
+    "intitule": "TRANSPORT COMMERCIAUX",
+    "origine": "grand livre auxiliaire ABCJTemp, confirmé 09/10/2026 (TRANSPORT COMMERCIAUX par agence)"
+  },
+  {
+    "code": "6523100000001",
+    "intitule": "Téléphone Fixe et télex",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523100000101",
+    "intitule": "Téléphone mobile",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523100000201",
+    "intitule": "Affranchissements",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523100000326",
+    "intitule": "FRAIS INTERNET",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523200000001",
+    "intitule": "Frais de mission",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523300000001",
+    "intitule": "Réceptions, publicité",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523300000101",
+    "intitule": "Articles publicitaires (Polos, t-shirts,gadgets publicitaires et autres)",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523300000201",
+    "intitule": "Frais de publicité et autres supports de communication",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523300000301",
+    "intitule": "Frais de réception",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523300000320",
+    "intitule": "Frais de réception",
+    "origine": "OD manuel confirmé (Mokolo, 07/10/2026)"
+  },
+  {
+    "code": "6523300000357",
+    "intitule": "Frais de réception",
+    "origine": "OD manuel confirmé (Ekounou, 07/10/2026)"
+  },
+  {
+    "code": "6523400000001",
+    "intitule": "Loyers et charges locatives",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523500000001",
+    "intitule": "Frais d'acte juridique & contentieux",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523500000301",
+    "intitule": "Autres honoraires",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523500000401",
+    "intitule": "Frais de contentieux à récupérer",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523600000001",
+    "intitule": "Entretien et reparation materiel de bureau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523600000101",
+    "intitule": "Entretien et reparation materiel informatique",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523600000201",
+    "intitule": "Entretien et reparation materiel de transport",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523600000309",
+    "intitule": "ENTRETIEN ET REPARATION ELECTRICITE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523600000406",
+    "intitule": "ENTRETIEN ET REPARATION MOBILIER DE BUREAU",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523600000503",
+    "intitule": "ENTRETIEN ET REPARTION DES BIENS MEUBLES ET IMMEUBLES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523600000532",
+    "intitule": "ENTRETIEN ET REPARTION DES BIENS MEUBLES ET IMMEUBLES",
+    "origine": "OD manuel confirmé (Marché Central, 08/10/2026)"
+  },
+  {
+    "code": "6523600000562",
+    "intitule": "ENTRETIEN ET REPARTION DES BIENS MEUBLES ET IMMEUBLES",
+    "origine": "OD manuel confirmé (Mokolo, 07/10/2026)"
+  },
+  {
+    "code": "6523700000001",
+    "intitule": "Informatique (Location de matériel et assistance)",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523800000001",
+    "intitule": "Commissions-collecte",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523800000201",
+    "intitule": "Frais de gardiennage",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523800000301",
+    "intitule": "Divers services",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523800000401",
+    "intitule": "Bouquets TV",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523800000501",
+    "intitule": "Frais de photocopies",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523800000632",
+    "intitule": "FRAIS EXPEDITIONS",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523800000691",
+    "intitule": "FRAIS EXPEDITIONS",
+    "origine": "OD manuel confirmé (Mokolo, 07/10/2026)"
+  },
+  {
+    "code": "6523800000729",
+    "intitule": "FRAIS DE PARKING",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6523900000001",
+    "intitule": "65239 Autres services consommés EMF réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6524100000001",
+    "intitule": "Assistance technique",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6524200000001",
+    "intitule": "Inspection",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6525100000001",
+    "intitule": "Assemblée Générale, Conseil d’Administration, jetons de présence",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6525100000101",
+    "intitule": "Frais de Conseil d'Administration",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6525100000201",
+    "intitule": "Jetons de presence",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6525100000301",
+    "intitule": "Comité de Gouvernement d'entreprise",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6525100000401",
+    "intitule": "Comité d'Audit et Risques",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6525100000501",
+    "intitule": "Comité des Engagements",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6525100000601",
+    "intitule": "Comité de Rémunération",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6525100000701",
+    "intitule": "Indemnités de Fonction des Dirigeants sociaux",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6525200000001",
+    "intitule": "Assurances multirisques professionnels",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6525200000101",
+    "intitule": "Assurances Automobiles",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6525400000001",
+    "intitule": "Cotisations professionnelles",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6525500000001",
+    "intitule": "Formation du personnel",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6525600000001",
+    "intitule": "Charges diverses",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6525600000240",
+    "intitule": "Charges diverses",
+    "origine": "OD manuel confirmé (Ekounou, 07/10/2026)"
+  },
+  {
+    "code": "6610000000001",
+    "intitule": "Patentes",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6610000000101",
+    "intitule": "Taxe foncière",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6620000000001",
+    "intitule": "Etat, impôts et taxes indirects",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6630000000001",
+    "intitule": "Etat, droits d’enregistrement",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6630000000164",
+    "intitule": "TIMBRES FISCAUX",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6640000000001",
+    "intitule": "Etat, pénalités et amendes fiscales",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6650000000001",
+    "intitule": "Etat, autres impôts et taxes",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6650000000101",
+    "intitule": "Péage",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6710000000001",
+    "intitule": "Charges sur opérations de trésorerie/Exercice ant.",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6711000000001",
+    "intitule": "Charges sur opérations avec la clientèle et de crédit-bail/ Exercice ant.",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6712000000001",
+    "intitule": "Charges sur opérations bancaires diverses/Exercice ant.",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6713000000001",
+    "intitule": "Charges sur ressources permanentes/Exercice ant.",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6714000000001",
+    "intitule": "Charges d’exploitation bancaire sur exercice antérieur hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6721000000001",
+    "intitule": "Fournitures consommées/Exercice ant.",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6722000000001",
+    "intitule": "Transports et déplacements/Exercice ant.",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6723000000001",
+    "intitule": "Autres services consommés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6724000000001",
+    "intitule": "Charges diverses d’exploitation/Exercice ant.",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6725000000001",
+    "intitule": "Assistance technique et frais d’inspection Exercice ant.",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6726000000001",
+    "intitule": "Charges générales d’exploitation sur exercices antérieurs EMF",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6731000000001",
+    "intitule": "Frais de personnel/Exercice ant.",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6732000000001",
+    "intitule": "Impôts et taxes/Exercice ant.",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6733000000001",
+    "intitule": "Autres charges sur exercices antérieurs EMF",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6761000000001",
+    "intitule": "Val. nettes comptables des titres de participation cédés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6762000000001",
+    "intitule": "Valeurs nettes comptables des autres éléments d’actif cédés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6763000000001",
+    "intitule": "Valeurs nettes comptables des éléments d’actif cédés EMF",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6771000000001",
+    "intitule": "Subventions d’investissement",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6772000000001",
+    "intitule": "Subventions d’exploitation et d’équilibre",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6773000000001",
+    "intitule": "Subventions accordées hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6780000000001",
+    "intitule": "Dons et libéralités accordés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6790000000001",
+    "intitule": "Pertes sur opérations de trésorerie",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6791000000001",
+    "intitule": "Pertes sur opérations avec la clientèle",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6792000000001",
+    "intitule": "Pertes sur opérations bancaires diverses",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6793000000001",
+    "intitule": "Pertes exceptionnelles liées au personnel",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6794000000001",
+    "intitule": "Amendes et pénalités fiscales",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6795000000001",
+    "intitule": "Déficits de caisse non récupérés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6796000000001",
+    "intitule": "Manquants sur stocks de fournitures",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6797000000001",
+    "intitule": "Mise au rebut d’immobilisations",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6798000000001",
+    "intitule": "Autres pertes exceptionnelles",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6799000000001",
+    "intitule": "Pertes exceptionnelles EMF  hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6801000000001",
+    "intitule": "Dotations aux amortissements des frais immobilisés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6802000000001",
+    "intitule": "Dotations aux amortissements des immobilisations incorporelles",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6807000000001",
+    "intitule": "Dotations aux amortissements des primes de remboursement des emprunts obligataires",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6820100000001",
+    "intitule": "Immeubles",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6820200000001",
+    "intitule": "Matériel et mobilier",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6820200000138",
+    "intitule": "DOTATIONS AUX AMORTISSEMENTS DES MATERIELS ET MOBILIERS DE BUREAU",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6820200000235",
+    "intitule": "DOTATIONS AUX AMORTISSEMENTS DES MATERIELS INFORMATIQUES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6821000000001",
+    "intitule": "Dotations aux amortissements des immeubles d’exploitation",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6822000000001",
+    "intitule": "Dot. aux amortissements des Immeubles donnés en location simple",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6823000000001",
+    "intitule": "Dot. aux amortissements des immeubles acquis par réalisation de garantie",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6824000000001",
+    "intitule": "Dot. aux amort mat et Mob de bureau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6824000000101",
+    "intitule": "Dot. aux amort mat. Informatique",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6824000000201",
+    "intitule": "Dot. aux amort Mat. de transport",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6825000000001",
+    "intitule": "Dot. aux amortissements du matériel et mobilier donnés en location simple",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6826000000001",
+    "intitule": "Dot. aux amortissements du mat. et mob acquis en réalisation de garanties",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6827000000001",
+    "intitule": "Dot. aux amortissements des autres immobilisations corporelles",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6827000000159",
+    "intitule": "DOTATIONS AUX AMORT IMMOBILISATIONS CORPORELLES",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6911000000001",
+    "intitule": "Dotations aux provisions pour risques et charges",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6912000000001",
+    "intitule": "Dot. aux provisions pour dépréciation des valeurs incorporelles et corporelles Immobilisées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6913000000001",
+    "intitule": "Dotations aux provisions pour dépréciation des comptes de clientèle",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6914000000001",
+    "intitule": "Dotations aux provisions pour dépréciation des comptes de tiers et de régularisation",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6915000000001",
+    "intitule": "Dotations aux provisions pour dépréciation des comptes de trésorerie",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6916000000001",
+    "intitule": "Dotations aux provisions des comptes d’EMF",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6917000000001",
+    "intitule": "Dotations aux provisions pour dépréciation des stocks",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6921000000001",
+    "intitule": "Pertes sur créances irrécouvrables couvertes par des provisions",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6922000000001",
+    "intitule": "Pertes sur créances irrécouvrables non couvertes par des provisions",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6923000000001",
+    "intitule": "Pertes sur créances irrécouvrables d’EMF",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6940000000001",
+    "intitule": "Dotation aux provisions pour risques généraux",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6971000000001",
+    "intitule": "Dotation aux provisions pour amortissements dérogatoires",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6972000000001",
+    "intitule": "Dotation aux autres provisions réglementées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6980000000001",
+    "intitule": "Autres dotations aux provisions",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7011000000001",
+    "intitule": "Intérêts sur placements interbancaires",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7012000000001",
+    "intitule": "Intérêts sur placements à la BEAC",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7020000000001",
+    "intitule": "Intérêts sur autres valeurs reçues en pension",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7030000000001",
+    "intitule": "Intérêts sur prêts et comptes à terme",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7040000000001",
+    "intitule": "Intérêts sur prêts au jour le jour",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7050000000001",
+    "intitule": "Intérêts sur comptes à vue",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7061000000001",
+    "intitule": "Commissions sur opérations du marché monétaire",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7062000000001",
+    "intitule": "Commissions sur opérations de refinancement",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7063000000001",
+    "intitule": "Commissions sur prêts et comptes à terme",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7064000000001",
+    "intitule": "Commissions sur prêts au jour le jour",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7065000000001",
+    "intitule": "Commissions sur comptes à vue",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7110000000001",
+    "intitule": "Intérêts sur les crédits à long terme",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7120000000001",
+    "intitule": "Intérêts sur les crédits à moyen terme",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7130000000001",
+    "intitule": "Intérêts sur les crédits à court terme",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7140000000001",
+    "intitule": "Intérêts sur comptes débiteurs de la clientèle",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7151000000001",
+    "intitule": "Frais de dossier de crédit Long Terme",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7151000000101",
+    "intitule": "Frais de gestion de crédit Long Terme",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7152000000001",
+    "intitule": "Frais de dossier de crédit Moyen Terme",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7152000000101",
+    "intitule": "Frais de gestion de crédit Moyen Terme",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7153000000001",
+    "intitule": "FRAIS ETUDE DE DOSSIER CREDIT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7153000000101",
+    "intitule": "FRAIS DE MISE EN PLACE CREDIT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7154000000001",
+    "intitule": "Frais de dossier de crédit Découverts",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7154000000101",
+    "intitule": "Frais de gestion de crédit Découverts",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7160000000001",
+    "intitule": "AUTRES PRODUITS ET PRODUITS SUR OPERATIONS DE LOCATION SIMPLE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7160000000283",
+    "intitule": "COMMISSIONS COLLECTE JOURNALIERE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7171000000001",
+    "intitule": "Produits sur opérations hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7190000000001",
+    "intitule": "Intérets et retard et pénalités sur crédits",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7190000000101",
+    "intitule": "Autres produits sur opérations avec la clientèle",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7190000000201",
+    "intitule": "Frais de Clôture de compte",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7190000000301",
+    "intitule": "Frais d’ouverture de compte",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7190000000401",
+    "intitule": "Produits Assurance sur Prets.",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7200000000001",
+    "intitule": "Frais de tenue de compte",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7200000000101",
+    "intitule": "Produit SMS Banking",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7210000000001",
+    "intitule": "Frais d'encaissement cheque et effet",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7210000000101",
+    "intitule": "Commissions sur operation deplacee",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7210000000201",
+    "intitule": "Commissions sur virement locaux",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7210000000301",
+    "intitule": "Commissions sur virements internationaux",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7210000000401",
+    "intitule": "Commissions sur escompte cheque et effet",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7210000000501",
+    "intitule": "Produit/utilisation du chèque de guichet",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7210000000601",
+    "intitule": "Produit/vente chéquiers",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7220000000001",
+    "intitule": "Commissions sur engagements par signature",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7230000000001",
+    "intitule": "Commissions et profits sur opérations de change effectuées à titre principal",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7240000000001",
+    "intitule": "Commissions et frais perçus sur opérations de transfert de fonds",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7240000000401",
+    "intitule": "Autres comm et frais perçus sur op. de transfert de fonds",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7240000010076",
+    "intitule": "COMMISIONS SUR TRANSFERT JUBA",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7250000000001",
+    "intitule": "Commissions de gestion de portefeuille titres pour compte de tiers",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7260000000001",
+    "intitule": "Profits sur titres de placement et transaction",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7270000000001",
+    "intitule": "Récupération et refacturation de charges d’exploitation bancaire",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7270000000101",
+    "intitule": "Attestation de compte et de domiciliation bancaire",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7283000000001",
+    "intitule": "PRODUITS SUR MONNAIE ELECTRONIQUE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7283000000101",
+    "intitule": "Produits sur encaissement chèques et effets",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7283000000201",
+    "intitule": "Produits sur virement Local",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7284000000001",
+    "intitule": "Autres prestations diverses",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7291000000001",
+    "intitule": "Produits divers sur opérations bancaires hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7311000000001",
+    "intitule": "Revenus des actions propres détenues",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7312000000001",
+    "intitule": "Revenus d’actions et parts d’établissements de crédit",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7313000000001",
+    "intitule": "Revenus d’actions et parts d’autres sociétés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7314000000001",
+    "intitule": "Revenus des titres publics immobilisés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7315000000001",
+    "intitule": "Revenus des titres privés immobilisés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7316000000001",
+    "intitule": "Revenus des titres en souffrance",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7317000000001",
+    "intitule": "Revenus du portefeuille de participation hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7321000000001",
+    "intitule": "Revenus des bons d’équipement et assimilés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7322000000001",
+    "intitule": "Revenus des créances titrisées sur l’Etat",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7323000000001",
+    "intitule": "Revenus des autres prêts et titres à souscription obligatoire",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7326000000001",
+    "intitule": "Revenus des prêts et titres impayés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7327000000001",
+    "intitule": "Revenus des prêts et titres à souscription obligatoire hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7331000000001",
+    "intitule": "Revenus d’actions et parts d’établissements de crédit",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7332000000001",
+    "intitule": "Revenus de bons du trésor",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7333000000001",
+    "intitule": "Revenus d’autres actions et parts négociables",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7334000000001",
+    "intitule": "Revenus d’obligations et bons assimilés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7335000000001",
+    "intitule": "Revenus d’obligations propres rachetées par anticipation",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7336000000001",
+    "intitule": "Revenus d’autres titres à court terme",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7337000000001",
+    "intitule": "Revenus de titres douteux",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7338000000001",
+    "intitule": "Revenus du portefeuille de placement hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7341000000001",
+    "intitule": "Revenus d’actions et parts d’établissements de crédit",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7342000000001",
+    "intitule": "Revenus de bons du trésor",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7343000000001",
+    "intitule": "Revenus d’autres actions et parts négociables",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7344000000001",
+    "intitule": "Revenus d’obligations et bons assimilés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7345000000001",
+    "intitule": "Revenus d’obligations propres rachetées par anticipation",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7346000000001",
+    "intitule": "Revenus d’autres titres à court terme",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7347000000001",
+    "intitule": "Revenus du portefeuille de transaction hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7401000000001",
+    "intitule": "Vente de carnets-collecte",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7401000000101",
+    "intitule": "vente chequiers",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7401000000201",
+    "intitule": "Vente carte visa",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7402000000001",
+    "intitule": "RRR accordées hors factures hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7410000000001",
+    "intitule": "Produits de location de coffres-forts",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7411000000001",
+    "intitule": "Produits sur opérations de change",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7414000000001",
+    "intitule": "Intérêts sur opération de crédit-bail",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7414100000001",
+    "intitule": "Plus value sur opération de crédit-bail",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7414200000001",
+    "intitule": "Autres produits sur opération de crédit-bail",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7415000000001",
+    "intitule": "Produits de location simple des valeurs immobilisées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7416000000001",
+    "intitule": "Produits accessoires sur opération hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7417000000001",
+    "intitule": "Produits assurance sur prets",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7417000000401",
+    "intitule": "PRODUITS SUR ASSURANCE ORIS SECURE",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7429000000001",
+    "intitule": "Loyers",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7429100000001",
+    "intitule": "Reprises de provisions pour risque de non-perception de loyers",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7429200000001",
+    "intitule": "Reprises d’amortissements de biens en crédit-bail",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7429300000001",
+    "intitule": "Reprises de provisions sur biens en crédit-bail",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7429400000001",
+    "intitule": "Reprise de provisions pour perte latente",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7429700000001",
+    "intitule": "Plus-value de cession de biens en crédit-bail",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7429800000001",
+    "intitule": "Autres produits des opérations de crédit-bail",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7430000000001",
+    "intitule": "Produits sur opérations de location simple",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7510000000001",
+    "intitule": "Jetons de présence",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7520000000001",
+    "intitule": "Etudes cédées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7530000000001",
+    "intitule": "Production immobilisée",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7540000000001",
+    "intitule": "Récupération et refacturation des charges d’exploitation non bancaires",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7552000000001",
+    "intitule": "Divers produits",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7552000000101",
+    "intitule": "Divers produits",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7552000000201",
+    "intitule": "Frais d'Attestation de compte",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7552000000301",
+    "intitule": "Frais de fouille",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7552000000401",
+    "intitule": "Frais d'attestation de non redevance",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7552000000501",
+    "intitule": "Frais d'extrait de compte",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7552000000601",
+    "intitule": "Frais d'utilisation du chèque de guichet",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7561000000001",
+    "intitule": "Autres produits d’opérations hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7610000000001",
+    "intitule": "Subventions d’exploitation",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7620000000001",
+    "intitule": "Subventions d’équilibre",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7631000000001",
+    "intitule": "Subvention d’exploitation et d’équilibre hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7701000000001",
+    "intitule": "Produits sur opérations de trésorerie",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7702000000001",
+    "intitule": "Produits sur opérations avec la clientèle et de crédit bail",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7703000000001",
+    "intitule": "Produits sur opérations bancaires diverses",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7711000000001",
+    "intitule": "Produits du portefeuille titres",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7712000000001",
+    "intitule": "Produits accessoires",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7713000000001",
+    "intitule": "Subventions d’exploitation et d’équilibre",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7719000000001",
+    "intitule": "Autres produits divers",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7720000000001",
+    "intitule": "Indemnités d’assurance",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7730000000001",
+    "intitule": "Provisions spéciales et réserves de réévaluation reprises",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7740000000001",
+    "intitule": "Subventions d’investissement reprises",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7750000000001",
+    "intitule": "Prix de cession des éléments d’actif immobilisés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7760000000001",
+    "intitule": "Transferts et refacturation de charges exceptionnelles et sur exercices antérieurs",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7770000000001",
+    "intitule": "Salaires et indemnités abandonnés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7781000000001",
+    "intitule": "Profits sur opérations de trésorerie",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7782000000001",
+    "intitule": "Profits sur opérations avec la clientèle",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7783000000001",
+    "intitule": "Transferts et refacturation de charges exceptionnelles et sur exercices antérieurs",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7786000000001",
+    "intitule": "Excédents de caisse",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7787000000001",
+    "intitule": "Escompte de règlement",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7788000000001",
+    "intitule": "Dons et libéralités effectivement obtenus",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7791000000001",
+    "intitule": "prix de cession d’éléments d’actif hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7800000000001",
+    "intitule": "Reprises d’amortissements des frais et valeurs immobilisées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7820000000001",
+    "intitule": "Reprises d’amortissements des immobilisations corporelles",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7911000000001",
+    "intitule": "Reprises de provisions pour risques et charges",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7912000000001",
+    "intitule": "Reprises de provisions pour dépréciation des valeurs immobilisées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7913000000001",
+    "intitule": "Reprises de provisions pour dépréciation des comptes de clientèle",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7914000000001",
+    "intitule": "Reprises de provisions pour dépréciation des comptes de tiers et de régularisation",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7915000000001",
+    "intitule": "Reprises de provisions pour dépréciation des comptes de trésorerie",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7917000000001",
+    "intitule": "Reprises de provisions pour dépréciation des stocks hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7920000000001",
+    "intitule": "Récupération sur créances abandonnées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7940000000001",
+    "intitule": "Reprise de provisions pour risque généraux",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7971000000001",
+    "intitule": "Reprises d’amortissements dérogatoires",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7972000000001",
+    "intitule": "Reprises autres provisions réglementées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7980000000001",
+    "intitule": "Autres reprises de provisions",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "7991000000001",
+    "intitule": "Reprises de provisions et récupération sur créances irrécouvrables hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "8000000000001",
+    "intitule": "PRODUIT NET FINANCIER (PNF)",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "8100000000001",
+    "intitule": "PRODUIT D’EXPLOITATION GLOBAL",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "8200000000001",
+    "intitule": "RESULTAT D’EXPLOITATION",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "8300000000001",
+    "intitule": "RESULTAT COURANT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "8400000000001",
+    "intitule": "RESULTAT EXCEPTIONNEL",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "8500000000001",
+    "intitule": "RESULTAT  AVANT IMPOT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "8600000000001",
+    "intitule": "IMPOTS SUR LE RESULTAT",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "8700000000001",
+    "intitule": "RESULTAT NET AVANT CERTIFICATION",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9010000000001",
+    "intitule": "Accords de refinancement donnés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9020000000001",
+    "intitule": "Cautions et avals par actes séparés et endos",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9030000000001",
+    "intitule": "Acceptations à payer",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9040000000001",
+    "intitule": "Autres garanties irrévocables ou inconditionnelles",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9050000000001",
+    "intitule": "Contre garanties en faveur des correspondants locaux",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9071000000001",
+    "intitule": "Encaisses déposées auprès des correspondants locaux et à récupérer hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9110000000001",
+    "intitule": "Accords de refinancement reçus",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9120000000001",
+    "intitule": "Contre garanties sur prêts aux institutions financières",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9130000000001",
+    "intitule": "Contre garanties sur crédits par caisse",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9140000000001",
+    "intitule": "Contre garanties sur autres engagements par signature",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9150000000001",
+    "intitule": "Contre garanties sur titres en portefeuille",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9160000000001",
+    "intitule": "Valeurs gérées pour compte des correspondants locaux",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9171000000001",
+    "intitule": "Encaisses détenues pour le compte des correspondants locaux et à restituer hors réseau",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9180000000001",
+    "intitule": "Autres engagements",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9210000000001",
+    "intitule": "Acceptations à payer",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9211000000001",
+    "intitule": "Cautions, avals",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9212000000001",
+    "intitule": "Garanties de remboursement de crédits",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9220000000001",
+    "intitule": "Accords de financement donnés à la clientèle",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9230000000001",
+    "intitule": "Engagements donnés à la clientèle en contrepartie des valeurs gérées pour son compte",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9240000000001",
+    "intitule": "Garantie de remboursement de crédit clientèle",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9290000000001",
+    "intitule": "Autres engagements",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9311000000001",
+    "intitule": "Hypothèques fermes de premier rang ou de deuxième rang sur des immeubles",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9312000000001",
+    "intitule": "Autres hypothèques",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9321000000001",
+    "intitule": "Garantie de crédits par caisse",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9322000000001",
+    "intitule": "Garantie d’autres engagements par signature",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9323000000001",
+    "intitule": "Garantie d’engagements multiples",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9330000000001",
+    "intitule": "Gages",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9340000000001",
+    "intitule": "Avals et cautions",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9350000000001",
+    "intitule": "Valeurs gérées pour compte de la clientèle",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9390000000001",
+    "intitule": "Autres garanties",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9410000000001",
+    "intitule": "Engagements de crédit-bail donnés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9421000000001",
+    "intitule": "Encours financiers",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9423000000001",
+    "intitule": "Autres engagements",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9424000000001",
+    "intitule": "Marge perçue d’avance",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9425000000001",
+    "intitule": "Marge à recevoir",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9510000000001",
+    "intitule": "Effets publics affectés en garantie des opérations du marché monétaire",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9520000000001",
+    "intitule": "Effets privés déposés en garantie des opérations du marché monétaire",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9610000000001",
+    "intitule": "Garanties reçues de l’Etat",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9620000000001",
+    "intitule": "Garanties reçues des organismes publics",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9712000000001",
+    "intitule": "Devises achetées comptant non encore reçues",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9714000000001",
+    "intitule": "Devises vendues comptant non encore livrées",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9720000000001",
+    "intitule": "Position de change hors-bilan",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9730000000001",
+    "intitule": "Contre valeur de la position de change hors-bilan",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9740000000001",
+    "intitule": "Compte d’ajustement sur devises hors-bilan",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9811000000001",
+    "intitule": "Engagements donnés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9812000000001",
+    "intitule": "Engagements reçus",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9821000000001",
+    "intitule": "Engagements donnés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9822000000001",
+    "intitule": "Engagements reçus",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9830000000001",
+    "intitule": "Engagements par signature douteux avec les organismes publics",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9841100000001",
+    "intitule": "Intérêts sur créances en souffrance",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9841200000001",
+    "intitule": "Agios réservés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9842000000001",
+    "intitule": "Commissions sur engagements par signature douteux",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9843000000001",
+    "intitule": "Taxes à recouvrer sur créances en souffrance et sur engagements par signature douteux",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9844000000001",
+    "intitule": "Loyers échus sur engagements douteux de crédit-bail et opération de location",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9845000000001",
+    "intitule": "Indemnités de résiliation à recouvrer",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9901000000001",
+    "intitule": "9901 -Compte général des accords de refinancement donnés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9902000000001",
+    "intitule": "Compte général des cautions et avals par actes séparés et endos",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9903000000001",
+    "intitule": "Compte général des acceptations à payer",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9904000000001",
+    "intitule": "Compte général des autres garanties irrévocables ou inconditionnelles",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9905000000001",
+    "intitule": "Compte général des contre-garanties en faveur des correspondants locaux",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9907000000001",
+    "intitule": "Compte général des encaisses déposées auprès des correspondants locaux et à récupérer",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9911000000001",
+    "intitule": "Compte général des accords de refinancement reçus",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9912000000001",
+    "intitule": "Compte général des contre garanties sur prêts aux institutions",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9913000000001",
+    "intitule": "Compte général des contre garanties sur crédits par caisse",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9914000000001",
+    "intitule": "Compte général des contre garanties sur autres engagements par signature",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9915000000001",
+    "intitule": "Compte général des contre garanties sur titres en portefeuille",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9916000000001",
+    "intitule": "Compte général des valeurs gérées pour compte des correspondants",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9917000000001",
+    "intitule": "Compte général des encaisses détenues pour le comptes des correspondants locaux et à restituer",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9918000000001",
+    "intitule": "Compte général des autres engagements",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9922000000001",
+    "intitule": "compte général des accords de financement donnés à la clientèle",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9923000000001",
+    "intitule": "Compte général des engagements donnés à la clientèle en contrepartie des valeurs gérées pour son compte",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9924000000001",
+    "intitule": "Compte général des garanties de remboursements des crédits clientèle",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9925000000001",
+    "intitule": "Compte général des acceptations à payer",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9926000000001",
+    "intitule": "Compte général des cautions avals",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9927000000001",
+    "intitule": "Compte général des garanties de remboursements des crédits sur ordre de la Clientèle",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9929000000001",
+    "intitule": "Compte général des autres engagements",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9931000000001",
+    "intitule": "Compte général des engagements reçus par hypothèques",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9932000000001",
+    "intitule": "Compte gén. des eng. reçus par nantissement de prêts subord. et de dépôts",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9933000000001",
+    "intitule": "Compte général des engagements reçus par gage",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9934000000001",
+    "intitule": "Compte général des engagements reçus par avals et cautions",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9935000000001",
+    "intitule": "Compte gén. des eng. reçus par valeurs gérées pour compte de la clientèle",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9939000000001",
+    "intitule": "Compte général des engagements reçus par autres garanties",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9941000000001",
+    "intitule": "Compte général des engagements de crédit-bail reçus",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9942000000001",
+    "intitule": "Compte général des engagements de crédit-bail donnés",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9951000000001",
+    "intitule": "Compte gén. des effets publics affectés en gar. des op. du marché monétaire",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9952000000001",
+    "intitule": "Compte gén. des effets privés déposés en gar. des op. du marché monétaire",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9961000000001",
+    "intitule": "Compte général des engagements de l’Etat",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9962000000001",
+    "intitule": "Compte général des engagements des organismes publics",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9971000000001",
+    "intitule": "Compte général des opérations de change au comptant",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9972000000001",
+    "intitule": "Compte général des positions de change hors bilan",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9973000000001",
+    "intitule": "Compte général des contres valeurs de la position de change hors bilan",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9974000000001",
+    "intitule": "Compte général des comptes d’",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9981000000001",
+    "intitule": "Compte général des engagements par signature douteux portés sur les correspondants",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9982000000001",
+    "intitule": "Compte général des engagements par signature douteux portés sur la clientèle",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9983000000001",
+    "intitule": "Compte général des engagements par signature douteux portés sur les organismes publics",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9984100000001",
+    "intitule": "Compte général des produits et taxes à recouvrer sur créances en souffrance et engagements par signature douteux",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "9984200000001",
+    "intitule": "Cpte général Frais de tenue de compte, Intérêts débiteurs et autres commissions à recouvrer",
+    "origine": "plan CloudBank exporté (classe 6)"
+  },
+  {
+    "code": "6521200000186",
+    "intitule": "MATERIEL DE BUREAU",
+    "origine": "OD manuel confirmé (PK14, pièce 6133, 09/10/2026)"
+  },
+  {
+    "code": "6523100000301",
+    "intitule": "Frais Internet",
+    "origine": "OD manuel confirmé (Kousseri/Ndogpassi/Nkoabang/PK14, pièce 6141, 09/10/2026)"
+  },
+  {
+    "code": "6523100000385",
+    "intitule": "Frais Internet",
+    "origine": "OD manuel confirmé (Mokolo, pièce 6141, 09/10/2026)"
+  }
+]

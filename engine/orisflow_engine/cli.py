@@ -15,6 +15,7 @@ from __future__ import annotations
 import json
 import os
 import platform
+import re
 import sys
 from typing import Any, Dict
 
@@ -27,6 +28,12 @@ from .generation import generer_classeur
 from .modele_standard import controler_modele
 from .signature import verifier_fichier
 from .rapport import exporter_rapport_excel
+from . import cloudbank_import
+from .cloudbank_ecriture import ecrire_fichier
+from .cloudbank_extourne import extourner
+from .cloudbank_extraire import extraire
+from .cloudbank_mapping import rechercher as rechercher_comptes
+from .cloudbank_referentiels import ErreurCloudBank, Referentiels, ajouter_mapping_valide
 
 EXTENSIONS_PRISES_EN_CHARGE = {".xls", ".xlsx", ".pdf"}
 
@@ -479,6 +486,103 @@ def commande_controler_modele(parametres: Dict[str, Any]) -> None:
     emettre(type="resultat", commande="controler_modele", version=VERSION, **controler_modele(chemin))
 
 
+# --- Téléverser sur CloudBank (10/10/2026) -------------------------------------------------------
+# Mêmes conventions que les autres commandes : paramètres JSON sur stdin, réponse JSON sur stdout.
+# `dossierReferences` : copie modifiable des référentiels (jamais en dur, voir Paramètres).
+
+
+def _cloudbank(parametres: Dict[str, Any], travail) -> None:
+    """Exécute `travail(ref)` et émet son résultat ; une erreur métier devient un message lisible."""
+    try:
+        ref = Referentiels(parametres.get("dossierReferences") or None)
+        donnees = travail(ref)
+    except ErreurCloudBank as erreur:
+        emettre(type="erreur", message=str(erreur))
+        return
+    except OSError as erreur:
+        emettre(type="erreur", message=f"Un fichier n'a pas pu être lu ou écrit : {erreur}")
+        return
+    return donnees
+
+
+def commande_cloudbank_importer_mapping(parametres: Dict[str, Any]) -> None:
+    chemin = parametres.get("chemin")
+    if not chemin or not os.path.isfile(chemin):
+        emettre(type="erreur", message="Le fichier à importer est introuvable.")
+        return
+    donnees = _cloudbank(parametres, lambda ref: cloudbank_import.lire_fichier_mapping(ref, chemin))
+    if donnees is not None:
+        emettre(type="resultat", commande="cloudbank_importer_mapping", version=VERSION, ok=True, **donnees)
+
+
+def commande_cloudbank_rechercher(parametres: Dict[str, Any]) -> None:
+    texte = (parametres.get("texte") or "").strip()
+    donnees = _cloudbank(parametres, lambda ref: rechercher_comptes(ref, texte))
+    if donnees is not None:
+        emettre(type="resultat", commande="cloudbank_rechercher", version=VERSION, ok=True, **donnees)
+
+
+def commande_cloudbank_confirmer_ligne(parametres: Dict[str, Any]) -> None:
+    """Valide le compte choisi pour une ligne. L'enregistrement dans les référentiels n'a lieu
+    que si l'utilisateur l'a demandé (`enregistrer`), jamais en silence."""
+    compte = str(parametres.get("compte") or "").strip()
+
+    def travail(ref: Referentiels):
+        if not re.fullmatch(r"\d{13}", compte):
+            raise ErreurCloudBank("Choisissez un compte dans la liste : un numéro de compte comporte 13 chiffres.")
+        connu = ref.cloudbank.get(compte)
+        enregistre = False
+        if parametres.get("enregistrer") and parametres.get("libelle"):
+            enregistre = ajouter_mapping_valide(ref, parametres["libelle"], compte, (connu or {}).get("intitule", parametres.get("intitule", "")))
+        return {"compte": compte, "intitule": (connu or {}).get("intitule") or parametres.get("intitule"),
+                "connu": connu is not None, "enregistre": enregistre}
+
+    donnees = _cloudbank(parametres, travail)
+    if donnees is not None:
+        emettre(type="resultat", commande="cloudbank_confirmer_ligne", version=VERSION, ok=True, **donnees)
+
+
+def commande_cloudbank_ecrire(parametres: Dict[str, Any]) -> None:
+    dossier_sortie = parametres.get("dossierSortie")
+    if not dossier_sortie:
+        emettre(type="erreur", message="Aucun dossier de sortie n'est configuré.")
+        return
+    donnees = _cloudbank(parametres, lambda ref: ecrire_fichier(
+        ref, parametres.get("modele") or "petite_caisse", parametres.get("lignes") or [], dossier_sortie,
+        agence=parametres.get("agence") or 10000, mois=parametres.get("mois"), annee=parametres.get("annee"),
+        retour=parametres.get("retour") or 0, compte_468=parametres.get("compte468") or None))
+    if donnees is not None:
+        emettre(type="resultat", commande="cloudbank_ecrire", version=VERSION, ok=True, **donnees)
+
+
+def commande_cloudbank_extourne(parametres: Dict[str, Any]) -> None:
+    donnees = _cloudbank(parametres, lambda ref: extourner(
+        ref, parametres.get("cheminHistorique") or "", parametres.get("regles") or [],
+        parametres.get("compteClient") or "", parametres.get("intituleClient") or "",
+        int(parametres.get("agence") or 10000), parametres.get("dossierSortie") or "",
+        libelle_credit=parametres.get("libelleCredit") or None))
+    if donnees is not None:
+        emettre(type="resultat", commande="cloudbank_extourne", version=VERSION, ok=True, **donnees)
+
+
+def commande_cloudbank_extraire(parametres: Dict[str, Any]) -> None:
+    donnees = _cloudbank(parametres, lambda ref: extraire(
+        parametres.get("cheminGrandLivre") or "", parametres.get("sousComptes") or [],
+        parametres.get("dossierSortie") or ""))
+    if donnees is not None:
+        emettre(type="resultat", commande="cloudbank_extraire", version=VERSION, ok=True, **donnees)
+
+
+def commande_cloudbank_deposer(parametres: Dict[str, Any]) -> None:
+    chemin, dossier = parametres.get("chemin"), parametres.get("dossierSortie")
+    if not chemin or not os.path.isfile(chemin) or not dossier:
+        emettre(type="erreur", message="Le fichier à déposer ou le dossier de sortie est introuvable.")
+        return
+    donnees = _cloudbank(parametres, lambda ref: cloudbank_import.deposer_fichier(chemin, dossier))
+    if donnees is not None:
+        emettre(type="resultat", commande="cloudbank_deposer", version=VERSION, ok=True, **donnees)
+
+
 COMMANDES = {
     "ping": commande_ping,
     "diagnostic": commande_diagnostic,
@@ -493,6 +597,13 @@ COMMANDES = {
     "bordereau_lister": commande_bordereau_lister,
     "rapport_exporter": commande_rapport_exporter,
     "controler_modele": commande_controler_modele,
+    "cloudbank_importer_mapping": commande_cloudbank_importer_mapping,
+    "cloudbank_rechercher": commande_cloudbank_rechercher,
+    "cloudbank_confirmer_ligne": commande_cloudbank_confirmer_ligne,
+    "cloudbank_ecrire": commande_cloudbank_ecrire,
+    "cloudbank_extourne": commande_cloudbank_extourne,
+    "cloudbank_extraire": commande_cloudbank_extraire,
+    "cloudbank_deposer": commande_cloudbank_deposer,
 }
 
 

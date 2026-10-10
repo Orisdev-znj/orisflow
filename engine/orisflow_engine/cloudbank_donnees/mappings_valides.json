@@ -1,0 +1,772 @@
+[
+  {
+    "libelle": "Frais de transport",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Lavage du véhicule ADG (322NX)",
+    "compte": "6523600000201",
+    "intitule": "Entretien et reparation materiel de transport",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport DG-UBA Akwa",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Expédition colis Ydé",
+    "compte": "6523800000632",
+    "intitule": "FRAIS EXPEDITIONS",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport Ndogpassi-Bépanda",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Lavage du véhicule ADG (322NX)",
+    "compte": "6523600000201",
+    "intitule": "Entretien et reparation materiel de transport",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Frais de transport recharge UV MTN et forfait MTN",
+    "compte": "6523100000101",
+    "intitule": "Téléphone mobile",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Timbres CNI+ actes de naissance ADG et DGAs",
+    "compte": "6630000000164",
+    "intitule": "TIMBRES FISCAUX",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport pour bépanda",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport Ndogpassi-Bonapriso-DG rencontre partenaire",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Lavage véhicule retour de mission DGAe",
+    "compte": "6523600000201",
+    "intitule": "Entretien et reparation materiel de transport",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Achat de 7 timbres fiscaux",
+    "compte": "6630000000164",
+    "intitule": "TIMBRES FISCAUX",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport pour achat des timbres",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Lavage du véhicule ADG (322NX)",
+    "compte": "6523600000201",
+    "intitule": "Entretien et reparation materiel de transport",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Frais de légalisation dossiers CNPS ADG",
+    "compte": "6523500000001",
+    "intitule": "Frais d'acte juridique & contentieux",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport DG - soudanaise-MTN dubaï proforma cafétières",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Achat couvre volant véhicule DGAe",
+    "compte": "6523600000201",
+    "intitule": "Entretien et reparation materiel de transport",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport Akwa-BGFI-CCA ordre de virement appro ECOBANK",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Remb transport CCA-BGFI pour dépôt ordre d'évirement salaire",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport pour la CNPS",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport DG-Bépanda-DG",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Retrait de colis venant de Balessing",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport pour recharge carte prépayée UBA",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Lavage du véhicule ADG (322NX)",
+    "compte": "6523600000201",
+    "intitule": "Entretien et reparation materiel de transport",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport Bépanda-petit marché bépanda-DG",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Achat adaptateur pour imprimante RH",
+    "compte": "6521200000216",
+    "intitule": "MATERIEL INFORMATIQUE",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Achat provisions DG",
+    "compte": "6521500000001",
+    "intitule": "Fournitures non ventilées",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport pour achat des provisions",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport rail Bonaberi-Akwa pour ouverture de compte",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport MTN pour récupération SIM flotte et contrat",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport DG-Glothelo-rond point Maetur",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport pour retrait colis de la DG",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport pour retrait colis de la DG",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Frais internet pour extraction des relevés bancaires",
+    "compte": "6523100000326",
+    "intitule": "FRAIS INTERNET",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "CODIR Ndogpassi et intervention PK14",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport du 07/09/2026 PK14-Bépanda pour CODIR",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport belife 08/09, 10/09, 11/09 pour dépôt",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport retour de formation PANESS",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Lavage du véhicule ADG (322NX)",
+    "compte": "6523600000201",
+    "intitule": "Entretien et reparation materiel de transport",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport DG-UBA Akwa",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport DG - somatel - makepe pour la visite de salle et rencontre partenaires",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Lavage véhicule retour de mission DGAs",
+    "compte": "6523600000201",
+    "intitule": "Entretien et reparation materiel de transport",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Lavage véhicule retour de mission DGAe",
+    "compte": "6523600000201",
+    "intitule": "Entretien et reparation materiel de transport",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport pour bépanda",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport Ndogpassi-DG",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Achat fruits ADG",
+    "compte": "6521500000001",
+    "intitule": "Fournitures non ventilées",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Lavage du véhicule ADG (322NX)",
+    "compte": "6523600000201",
+    "intitule": "Entretien et reparation materiel de transport",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport retour yassa pour déposer le véhicule",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Achat eau DG + transport",
+    "compte": "6521500000001",
+    "intitule": "Fournitures non ventilées",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport dépôt convocations",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport belife 16/09 et Orange 22/09",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport supervision contrôle Ndogpassi",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Déplacement PK14 pour maintenance",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Connexion internet pour formation en ligne",
+    "compte": "6523100000326",
+    "intitule": "FRAIS INTERNET",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Regul / Retour Petite caisse Mois de Septembre 2026",
+    "compte": "4680000001280",
+    "intitule": "AUTRES DEBITEURS",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Transport Ndogapssi-DG pour réunion",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Modele Petite Caisse.xlsx"
+  },
+  {
+    "libelle": "Achat ram de format",
+    "compte": "6521200000119",
+    "intitule": "MATERIEL DE BUREAU",
+    "valide": true,
+    "source": "Petite caisse Balessing (test 07/10/2026)"
+  },
+  {
+    "libelle": "Achat de registre",
+    "compte": "6521200000119",
+    "intitule": "MATERIEL DE BUREAU",
+    "valide": true,
+    "source": "Petite caisse Balessing (test 07/10/2026)"
+  },
+  {
+    "libelle": "Achat palette d'eau",
+    "compte": "6523300000301",
+    "intitule": "Frais de réception",
+    "valide": true,
+    "source": "Petite caisse Balessing (test 07/10/2026)"
+  },
+  {
+    "libelle": "Impression photo",
+    "compte": "6525600000001",
+    "intitule": "Charges diverses",
+    "valide": true,
+    "source": "Petite caisse Balessing (test 07/10/2026)"
+  },
+  {
+    "libelle": "Achat necessaire pour cafe agence",
+    "compte": "6523300000301",
+    "intitule": "Frais de réception",
+    "valide": true,
+    "source": "Petite caisse Mokolo (test 07/10/2026)"
+  },
+  {
+    "libelle": "Achat super deboucheur pour toilettes",
+    "compte": "6523600000503",
+    "intitule": "ENTRETIEN ET REPARTION DES BIENS MEUBLES ET IMMEUBLES",
+    "valide": true,
+    "source": "Petite caisse Mokolo (test 07/10/2026)"
+  },
+  {
+    "libelle": "Achat necessaire pour menage agence",
+    "compte": "6521400000001",
+    "intitule": "Fournitures d’entretien",
+    "valide": true,
+    "source": "Petite caisse Mokolo (test 07/10/2026)"
+  },
+  {
+    "libelle": "Achat eau pour clientele",
+    "compte": "6523300000301",
+    "intitule": "Frais de réception",
+    "valide": true,
+    "source": "Petite caisse Mokolo (test 07/10/2026)"
+  },
+  {
+    "libelle": "Achat necessaire assainissement agence",
+    "compte": "6521400000001",
+    "intitule": "Fournitures d’entretien",
+    "valide": true,
+    "source": "Petite caisse Mokolo (test 07/10/2026)"
+  },
+  {
+    "libelle": "Prime de lait",
+    "compte": "6515000000201",
+    "intitule": "Indemnités de lait",
+    "valide": true,
+    "source": "Petite caisse Mokolo (test 07/10/2026)"
+  },
+  {
+    "libelle": "Achat cadenas pour protection climatiseurs",
+    "compte": "6521200000001",
+    "intitule": "Petit outillage",
+    "valide": true,
+    "source": "Petite caisse Mokolo (test 07/10/2026)"
+  },
+  {
+    "libelle": "Frais main d'oeuvre pr debouchage toilettes",
+    "compte": "6523600000503",
+    "intitule": "ENTRETIEN ET REPARTION DES BIENS MEUBLES ET IMMEUBLES",
+    "valide": true,
+    "source": "Petite caisse Mokolo (test 07/10/2026)"
+  },
+  {
+    "libelle": "Achat ventouse pr debouchage toilettes",
+    "compte": "6523600000503",
+    "intitule": "ENTRETIEN ET REPARTION DES BIENS MEUBLES ET IMMEUBLES",
+    "valide": true,
+    "source": "Petite caisse Mokolo (test 07/10/2026)"
+  },
+  {
+    "libelle": "Frais entretien et remblage devanture agence",
+    "compte": "6523600000503",
+    "intitule": "ENTRETIEN ET REPARTION DES BIENS MEUBLES ET IMMEUBLES",
+    "valide": true,
+    "source": "Petite caisse Mokolo (test 07/10/2026)"
+  },
+  {
+    "libelle": "Achat eau a boire CA",
+    "compte": "6523300000301",
+    "intitule": "Frais de réception",
+    "valide": true,
+    "source": "Petite caisse Kousseri (test 07/10/2026)"
+  },
+  {
+    "libelle": "Achat eau a boire agence",
+    "compte": "6523300000301",
+    "intitule": "Frais de réception",
+    "valide": true,
+    "source": "Petite caisse Kousseri (test 07/10/2026)"
+  },
+  {
+    "libelle": "Achat consommables cafe agence",
+    "compte": "6523300000301",
+    "intitule": "Frais de réception",
+    "valide": true,
+    "source": "Petite caisse Kousseri (test 07/10/2026)"
+  },
+  {
+    "libelle": "Approvisionnement en eau entretien agence",
+    "compte": "6521400000001",
+    "intitule": "Fournitures d’entretien",
+    "valide": true,
+    "source": "Petite caisse Kousseri (test 07/10/2026)"
+  },
+  {
+    "libelle": "Ravitaillement en eau pour entretien agence",
+    "compte": "6521400000001",
+    "intitule": "Fournitures d’entretien",
+    "valide": true,
+    "source": "Petite caisse Kousseri (test 07/10/2026)"
+  },
+  {
+    "libelle": "Achat chiffon du nettoyage groupe electrogene",
+    "compte": "6521400000001",
+    "intitule": "Fournitures d’entretien",
+    "valide": true,
+    "source": "Petite caisse Kousseri (test 07/10/2026)"
+  },
+  {
+    "libelle": "Achat du registre de collecte",
+    "compte": "6401000000001",
+    "intitule": "Achat carnet collecte",
+    "valide": true,
+    "source": "Petite caisse Kousseri (test 07/10/2026)"
+  },
+  {
+    "libelle": "Achat sous-chemises et chemises cartonnes",
+    "compte": "6521200000119",
+    "intitule": "MATERIEL DE BUREAU",
+    "valide": true,
+    "source": "Petite caisse Kousseri (test 07/10/2026)"
+  },
+  {
+    "libelle": "Visites activite et garanties clients",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Petite caisse Kousseri (test 07/10/2026)"
+  },
+  {
+    "libelle": "Visites activites et garanties clients",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Petite caisse Kousseri (test 07/10/2026)"
+  },
+  {
+    "libelle": "Achat eau pour le personnel",
+    "compte": "6523300000301",
+    "intitule": "Frais de réception",
+    "valide": true,
+    "source": "Petite caisse Ekounou (test 07/10/2026)"
+  },
+  {
+    "libelle": "Achat sac et ventilateur pour la caisse",
+    "compte": "6521200000119",
+    "intitule": "MATERIEL DE BUREAU",
+    "valide": true,
+    "source": "Petite caisse Ekounou (test 07/10/2026)"
+  },
+  {
+    "libelle": "Lait caissiere",
+    "compte": "6515000000201",
+    "intitule": "Indemnités de lait",
+    "valide": true,
+    "source": "Petite caisse Ndogpassi (test 08/10/2026)"
+  },
+  {
+    "libelle": "Achat papier toilette",
+    "compte": "6521400000001",
+    "intitule": "Fournitures d’entretien",
+    "valide": true,
+    "source": "Petite caisse Ndogpassi (test 08/10/2026)"
+  },
+  {
+    "libelle": "Achat fronde",
+    "compte": "6525600000001",
+    "intitule": "Charges diverses",
+    "valide": true,
+    "source": "Petite caisse Ndogpassi (test 08/10/2026)"
+  },
+  {
+    "libelle": "Complement facture eneo septembre",
+    "compte": "6525600000001",
+    "intitule": "Charges diverses",
+    "valide": true,
+    "source": "Petite caisse Ndogpassi (test 08/10/2026) - decision utilisateur : ENEO en charges diverses, pas electricite"
+  },
+  {
+    "libelle": "Prime lait",
+    "compte": "6515000000201",
+    "intitule": "Indemnités de lait",
+    "valide": true,
+    "source": "Petite caisse Etoudi (test 08/10/2026)"
+  },
+  {
+    "libelle": "Achat papier hygienique",
+    "compte": "6521400000001",
+    "intitule": "Fournitures d’entretien",
+    "valide": true,
+    "source": "Petite caisse Etoudi (test 08/10/2026)"
+  },
+  {
+    "libelle": "Achat eau a boire personnels",
+    "compte": "6523300000301",
+    "intitule": "Frais de réception",
+    "valide": true,
+    "source": "Petite caisse Etoudi (test 08/10/2026)"
+  },
+  {
+    "libelle": "Experdition bordereau balessing",
+    "compte": "6523800000632",
+    "intitule": "FRAIS EXPEDITIONS",
+    "valide": true,
+    "source": "Petite caisse Bafoussam (test 08/10/2026) - coquille pour Expedition"
+  },
+  {
+    "libelle": "Experdition balessing",
+    "compte": "6523800000632",
+    "intitule": "FRAIS EXPEDITIONS",
+    "valide": true,
+    "source": "Petite caisse Bafoussam (test 08/10/2026) - coquille pour Expedition"
+  },
+  {
+    "libelle": "Netoyage vehicule",
+    "compte": "6523600000201",
+    "intitule": "Entretien et reparation materiel de transport",
+    "valide": true,
+    "source": "Petite caisse Bafoussam (test 08/10/2026)"
+  },
+  {
+    "libelle": "Frais trasport pour baham",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Petite caisse Bafoussam (test 08/10/2026) - coquille pour Transport"
+  },
+  {
+    "libelle": "Propection groupe",
+    "compte": "6522000000001",
+    "intitule": "Transports et déplacements hors réseau",
+    "valide": true,
+    "source": "Petite caisse Bafoussam (test 08/10/2026) - coquille pour Prospection"
+  },
+  {
+    "libelle": "Achat aire fresh agence",
+    "compte": "6521400000001",
+    "intitule": "Fournitures d’entretien",
+    "valide": true,
+    "source": "Petite caisse Bafoussam (test 08/10/2026)"
+  },
+  {
+    "libelle": "Achat lait de caisse",
+    "compte": "6515000000201",
+    "intitule": "Indemnités de lait",
+    "valide": true,
+    "source": "Petite caisse Bafoussam (test 08/10/2026)"
+  },
+  {
+    "libelle": "Achat encre cachet caisse",
+    "compte": "6521200000119",
+    "intitule": "MATERIEL DE BUREAU",
+    "valide": true,
+    "source": "Petite caisse Bafoussam (test 08/10/2026)"
+  },
+  {
+    "libelle": "Achat scotch",
+    "compte": "6521200000119",
+    "intitule": "MATERIEL DE BUREAU",
+    "valide": true,
+    "source": "Petite caisse Bafoussam (test 08/10/2026)"
+  },
+  {
+    "libelle": "Raloge carburant",
+    "compte": "6521100000201",
+    "intitule": "Gaz et Carburant",
+    "valide": true,
+    "source": "Petite caisse Bafoussam (test 08/10/2026)"
+  },
+  {
+    "libelle": "Collage roue",
+    "compte": "6523600000201",
+    "intitule": "Entretien et reparation materiel de transport",
+    "valide": true,
+    "source": "Petite caisse Bafoussam (test 08/10/2026)"
+  },
+  {
+    "libelle": "Pile 12",
+    "compte": "6521400000001",
+    "intitule": "Fournitures d’entretien",
+    "valide": true,
+    "source": "Petite caisse Marche Central (test 08/10/2026)"
+  },
+  {
+    "libelle": "Divers achat de l'agence",
+    "compte": "6525600000001",
+    "intitule": "Charges diverses",
+    "valide": true,
+    "source": "Petite caisse Marche Central (test 08/10/2026)"
+  },
+  {
+    "libelle": "Achat encre bleu",
+    "compte": "6521200000119",
+    "intitule": "MATERIEL DE BUREAU",
+    "valide": true,
+    "source": "Petite caisse Marche Central (test 08/10/2026)"
+  },
+  {
+    "libelle": "Achat registre pour commerciaux",
+    "compte": "6521200000119",
+    "intitule": "MATERIEL DE BUREAU",
+    "valide": true,
+    "source": "Petite caisse Marche Central (test 08/10/2026)"
+  },
+  {
+    "libelle": "Achat un ballot sita",
+    "compte": "6521200000119",
+    "intitule": "MATERIEL DE BUREAU",
+    "valide": true,
+    "source": "Petite caisse Marche Central (test 08/10/2026) - nature de \"SITA\" non confirmee"
+  },
+  {
+    "libelle": "Reparage porte toilette",
+    "compte": "6523600000503",
+    "intitule": "ENTRETIEN ET REPARTION DES BIENS MEUBLES ET IMMEUBLES",
+    "valide": true,
+    "source": "Petite caisse Marche Central (test 08/10/2026)"
+  },
+  {
+    "libelle": "Achat adaptateur et paillasson",
+    "compte": "6521400000001",
+    "intitule": "Fournitures d’entretien",
+    "valide": true,
+    "source": "Petite caisse Nkoabang (test 08/10/2026) - correction faux positif Materiel informatique"
+  },
+  {
+    "libelle": "Divers achats",
+    "compte": "6521400000001",
+    "intitule": "Fournitures d’entretien",
+    "valide": true,
+    "source": "Petite caisse Nkoabang (test 08/10/2026)"
+  },
+  {
+    "libelle": "Achat des nappes et essuie mains pour la table point cafe",
+    "compte": "6523300000301",
+    "intitule": "Frais de réception",
+    "valide": true,
+    "source": "Petite caisse Nkoabang (test 08/10/2026)"
+  },
+  {
+    "libelle": "Lait mensuel caissiere",
+    "compte": "6515000000201",
+    "intitule": "Indemnités de lait",
+    "valide": true,
+    "source": "Petite caisse Nkoabang (test 08/10/2026)"
+  }
+]

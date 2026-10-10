@@ -24,6 +24,7 @@ LIMITE_PICTO = 0.37     # le pictogramme occupe la partie gauche (x < 37 % de la
 DEBUT_SIGNATURE = 124   # ligne (pixels d'origine) où commence la signature, à droite du pictogramme
 BLANC = np.array([255, 255, 255], dtype=np.float64)
 MAGENTA_CLAIR = np.array([0xFF, 0x4F, 0xA0], dtype=np.float64)
+CONTRASTE_ALPHA = 2.2   # >1 : bords du texte plus nets
 CONTOUR_PX = 3          # 2 px d'origine environ, après agrandissement
 
 
@@ -36,6 +37,11 @@ def main(source: str, sortie: str) -> None:
 
     # Signature retirée (hors pictogramme).
     a[DEBUT_SIGNATURE * FACTEUR:, limite:, 3] = 0
+
+    # Netteté : la source est petite (368 px) et l'agrandissement rend les bords flous, ce qui donne
+    # un effet de surbrillance sur le texte clair. On durcit l'anticrénelage du texte (alpha seulement).
+    alpha_texte = a[:, limite:, 3]
+    a[:, limite:, 3] = np.clip((alpha_texte - 127.5) * CONTRASTE_ALPHA + 127.5, 0, 255)
 
     # Recoloration du texte d'après la teinte, alpha conservé.
     rgb = a[:, limite:, :3] / 255.0

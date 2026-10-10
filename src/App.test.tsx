@@ -138,6 +138,20 @@ function fausseApi(surcharges: Partial<ApiOrisflow> = {}): ApiOrisflow {
     listerHistorique: async () => [],
     controlerModele: async () => null,
     verifierClasseur: async () => ({ ok: true, statut: "conforme" as const }),
+    cloudbankChoisirFichier: async () => null,
+    cloudbankImporterMapping: async () => {
+      throw new Error("non simulé");
+    },
+    cloudbankRechercher: async () => ({ pcemf: [], cloudbank: [] }),
+    cloudbankConfirmerLigne: async () => ({ compte: "", intitule: null, connu: false, enregistre: false }),
+    cloudbankEcrire: async () => {
+      throw new Error("non simulé");
+    },
+    cloudbankExtourne: async () => null,
+    cloudbankExtraire: async () => null,
+    cloudbankDeposer: async () => {
+      throw new Error("non simulé");
+    },
     ...surcharges,
   };
 }
@@ -868,6 +882,17 @@ describe("Navigation et parcours (audit du 09/10/2026)", () => {
     await utilisateur.click(await screen.findByRole("button", { name: "Vérifier" }));
 
     expect(await screen.findByText(/Contenu modifié depuis sa génération/)).toBeInTheDocument();
+  });
+
+  it("la carte « Téléverser sur CloudBank » ouvre le module, protégé par la session", async () => {
+    window.orisflow = fausseApi();
+    const utilisateur = userEvent.setup();
+    await monterApplication();
+
+    await utilisateur.click(screen.getByRole("button", { name: /Téléverser sur CloudBank/ }));
+
+    expect(await screen.findByRole("heading", { name: "Téléverser sur CloudBank" })).toBeInTheDocument();
+    expect(screen.getAllByRole("button", { name: "Choisir" })).toHaveLength(5);
   });
 
   it("affiche le pied de page avec la version, une fois connecté", async () => {

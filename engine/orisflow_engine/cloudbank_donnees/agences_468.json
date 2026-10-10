@@ -1,0 +1,15 @@
+{
+ "_commentaire": "Compte 468 à utiliser par défaut pour chaque agence (clé = code agence), quand --compte-468 n'est pas fourni pour un retour de caisse. Le plan CloudBank ne relie pas les comptes 468 aux agences : cette table se complète au fil des validations avec l'utilisateur. Une agence absente d'ici doit recevoir son compte 468 explicitement (--compte-468).",
+ "10000": "4680000000001",
+ "30001": "4680000000001",
+ "40000": "4680000000001",
+ "20002": "4680000000001",
+ "20004": "4680000000018",
+ "20003": "4680000000001",
+ "10001": "4680000000001",
+ "10002": "4680000000001",
+ "10004": "4680000000001",
+ "20001": "4680000000001",
+ "30000": "4680000000001",
+ "10003": "4680000000071"
+}

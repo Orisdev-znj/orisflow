@@ -7,6 +7,7 @@ interface Props {
   onChoisirEtatsFinanciers: () => void;
   onChoisirBordereau: () => void;
   onChoisirBudget: () => void;
+  onChoisirCloudBank: () => void;
 }
 
 interface Carte {
@@ -32,7 +33,7 @@ const ICONE_BUDGET = (
   </svg>
 );
 
-export default function Home({ onChoisirTresorerie, onChoisirEtatsFinanciers, onChoisirBordereau, onChoisirBudget }: Props) {
+export default function Home({ onChoisirTresorerie, onChoisirEtatsFinanciers, onChoisirBordereau, onChoisirBudget, onChoisirCloudBank }: Props) {
   const cartes: Carte[] = [
     {
       id: "tresorerie",
@@ -57,6 +58,13 @@ export default function Home({ onChoisirTresorerie, onChoisirEtatsFinanciers, on
       onClick: onChoisirBordereau,
     },
     {
+      id: "cloudbank",
+      titre: "Téléverser sur CloudBank",
+      description: "Préparer les écritures (petite caisse, salaires, extournes) à téléverser dans CloudBank, avec confirmation des comptes.",
+      symboleDeRepli: "📤",
+      onClick: onChoisirCloudBank,
+    },
+    {
       id: "budget",
       titre: "Évaluation budgétaire",
       description: "Comparer prévisions et réalisations par catégorie (module en préparation, données fictives pour l'instant).",
@@ -68,10 +76,12 @@ export default function Home({ onChoisirTresorerie, onChoisirEtatsFinanciers, on
 
   return (
     <section aria-labelledby="titre-accueil" className="accueil">
-      <h1 id="titre-accueil" className="accueil__titre">
-        Que voulez-vous faire aujourd'hui ?
-      </h1>
-      <p className="aide accueil__sous-titre">Choisissez un module pour commencer.</p>
+      <header className="accueil__bandeau">
+        <h1 id="titre-accueil" className="accueil__titre">
+          Que voulez-vous faire aujourd'hui ?
+        </h1>
+        <p className="accueil__sous-titre">Choisissez un module pour commencer.</p>
+      </header>
 
       <div className="accueil__grille">
         {cartes.map((carte) => (

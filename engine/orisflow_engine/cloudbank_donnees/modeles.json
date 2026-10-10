@@ -1,0 +1,56 @@
+{
+  "_commentaire": "Définition des modèles de téléversement CloudBank. Un modèle = un format de fichier accepté par le système. Ajouter un modèle ici, sans modifier le code.",
+  "petite_caisse": {
+    "nom": "Petite caisse",
+    "fichier_modele": "Modele Petite Caisse.xlsx",
+    "feuille": "ECRITURE PAIE DG",
+    "feuille_synthese": "SYNTHESE PAR COMPTE",
+    "entetes": ["NUMERO DE COMPTE", "INTITULE", "LIBELLE", "DEBIT ", "CREDIT", "PROVISION ", "AGENCE"],
+    "nom_sortie": "ECRITURE PETITE CAISSE A TELEVERSER.xlsx",
+    "agence_defaut": 10000,
+    "largeurs": {"A": 19, "B": 40, "C": 96, "D": 13, "E": 13, "F": 11, "G": 10},
+    "provision": {"debit": 1, "credit": 0},
+    "contrepartie": {
+      "compte": "4680000000001",
+      "intitule": "Autres débiteurs et créditeurs hors réseau",
+      "libelle": "Prise en charges petite caisse mois de {mois} {annee}",
+      "regle": "Une seule ligne de crédit sur le compte 468, pour le total des débits de charges."
+    },
+    "retour_caisse": {
+      "question": "Y a-t-il un retour de caisse à effectuer ? Si oui : quel montant, et sur le 468 de quelle agence ?",
+      "compte_debit": "4680000001280",
+      "intitule_debit": "AUTRES DEBITEURS",
+      "compte_credit": "4680000000001",
+      "intitule_credit": "Autres débiteurs et créditeurs hors réseau",
+      "compte_credit_defaut_agence": "Siège (DG) : 4680000000001 ; pour une autre agence, le numéro 468 fourni par l'utilisateur",
+      "libelle": "Regul / Retour Petite caisse Mois de {mois} {annee}",
+      "regle": "Si oui : débit 4680000001280 (AUTRES DEBITEURS) et crédit du 468 de l'agence correspondante, pour le montant du retour. Sans réponse positive, aucune ligne de retour."
+    },
+    "approvisionnements": "Hors fichier : décision de l'utilisateur (non intégrés au téléversement)."
+  },
+  "salaires": {
+    "nom": "Salaires",
+    "fichier_modele": "Modele Salaires.xlsx",
+    "feuille": "ECRITURE PAIE DG",
+    "entetes": ["NUMERO DE COMPTE", "INTITULE", "LIBELLE", "DEBIT ", "CREDIT", "PROVISION ", "AGENCE"],
+    "nom_sortie": "ECRITURE SALAIRE A TELEVERSER.xlsx",
+    "agence_defaut": 10000,
+    "largeurs": {"A": 19, "B": 50, "C": 97, "D": 13, "E": 12, "F": 11, "G": 10},
+    "provision": {"debit": 1, "credit": 0},
+    "anomalies_modele": [
+      "Ligne 16 du modèle : colonne PROVISION vide (les autres lignes valent 0 ou 1).",
+      "Ligne 5 du modèle : libellé « Fact N°09/2027 » (probablement 2026). Non corrigé."
+    ]
+  },
+  "extourne": {
+    "nom": "Extourne",
+    "feuille": "ECRITURE PAIE DG",
+    "entetes": ["NUMERO DE COMPTE", "INTITULE", "LIBELLE", "DEBIT ", "CREDIT", "PROVISION ", "AGENCE"],
+    "nom_sortie": "EXT A TELEVERSER.xlsx",
+    "agence_defaut": 10000,
+    "largeurs": {"A": 19, "B": 40, "C": 96, "D": 13, "E": 13, "F": 11, "G": 10},
+    "provision": {"debit": 1, "credit": 0},
+    "regle": "Deux façons de produire ce modèle. (1) Commande 'extourne' (lecture d'un historique de compte CloudBank, montants rapprochés par --regle) : une ligne de débit par transaction extournée (jamais cumulée), une seule ligne de crédit (le cumul) sur le compte du client. Décidé le 09/10/2026, cas Balessing / TAYO ERNEST CLAVIS. (2) 'ecrire --modele extourne' avec un dépenses_validees.json de lignes directes {compte, intitule, libelle, debit|credit, agence} : pour extourner des écritures déjà identifiées ailleurs (ex. grand livre auxiliaire), une paire débit/crédit par agence, fournie telle quelle. Décidé le 09/10/2026, cas TRANSPORT COMMERCIAUX.",
+    "regle_libelle_ext": "Règle générale de toute extourne, quelle que soit la méthode : la ligne qui porte le compte de CHARGE (classe 6, celui qu'on extourne) reçoit un libellé préfixé 'EXT '. La ligne de contrepartie (compte client, disposition à payer, etc.) garde son libellé tel quel, sans préfixe."
+  }
+}

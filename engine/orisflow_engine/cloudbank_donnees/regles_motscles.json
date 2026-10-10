@@ -1,0 +1,71 @@
+{
+  "_commentaire": "Règles de proposition par mots-clés, utilisées quand un libellé n'est pas dans mappings_valides.json. L'ordre compte : la première règle qui correspond est proposée. Chaque proposition doit être confirmée par l'utilisateur. Un mot-clé exclu empêche la règle de s'appliquer.",
+  "regles": [
+    {
+      "nature": "Téléphone mobile",
+      "mots_cles": ["forfait", "recharge uv", "telephone", "téléphone"],
+      "mots_exclus": [],
+      "compte": "6523100000101"
+    },
+    {
+      "nature": "Lavage et entretien du véhicule",
+      "mots_cles": ["lavage", "couvre volant", "entretien vehicule", "réparation vehicule", "reparation vehicule"],
+      "mots_exclus": [],
+      "compte": "6523600000201"
+    },
+    {
+      "nature": "Timbres fiscaux",
+      "mots_cles": ["timbre"],
+      "mots_exclus": ["transport"],
+      "compte": "6630000000164"
+    },
+    {
+      "nature": "Frais internet",
+      "mots_cles": ["internet"],
+      "mots_exclus": [],
+      "compte": "6523100000326"
+    },
+    {
+      "nature": "Frais d'expéditions",
+      "mots_cles": ["expedition", "expédition"],
+      "mots_exclus": ["transport"],
+      "compte": "6523800000632"
+    },
+    {
+      "nature": "Frais de légalisation et d'actes",
+      "mots_cles": ["legalisation", "légalisation", "acte juridique", "contentieux"],
+      "mots_exclus": [],
+      "compte": "6523500000001"
+    },
+    {
+      "nature": "Matériel informatique",
+      "mots_cles": ["adaptateur", "imprimante", "clavier", "souris", "ordinateur"],
+      "mots_exclus": [],
+      "compte": "6521200000216"
+    },
+    {
+      "nature": "Honoraires",
+      "mots_cles": ["honoraire", "indemnite de fonction", "indemnité de fonction"],
+      "mots_exclus": [],
+      "compte": "6523500000301"
+    },
+    {
+      "nature": "Transport et déplacements",
+      "mots_cles": ["transport", "deplacement", "déplacement", "depl", "retrait de colis", "convocation", "rail", "prospection", "taxi"],
+      "mots_exclus": [],
+      "compte": "6522000000001"
+    },
+    {
+      "nature": "Fournitures non ventilées",
+      "mots_cles": ["fourniture", "provision", "fruit"],
+      "mots_exclus": ["transport"],
+      "compte": "6521500000001"
+    },
+    {
+      "nature": "Frais de réception",
+      "mots_cles": ["reception", "réception", "palette d'eau", "eau minerale", "eau minérale"],
+      "mots_exclus": [],
+      "compte": "6523300000301"
+    }
+  ]
+}

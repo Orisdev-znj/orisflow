@@ -459,10 +459,113 @@ export interface ApiOrisflow {
   bordereauCreer(donnees: NouvelleTransmission): Promise<ResultatTransmissionCreee>;
   bordereauEvenement(donnees: NouvelEvenementTransmission): Promise<ResultatEvenementCree>;
   bordereauLister(): Promise<ResultatListeTransmissions>;
+  cloudbankChoisirFichier(): Promise<FichierImporte | null>;
+  cloudbankImporterMapping(chemin: string): Promise<ResultatImportMapping>;
+  cloudbankRechercher(texte: string): Promise<ResultatRechercheCompte>;
+  cloudbankConfirmerLigne(donnees: { compte: string; libelle?: string; intitule?: string; enregistrer?: boolean }): Promise<ResultatConfirmationLigne>;
+  cloudbankEcrire(donnees: DonneesEcritureCloudBank): Promise<ResultatEcritureCloudBank>;
+  cloudbankExtourne(donnees: unknown): Promise<unknown>;
+  cloudbankExtraire(donnees: unknown): Promise<unknown>;
+  cloudbankDeposer(chemin: string): Promise<ResultatDepotCloudBank>;
 }
 
 declare global {
   interface Window {
     orisflow?: ApiOrisflow;
   }
+}
+
+// --- Téléverser sur CloudBank (10/10/2026) -------------------------------------------------------
+// Conception : Orisflow/Contexte/Televerser-CloudBank-dans-Orisflow.md. Le moteur ne fait aucun
+// appel réseau ; Claude (hors Orisflow) lit le document et propose le mapping.
+
+export type StatutLigneCloudBank = "valide" | "a_confirmer" | "non_trouve";
+
+export interface SuggestionPcemf {
+  code_pcemf: string;
+  libelle_pcemf: string;
+  comptes_cloudbank: { code: string; intitule: string }[];
+}
+
+export interface LigneMapping {
+  id: number;
+  libelle: string;
+  montant: number | null;
+  compte: string | null;
+  compte_reel: string | null;
+  intitule: string | null;
+  statut: StatutLigneCloudBank;
+  source: string | null;
+  commentaire: string | null;
+  sens: "debit" | "credit";
+  avertissement: string | null;
+  avertissement_agence: string | null;
+  suggestions: SuggestionPcemf[] | null;
+}
+
+export interface ContexteMapping {
+  conforme: boolean;
+  agence: string | null;
+  agence_nom: string | null;
+  mois: string | null;
+  annee: string | null;
+}
+
+export interface ResultatImportMapping {
+  contexte: ContexteMapping;
+  lignes: LigneMapping[];
+  resume: Record<StatutLigneCloudBank, number>;
+  total: number;
+}
+
+export interface ResultatRechercheCompte {
+  pcemf: SuggestionPcemf[];
+  cloudbank: { code: string; intitule: string }[];
+}
+
+export interface ResultatConfirmationLigne {
+  compte: string;
+  intitule: string | null;
+  connu: boolean;
+  enregistre: boolean;
+}
+
+export interface FeuilleCloudBank {
+  feuille: string;
+  lignes: number;
+  lignes_ecriture?: number;
+  total_debit: number;
+  total_credit: number;
+  ecart: number;
+  somme_total_compte?: number;
+}
+
+export interface ResultatEcritureCloudBank {
+  fichier: string;
+  modele?: string;
+  feuilles: FeuilleCloudBank[];
+  avertissements: string[];
+}
+
+export interface ResultatDepotCloudBank {
+  fichier: string;
+  feuilles: FeuilleCloudBank[];
+  avertissements: string[];
+}
+
+export interface DonneesEcritureCloudBank {
+  modele: "petite_caisse" | "salaires";
+  lignes: {
+    compte: string;
+    intitule?: string | null;
+    libelle: string;
+    montant?: number | null;
+    debit?: number | null;
+    credit?: number | null;
+    agence?: number;
+  }[];
+  agence: number;
+  mois: string;
+  annee: string;
+  retour?: number;
 }

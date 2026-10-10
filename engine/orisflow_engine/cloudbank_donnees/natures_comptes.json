@@ -1,0 +1,23 @@
+{
+  "_commentaire": "Libellé générique de chaque compte de charge, utilisé sur la feuille de synthèse de la petite caisse. L'intitulé CloudBank reste celui du plan. Un compte absent d'ici prend son intitulé CloudBank comme libellé.",
+  "6522000000001": "Frais de transport",
+  "6523600000201": "Lavage et entretien du véhicule",
+  "6630000000164": "Timbres fiscaux",
+  "6523100000326": "Frais internet",
+  "6523100000101": "Frais de téléphone mobile",
+  "6523800000632": "Frais d'expédition",
+  "6523500000001": "Frais de légalisation et d'actes",
+  "6521200000216": "Matériel informatique",
+  "6521500000001": "Fournitures non ventilées",
+  "6523500000301": "Honoraires",
+  "6521200000119": "Achat de matériel de bureau",
+  "6521200000001": "Achat de petit matériel",
+  "6210000000001": "Frais et commissions sur instruments de paiement",
+  "6523300000301": "Frais de réception",
+  "6525600000001": "Charges diverses",
+  "6523600000503": "Entretien des locaux",
+  "6521400000001": "Fournitures d'entretien",
+  "6515000000201": "Indemnité de lait",
+  "6401000000001": "Achat carnet collecte",
+  "6521100000201": "Gaz et carburant"
+}

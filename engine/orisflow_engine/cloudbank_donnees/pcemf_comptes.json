@@ -1,0 +1,8756 @@
+[
+  {
+    "code": "10",
+    "libelle": "CAPITAL, PARTS SOCIALES ET DOTATIONS",
+    "classe": 1,
+    "niveau": 2
+  },
+  {
+    "code": "11",
+    "libelle": "RESERVES",
+    "classe": 1,
+    "niveau": 2
+  },
+  {
+    "code": "12",
+    "libelle": "REPORT A NOUVEAU",
+    "classe": 1,
+    "niveau": 2
+  },
+  {
+    "code": "13",
+    "libelle": "RESULTAT NET DE L’EXERCICE",
+    "classe": 1,
+    "niveau": 2
+  },
+  {
+    "code": "14",
+    "libelle": "PROVISIONS ET RESERVES REGLEMENTEES",
+    "classe": 1,
+    "niveau": 2
+  },
+  {
+    "code": "15",
+    "libelle": "SUBVENTIONS D’INVESTISSEMENT",
+    "classe": 1,
+    "niveau": 2
+  },
+  {
+    "code": "16",
+    "libelle": "FONDS DE FINANCEMENT ET DE GARANTIE",
+    "classe": 1,
+    "niveau": 2
+  },
+  {
+    "code": "17",
+    "libelle": "EMPRUNTS OBLIGATAIRES",
+    "classe": 1,
+    "niveau": 2
+  },
+  {
+    "code": "18",
+    "libelle": "AUTRES RESSOURCES PERMANENTES",
+    "classe": 1,
+    "niveau": 2
+  },
+  {
+    "code": "19",
+    "libelle": "PROVISIONS POUR RISQUES ET CHARGES",
+    "classe": 1,
+    "niveau": 2
+  },
+  {
+    "code": "20",
+    "libelle": "FRAIS ET VALEURS INCORPORELLES IMMOBILISEES",
+    "classe": 2,
+    "niveau": 2
+  },
+  {
+    "code": "21",
+    "libelle": "TERRAINS",
+    "classe": 2,
+    "niveau": 2
+  },
+  {
+    "code": "22",
+    "libelle": "AUTRES IMMOBILISATIONS CORPORELLES EN SERVICE",
+    "classe": 2,
+    "niveau": 2
+  },
+  {
+    "code": "23",
+    "libelle": "AUTRES IMMOBILISATIONS CORPORELLES EN COURS",
+    "classe": 2,
+    "niveau": 2
+  },
+  {
+    "code": "24",
+    "libelle": "AVANCES ET ACOMPTES SUR COMMANDES D’IMMOBILISATIONS",
+    "classe": 2,
+    "niveau": 2
+  },
+  {
+    "code": "25",
+    "libelle": "DEPOTS ET CAUTIONNEMENTS NON COMMERCIAUX VERSES",
+    "classe": 2,
+    "niveau": 2
+  },
+  {
+    "code": "26",
+    "libelle": "TITRES DE PARTICIPATIONS ET AUTRES IMMOBILISATIONS FINANCIERES",
+    "classe": 2,
+    "niveau": 2
+  },
+  {
+    "code": "27",
+    "libelle": "PRETS ET TITRES PUBLICS ET ASSIMILES",
+    "classe": 2,
+    "niveau": 2
+  },
+  {
+    "code": "28",
+    "libelle": "AMORTISSEMENTS DES VALEURS INCORPORELLES ET CORPORELLES",
+    "classe": 2,
+    "niveau": 2
+  },
+  {
+    "code": "29",
+    "libelle": "PROVISIONS POUR DEPRECIATION DES COMPTES DE VALEURS IMMOBILISEES",
+    "classe": 2,
+    "niveau": 2
+  },
+  {
+    "code": "30",
+    "libelle": "/ 31 – CREDITS A LONG TERME / A MOYEN TERME",
+    "classe": 3,
+    "niveau": 2
+  },
+  {
+    "code": "32",
+    "libelle": "CREDITS A COURT TERME",
+    "classe": 3,
+    "niveau": 2
+  },
+  {
+    "code": "33",
+    "libelle": "CREANCES EN SOUFFRANCE",
+    "classe": 3,
+    "niveau": 2
+  },
+  {
+    "code": "34",
+    "libelle": "AUTRES OPERATIONS ENGAGEES POUR LE COMPTE DE LA CLIENTELE",
+    "classe": 3,
+    "niveau": 2
+  },
+  {
+    "code": "35",
+    "libelle": "COMPTES DE DEPOTS A REGIME SPECIAL",
+    "classe": 3,
+    "niveau": 2
+  },
+  {
+    "code": "36",
+    "libelle": "COMPTES DE DEPOTS A TERME",
+    "classe": 3,
+    "niveau": 2
+  },
+  {
+    "code": "37",
+    "libelle": "DECOUVERTS ET COMPTES CREDITEURS A VUE",
+    "classe": 3,
+    "niveau": 2
+  },
+  {
+    "code": "38",
+    "libelle": "AUTRES COMPTES DE LA CLIENTELE",
+    "classe": 3,
+    "niveau": 2
+  },
+  {
+    "code": "39",
+    "libelle": "PROVISIONS POUR DEPRECIATION DES COMPTES DE LA CLIENTELE",
+    "classe": 3,
+    "niveau": 2
+  },
+  {
+    "code": "40",
+    "libelle": "FOURNISSEURS",
+    "classe": 4,
+    "niveau": 2
+  },
+  {
+    "code": "41",
+    "libelle": "INSTRUMENTS DE PAIEMENT A L’ENCAISSEMENT",
+    "classe": 4,
+    "niveau": 2
+  },
+  {
+    "code": "42",
+    "libelle": "-PERSONNEL",
+    "classe": 4,
+    "niveau": 2
+  },
+  {
+    "code": "43",
+    "libelle": "ETAT, COLLECTIVITES PUBLIQUES ET ORGANISMES INTERNATIONAUX",
+    "classe": 4,
+    "niveau": 2
+  },
+  {
+    "code": "44",
+    "libelle": "SOCIETAIRES ET ACTIONNAIRES",
+    "classe": 4,
+    "niveau": 2
+  },
+  {
+    "code": "45",
+    "libelle": "COMPTES DE LIAISON",
+    "classe": 4,
+    "niveau": 2
+  },
+  {
+    "code": "46",
+    "libelle": "AUTRES DEBITEURS ET CREDITEURS",
+    "classe": 4,
+    "niveau": 2
+  },
+  {
+    "code": "47",
+    "libelle": "COMPTES DE REGULARISATION",
+    "classe": 4,
+    "niveau": 2
+  },
+  {
+    "code": "48",
+    "libelle": "CREANCES DIVERSES EN SOUFFRANCE",
+    "classe": 4,
+    "niveau": 2
+  },
+  {
+    "code": "49",
+    "libelle": "PROVISIONS POUR DEPRECIATION DES COMPTES D’AUTRES TIERS",
+    "classe": 4,
+    "niveau": 2
+  },
+  {
+    "code": "51",
+    "libelle": "TITRES DE PLACEMENT ET DE TRANSACTION",
+    "classe": 5,
+    "niveau": 2
+  },
+  {
+    "code": "52",
+    "libelle": "MARCHE MONETAIRE",
+    "classe": 5,
+    "niveau": 2
+  },
+  {
+    "code": "53",
+    "libelle": "AUTRES VALEURS RECUES OU DONNEES",
+    "classe": 5,
+    "niveau": 2
+  },
+  {
+    "code": "54",
+    "libelle": "PRETS, EMPRUNTS ET COMPTES A TERME DES CORRESPONDANTS",
+    "classe": 5,
+    "niveau": 2
+  },
+  {
+    "code": "55",
+    "libelle": "PRETS ET EMPRUNTS AU JOUR LE JOUR DES CORRESPONDANTS",
+    "classe": 5,
+    "niveau": 2
+  },
+  {
+    "code": "56",
+    "libelle": "COMPTES A VUE DES CORRESPONDANTS",
+    "classe": 5,
+    "niveau": 2
+  },
+  {
+    "code": "57",
+    "libelle": "CAISSE",
+    "classe": 5,
+    "niveau": 2
+  },
+  {
+    "code": "58",
+    "libelle": "CREANCES EN SOUFFRANCE SUR LES CORRESPONDANTS",
+    "classe": 5,
+    "niveau": 2
+  },
+  {
+    "code": "59",
+    "libelle": "PROVISIONS POUR DEPRECIATION DES COMPTES DE TRESORERIE",
+    "classe": 5,
+    "niveau": 2
+  },
+  {
+    "code": "60",
+    "libelle": "CHARGES SUR OPERATIONS DE TRESORERIE ET OPERATIONS INTERBANCAIRES",
+    "classe": 6,
+    "niveau": 2
+  },
+  {
+    "code": "61",
+    "libelle": "INTERETS SUR OPERATIONS AVEC LA CLIENTELE OU SOCIETAIRES",
+    "classe": 6,
+    "niveau": 2
+  },
+  {
+    "code": "62",
+    "libelle": "CHARGES DIVERSES SUR OPERATIONS BANCAIRES",
+    "classe": 6,
+    "niveau": 2
+  },
+  {
+    "code": "63",
+    "libelle": "CHARGES SUR RESSOURCES PERMANENTES",
+    "classe": 6,
+    "niveau": 2
+  },
+  {
+    "code": "64",
+    "libelle": "CHARGES LIEES AUX ACTIVITES ACCESSOIRES",
+    "classe": 6,
+    "niveau": 2
+  },
+  {
+    "code": "65",
+    "libelle": "CHARGES DE PERSONNEL ET CHARGES GENERALES D’EXPLOITATION",
+    "classe": 6,
+    "niveau": 2
+  },
+  {
+    "code": "66",
+    "libelle": "IMPOTS ET TAXES",
+    "classe": 6,
+    "niveau": 2
+  },
+  {
+    "code": "67",
+    "libelle": "PERTES EXCEPTIONNELLES ET SUR EXCERCICES ANTERIEURS/VALEURS",
+    "classe": 6,
+    "niveau": 2
+  },
+  {
+    "code": "69",
+    "libelle": "DOTATIONS AUX PROVISIONS ET PERTES SUR CREANCES IRRECOUVRABLES",
+    "classe": 6,
+    "niveau": 2
+  },
+  {
+    "code": "70",
+    "libelle": "PRODUITS SUR OPERATIONS DE TRESORERIE ET INTERBANCAIRE",
+    "classe": 7,
+    "niveau": 2
+  },
+  {
+    "code": "71",
+    "libelle": "PRODUITS SUR OPERATIONS AVEC LA CLIENTELE OU SOCIETAIRES",
+    "classe": 7,
+    "niveau": 2
+  },
+  {
+    "code": "72",
+    "libelle": "PRODUITS SUR OPERATIONS DIVERSES",
+    "classe": 7,
+    "niveau": 2
+  },
+  {
+    "code": "73",
+    "libelle": "PRODUITS DU PORTEFEUILLE TITRES ET DES PRETS A SOUSCRIPTION OBLIGATOIRE",
+    "classe": 7,
+    "niveau": 2
+  },
+  {
+    "code": "74",
+    "libelle": "PRODUITS ACCESSOIRES",
+    "classe": 7,
+    "niveau": 2
+  },
+  {
+    "code": "75",
+    "libelle": "AUTRES PRODUITS",
+    "classe": 7,
+    "niveau": 2
+  },
+  {
+    "code": "76",
+    "libelle": "SUBVENTIONS D’EXPLOITATION ET D’EQUILIBRE",
+    "classe": 7,
+    "niveau": 2
+  },
+  {
+    "code": "77",
+    "libelle": "PROFITS EXCEPTIONNELS ET SUR EXERCICES ANTERIEURS - PRIX DE CESSION DES ELEMENTS D’ACTIF",
+    "classe": 7,
+    "niveau": 2
+  },
+  {
+    "code": "78",
+    "libelle": "REPRISES D’AMORTISSEMENTS",
+    "classe": 7,
+    "niveau": 2
+  },
+  {
+    "code": "79",
+    "libelle": "REPRISES DE PROVISIONS ET RECUPERATIONS SUR CREANCES IRRECOUVRABLES",
+    "classe": 7,
+    "niveau": 2
+  },
+  {
+    "code": "80",
+    "libelle": "PRODUIT NET FINANCIER (PNF)",
+    "classe": 8,
+    "niveau": 2
+  },
+  {
+    "code": "81",
+    "libelle": "PRODUIT D’EXPLOITATION GLOBAL",
+    "classe": 8,
+    "niveau": 2
+  },
+  {
+    "code": "82",
+    "libelle": "RESULTAT D’EXPLOITATION",
+    "classe": 8,
+    "niveau": 2
+  },
+  {
+    "code": "83",
+    "libelle": "RESULTAT COURANT",
+    "classe": 8,
+    "niveau": 2
+  },
+  {
+    "code": "84",
+    "libelle": "RESULTAT EXCEPTIONNEL",
+    "classe": 8,
+    "niveau": 2
+  },
+  {
+    "code": "85",
+    "libelle": "RESULTAT  AVANT IMPOT",
+    "classe": 8,
+    "niveau": 2
+  },
+  {
+    "code": "86",
+    "libelle": "IMPOTS SUR LE RESULTAT",
+    "classe": 8,
+    "niveau": 2
+  },
+  {
+    "code": "87",
+    "libelle": "RESULTAT NET AVANT CERTIFICATION",
+    "classe": 8,
+    "niveau": 2
+  },
+  {
+    "code": "90",
+    "libelle": "ENGAGEMENTS DONNES AUX CORRESPONDANTS LOCAUX",
+    "classe": 9,
+    "niveau": 2
+  },
+  {
+    "code": "91",
+    "libelle": "ENGAGEMENTS RECUS DES CORRESPONDANTS LOCAUX",
+    "classe": 9,
+    "niveau": 2
+  },
+  {
+    "code": "92",
+    "libelle": "ENGAGEMENTS EN FAVEUR DE LA CLIENTELE",
+    "classe": 9,
+    "niveau": 2
+  },
+  {
+    "code": "93",
+    "libelle": "ENGAGEMENTS RECUS DE LA CLIENTELE",
+    "classe": 9,
+    "niveau": 2
+  },
+  {
+    "code": "94",
+    "libelle": "ENGAGEMENTS DE CREDIT BAIL",
+    "classe": 9,
+    "niveau": 2
+  },
+  {
+    "code": "95",
+    "libelle": "OPERATIONS SUR TITRES ET VALEURS AFFECTEES EN GARANTIE DES OPERATIONS",
+    "classe": 9,
+    "niveau": 2
+  },
+  {
+    "code": "96",
+    "libelle": "ENGAGEMENTS RECUS DE L’ETAT ET DES ORGANISMES PUBLICS",
+    "classe": 9,
+    "niveau": 2
+  },
+  {
+    "code": "97",
+    "libelle": "OPERATIONS EN DEVISES",
+    "classe": 9,
+    "niveau": 2
+  },
+  {
+    "code": "98",
+    "libelle": "ENGAGEMENTS PAR SIGNATURE DOUTEUX",
+    "classe": 9,
+    "niveau": 2
+  },
+  {
+    "code": "99",
+    "libelle": "COMPTE GENERAL DES ENGAGEMENTS HORS-BILAN",
+    "classe": 9,
+    "niveau": 2
+  },
+  {
+    "code": "100",
+    "libelle": "Parts sociales souscrites appelées",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "101",
+    "libelle": "Capital social",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "102",
+    "libelle": "Fonds de dotation",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "103",
+    "libelle": "Actionnaires, capital souscrit non appelé",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "104",
+    "libelle": "Primes liées au capital et parts sociales",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "111",
+    "libelle": "Réserves légales",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "112",
+    "libelle": "Réserves obligatoires et réglementaires",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "113",
+    "libelle": "Réserves statutaires et contractuelles",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "114",
+    "libelle": "Réserves facultatives",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "121",
+    "libelle": "Report à nouveau créditeur",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "122",
+    "libelle": "Report à nouveau débiteur",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "131",
+    "libelle": "Bénéfice de l’exercice",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "132",
+    "libelle": "Perte de l’exercice",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "141",
+    "libelle": "Provisions réglementées",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "142",
+    "libelle": "Réserves réglementées",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "151",
+    "libelle": "Subventions d’équipement",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "152",
+    "libelle": "Autres subventions d’Investissement",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "160",
+    "libelle": "Fonds de solidarité réglementaire",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "161",
+    "libelle": "Fonds affectés sur ressources propres",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "162",
+    "libelle": "Fonds d’affectation sur ressources extérieures",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "163",
+    "libelle": "Fonds de garantie et assurance mutuels",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "171",
+    "libelle": "Emprunts-Obligations souscrits",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "172",
+    "libelle": "Obligations échues à rembourser",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "174",
+    "libelle": "Dettes rattachées aux emprunts obligataires",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "181",
+    "libelle": "Emprunts participatifs et dettes subordonnées",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "182",
+    "libelle": "Comptes bloqués actionnaires ou associés",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "183",
+    "libelle": "Autres comptes bloqués",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "184",
+    "libelle": "Titres de créances négociables",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "185",
+    "libelle": "Emprunts à long et moyen terme",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "186",
+    "libelle": "Dettes de crédits bail et contrats assimilés",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "187",
+    "libelle": "Dépôts et cautionnements non commerciaux reçus",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "188",
+    "libelle": "Dettes rattachées aux emprunts à LT & MT",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "190",
+    "libelle": "Provision pour risques généraux",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "191",
+    "libelle": "Provisions pour charges",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "192",
+    "libelle": "Provisions sur opérations de crédit bail et assimilées",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "193",
+    "libelle": "Autres provisions",
+    "classe": 1,
+    "niveau": 3
+  },
+  {
+    "code": "201",
+    "libelle": "Frais immobilisés",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "202",
+    "libelle": "Valeurs incorporelles immobilisées",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "211",
+    "libelle": "Terrains en exploitation",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "212",
+    "libelle": "Terrains donnés en location simple",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "213",
+    "libelle": "Terrains affectés au crédit-bail ou à la location  avec option d’achat",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "214",
+    "libelle": "Terrains acquis par réalisation de garantie",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "215",
+    "libelle": "Ecarts de réévaluation",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "219",
+    "libelle": "Autres terrains",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "221",
+    "libelle": "Immeubles d’exploitation",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "222",
+    "libelle": "Immeubles donnés en location simple",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "223",
+    "libelle": "Immeubles affectés au crédit bail ou à la location avec option d’achat",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "224",
+    "libelle": "Immeubles acquis par réalisation de garantie",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "225",
+    "libelle": "Matériel et mobilier d’exploitation",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "226",
+    "libelle": "Matériel et mobilier en location simple",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "227",
+    "libelle": "Matériel et mobilier affectés au crédit bail ou à la location avec option d’achat",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "228",
+    "libelle": "Matériel et mobilier acquis en réalisation de garanties",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "229",
+    "libelle": "Autres immobilisations corporelles",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "231",
+    "libelle": "Immeubles d’exploitation",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "232",
+    "libelle": "Immeubles destinés à la location simple",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "233",
+    "libelle": "Immeubles destinés au  crédit-bail ou à la location avec option d’achat",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "235",
+    "libelle": "Matériel et mobilier d’exploitation",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "236",
+    "libelle": "Matériel et mobilier en location simple",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "237",
+    "libelle": "Matériel et mobilier destinés au crédit-bail ou à la location avec option d’achat",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "239",
+    "libelle": "Autres immobilisations corporelles",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "241",
+    "libelle": "Immeubles d’exploitation",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "242",
+    "libelle": "Immeubles en location simple",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "243",
+    "libelle": "Avances et acomptes sur immeubles destinés aux crédit-bail ou à la location avec option",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "245",
+    "libelle": "Matériel et mobilier d’exploitation",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "246",
+    "libelle": "Matériel et mobilier destinés à la location",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "247",
+    "libelle": "Avances et acomptes sur matériel et mobilier destinés au crédit-bail ou à la location avec",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "249",
+    "libelle": "Autres immobilisations corporelles",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "251",
+    "libelle": "Dépôts et cautionnements versés",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "262",
+    "libelle": "Actions et parts d’établissements de crédit et de microfinance",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "263",
+    "libelle": "Autres titres de participation",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "264",
+    "libelle": "Titres de l’activité de portefeuille",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "265",
+    "libelle": "Titres d’investissement",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "266",
+    "libelle": "Titres en souffrance",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "267",
+    "libelle": "Actions ou parts sociales propres rachetées",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "268",
+    "libelle": "Autres immobilisations financières",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "269",
+    "libelle": "Créances rattachées sur titres de participation et autres immob.  financières",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "271",
+    "libelle": "Titres publics et assimilés",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "272",
+    "libelle": "Autres prêts et titres publics",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "273",
+    "libelle": "Prêts et titres impayés",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "274",
+    "libelle": "–Créances rattachées",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "280",
+    "libelle": "Valeurs incorporelles immobilisés",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "282",
+    "libelle": "Immobilisations corporelles",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "290",
+    "libelle": "Valeurs incorporelles immobilisées",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "291",
+    "libelle": "Terrains",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "292",
+    "libelle": "Immobilisations corporelles",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "293",
+    "libelle": "Autres immobilisations corporelles en cours",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "294",
+    "libelle": "Avances et acomptes sur commandes d’immobilisations",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "295",
+    "libelle": "Dépôts et cautionnements",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "296",
+    "libelle": "Titres de participation et autres immobilisations financières",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "297",
+    "libelle": "Prêts et Titres publics et assimilés",
+    "classe": 2,
+    "niveau": 3
+  },
+  {
+    "code": "307",
+    "libelle": "/ 317 – Crédit-bail à LT/MT",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "308",
+    "libelle": "/ 318 – Autres crédits LT/MT",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "309",
+    "libelle": "/ 319 – Créances  rattachées  aux crédits à LT/MT",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "320",
+    "libelle": "Chèques et effets escomptés ou à crédit immédiat",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "321",
+    "libelle": "Crédits moratoriés ou consolidés sur l’Etat",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "322",
+    "libelle": "Crédits de trésorerie",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "323",
+    "libelle": "Crédits à l’équipement",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "324",
+    "libelle": "Crédits d’accompagnement sur marchés publics",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "325",
+    "libelle": "Crédits de campagne",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "326",
+    "libelle": "Crédits à la consommation",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "327",
+    "libelle": "Crédit – bail à CT",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "328",
+    "libelle": "Autres crédits à CT",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "329",
+    "libelle": "Créances rattachées aux crédits à CT",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "331",
+    "libelle": "Créances impayées",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "332",
+    "libelle": "Créances immobilisées",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "333",
+    "libelle": "Créances douteuses couvertes par la garantie de l’Etat",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "334",
+    "libelle": "Créances douteuses couvertes par des sûretés réelles",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "335",
+    "libelle": "Autres Créances douteuses",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "336",
+    "libelle": "Créances impayées sur crédit-bail",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "337",
+    "libelle": "Créances douteuses sur crédit-bail",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "340",
+    "libelle": "Stock de marchandises",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "341",
+    "libelle": "Autres opérations assimilées engagées pour le compte de la clientèle",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "350",
+    "libelle": "Dépôts  des EMF affiliés auprès de l’organe faîtier",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "351",
+    "libelle": "Bons de caisse",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "352",
+    "libelle": "Certificats de dépôts",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "353",
+    "libelle": "Comptes et plans épargne logement",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "354",
+    "libelle": "Plans d’épargne retraite",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "355",
+    "libelle": "Autres comptes d’épargne à régime spécial",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "359",
+    "libelle": "Dettes rattachées",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "361",
+    "libelle": "Dépôts à terme",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "369",
+    "libelle": "Dettes rattachées",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "371",
+    "libelle": "Comptes courants",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "372",
+    "libelle": "Comptes de chèques",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "373",
+    "libelle": "Comptes sur livrets",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "374",
+    "libelle": "Dépôts de garantie",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "375",
+    "libelle": "Avances sur dépôts à terme",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "376",
+    "libelle": "Loyers de crédit-bail ou de location en instance de recouvrement",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "377",
+    "libelle": "Dépôts de garantie sur opérations de crédit bail et assimilées",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "378",
+    "libelle": "Créances ou dettes rattachées",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "381",
+    "libelle": "Dispositions à payer",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "382",
+    "libelle": "Comptes bloqués",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "383",
+    "libelle": "Avoirs en cours de prescription",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "384",
+    "libelle": "Autres sommes dues à la clientèle",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "386",
+    "libelle": "Autres sommes dues par la clientèle",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "387",
+    "libelle": "Valeurs non imputées",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "388",
+    "libelle": "Autres comptes de la clientèle EMF affiliés",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "391",
+    "libelle": "Provisions sur créances douteuses couvertes par la garantie de l’Etat",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "392",
+    "libelle": "Provisions sur créances douteuses couvertes par des sûretés réelles",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "393",
+    "libelle": "Provisions sur autres créances douteuses",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "394",
+    "libelle": "Provisions sur créances douteuses sur le crédit bail",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "397",
+    "libelle": "Provisions sur dépréciation de stocks",
+    "classe": 3,
+    "niveau": 3
+  },
+  {
+    "code": "401",
+    "libelle": "Fournisseurs, dettes en compte",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "402",
+    "libelle": "Fournisseurs, effets à payer",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "403",
+    "libelle": "Fournisseurs, factures non parvenues",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "409",
+    "libelle": "Fournisseurs débiteurs",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "411",
+    "libelle": "Instruments de paiement à recouvrer",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "412",
+    "libelle": "Comptes d’encaissement",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "419",
+    "libelle": "Valeurs non payées à présentation",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "421",
+    "libelle": "Acomptes et avances mensuels sur traitement",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "422",
+    "libelle": "Rémunérations dues",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "423",
+    "libelle": "-Oppositions sur traitement et salaire",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "424",
+    "libelle": "-Congés payés",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "425",
+    "libelle": "-Autres",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "430",
+    "libelle": "Etat, impôts et taxes",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "431",
+    "libelle": "Etat, charges à payer ou produits à recevoir",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "432",
+    "libelle": "Collectivités publiques",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "433",
+    "libelle": "Organismes internationaux",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "434",
+    "libelle": "Subventions et fonds de dotation à recevoir",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "435",
+    "libelle": "Fonds d’affectation à recevoir",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "441",
+    "libelle": "Sociétaires et actionnaires, opérations sur le capital",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "445",
+    "libelle": "Sociétaires et actionnaires jetons de présences et autres rémunérations",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "447",
+    "libelle": "Sociétaires et actionnaires subventions à recevoir",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "451",
+    "libelle": "Siège et agences locales/organe faîtier et EMF affiliés",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "452",
+    "libelle": "Comptes de liaison entre agences ou entre EMF affiliés",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "459",
+    "libelle": "Mouvements de fonds et autres virements internes",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "460",
+    "libelle": "Subventions, fonds de dotation, dons et libéralités à recevoir (autre qu’Etat, organismes",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "461",
+    "libelle": "Sociétés d’Assurance et de Capitalisation",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "462",
+    "libelle": "Organismes de Prévoyance ou de Sécurité Sociale",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "463",
+    "libelle": "Erreurs, vols et détournements",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "464",
+    "libelle": "Obligataires, opérations sur les emprunts obligations",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "465",
+    "libelle": "Versements restant à effectuer sur des titres en portefeuille (créditeur)",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "466",
+    "libelle": "Créances sur cession d’immobilisations",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "467",
+    "libelle": "Créances sur cession de valeurs mobilières",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "468",
+    "libelle": "Autres débiteurs et créditeurs",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "469",
+    "libelle": "Débiteurs litigieux ou douteux",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "471",
+    "libelle": "Comptes de régularisation actif",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "472",
+    "libelle": "Comptes de régularisation passif",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "473",
+    "libelle": "Subventions et fonds de dotation obtenus non encore encaissées",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "474",
+    "libelle": "Fonds d’affectation obtenus non encore encaissés",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "475",
+    "libelle": "Position de change",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "476",
+    "libelle": "Contre valeur de la position de change",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "480",
+    "libelle": "Avances aux fournisseurs de biens et services en souffrance",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "481",
+    "libelle": "Valeurs à l’encaissement en souffrance",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "482",
+    "libelle": "Avances consenties au personnel en souffrance",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "483",
+    "libelle": "Créances sur les débiteurs divers en souffrance",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "485",
+    "libelle": "Opérations entre sièges et agences en souffrance",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "490",
+    "libelle": "Provisions pour dépréciation des comptes fournisseurs débiteurs",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "491",
+    "libelle": "Provisions pour dépréciation des comptes de recouvrement",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "493",
+    "libelle": "Provisions pour dépréciation des comptes de débiteurs divers",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "495",
+    "libelle": "Provisions pour dépréciation des comptes de liaison",
+    "classe": 4,
+    "niveau": 3
+  },
+  {
+    "code": "511",
+    "libelle": "Portefeuille de placement",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "512",
+    "libelle": "Portefeuille de transaction",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "521",
+    "libelle": "Opérations interbancaires",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "522",
+    "libelle": "Refinancement au guichet A",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "524",
+    "libelle": "Avances au taux de pénalité",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "525",
+    "libelle": "Placements à la BEAC",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "526",
+    "libelle": "Réserves obligatoires",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "528",
+    "libelle": "Créances rattachées",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "529",
+    "libelle": "Dettes rattachées",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "531",
+    "libelle": "Autres valeurs reçues en pension ou achetées ferme",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "532",
+    "libelle": "Autres valeurs données en pension ou vendues ferme",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "538",
+    "libelle": "Créances rattachées",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "539",
+    "libelle": "Dettes rattachées",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "541",
+    "libelle": "Prêts à terme",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "542",
+    "libelle": "Comptes à terme nostri",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "543",
+    "libelle": "Comptes à terme lori",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "544",
+    "libelle": "Emprunts à terme",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "548",
+    "libelle": "Créances rattachées",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "549",
+    "libelle": "Dettes rattachées",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "551",
+    "libelle": "Prêts au jour le jour",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "552",
+    "libelle": "Emprunts au jour le jour",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "558",
+    "libelle": "Créances rattachées",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "559",
+    "libelle": "Dettes rattachées",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "560",
+    "libelle": "Comptes à vue nostri",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "561",
+    "libelle": "Comptes à vue lori",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "563",
+    "libelle": "Dépôts de garantie donnés",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "564",
+    "libelle": "Dépôts de garantie reçus",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "568",
+    "libelle": "Créances rattachées",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "569",
+    "libelle": "Dettes rattachées",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "571",
+    "libelle": "Billets et Monnaies",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "572",
+    "libelle": "Avoirs en or et pierres précieuses",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "573",
+    "libelle": "Chèques de voyage",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "574",
+    "libelle": "Timbres postaux et fiscaux",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "581",
+    "libelle": "Créances impayées sur les correspondants",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "582",
+    "libelle": "Créances immobilisées",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "583",
+    "libelle": "Créances douteuses",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "591",
+    "libelle": "Provisions pour dépréciation des titres de placement",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "592",
+    "libelle": "Provisions pour dépréciation des comptes de correspondants",
+    "classe": 5,
+    "niveau": 3
+  },
+  {
+    "code": "601",
+    "libelle": "Intérêts sur opérations interbancaires",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "602",
+    "libelle": "Intérêts sur autres valeurs données en pension",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "603",
+    "libelle": "Intérêts sur emprunts et comptes à terme",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "604",
+    "libelle": "Intérêts sur emprunts au jour le jour",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "605",
+    "libelle": "Intérêts sur comptes à vue",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "606",
+    "libelle": "Commissions sur opérations de trésorerie et interbancaires",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "607",
+    "libelle": "Charges sur opérations de trésorerie réseau",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "611",
+    "libelle": "Intérêts sur dépôts à régime spécial",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "612",
+    "libelle": "Intérêts sur dépôts à terme",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "613",
+    "libelle": "Intérêts sur comptes sur livrets",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "614",
+    "libelle": "Intérêts sur autres comptes à vue",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "615",
+    "libelle": "Intérêts sur opération avec EMF",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "616",
+    "libelle": "Charges sur opérations de location",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "619",
+    "libelle": "Intérêts sur autres comptes de la clientèle",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "621",
+    "libelle": "Frais engagés et commissions sur instruments de paiement",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "622",
+    "libelle": "Commissions et frais sur titres",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "623",
+    "libelle": "Commissions, frais et pertes sur opération de change effectuées à titre principal",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "624",
+    "libelle": "Commissions et frais versés sur opérations de transfert de fonds",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "625",
+    "libelle": "Commissions sur engagements par signature",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "626",
+    "libelle": "Autres commissions et frais bancaires",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "627",
+    "libelle": "Pertes sur titres de placement ou de transaction",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "628",
+    "libelle": "Charges diverses sur opérations avec EMF",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "631",
+    "libelle": "Intérêts sur ressources permanentes",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "632",
+    "libelle": "Commissions :",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "640",
+    "libelle": "Achats et variations de stock de marchandises",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "641",
+    "libelle": "Autres charges liées aux activités accessoires",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "642",
+    "libelle": "Charges sur opérations de crédit-bail et opérations assimilées",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "643",
+    "libelle": "Charges sur opérations de location simple",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "651",
+    "libelle": "Charges de personnel",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "652",
+    "libelle": "Charges générales d’exploitation",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "661",
+    "libelle": "Etat, impôts et taxes directs",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "662",
+    "libelle": "Etat, impôts et taxes indirects",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "663",
+    "libelle": "Etat, droits d’enregistrement",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "664",
+    "libelle": "Etat, pénalités et amendes fiscales",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "665",
+    "libelle": "Etat, autres impôts et taxes",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "671",
+    "libelle": "Charges d’exploitation bancaire sur exercices antérieurs",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "672",
+    "libelle": "Charges générales d’exploitation sur exercices antérieurs",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "673",
+    "libelle": "Autres charges sur exercices antérieurs",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "676",
+    "libelle": "Valeurs nettes comptables des éléments d’actif cédés",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "677",
+    "libelle": "Subventions accordées",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "679",
+    "libelle": "Pertes exceptionnelles",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "680",
+    "libelle": "Dotations aux amortissements des frais et valeurs incorporelles",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "682",
+    "libelle": "Dotations aux amortissements des immobilisations corporelles",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "691",
+    "libelle": "Dotations aux provisions",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "692",
+    "libelle": "Pertes sur créances irrécouvrables",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "694",
+    "libelle": "Dotation aux provisions pour risques généraux",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "697",
+    "libelle": "Dotation aux provisions réglementées",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "698",
+    "libelle": "Autres dotations aux provisions",
+    "classe": 6,
+    "niveau": 3
+  },
+  {
+    "code": "701",
+    "libelle": "Intérêts sur opérations du marché monétaire",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "702",
+    "libelle": "Intérêts sur autres valeurs reçues en pension",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "703",
+    "libelle": "Intérêts sur prêts et comptes à terme",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "704",
+    "libelle": "Intérêts sur prêts au jour le jour",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "705",
+    "libelle": "Intérêts sur comptes à vue",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "706",
+    "libelle": "Commissions sur opérations de trésorerie et interbancaires",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "707",
+    "libelle": "Produits sur opérations de trésorerie réseau",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "711",
+    "libelle": "Intérêts sur les crédits à long terme",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "712",
+    "libelle": "Intérêts sur les crédits à moyen terme",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "713",
+    "libelle": "Intérêts sur les crédits à court terme",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "714",
+    "libelle": "Intérêts sur comptes débiteurs de la clientèle",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "715",
+    "libelle": "Commissions sur opérations avec la clientèle",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "716",
+    "libelle": "Autres produits et produits sur opérations de location simple",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "717",
+    "libelle": "Produits sur opérations avec la clientèle des EMF",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "719",
+    "libelle": "Autres produits",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "720",
+    "libelle": "Commissions de tenue de compte",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "721",
+    "libelle": "Commissions sur instruments de paiement",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "722",
+    "libelle": "Commissions sur engagements par signature",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "723",
+    "libelle": "Commissions et profits sur opérations de change effectuées à titre principal",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "724",
+    "libelle": "Commissions et frais perçus sur opérations de transfert de fonds",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "725",
+    "libelle": "Commissions de gestion de portefeuille titres pour compte de tiers",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "726",
+    "libelle": "Profits sur titres de placement et transaction",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "727",
+    "libelle": "Récupération et refacturation de charges d’exploitation bancaire",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "728",
+    "libelle": "Produits sur moyens de paiements",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "729",
+    "libelle": "Produits divers sur opérations bancaires EMF",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "731",
+    "libelle": "Revenus du portefeuille de participation",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "732",
+    "libelle": "Revenus des prêts et titres à souscription obligatoire",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "733",
+    "libelle": "Revenus du portefeuille de placement",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "734",
+    "libelle": "Revenus du portefeuille de transaction",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "740",
+    "libelle": "Ventes de marchandises",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "741",
+    "libelle": "Autres produits liés aux activités accessoires",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "742",
+    "libelle": "Produits sur opérations de crédit-bail et d’opérations assimilées",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "743",
+    "libelle": "Produits sur opérations de location simple",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "751",
+    "libelle": "Jetons de présence",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "752",
+    "libelle": "Etudes cédées",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "753",
+    "libelle": "Production immobilisée",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "754",
+    "libelle": "Récupération et refacturation des charges d’exploitation non bancaires",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "755",
+    "libelle": "Autres produits de la clientèle ou sociétaires",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "756",
+    "libelle": "Autres produits d’opérations EMF",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "761",
+    "libelle": "Subventions d’exploitation",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "762",
+    "libelle": "Subventions d’équilibre",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "763",
+    "libelle": "Subventions d’exploitation et d’équilibre EMF",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "770",
+    "libelle": "Produits d’exploitation bancaire sur exercices antérieurs",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "771",
+    "libelle": "Produits divers sur exercices antérieurs",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "772",
+    "libelle": "Indemnités d’assurance",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "773",
+    "libelle": "Provisions spéciales et réserves de réévaluation reprises",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "774",
+    "libelle": "Subventions d’investissement reprises",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "775",
+    "libelle": "Prix de cession des éléments d’actif immobilisés",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "776",
+    "libelle": "Transferts et refacturation de charges exceptionnelles et sur exercices antérieurs",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "777",
+    "libelle": "Salaires et indemnités abandonnés",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "778",
+    "libelle": "Divers profits exceptionnels",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "779",
+    "libelle": "Profits exceptionnels et sur exercices antérieurs – prix de cession d’éléments d’actif EMF",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "780",
+    "libelle": "Reprises d’amortissements des frais et valeurs immobilisées",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "782",
+    "libelle": "Reprises d’amortissements des immobilisations corporelles",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "791",
+    "libelle": "Reprises de provisions",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "792",
+    "libelle": "Récupération sur créances abandonnées",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "794",
+    "libelle": "Reprise de provisions pour risque généraux",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "797",
+    "libelle": "Reprises de provisions réglementées",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "798",
+    "libelle": "Autres reprises de provisions",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "799",
+    "libelle": "Reprises de provisions et récupération sur créances irrécouvrables",
+    "classe": 7,
+    "niveau": 3
+  },
+  {
+    "code": "901",
+    "libelle": "Accords de refinancement donnés",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "902",
+    "libelle": "Cautions et avals par actes séparés et endos",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "903",
+    "libelle": "Acceptations à payer",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "904",
+    "libelle": "Autres garanties irrévocables ou inconditionnelles",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "905",
+    "libelle": "Contre garanties en faveur des correspondants locaux",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "907",
+    "libelle": "Encaisses déposées auprès des correspondants locaux et à récupérer",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "911",
+    "libelle": "Accords de refinancement reçus",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "912",
+    "libelle": "Contre garanties sur prêts aux institutions financières",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "913",
+    "libelle": "Contre garanties sur crédits par caisse",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "914",
+    "libelle": "Contre garanties sur autres engagements par signature",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "915",
+    "libelle": "Contre garanties sur titres en portefeuille",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "916",
+    "libelle": "Valeurs gérées pour compte des correspondants locaux",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "917",
+    "libelle": "Encaisses détenues pour le compte des correspondants locaux et à restituer",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "918",
+    "libelle": "Autres engagements",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "921",
+    "libelle": "Engagements donnés sur ordre de la clientèle",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "922",
+    "libelle": "Accords de financement donnés à la clientèle",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "923",
+    "libelle": "Engagements donnés à la clientèle en contrepartie des valeurs gérées pour son compte",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "924",
+    "libelle": "Garantie de remboursement de crédit clientèle",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "929",
+    "libelle": "Autres engagements",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "931",
+    "libelle": "Hypothèques",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "932",
+    "libelle": "Nantissement de prêts subordonnés et de dépôts",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "933",
+    "libelle": "Gages",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "934",
+    "libelle": "Avals et cautions",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "935",
+    "libelle": "Valeurs gérées pour compte de la clientèle",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "939",
+    "libelle": "Autres garanties",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "941",
+    "libelle": "Engagements de crédit-bail donnés",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "942",
+    "libelle": "Engagements de crédit-bail reçus",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "951",
+    "libelle": "Effets publics affectés en garantie des opérations du marché monétaire",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "952",
+    "libelle": "Effets privés déposés en garantie des opérations du marché monétaire",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "961",
+    "libelle": "Garanties reçues de l’Etat",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "962",
+    "libelle": "Garanties reçues des organismes publics",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "971",
+    "libelle": "Opérations de change au comptant",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "972",
+    "libelle": "Position de change hors-bilan",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "973",
+    "libelle": "Contre valeur de la position de change hors-bilan",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "974",
+    "libelle": "Compte d’ajustement sur devises hors-bilan",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "981",
+    "libelle": "Engagements par signature douteux avec les correspondants",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "982",
+    "libelle": "Engagements par signature douteux avec la clientèle",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "983",
+    "libelle": "Engagements par signature douteux avec les organismes publics",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "984",
+    "libelle": "Produits et taxes à recouvrer sur créances en souffrance et engagements par signature",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "990",
+    "libelle": "Compte général des engagements donnés sur ordre des corresp. locaux",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "991",
+    "libelle": "Compte général des engagements reçus des correspondants",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "992",
+    "libelle": "Compte général des engagements en faveur de la clientèle",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "993",
+    "libelle": "Compte général des engagements reçus de la clientèle",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "994",
+    "libelle": "Compte général des engagements de crédit-bail",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "995",
+    "libelle": "Compte général des opérations sur titres et des valeurs affectées en garantie des",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "996",
+    "libelle": "Compte général des engagements reçus de l’Etat et des organismes publics",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "997",
+    "libelle": "Compte général des opérations en devises",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "998",
+    "libelle": "Compte général des engagements douteux par signature",
+    "classe": 9,
+    "niveau": 3
+  },
+  {
+    "code": "1000",
+    "libelle": "Parts sociales souscrites appelées versées",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1001",
+    "libelle": "Parts sociales souscrites appelées non versées",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1011",
+    "libelle": "Capital souscrit non appelé",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1012",
+    "libelle": "Capital souscrit appelé non versé",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1013",
+    "libelle": "Capital souscrit appelé versé non amorti",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1014",
+    "libelle": "Capital souscrit appelé versé amorti",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1030",
+    "libelle": "Actions propres détenues",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1031",
+    "libelle": "Autres actionnaires",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1041",
+    "libelle": "Primes d’émission",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1042",
+    "libelle": "Primes d’apport",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1043",
+    "libelle": "Primes de fusion",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1044",
+    "libelle": "Primes de conversion",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1045",
+    "libelle": "Autres primes liées au capital",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1410",
+    "libelle": "Amortissements dérogatoires",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1411",
+    "libelle": "Ecarts de réévaluation des immobilisations amortissables",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1412",
+    "libelle": "Ecarts de réévaluation des créances",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1413",
+    "libelle": "Plus-value de cession à réinvestir",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1414",
+    "libelle": "Autres provisions réglementées",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1420",
+    "libelle": "Ecarts de réévaluation des immobilisations non amortissables",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1421",
+    "libelle": "Autres réserves réglementées",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1611",
+    "libelle": "Fonds affectés de bonification des intérêts",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1612",
+    "libelle": "Fonds affectés de garantie des avals",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1613",
+    "libelle": "Fonds affectés de financement des études",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1614",
+    "libelle": "Fonds affectés de financement des participations",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1615",
+    "libelle": "Autres fonds affectés",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1621",
+    "libelle": "Fonds d’affectation de bonification des intérêts",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1622",
+    "libelle": "Fonds d’affectation de garantie des avals",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1623",
+    "libelle": "Fonds d’affectation de financement des études",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1624",
+    "libelle": "Fonds d’affectation de financement des participations",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1625",
+    "libelle": "Autres fonds d’affectation",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1811",
+    "libelle": "Emprunts participatifs",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1812",
+    "libelle": "Dettes subordonnées",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1821",
+    "libelle": "Comptes bloqués actionnaires",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1822",
+    "libelle": "Comptes bloqués associés (1ère catégorie)",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1823",
+    "libelle": "Comptes bloqués EMF affiliés",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1831",
+    "libelle": "Ligne de financement reçue de l’Etat et assortie d’une clause",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1832",
+    "libelle": "Ligne de financement reçue d’organismes et assortie d’une clause",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1833",
+    "libelle": "Autres comptes bloqués",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1851",
+    "libelle": "Emprunt LT",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1852",
+    "libelle": "Emprunt MT",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1860",
+    "libelle": "Emprunts équivalents de crédit-bail mobilier",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1861",
+    "libelle": "Emprunts équivalents de crédit-bail immobilier",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1862",
+    "libelle": "Emprunts équivalents - autres contrats",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1870",
+    "libelle": "Dépôts de garantie reçus",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1871",
+    "libelle": "Cautionnements reçus",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1882",
+    "libelle": "Dettes rattachées autres ressources permanentes",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1901",
+    "libelle": "Provisions pour risques bancaires généraux",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1902",
+    "libelle": "Autres provisions pour risques généraux",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1911",
+    "libelle": "Provisions pour litiges en cours",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1912",
+    "libelle": "Provisions pour pertes sur marchés à terme",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1913",
+    "libelle": "Provisions pour pertes et change",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1914",
+    "libelle": "Provisions pour exécution d’engagements d’avals et cautions",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1915",
+    "libelle": "Provisions de propre assureur",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1916",
+    "libelle": "Provisions pour grosses réparations",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1917",
+    "libelle": "Provisions relatives au personnel",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1921",
+    "libelle": "Provisions pour pertes latentes",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "1922",
+    "libelle": "Provisions pour risque de non perception de loyers",
+    "classe": 1,
+    "niveau": 4
+  },
+  {
+    "code": "2011",
+    "libelle": "Frais relatifs au pacte social",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2012",
+    "libelle": "Frais d’émission des emprunts",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2013",
+    "libelle": "Frais d’acquisition des immobilisations",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2014",
+    "libelle": "Frais à étaler sur plusieurs exercices",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2017",
+    "libelle": "Primes de remboursement des emprunts obligataires",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2021",
+    "libelle": "Immobilisations incorporelles en cours",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2022",
+    "libelle": "Fonds de commerce",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2023",
+    "libelle": "Droit au bail",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2024",
+    "libelle": "Brevets, logiciels, licences, marques, procédés, modèles, dessins",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2025",
+    "libelle": "Etudes et recherches immobilisables",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2026",
+    "libelle": "Autres immobilisations incorporelles",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2151",
+    "libelle": "Terrains en exploitation bancaire",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2152",
+    "libelle": "Terrains donnés en location",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2211",
+    "libelle": "Immeubles d’exploitation construits sur sol propre",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2212",
+    "libelle": "Immeubles d’exploitation construits sur sol d’autrui",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2221",
+    "libelle": "Immeubles donnés en location simple construits sur sol propre",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2222",
+    "libelle": "Immeubles donnés en location simple construits sur sol d’autrui",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2510",
+    "libelle": "Dépôts de garanties",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2511",
+    "libelle": "Cautionnements",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2621",
+    "libelle": "Actions et parts sociales d’établissements de microfinance",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2622",
+    "libelle": "Actions et parts sociales d’établissements de crédit",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2651",
+    "libelle": "Titres d’investissement privés",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2652",
+    "libelle": "Titres d’investissement publics",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2661",
+    "libelle": "Titres impayés",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2662",
+    "libelle": "Titres douteux",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2680",
+    "libelle": "Dotations des succursales",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2681",
+    "libelle": "Comptes courants associés bloqués auprès d’autres EMF",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2682",
+    "libelle": "Fonds de garanties mutuelles",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2683",
+    "libelle": "Autres comptes bloqués",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2691",
+    "libelle": "Créances rattachées sur titres de participation et autres titres immobilisés",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2692",
+    "libelle": "Créances rattachées sur autres immobilisations financières",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2801",
+    "libelle": "Immobilisations incorporelles",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2821",
+    "libelle": "Immeubles d’exploitation",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2822",
+    "libelle": "Immeubles en location simple",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2823",
+    "libelle": "Immeubles affectés au crédit-bail ou à la location avec option d’achat",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2824",
+    "libelle": "Immeubles acquis par réalisation de garantie",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2825",
+    "libelle": "Matériel et mobilier d’exploitation",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2826",
+    "libelle": "Matériel et mobilier en location simple",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2827",
+    "libelle": "Matériel et mobilier affectés au crédit-bail ou à la location avec option d’achat",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2828",
+    "libelle": "Matériel et mobilier acquis en réalisation de garanties",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2829",
+    "libelle": "Autres immobilisations corporelles",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2902",
+    "libelle": "Immobilisations incorporelles",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2921",
+    "libelle": "Immeubles d’exploitation",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2922",
+    "libelle": "Immeubles en location simple",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2923",
+    "libelle": "Immeubles affectés au crédit-bail ou à la location avec option d’achat",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2924",
+    "libelle": "Immeubles acquis par réalisation de garantie",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2925",
+    "libelle": "Matériel et mobilier d’exploitation",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2926",
+    "libelle": "Matériel et mobilier en location simple",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2927",
+    "libelle": "Matériel et mobilier affectés au crédit-bail ou à la location avec option d’achat",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2928",
+    "libelle": "Matériel et mobilier acquis en réalisation de garanties",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2929",
+    "libelle": "Autres immobilisations corporelles",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2951",
+    "libelle": "Dépôts de garantie",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2952",
+    "libelle": "Cautionnements",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2962",
+    "libelle": "Actions et parts d’établissements de crédit",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2963",
+    "libelle": "Autres titres de participation",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2964",
+    "libelle": "Titres de l’activité de portefeuille",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2965",
+    "libelle": "Titres d’investissement",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2966",
+    "libelle": "Titres en souffrance",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2968",
+    "libelle": "Provisions pour dépréciation des autres immobilisations financières",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2971",
+    "libelle": "Titres publics et assimilés",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2972",
+    "libelle": "Autres prêts et titres publics",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "2973",
+    "libelle": "Prêts et titres impayés",
+    "classe": 2,
+    "niveau": 4
+  },
+  {
+    "code": "3010",
+    "libelle": "/ 3110 – Crédits LT/MT à l’investissement immobilier aux sociétaires",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3011",
+    "libelle": "/ 3111 – Crédits LT/MT à l’investissement immobilier aux clients",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3012",
+    "libelle": "/ 3112- Crédits LT/MT à l’investissement immobilier aux apparentés (personnel,",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3013",
+    "libelle": "/ 3113 - Crédits LT/MT à l’investissement immobilier aux EMF",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3020",
+    "libelle": "/ 3120 – Crédits LT/MT à l’habitat aux sociétaires",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3021",
+    "libelle": "/ 3121 – Crédits LT/MT à l’habitat aux clients",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3022",
+    "libelle": "/ 3122 – Crédits LT/MT à l’habitat aux apparentés (personnel, actionnaires…)",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3023",
+    "libelle": "/ 3123 – Crédits LT/MT à l’habitat aux EMF",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3030",
+    "libelle": "/ 3130 – Crédits LT/MT à l’équipement aux sociétaires",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3031",
+    "libelle": "/ 3131 – Crédits LT/MT à l’équipement aux clients",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3032",
+    "libelle": "/ 3132 – Crédits LT/MT à l’équipement aux apparentés (personnel, actionnaires…)",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3033",
+    "libelle": "/ 3133 – Crédits LT/MT à l’équipement aux EMF",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3063",
+    "libelle": "/3163– Crédits LT/MT à la consommation aux EMF",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3201",
+    "libelle": "Effets commerciaux escomptés",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3202",
+    "libelle": "Affacturage",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3204",
+    "libelle": "Chèques locaux escomptés",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3211",
+    "libelle": "Crédits aux sociétaires moratoriés ou consolidés sur l’Etat",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3212",
+    "libelle": "Crédits aux clients moratoriés ou consolidés sur l’Etat",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3213",
+    "libelle": "Crédits aux apparentés (personnel, actionnaires…) moratoriés ou consolidés sur l’Etat",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3214",
+    "libelle": "Crédits aux EMF moratoriés ou consolidés sur l’Etat",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3221",
+    "libelle": "Crédits de trésorerie aux sociétaires",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3222",
+    "libelle": "Crédits de trésorerie aux clients",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3223",
+    "libelle": "Crédits de trésorerie aux EMF",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3231",
+    "libelle": "Crédits à l’équipement aux sociétaires",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3232",
+    "libelle": "Crédits à l’équipement aux clients",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3233",
+    "libelle": "Crédits à l’équipement aux apparentés (personnel, actionnaires…)",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3234",
+    "libelle": "Crédits à l’équipement aux EMF",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3241",
+    "libelle": "Avances sur marchés publics nantis",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3242",
+    "libelle": "Autres crédits d’accompagnement",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3250",
+    "libelle": "Crédits de campagne aux sociétaires",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3251",
+    "libelle": "Crédits de campagne aux clients",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3252",
+    "libelle": "Crédits de campagne aux actionnaires",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3253",
+    "libelle": "Crédits de campagne aux EMF",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3260",
+    "libelle": "Crédits à la consommation aux sociétaires",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3261",
+    "libelle": "Crédits à la consommation aux clients",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3262",
+    "libelle": "Crédits à la consommation aux apparentés (personnel, actionnaires…)",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3263",
+    "libelle": "Crédits à la consommation aux EMF",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3271",
+    "libelle": "Crédit-bail à CT aux sociétaires",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3272",
+    "libelle": "Crédit-bail à CT aux clients",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3273",
+    "libelle": "Crédit-bail à CT aux actionnaires",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3274",
+    "libelle": "Crédit-bail à CT aux EMF",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3281",
+    "libelle": "Autres crédits à CT aux sociétaires",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3282",
+    "libelle": "Autres crédits à CT aux clients",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3283",
+    "libelle": "Autres crédits à CT aux apparentés (personnel, actionnaires…)",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3284",
+    "libelle": "Autres crédits à CT aux EMF",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3291",
+    "libelle": "Créances rattachées aux crédits à CT aux sociétaires",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3292",
+    "libelle": "Créances rattachées aux crédits à CT aux clients",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3293",
+    "libelle": "Créances rattachées aux crédits à CT aux apparentés (personnel, actionnaires…)",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3294",
+    "libelle": "Créances rattachées aux crédits à CT aux EMF",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3311",
+    "libelle": "Créances impayées aux EMF",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3312",
+    "libelle": "Créances impayées autres débiteurs",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3321",
+    "libelle": "Créances immobilisées aux EMF",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3322",
+    "libelle": "Créances immobilisées autres débiteurs",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3331",
+    "libelle": "Créances douteuses aux EMF couvertes par la garantie de l’Etat",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3332",
+    "libelle": "Créances douteuses autres débiteurs garanties par l’Etat",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3341",
+    "libelle": "Créances douteuses aux EMF couvertes par des sûretés réelles",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3342",
+    "libelle": "Créances douteuses autres débiteurs couvertes par des sûretés réelles",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3351",
+    "libelle": "Autres créances douteuses aux EMF",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3352",
+    "libelle": "Autres créances douteuses aux autres débiteurs",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3361",
+    "libelle": "Créances impayées sur crédit-bail aux EMF",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3362",
+    "libelle": "Créances impayées sur crédit-bail aux autres débiteurs",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3371",
+    "libelle": "Créances douteuses sur crédit-bail aux EMF",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3372",
+    "libelle": "Créances douteuses sur crédit-bail aux autres débiteurs",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3711",
+    "libelle": "Comptes courants sociétaires",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3712",
+    "libelle": "Comptes courants clients",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3713",
+    "libelle": "Comptes courants EMF",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3721",
+    "libelle": "Comptes de chèques sociétaires",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3722",
+    "libelle": "Comptes de chèques clients",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3723",
+    "libelle": "Comptes de chèques aux apparentés (personnel, actionnaires…)",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3741",
+    "libelle": "Dépôts de garantie sociétaires",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3742",
+    "libelle": "Dépôts de garantie clients",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3743",
+    "libelle": "Dépôts de garantie EMF",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3751",
+    "libelle": "Avances sur DAT aux sociétaires",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3752",
+    "libelle": "Avances sur DAT aux clients",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3753",
+    "libelle": "Avances sur DAT aux EMF",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3840",
+    "libelle": "Dépôts et cautionnement commerciaux reçus",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3841",
+    "libelle": "Autres sommes dues",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3921",
+    "libelle": "Prov. sur créances couv. par des sûretés réelles douteuses depuis moins d’un an",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3922",
+    "libelle": "Prov. sur créances couv. par des sûretés réelles douteuses depuis 1 à 2 ans",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3923",
+    "libelle": "Prov. sur créances couv. par des sûretés réelles douteuses depuis 2 à 3 ans",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3924",
+    "libelle": "Prov. sur créances couv. par des sûretés réelles douteuses depuis plus de 3 ans",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3931",
+    "libelle": "Provisions sur autres créances douteuses depuis moins d’un an",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3932",
+    "libelle": "Provisions sur autres créances douteuses depuis 1 à 2 ans",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "3933",
+    "libelle": "Provisions sur autres créances douteuses depuis plus de 2 ans",
+    "classe": 3,
+    "niveau": 4
+  },
+  {
+    "code": "4110",
+    "libelle": "Instruments de paiement à recouvrer auprès des correspondants",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4111",
+    "libelle": "Chèques à recouvrer",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4112",
+    "libelle": "Cartes de paiement à recouvrer",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4113",
+    "libelle": "Effets à recouvrer",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4121",
+    "libelle": "Compte d’encaissement client",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4122",
+    "libelle": "Compte d’encaissement correspondant",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4123",
+    "libelle": "Compte d’encaissement EMF",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4191",
+    "libelle": "Valeurs non payées à présentation client",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4192",
+    "libelle": "Valeurs non payées à présentation correspondant",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4193",
+    "libelle": "Valeurs non payées à présentation EMF",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4301",
+    "libelle": "Etat, impôt sur le bénéfice",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4302",
+    "libelle": "Etat, autres impôts et taxes",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4303",
+    "libelle": "Etat, TVA facturée",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4304",
+    "libelle": "Etat, TVA due ou crédit de TVA",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4305",
+    "libelle": "Etat, TVA déductible",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4306",
+    "libelle": "Etat,  autres impôts sur le chiffre d’affaires",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4311",
+    "libelle": "Etat, charges à payer",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4312",
+    "libelle": "Etat, produits à recevoir",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4341",
+    "libelle": "Subventions d’équipement à recevoir",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4342",
+    "libelle": "Subventions d’exploitation à recevoir",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4343",
+    "libelle": "Subvention d’équilibre à recevoir",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4344",
+    "libelle": "Avance sur subvention à obtenir",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4346",
+    "libelle": "Fonds de dotations à recevoir",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4410",
+    "libelle": "Sociétaires et actionnaires, apport en nature",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4411",
+    "libelle": "Sociétaires, apports en numéraire",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4412",
+    "libelle": "Actionnaires, apports en numéraire",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4413",
+    "libelle": "Actionnaires, capital appelé non versé",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4414",
+    "libelle": "Actionnaires défaillants",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4415",
+    "libelle": "Actionnaires, versements reçus sur augmentation de capital",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4416",
+    "libelle": "Actionnaires, versements anticipés",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4417",
+    "libelle": "Sociétaires et actionnaires- capital à rembourser",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4631",
+    "libelle": "Erreurs (manquants)",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4632",
+    "libelle": "Erreurs (excédents)",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4633",
+    "libelle": "Ecarts d’inventaires (manquants)",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4634",
+    "libelle": "Ecarts d’inventaires (excédents)",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4635",
+    "libelle": "Vols et détournements",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4711",
+    "libelle": "Charges payées ou comptabilisées d’avance",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4712",
+    "libelle": "Produits à recevoir",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4713",
+    "libelle": "Loyers de crédit-bail à recevoir",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4721",
+    "libelle": "Charges à payer",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4722",
+    "libelle": "Produits perçus ou comptabilisés d’avance",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4723",
+    "libelle": "Loyers de crédit-bail perçus ou comptabilisés d’avance",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4731",
+    "libelle": "Subventions d’équipement obtenues non encore encaissées",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4732",
+    "libelle": "Subventions d’exploitation obtenues non encore encaissées",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4733",
+    "libelle": "Avance sur subventions à obtenir",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4736",
+    "libelle": "Fonds de dotation obtenu, non encore encaissé",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "4780",
+    "libelle": "Différés ordinateurs",
+    "classe": 4,
+    "niveau": 4
+  },
+  {
+    "code": "5111",
+    "libelle": "Actions et parts d’établissements de crédit",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5112",
+    "libelle": "Bons du trésor",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5113",
+    "libelle": "Autres actions et parts négociables",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5114",
+    "libelle": "Obligations et bons assimilés",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5115",
+    "libelle": "Obligations propres rachetées par anticipation",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5116",
+    "libelle": "Autres titres à court terme",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5117",
+    "libelle": "Titres douteux",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5118",
+    "libelle": "Créances rattachées",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5121",
+    "libelle": "Actions et parts d’établissements de crédit",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5122",
+    "libelle": "Bons du trésor",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5123",
+    "libelle": "Autres actions et parts négociables",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5124",
+    "libelle": "Obligations et bons assimilés",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5125",
+    "libelle": "Obligations propres rachetées par anticipation",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5126",
+    "libelle": "Autres titres à court terme",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5128",
+    "libelle": "Créances rattachées",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5211",
+    "libelle": "Prêts au jour le jour",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5212",
+    "libelle": "Prêts à terme",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5213",
+    "libelle": "Valeurs reçues en pension",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5214",
+    "libelle": "Emprunts au jour le jour",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5215",
+    "libelle": "Emprunts à terme",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5216",
+    "libelle": "Valeurs données en pension",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5221",
+    "libelle": "Emprunts sur appel d’offres",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5222",
+    "libelle": "Emprunts sur mise en pension",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5223",
+    "libelle": "Emprunts sur interventions ponctuelles",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5224",
+    "libelle": "Emprunts exceptionnels sur placement",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5225",
+    "libelle": "Autres emprunts au guichet A",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5241",
+    "libelle": "Dépassement de la faculté d’avances sur guichet A",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5242",
+    "libelle": "Sanctions disciplinaires",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5243",
+    "libelle": "Autres avances au taux de pénalité",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5251",
+    "libelle": "Placements à 7 jours",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5252",
+    "libelle": "Placements à 28 jours",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5253",
+    "libelle": "Placements à 84 jours",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5254",
+    "libelle": "Autres placements",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5410",
+    "libelle": "Prêts à terme, Banque Centrale",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5411",
+    "libelle": "Prêts à terme, Institutions financières spécialisées",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5412",
+    "libelle": "Prêts à terme, Banques associées",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5413",
+    "libelle": "Prêts à terme, Banques non associées",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5414",
+    "libelle": "Prêts à terme, Chèques postaux",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5415",
+    "libelle": "Prêts à terme, Etablissements financiers associés",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5416",
+    "libelle": "Prêts à terme, Etablissements financiers non associés",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5417",
+    "libelle": "Prêts à terme, Caisse d’Epargne Postale",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5418",
+    "libelle": "Prêts à terme, Autres institutions financières",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5419",
+    "libelle": "Prêts à terme EMF",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5420",
+    "libelle": "Comptes à terme nostri, Banque Centrale",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5421",
+    "libelle": "Comptes à terme nostri, Institutions financières spécialisées",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5422",
+    "libelle": "Comptes à terme nostri, Banques associées",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5423",
+    "libelle": "Comptes à terme nostri, Banques non associées",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5424",
+    "libelle": "Comptes à terme nostri, Chèques postaux",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5425",
+    "libelle": "Comptes à terme nostri, Etablissements financiers associés",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5426",
+    "libelle": "Comptes à terme nostri, Etablissements financiers non associés",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5427",
+    "libelle": "Comptes à terme nostri, Caisse d’Epargne Postale",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5428",
+    "libelle": "Comptes à terme nostri, Autres institutions financières",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5429",
+    "libelle": "Comptes à terme nostri, EMF",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5430",
+    "libelle": "Comptes à terme lori, Banque Centrale",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5431",
+    "libelle": "Comptes à terme lori, Institutions financières spécialisées",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5432",
+    "libelle": "Comptes à terme lori, Banques associées",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5433",
+    "libelle": "Comptes à terme lori, Banques non associées",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5434",
+    "libelle": "Comptes à terme lori, Chèques postaux",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5435",
+    "libelle": "Comptes à terme lori, Etablissements financiers associés",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5436",
+    "libelle": "Comptes à terme lori, Etablissements financiers non associés",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5437",
+    "libelle": "Comptes à terme lori, Caisse d’Epargne Postale",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5438",
+    "libelle": "Comptes à terme lori, Autres institutions financières",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5439",
+    "libelle": "Comptes à terme lori, EMF",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5440",
+    "libelle": "Emprunts à terme, Banque Centrale",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5441",
+    "libelle": "Emprunts à terme, Institutions financières spécialisées",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5442",
+    "libelle": "Emprunts à terme, Banques associées",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5443",
+    "libelle": "Emprunts à terme, Banques non associées",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5444",
+    "libelle": "Emprunts à terme, Chèques postaux",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5445",
+    "libelle": "Emprunts à terme, Etablissements financiers associés",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5446",
+    "libelle": "Emprunts à terme, Etablissements financiers non associés",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5447",
+    "libelle": "Emprunts à terme, Caisse d’Epargne Postale",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5448",
+    "libelle": "Emprunts à terme, Autres institutions financières",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5449",
+    "libelle": "Emprunts à terme, EMF",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5511",
+    "libelle": "Prêts au jour le jour, Banques Centrales",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5512",
+    "libelle": "Prêts au jour le jour, Institutions financières spécialisées",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5513",
+    "libelle": "Prêts au jour le jour, Banques associées",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5514",
+    "libelle": "Prêts au jour le jour, Banques non associées",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5515",
+    "libelle": "Prêts au jour le jour, Chèques postaux",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5516",
+    "libelle": "Prêts au jour le jour, Etablissements Financiers associés",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5517",
+    "libelle": "Prêts au jour le jour, Etablissements Financiers non associés",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5518",
+    "libelle": "Prêts au jour le jour, Caisse d’Epargne Postale",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5519",
+    "libelle": "Prêts au jour le jour, EMF",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5521",
+    "libelle": "Emprunts au jour le jour, Banques Centrales",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5522",
+    "libelle": "Emprunts au jour le jour, Institutions financières spécialisées",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5523",
+    "libelle": "Emprunts au jour le jour, Banques associées",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5524",
+    "libelle": "Emprunts au jour le jour, Banques non associées",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5525",
+    "libelle": "Emprunts au jour le jour, Chèques postaux",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5526",
+    "libelle": "Emprunts au jour le jour, Etablissements Financiers associés",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5527",
+    "libelle": "Emprunts au jour le jour, Etablissements Financiers non associés",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5528",
+    "libelle": "Emprunts au jour le jour, Caisse d’Epargne Postale",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5529",
+    "libelle": "Emprunts au jour le jour, EMF",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5600",
+    "libelle": "Comptes à vue nostri, Banque Centrale",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5601",
+    "libelle": "Comptes à vue nostri, Institutions financières spécialisées",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5602",
+    "libelle": "Comptes à vue nostri, Banques associées",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5603",
+    "libelle": "Comptes à vue nostri, Banques non associées",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5604",
+    "libelle": "Comptes à vue nostri, Chèques postaux",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5605",
+    "libelle": "Comptes à vue nostri, Etablissements financiers associés",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5606",
+    "libelle": "Comptes à vue nostri, Etablissements financiers non associés",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5607",
+    "libelle": "Comptes à vue nostri, Caisse d’Epargne Postale",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5608",
+    "libelle": "Comptes à vue nostri, Autres institutions financières",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5609",
+    "libelle": "Comptes à vue nostri, EMF",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5610",
+    "libelle": "Comptes à vue lori, Banque Centrale",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5611",
+    "libelle": "Comptes à vue lori, Institutions financières spécialisées",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5612",
+    "libelle": "Comptes à vue lori, Banques associées",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5613",
+    "libelle": "Comptes à vue lori, Banques non associées",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5614",
+    "libelle": "Comptes à vue lori, Chèques postaux",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5615",
+    "libelle": "Comptes à vue lori, Etablissements financiers associés",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5616",
+    "libelle": "Comptes à vue lori, Etablissements financiers non associés",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5617",
+    "libelle": "Comptes à vue lori, Caisse d’ Epargne Postale",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5618",
+    "libelle": "Comptes à vue lori, Autres institutions financières",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5619",
+    "libelle": "Comptes à vue lori, EMF",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5710",
+    "libelle": "Caisse FCFA",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5711",
+    "libelle": "Caisse devises",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5911",
+    "libelle": "Provisions pour dépréciation des actions et parts d’Ets de crédit",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5912",
+    "libelle": "Provisions pour dépréciation des Bons du Trésor",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5913",
+    "libelle": "Prov. pour dépréciation des autres actions et parts négociables",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5914",
+    "libelle": "Provisions pour dépréciation des obligations et bons assimilés",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5915",
+    "libelle": "Provisions pour dépréciation des obligations propres rachetées par anticipation",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5916",
+    "libelle": "Provisions pour dépréciation des autres titres à court terme",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5917",
+    "libelle": "Provisions pour dépréciation des titres douteux",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "5921",
+    "libelle": "Provisions pour dépréciation des créances douteuses sur les correspondants",
+    "classe": 5,
+    "niveau": 4
+  },
+  {
+    "code": "6011",
+    "libelle": "Opérations interbancaires",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6012",
+    "libelle": "BEAC",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6061",
+    "libelle": "Commissions sur opérations du marché monétaire",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6062",
+    "libelle": "Commissions sur autres valeurs données en pension",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6063",
+    "libelle": "Commissions sur emprunts et comptes à terme",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6064",
+    "libelle": "Commissions sur emprunts au jour le jour",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6065",
+    "libelle": "Commissions sur comptes à vue",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6111",
+    "libelle": "Intérêts sur bons de caisse",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6112",
+    "libelle": "Intérêts sur certificats de dépôts",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6113",
+    "libelle": "Intérêts sur comptes et plans épargne-logement",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6114",
+    "libelle": "Intérêts sur plans d’épargne-retraite",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6115",
+    "libelle": "Intérêts sur autres comptes d’épargne à régime spécial",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6311",
+    "libelle": "Intérêts sur emprunts obligataires",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6312",
+    "libelle": "Intérêts sur emprunts participatifs",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6313",
+    "libelle": "Intérêts sur dettes subordonnées",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6314",
+    "libelle": "Intérêts sur comptes bloqués des actionnaires ou sociétaires",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6315",
+    "libelle": "Intérêts sur autres comptes bloqués",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6316",
+    "libelle": "Intérêts sur titres de créances négociables",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6317",
+    "libelle": "Intérêts sur autres emprunts à moyen et long terme",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6318",
+    "libelle": "Intérêts payés sur emprunts équivalents crédit bail",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6319",
+    "libelle": "Intérêts sur ressources permanentes EMF",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6321",
+    "libelle": "sur emprunts obligataires",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6322",
+    "libelle": "sur emprunts participatifs",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6323",
+    "libelle": "sur dettes subordonnées",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6324",
+    "libelle": "sur comptes bloqués des actionnaires",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6325",
+    "libelle": "sur autres comptes bloqués",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6326",
+    "libelle": "sur titres de créances négociables",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6327",
+    "libelle": "sur autres emprunts à moyen et long terme",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6328",
+    "libelle": "Commissions sur ressources permanentes EMF",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6401",
+    "libelle": "Achats de marchandises",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6402",
+    "libelle": "Variations de stocks",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6403",
+    "libelle": "Rabais, remises, ristournes obtenus hors facture (-)",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6410",
+    "libelle": "Charges sur location de coffre-forts",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6411",
+    "libelle": "Charges sur opérations de change",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6412",
+    "libelle": "Charges sur les actions de formations",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6413",
+    "libelle": "Charges liées aux conseils et assistance de gestion",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6414",
+    "libelle": "Autres charges liées aux opérations de crédit-bail avec option d’achat",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6415",
+    "libelle": "Charges liées aux opérations de location simple des valeurs immobilisées",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6416",
+    "libelle": "Autres charges liées aux activités accessoires EMF",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6510",
+    "libelle": "Rémunérations directes des cadres permanents",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6511",
+    "libelle": "Rémunérations directes des employés permanents",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6512",
+    "libelle": "Rémunérations directes du personnel de service",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6513",
+    "libelle": "Rémunérations directes du personnel temporaire",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6514",
+    "libelle": "Cotisations sociales (part patronale)",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6515",
+    "libelle": "Indemnités sociales",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6516",
+    "libelle": "Avantages en nature",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6517",
+    "libelle": "Indemnités de fonction",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6518",
+    "libelle": "Droits à congé",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6519",
+    "libelle": "Charges du personnel transféré",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6521",
+    "libelle": "Fournitures consommées",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6522",
+    "libelle": "Transports et déplacements",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6523",
+    "libelle": "Autres services consommés",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6524",
+    "libelle": "Assistance technique et frais d’inspection",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6525",
+    "libelle": "Charges diverses d’exploitation",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6710",
+    "libelle": "Charges sur opérations de trésorerie",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6711",
+    "libelle": "Charges sur opérations avec la clientèle et de crédit-bail",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6712",
+    "libelle": "Charges sur opérations bancaires diverses",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6713",
+    "libelle": "Charges sur ressources permanentes",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6714",
+    "libelle": "Charges d’exploitation bancaire sur exercices antérieurs EMF",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6721",
+    "libelle": "Fournitures consommées",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6722",
+    "libelle": "Transports et déplacements",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6723",
+    "libelle": "Autres services consommés",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6724",
+    "libelle": "Charges diverses d’exploitation",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6725",
+    "libelle": "Assistance technique et frais d’inspection",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6726",
+    "libelle": "Charges générales d’exploitation sur exercices antérieurs EMF",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6731",
+    "libelle": "Frais de personnel",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6732",
+    "libelle": "Impôts et taxes",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6733",
+    "libelle": "Autres charges sur exercices antérieurs EMF",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6761",
+    "libelle": "Val. nettes comptables des titres de participation cédés",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6762",
+    "libelle": "Valeurs nettes comptables des autres éléments d’actif cédés",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6763",
+    "libelle": "Valeurs nettes comptables des éléments d’actif cédés EMF",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6771",
+    "libelle": "Subventions d’investissement",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6772",
+    "libelle": "Subventions d’exploitation et d’équilibre",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6773",
+    "libelle": "Subventions accordées aux EMF",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6790",
+    "libelle": "Pertes sur opérations de trésorerie",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6791",
+    "libelle": "Pertes sur opérations avec la clientèle",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6792",
+    "libelle": "Pertes sur opérations bancaires diverses",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6793",
+    "libelle": "Pertes exceptionnelles liées au personnel",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6794",
+    "libelle": "Amendes et pénalités fiscales",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6795",
+    "libelle": "Déficits de caisse non récupérés",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6796",
+    "libelle": "Manquants sur stocks de fournitures",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6797",
+    "libelle": "Mise au rebut d’immobilisations",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6798",
+    "libelle": "Autres pertes exceptionnelles",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6799",
+    "libelle": "Pertes exceptionnelles EMF",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6801",
+    "libelle": "Dotations aux amortissements des frais immobilisés",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6802",
+    "libelle": "Dotations aux amortissements des immobilisations incorporelles",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6807",
+    "libelle": "Dotations aux amortissements des primes de remboursement des emprunts",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6820",
+    "libelle": "Dotations aux amortissements des biens acquis en crédit bail",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6821",
+    "libelle": "Dotations aux amortissements des immeubles d’exploitation",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6822",
+    "libelle": "Dot. aux amortissements des Immeubles donnés en location simple",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6823",
+    "libelle": "Dot. aux amortissements des immeubles acquis par réalisation de garantie",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6824",
+    "libelle": "Dot. aux amortissements du matériel et mobilier d’exploitation",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6825",
+    "libelle": "Dot. aux amortissements du matériel et mobilier donnés en location simple",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6826",
+    "libelle": "Dot. aux amortissements du mat. et mob acquis en réalisation de garanties",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6827",
+    "libelle": "Dot. aux amortissements des autres immobilisations corporelles",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6911",
+    "libelle": "Dotations aux provisions pour risques et charges",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6912",
+    "libelle": "Dot. aux provisions pour dépréciation des valeurs incorporelles et corporelles",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6913",
+    "libelle": "Dotations aux provisions pour dépréciation des comptes de clientèle",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6914",
+    "libelle": "Dotations aux provisions pour dépréciation des comptes de tiers et de",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6915",
+    "libelle": "Dotations aux provisions pour dépréciation des comptes de trésorerie",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6916",
+    "libelle": "Dotations aux provisions des comptes d’EMF",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6917",
+    "libelle": "Dotations aux provisions pour dépréciation des stocks",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6921",
+    "libelle": "Pertes sur créances irrécouvrables couvertes par des provisions",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6922",
+    "libelle": "Pertes sur créances irrécouvrables non couvertes par des provisions",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6923",
+    "libelle": "Pertes sur créances irrécouvrables d’EMF",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6971",
+    "libelle": "Dotation aux provisions pour amortissements dérogatoires",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "6972",
+    "libelle": "Dotation aux autres provisions réglementées",
+    "classe": 6,
+    "niveau": 4
+  },
+  {
+    "code": "7011",
+    "libelle": "Intérêts sur placements interbancaires",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7012",
+    "libelle": "Intérêts sur placements à la BEAC",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7061",
+    "libelle": "Commissions sur opérations du marché monétaire",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7062",
+    "libelle": "Commissions sur opérations de refinancement",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7063",
+    "libelle": "Commissions sur prêts et comptes à terme",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7064",
+    "libelle": "Commissions sur prêts au jour le jour",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7065",
+    "libelle": "Commissions sur comptes à vue",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7151",
+    "libelle": "Commissions sur crédits à long terme",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7152",
+    "libelle": "Commissions sur crédits à moyen terme",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7153",
+    "libelle": "Commissions sur crédits à court terme",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7154",
+    "libelle": "Commissions sur comptes débiteurs de la clientèle",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7283",
+    "libelle": "Produits sur moyens de paiement",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7284",
+    "libelle": "Autres prestations diverses",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7311",
+    "libelle": "Revenus des actions propres détenues",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7312",
+    "libelle": "Revenus d’actions et parts d’établissements de crédit",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7313",
+    "libelle": "Revenus d’actions et parts d’autres sociétés",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7314",
+    "libelle": "Revenus des titres publics immobilisés",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7315",
+    "libelle": "Revenus des titres privés immobilisés",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7316",
+    "libelle": "Revenus des titres en souffrance",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7317",
+    "libelle": "Revenus du portefeuille de participation EMF",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7321",
+    "libelle": "Revenus des bons d’équipement et assimilés",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7322",
+    "libelle": "Revenus des créances titrisées sur l’Etat",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7323",
+    "libelle": "Revenus des autres prêts et titres à souscription obligatoire",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7326",
+    "libelle": "Revenus des prêts et titres impayés",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7327",
+    "libelle": "Revenus des prêts et titres à souscription obligatoire EMF",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7331",
+    "libelle": "Revenus d’actions et parts d’établissements de crédit",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7332",
+    "libelle": "Revenus de bons du trésor",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7333",
+    "libelle": "Revenus d’autres actions et parts négociables",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7334",
+    "libelle": "Revenus d’obligations et bons assimilés",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7335",
+    "libelle": "Revenus d’obligations propres rachetées par anticipation",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7336",
+    "libelle": "Revenus d’autres titres à court terme",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7337",
+    "libelle": "Revenus de titres douteux",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7338",
+    "libelle": "Revenus du portefeuille de placement EMF",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7341",
+    "libelle": "Revenus d’actions et parts d’établissements de crédit",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7342",
+    "libelle": "Revenus de bons du trésor",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7343",
+    "libelle": "Revenus d’autres actions et parts négociables",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7344",
+    "libelle": "Revenus d’obligations et bons assimilés",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7345",
+    "libelle": "Revenus d’obligations propres rachetées par anticipation",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7346",
+    "libelle": "Revenus d’autres titres à court terme",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7347",
+    "libelle": "Revenus du portefeuille de transaction EMF",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7401",
+    "libelle": "Ventes de marchandises",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7402",
+    "libelle": "RRR accordées hors factures (-)",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7410",
+    "libelle": "Produits de location de coffres-forts",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7411",
+    "libelle": "Produits sur opérations de change",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7412",
+    "libelle": "Produits de formation",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7413",
+    "libelle": "Produits de conseil et assistance de gestion",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7414",
+    "libelle": "Produits sur opération de crédit-bail",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7415",
+    "libelle": "Produits de location simple des valeurs immobilisées",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7416",
+    "libelle": "Produits accessoires sur opération avec EMF",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7417",
+    "libelle": "Autres produits accessoires",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7551",
+    "libelle": "Droits d’adhésion des sociétaires",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7552",
+    "libelle": "Divers produits",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7701",
+    "libelle": "Produits sur opérations de trésorerie",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7702",
+    "libelle": "Produits sur opérations avec la clientèle et de crédit bail",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7703",
+    "libelle": "Produits sur opérations bancaires diverses",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7711",
+    "libelle": "Produits du portefeuille titres",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7712",
+    "libelle": "Produits accessoires",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7713",
+    "libelle": "Subventions d’exploitation et d’équilibre",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7719",
+    "libelle": "Autres produits divers",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7781",
+    "libelle": "Profits sur opérations de trésorerie",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7782",
+    "libelle": "Profits sur opérations avec la clientèle",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7783",
+    "libelle": "Produits sur opérations bancaires diverses",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7786",
+    "libelle": "Excédents de caisse",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7787",
+    "libelle": "Escompte de règlement",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7788",
+    "libelle": "Dons et libéralités effectivement obtenus",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7911",
+    "libelle": "Reprises de provisions pour risques et charges",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7912",
+    "libelle": "Reprises de provisions pour dépréciation des valeurs immobilisées",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7913",
+    "libelle": "Reprises de provisions pour dépréciation des comptes de clientèle",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7914",
+    "libelle": "Reprises de provisions pour dépréciation des comptes de tiers et de régularisation",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7915",
+    "libelle": "Reprises de provisions pour dépréciation des comptes de trésorerie",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7917",
+    "libelle": "Reprises de provisions pour dépréciation des stocks",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7971",
+    "libelle": "Reprises d’amortissements dérogatoires",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "7972",
+    "libelle": "Reprises autres provisions réglementées",
+    "classe": 7,
+    "niveau": 4
+  },
+  {
+    "code": "9210",
+    "libelle": "Acceptations à payer",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9211",
+    "libelle": "Cautions, avals",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9212",
+    "libelle": "Garanties de remboursement de crédits",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9311",
+    "libelle": "Hypothèques fermes de premier rang ou de deuxième rang sur des immeubles",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9312",
+    "libelle": "Autres hypothèques",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9321",
+    "libelle": "Garantie de crédits par caisse",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9322",
+    "libelle": "Garantie d’autres engagements par signature",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9323",
+    "libelle": "Garantie d’engagements multiples",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9421",
+    "libelle": "Encours financiers",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9423",
+    "libelle": "Autres engagements",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9424",
+    "libelle": "Marge perçue d’avance",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9425",
+    "libelle": "Marge à recevoir",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9711",
+    "libelle": "FCFA achetés comptant non encore reçus",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9712",
+    "libelle": "Devises achetées comptant non encore reçues",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9713",
+    "libelle": "FCFA vendus comptant non encore livrés",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9714",
+    "libelle": "Devises vendues comptant non encore livrées",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9811",
+    "libelle": "Engagements donnés",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9812",
+    "libelle": "Engagements reçus",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9821",
+    "libelle": "Engagements donnés",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9822",
+    "libelle": "Engagements reçus",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9841",
+    "libelle": "Intérêts sur créances en souffrance",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9842",
+    "libelle": "Commissions sur engagements par signature douteux",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9843",
+    "libelle": "Taxes à recouvrer sur créances en souffrance et sur engagements par signature douteux",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9844",
+    "libelle": "Loyers échus sur engagements douteux de crédit-bail et opération de location",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9845",
+    "libelle": "Indemnités de résiliation à recouvrer",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9901",
+    "libelle": "-Compte général des accords de refinancement donnés",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9902",
+    "libelle": "Compte général des cautions et avals par actes séparés et endos",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9903",
+    "libelle": "Compte général des acceptations à payer",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9904",
+    "libelle": "Compte général des autres garanties irrévocables ou inconditionnelles",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9905",
+    "libelle": "Compte général des contre-garanties en faveur des correspondants locaux",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9907",
+    "libelle": "Compte général des encaisses déposées auprès des correspondants locaux et",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9909",
+    "libelle": "Compte général des engagements donnés aux correspondants locaux en",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9911",
+    "libelle": "Compte général des accords de refinancement reçus",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9912",
+    "libelle": "Compte général des contre garanties sur prêts aux institutions",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9913",
+    "libelle": "Compte général des contre garanties sur crédits par caisse",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9914",
+    "libelle": "Compte général des contre garanties sur autres engagements par signature",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9915",
+    "libelle": "Compte général des contre garanties sur titres en portefeuille",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9916",
+    "libelle": "Compte général des valeurs gérées pour compte des correspondants",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9917",
+    "libelle": "Compte général des encaisses détenues pour le comptes des correspondants",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9918",
+    "libelle": "Compte général des autres engagements",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9919",
+    "libelle": "Compte général des engagements reçus des correspondants locaux en réseau",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9922",
+    "libelle": "compte général des accords de financement donnés à la clientèle",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9923",
+    "libelle": "Compte général des engagements donnés à la clientèle en contrepartie des",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9924",
+    "libelle": "Compte général des garanties de remboursements des crédits clientèle",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9925",
+    "libelle": "Compte général des acceptations à payer",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9926",
+    "libelle": "Compte général des cautions avals",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9927",
+    "libelle": "Compte général des garanties de remboursements des crédits sur ordre de la",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9929",
+    "libelle": "Compte général des autres engagements",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9931",
+    "libelle": "Compte général des engagements reçus par hypothèques",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9932",
+    "libelle": "Compte gén. des eng. reçus par nantissement de prêts subord. et de dépôts",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9933",
+    "libelle": "Compte général des engagements reçus par gage",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9934",
+    "libelle": "Compte général des engagements reçus par avals et cautions",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9935",
+    "libelle": "Compte gén. des eng. reçus par valeurs gérées pour compte de la clientèle",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9939",
+    "libelle": "Compte général des engagements reçus par autres garanties",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9941",
+    "libelle": "Compte général des engagements de crédit-bail reçus",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9942",
+    "libelle": "Compte général des engagements de crédit-bail donnés",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9951",
+    "libelle": "Compte gén. des effets publics affectés en gar. des op. du marché monétaire",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9952",
+    "libelle": "Compte gén. des effets privés déposés en gar. des op. du marché monétaire",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9961",
+    "libelle": "Compte général des engagements de l’Etat",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9962",
+    "libelle": "Compte général des engagements des organismes publics",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9971",
+    "libelle": "Compte général des opérations de change au comptant",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9972",
+    "libelle": "Compte général des positions de change hors bilan",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9973",
+    "libelle": "Compte général des contres valeurs de la position de change hors bilan",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9974",
+    "libelle": "Compte général des comptes d’",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9981",
+    "libelle": "Compte général des engagements par signature douteux portés sur les correspondants",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9982",
+    "libelle": "Compte général des engagements par signature douteux portés sur la clientèle",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9983",
+    "libelle": "Compte général des engagements par signature douteux portés sur les organismes",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "9984",
+    "libelle": "Compte général des produits et taxes à recouvrer sur créances en souffrance et",
+    "classe": 9,
+    "niveau": 4
+  },
+  {
+    "code": "10000",
+    "libelle": "Parts sociales EMF 1ère catégorie",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "10009",
+    "libelle": "Parts sociales organe faîtier",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "10010",
+    "libelle": "Parts sociales EMF 1ère catégorie",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "10019",
+    "libelle": "Parts sociales organe faîtier",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "10120",
+    "libelle": "Capital souscrit non versé EMF 2e et 3e catégorie",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "10129",
+    "libelle": "Capital souscrit non versé organe faîtier",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "10130",
+    "libelle": "Capital souscrit appelé versé non amorti EMF 2e et 3e Catégorie",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "10139",
+    "libelle": "Capital souscrit appelé versé non amorti organe faîtier",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "15110",
+    "libelle": "Subventions d’équipement",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "15119",
+    "libelle": "Subventions d’équipement réseau",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "15210",
+    "libelle": "Subventions d’investissement",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "15219",
+    "libelle": "Subventions d’investissement réseau",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "16109",
+    "libelle": "Fonds affectés sur ressources propres réseau",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "16209",
+    "libelle": "Fonds d’affectation sur ressources extérieures réseau",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "16300",
+    "libelle": "Fonds de garantie et assurance mutuels hors réseau",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "16309",
+    "libelle": "Fonds de garantie et assurance mutuels réseau",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "17909",
+    "libelle": "Emprunts obligataires réseaux",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "18199",
+    "libelle": "Emprunts participatifs et dettes subordonnées réseau",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "18210",
+    "libelle": "Comptes bloqués actionnaires hors réseau",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "18219",
+    "libelle": "Comptes bloqués actionnaires réseau",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "18220",
+    "libelle": "Comptes bloqués associés hors réseau",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "18229",
+    "libelle": "Comptes bloqués associés réseau",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "18510",
+    "libelle": "Emprunt LT",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "18511",
+    "libelle": "Fournisseurs LT",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "18519",
+    "libelle": "Emprunt LT réseau",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "18520",
+    "libelle": "Emprunt MT",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "18521",
+    "libelle": "Fournisseurs MT",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "18529",
+    "libelle": "Emprunt MT réseau",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "18700",
+    "libelle": "Dépôts de garantie reçus hors réseau",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "18709",
+    "libelle": "Dépôts de garantie reçus réseau",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "18710",
+    "libelle": "Cautionnements reçus hors réseau",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "18719",
+    "libelle": "Cautionnements reçus réseau",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "18820",
+    "libelle": "Dettes rattachées autres ressources permanentes hors réseau",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "18829",
+    "libelle": "Dettes rattachées autres ressources permanentes réseau",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "19199",
+    "libelle": "Provisions pour charges réseau",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "19300",
+    "libelle": "Autres provisions hors réseau",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "19399",
+    "libelle": "Autres provisions réseau",
+    "classe": 1,
+    "niveau": 5
+  },
+  {
+    "code": "25100",
+    "libelle": "Dépôts de garantie",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "25109",
+    "libelle": "Dépôts de garantie réseau",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "25110",
+    "libelle": "Cautionnements",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "25119",
+    "libelle": "Cautionnements réseau",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "26210",
+    "libelle": "Actions et parts sociales hors réseau",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "26219",
+    "libelle": "Actions et parts sociales réseau",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "26400",
+    "libelle": "Titres de l’activité de portefeuille",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "26409",
+    "libelle": "Titres de l’activité de portefeuille réseau",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "26610",
+    "libelle": "Titres impayés hors réseau",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "26619",
+    "libelle": "Titres impayés réseau",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "26620",
+    "libelle": "Titres douteux hors réseau",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "26629",
+    "libelle": "Titres douteux réseau",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "26810",
+    "libelle": "Comptes associés bloqués auprès d’autres EMF",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "26819",
+    "libelle": "Comptes associés bloqués auprès d’autres EMF du réseau",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "26820",
+    "libelle": "Fonds de garanties mutuelles EMF hors réseau",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "26829",
+    "libelle": "Fonds de garanties mutuelles EMF réseau",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "26910",
+    "libelle": "–Créances rattachées sur titres de participation",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "26919",
+    "libelle": "–Créances rattachées sur titres de participation réseau",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "26920",
+    "libelle": "–Créances rattachées sur autres immobilisations financières",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "26929",
+    "libelle": "Créances rattachées sur autres immobilisations financières réseau",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "28011",
+    "libelle": "Fonds de commerce",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "28012",
+    "libelle": "Brevets, logiciels, licences, marques, procédés, modèles, dessins",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "28013",
+    "libelle": "Etudes et recherches immobilisables",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "28014",
+    "libelle": "Autres immobilisations incorporelles",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "29021",
+    "libelle": "Immobilisations incorporelles en cours",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "29022",
+    "libelle": "Fonds de commerce",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "29023",
+    "libelle": "Brevets, logiciels, licences, marques, procédés, modèles, dessins",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "29024",
+    "libelle": "Etudes et recherches immobilisables",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "29025",
+    "libelle": "Autres immobilisations incorporelles",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "29510",
+    "libelle": "Dépôts de garantie",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "29519",
+    "libelle": "Dépôts de garantie réseau",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "29520",
+    "libelle": "Cautionnements",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "29529",
+    "libelle": "Cautionnements réseau",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "29651",
+    "libelle": "Titres d’investissement privés",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "29652",
+    "libelle": "Titres d’investissement publics",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "29660",
+    "libelle": "Titres de participation hors réseau",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "29669",
+    "libelle": "Titres de participation réseau",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "29680",
+    "libelle": "Prov. pour dépréciation des autres immob. financières hors réseau",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "29689",
+    "libelle": "Prov. pour dépréciation des autres immob. financières réseau",
+    "classe": 2,
+    "niveau": 5
+  },
+  {
+    "code": "32011",
+    "libelle": "Escompte d’effets aux sociétaires",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "32012",
+    "libelle": "Escompte d’effets aux clients",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "32013",
+    "libelle": "Escompte d’effets aux EMF hors réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "32019",
+    "libelle": "Escompte d’effets aux EMF réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "32021",
+    "libelle": "Affacturage aux sociétaires",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "32022",
+    "libelle": "Affacturage aux clients",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "32023",
+    "libelle": "Affacturage aux EMF hors réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "32029",
+    "libelle": "Affacturage aux EMF réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "32041",
+    "libelle": "Chèques locaux escomptés aux sociétaires",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "32042",
+    "libelle": "Chèques locaux escomptés aux clients",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "32049",
+    "libelle": "Chèques locaux escomptés aux EMF réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "32149",
+    "libelle": "Crédits aux EMF réseau moratoriés ou consolidés sur l’Etat",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "32239",
+    "libelle": "Crédits de trésorerie aux EMF réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "32349",
+    "libelle": "Crédits à l’équipement aux EMF réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "32411",
+    "libelle": "Avances sur marchés publics nantis aux sociétaires",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "32412",
+    "libelle": "Avances sur marchés publics nantis aux clients",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "32419",
+    "libelle": "Avances sur marchés publics nantis aux EMF réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "32421",
+    "libelle": "Autres crédits d’accompagnement aux sociétaires",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "32422",
+    "libelle": "Autres crédits d’accompagnement aux clients",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "32429",
+    "libelle": "Autres crédits d’accompagnement aux EMF réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "32539",
+    "libelle": "Crédits de campagne aux EMF réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "32639",
+    "libelle": "Crédits à la consommation aux EMF réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "32749",
+    "libelle": "Crédit-bail à CT aux EMF réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "32849",
+    "libelle": "Autres crédits à CT aux EMF réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "32949",
+    "libelle": "Créances rattachées aux crédits à CT aux EMF réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "33119",
+    "libelle": "Créances impayées aux EMF réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "33219",
+    "libelle": "Créances immobilisées aux EMF réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "33319",
+    "libelle": "Créances douteuses aux EMF réseau garanties par l’Etat",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "33419",
+    "libelle": "Créances douteuses aux EMF réseau couvertes par des sûretés réelles",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "33519",
+    "libelle": "Autres créances douteuses aux EMF réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "33610",
+    "libelle": "Créances impayées sur crédit-bail aux EMF hors réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "33619",
+    "libelle": "Créances impayées sur crédit-bail aux EMF réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "33719",
+    "libelle": "Créances douteuses sur crédit-bail aux EMF réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "34000",
+    "libelle": "Stock de marchandises hors réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "34009",
+    "libelle": "Stock de marchandises réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "34100",
+    "libelle": "Autres opérations engagées pour le compte de la clientèle hors réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "34109",
+    "libelle": "Autres opérations engagées pour le compte de la clientèle réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "35019",
+    "libelle": "Dépôts réglementaires des EMF affiliés",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "35029",
+    "libelle": "Dépôts statutaires des EMF affiliés",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "35100",
+    "libelle": "Bons de caisse hors réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "35109",
+    "libelle": "Bons de caisse réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "35210",
+    "libelle": "Certificat de dépôts hors réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "35219",
+    "libelle": "Certificat de dépôts réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "35900",
+    "libelle": "Dettes rattachées sur opérations hors réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "35909",
+    "libelle": "Dettes rattachées sur opérations réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "36100",
+    "libelle": "Dépôts à terme hors réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "36119",
+    "libelle": "Dépôts à terme réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "36900",
+    "libelle": "Dettes rattachées sur opération hors réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "36909",
+    "libelle": "Dettes rattachées sur opérations réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "37139",
+    "libelle": "Comptes courants EMF réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "37439",
+    "libelle": "Dépôts de garantie EMF réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "37539",
+    "libelle": "Avances sur DAT aux EMF réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "37800",
+    "libelle": "Créances ou dettes rattachées sur opérations hors réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "37809",
+    "libelle": "Créances ou dettes rattachées sur opérations réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "38809",
+    "libelle": "Autres sommes dues aux EMF réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "38819",
+    "libelle": "Autres sommes dues par les EMF réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "39100",
+    "libelle": "Provisions sur créances douteuses. couv. par la garantie de l’état hors réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "39109",
+    "libelle": "Provisions sur créances douteuses.  couv. par la garantie de l’Etat réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "39299",
+    "libelle": "Prov. sur créances douteuses. couv. par des sûretés réelles réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "39399",
+    "libelle": "Provisions sur autres créances douteuses réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "39400",
+    "libelle": "Provisions sur créances douteuses sur le crédit bail hors réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "39409",
+    "libelle": "Provisions sur créances douteuses sur le crédit bail réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "39700",
+    "libelle": "Provisions sur dépréciation des stocks hors réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "39709",
+    "libelle": "Provisions sur dépréciation des stocks réseau",
+    "classe": 3,
+    "niveau": 5
+  },
+  {
+    "code": "40110",
+    "libelle": "Fournisseurs, dettes en compte hors réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "40119",
+    "libelle": "Fournisseurs, dettes en compte réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "40210",
+    "libelle": "Fournisseurs, effets à payer hors réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "40219",
+    "libelle": "Fournisseurs, effets à payer réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "40310",
+    "libelle": "Fournisseurs, factures non parvenues hors réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "40319",
+    "libelle": "Fournisseurs, factures non parvenues réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "40910",
+    "libelle": "Fournisseurs débiteurs hors réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "40919",
+    "libelle": "Fournisseurs débiteurs réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "41111",
+    "libelle": "Chèques à recouvrer reçus des correspondants",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "41112",
+    "libelle": "Chèques à recouvrer reçus des clients",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "41119",
+    "libelle": "Chèques à recouvrer reçus des EMF réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "41121",
+    "libelle": "Cartes à recouvrer reçues des correspondants",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "41122",
+    "libelle": "Cartes à recouvrer reçues des clients",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "41129",
+    "libelle": "Cartes à recouvrer reçues des EMF réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "41131",
+    "libelle": "Effets à recouvrer reçus des correspondants",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "41132",
+    "libelle": "Effets à recouvrer reçus des clients",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "41139",
+    "libelle": "Effets à recouvrer EMF réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "41239",
+    "libelle": "Compte d’encaissement EMF réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "41939",
+    "libelle": "Valeurs non payées à présentation EMF réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "44199",
+    "libelle": "Sociétaires et actionnaires, opérations sur le capital réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "44200",
+    "libelle": "Sociétaires et actionnaires, comptes courant hors réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "44209",
+    "libelle": "Sociétaires et actionnaires, comptes courant réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "44300",
+    "libelle": "Actionnaires, dividendes à payer hors réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "44309",
+    "libelle": "Actionnaires, dividendes à payer réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "44400",
+    "libelle": "Sociétaires, ristournes à verser hors réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "44409",
+    "libelle": "Sociétaires, ristourne à verser réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "44500",
+    "libelle": "Sociétaires et actionnaires jetons de présences et autres rémunérations hors",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "44509",
+    "libelle": "Sociétaires et actionnaires jetons de présences et autres rémunérations réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "44700",
+    "libelle": "Sociétaires et actionnaires subventions à recevoir hors réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "44709",
+    "libelle": "Sociétaires et actionnaires subventions à recevoir réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "44800",
+    "libelle": "Sociétaires et actionnaires, créances rattachées hors réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "44809",
+    "libelle": "Sociétaires et actionnaires, créances rattachées réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "44900",
+    "libelle": "Sociétaires et actionnaires, dettes rattachées hors réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "44909",
+    "libelle": "Sociétaires et actionnaires, dettes rattachées réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "45100",
+    "libelle": "Opérations de liaison siège et agences",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "45109",
+    "libelle": "Opérations de liaison organe faîtier et EMF affiliés",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "45200",
+    "libelle": "Opérations de liaison entre agences",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "45209",
+    "libelle": "Opérations de liaison entre EMF affiliés",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "46010",
+    "libelle": "Subventions, fonds de dotation, dons et libéralités à recevoir hors réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "46019",
+    "libelle": "Subventions, fonds de dotation, dons et libéralités à recevoir réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "46500",
+    "libelle": "Vers. restant à effectuer sur des titres en portefeuille hors réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "46509",
+    "libelle": "Vers. restant à effectuer sur des titres en portefeuille réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "46600",
+    "libelle": "Créances sur cession d’immobilisations hors réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "46609",
+    "libelle": "Créances sur cession d’immobilisations réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "46700",
+    "libelle": "Créances sur cession de valeurs mobilières hors réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "46709",
+    "libelle": "Créances sur cession de valeurs mobilières réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "46800",
+    "libelle": "Autres débiteurs et créditeurs hors réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "46809",
+    "libelle": "Autres débiteurs et créditeurs réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "46900",
+    "libelle": "Débiteurs litigieux ou douteux hors réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "46909",
+    "libelle": "Débiteurs litigieux ou douteux réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "47110",
+    "libelle": "Charges payées ou comptabilisées d’avance hors réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "47119",
+    "libelle": "Charges payées ou comptabilisées d’avance réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "47120",
+    "libelle": "Produits à recevoir hors réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "47129",
+    "libelle": "Produits à recevoir réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "47210",
+    "libelle": "Charges à payer hors réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "47219",
+    "libelle": "Charges à payer réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "47220",
+    "libelle": "Produits perçus ou comptabilisés d’avance hors réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "47223",
+    "libelle": "Intérêts consolidés à percevoir",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "47229",
+    "libelle": "Produits perçus ou comptabilisés d’avance réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "47399",
+    "libelle": "Subventions obtenues non encore encaissées réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "47400",
+    "libelle": "Fonds d’affectation obtenus non encore encaissés hors réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "47409",
+    "libelle": "Fonds d’affectation obtenus non encore encaissés réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "48500",
+    "libelle": "Opérations entre sièges et agences en souffrance",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "48509",
+    "libelle": "Opérations entre EMF de même réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "49500",
+    "libelle": "Provisions pour dépréciation des comptes de liaison hors réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "49509",
+    "libelle": "Provisions pour dépréciation des comptes de liaison réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "49999",
+    "libelle": "Provisions pour dépréciation des comptes d’autres tiers réseau",
+    "classe": 4,
+    "niveau": 5
+  },
+  {
+    "code": "54190",
+    "libelle": "Prêts à terme, EMF hors réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "54199",
+    "libelle": "Prêts à terme, EMF réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "54290",
+    "libelle": "Comptes à terme nostri, hors réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "54299",
+    "libelle": "Comptes à terme nostri, réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "54390",
+    "libelle": "Comptes à terme lori, hors réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "54399",
+    "libelle": "Comptes à terme lori, réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "54490",
+    "libelle": "Emprunts à terme, hors réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "54499",
+    "libelle": "Emprunts à terme, réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "54810",
+    "libelle": "Créances rattachées, hors réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "54819",
+    "libelle": "Créances rattachées, réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "54910",
+    "libelle": "Dettes rattachées, hors réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "54919",
+    "libelle": "Dettes rattachées, réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "55190",
+    "libelle": "Prêts au jour le jour, hors réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "55199",
+    "libelle": "Prêts au jour le jour, réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "55290",
+    "libelle": "Emprunts au jour le jour, hors réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "55299",
+    "libelle": "Emprunts au jour le jour, réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "55810",
+    "libelle": "Créances rattachées, hors réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "55819",
+    "libelle": "Créances rattachées, réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "55910",
+    "libelle": "Dettes rattachées, hors réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "55919",
+    "libelle": "Dettes rattachées, réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "56090",
+    "libelle": "Comptes à vue nostri, hors réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "56099",
+    "libelle": "Comptes à vue nostri, réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "56190",
+    "libelle": "Comptes à vue lori, hors réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "56199",
+    "libelle": "Comptes à vue lori, réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "56310",
+    "libelle": "Dépôts de garantie donnés, hors réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "56319",
+    "libelle": "Dépôts de garantie donnés, réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "56410",
+    "libelle": "Dépôts de garantie reçus, hors réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "56419",
+    "libelle": "Dépôts de garantie reçus, réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "56810",
+    "libelle": "Créances rattachées, hors réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "56819",
+    "libelle": "Créances rattachées, réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "56910",
+    "libelle": "Dettes rattachées, hors réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "56919",
+    "libelle": "Dettes rattachées, réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "58110",
+    "libelle": "Créances impayées sur les corresp.  hors réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "58119",
+    "libelle": "Créances impayées sur les corresp.  réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "58210",
+    "libelle": "Créances immobilisées sur les corresp.  hors réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "58219",
+    "libelle": "Créances immobilisées sur les corresp.  réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "58310",
+    "libelle": "Créances douteuses sur les corresp.  hors réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "58319",
+    "libelle": "Créances douteuses sur les corresp.  réseau",
+    "classe": 5,
+    "niveau": 5
+  },
+  {
+    "code": "60709",
+    "libelle": "Intérêts sur opérations réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "60719",
+    "libelle": "Commissions sur opérations réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "61510",
+    "libelle": "Intérêts sur opérations à vue hors réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "61511",
+    "libelle": "Intérêts sur opérations à terme hors réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "61519",
+    "libelle": "Intérêts sur opérations à vue réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "61529",
+    "libelle": "Intérêts sur opérations à terme réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "62810",
+    "libelle": "Charges diverses sur opérations hors réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "62819",
+    "libelle": "Charges diverses sur opérations réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "63190",
+    "libelle": "Intérêts sur ressources permanentes hors réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "63199",
+    "libelle": "Intérêts sur ressources permanentes réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "63280",
+    "libelle": "Comm. sur ressources permanentes hors réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "63289",
+    "libelle": "Comm. sur ressources permanentes réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "64010",
+    "libelle": "Achats de marchandises hors réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "64019",
+    "libelle": "Achats de marchandises réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "64020",
+    "libelle": "Variations de stocks hors réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "64029",
+    "libelle": "Variations de stocks réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "64030",
+    "libelle": "RRR obtenus hors facture hors réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "64039",
+    "libelle": "RRR obtenus hors facture réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "64160",
+    "libelle": "Autres charges liées aux activités Access. hors réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "64169",
+    "libelle": "Autres charges liées aux activités Access. réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "64291",
+    "libelle": "Dotations aux provisions pour non-perception de loyer de CB",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "64292",
+    "libelle": "Dotations aux amortissements des biens en crédit-bail",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "64293",
+    "libelle": "Dotations aux provisions sur biens en crédit-bail",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "64294",
+    "libelle": "Dotations aux provisions pour perte latente de crédit-bail",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "64297",
+    "libelle": "Moins-value de cession sur bien en crédit-bail",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "64298",
+    "libelle": "Autres charges sur opérations de crédit-bail",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65101",
+    "libelle": "Rémunérations directes des cadres supérieurs",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65102",
+    "libelle": "Rémunérations directes des agents de maîtrise",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65190",
+    "libelle": "Charges du personnel transféré hors réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65199",
+    "libelle": "Charges du personnel transféré EMF réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65211",
+    "libelle": "Eau, électricité, gaz et carburants",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65212",
+    "libelle": "Petit outillage",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65213",
+    "libelle": "Fournitures de bureau et documentation générale",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65214",
+    "libelle": "Fournitures d’entretien",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65215",
+    "libelle": "Fournitures non ventilées",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65219",
+    "libelle": "Fournitures consommées EMF réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65220",
+    "libelle": "Transports et déplacements hors réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65229",
+    "libelle": "Transports et déplacements EMF réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65231",
+    "libelle": "Affranchissements, téléphone, télex",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65232",
+    "libelle": "Frais de mission",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65233",
+    "libelle": "Réceptions, publicité",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65234",
+    "libelle": "Loyers et charges locatives",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65235",
+    "libelle": "Honoraires et frais de contentieux",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65236",
+    "libelle": "Entretien et réparation",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65237",
+    "libelle": "Informatique (Location de matériel et assistance)",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65238",
+    "libelle": "Autres services",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65239",
+    "libelle": "Autres services consommés EMF réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65241",
+    "libelle": "Assistance technique",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65242",
+    "libelle": "Inspection",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65249",
+    "libelle": "Assistance technique et frais d’inspection EMF réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65251",
+    "libelle": "Assemblée Générale, Conseil d’Administration, jetons de présence",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65252",
+    "libelle": "Assurances",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65254",
+    "libelle": "Cotisations professionnelles",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65255",
+    "libelle": "Formation du personnel",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65256",
+    "libelle": "Charges diverses",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "65259",
+    "libelle": "Charges diverses d’exploitation EMF réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "67140",
+    "libelle": "Charges d’exploitation bancaire sur exercice antérieur hors réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "67149",
+    "libelle": "Charges d d’exploitation bancaire sur exercice antérieur réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "67260",
+    "libelle": "Charges générales d’expl. sur exerc. ant. hors réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "67269",
+    "libelle": "Charges générales d’expl. sur exerc. ant. Réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "67330",
+    "libelle": "Autres charges sur exercices antérieurs  hors réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "67339",
+    "libelle": "Autres charges sur exercices antérieurs réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "67630",
+    "libelle": "VNC des éléments d’actif cédés hors réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "67639",
+    "libelle": "VNC des éléments d’actif cédés réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "67730",
+    "libelle": "Subventions accordées hors réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "67739",
+    "libelle": "Subventions accordées réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "67990",
+    "libelle": "Pertes exceptionnelles hors réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "67999",
+    "libelle": "Pertes exceptionnelles réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "68201",
+    "libelle": "Immeubles",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "68202",
+    "libelle": "Matériel et mobilier",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "69160",
+    "libelle": "Dotations aux provisions des comptes d’EMF hors réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "69169",
+    "libelle": "Dotations aux provisions des comptes d’EMF réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "69170",
+    "libelle": "Dot. aux provisions pour dépréciation des stocks hors réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "69179",
+    "libelle": "Dot. aux provisions pour dépréciation des stocks réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "69230",
+    "libelle": "Pertes sur créances irrécouvrables d’EMF hors réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "69239",
+    "libelle": "Pertes sur créances irrécouvrables d’EMF réseau",
+    "classe": 6,
+    "niveau": 5
+  },
+  {
+    "code": "70709",
+    "libelle": "Intérêts sur opérations de trésorerie réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "70719",
+    "libelle": "Commissions sur opérations de trésorerie réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "71710",
+    "libelle": "Produits sur opérations hors réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "71719",
+    "libelle": "Produits sur opérations réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "72910",
+    "libelle": "Produits divers sur opérations bancaires hors réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "72919",
+    "libelle": "Produits divers sur opérations bancaires réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "73170",
+    "libelle": "Revenus du portefeuille de participation hors réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "73179",
+    "libelle": "Revenus du portefeuille de participation réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "73270",
+    "libelle": "Revenus des prêts et titres à souscription obligatoire hors réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "73279",
+    "libelle": "Revenus des prêts et titres à souscription obligatoire réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "73380",
+    "libelle": "Revenus du portefeuille de placement hors réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "73389",
+    "libelle": "Revenus du portefeuille de placement réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "73470",
+    "libelle": "Revenus du portefeuille de transaction hors réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "73479",
+    "libelle": "Revenus du portefeuille de transaction réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "74010",
+    "libelle": "Vente de marchandises hors réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "74019",
+    "libelle": "Vente de marchandises EMF réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "74020",
+    "libelle": "RRR accordées hors factures hors réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "74029",
+    "libelle": "RRR accordées hors factures EMF réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "74140",
+    "libelle": "Intérêts sur opération de crédit-bail",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "74141",
+    "libelle": "Plus value sur opération de crédit-bail",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "74142",
+    "libelle": "Autres produits sur opération de crédit-bail",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "74160",
+    "libelle": "Produits accessoires sur opération hors réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "74169",
+    "libelle": "Produits accessoires sur opération réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "74290",
+    "libelle": "Loyers",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "74291",
+    "libelle": "Reprises de provisions pour risque de non-perception de loyers",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "74292",
+    "libelle": "Reprises d’amortissements de biens en crédit-bail",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "74293",
+    "libelle": "Reprises de provisions sur biens en crédit-bail",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "74294",
+    "libelle": "Reprise de provisions pour perte latente",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "74297",
+    "libelle": "Plus-value de cession de biens en crédit-bail",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "74298",
+    "libelle": "Autres produits des opérations de crédit-bail",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "75610",
+    "libelle": "Autres produits d’opérations hors réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "75619",
+    "libelle": "Autres produits d’opérations réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "76310",
+    "libelle": "Subvention d’exploitation et d’équilibre hors réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "76319",
+    "libelle": "Subvention d’exploitation et d’équilibre réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "77910",
+    "libelle": "Profits exceptionnels et sur exercices antérieurs – prix de",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "77919",
+    "libelle": "Profits exceptionnels et sur exercices antérieurs – prix de",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "79170",
+    "libelle": "Reprises de provisions pour dépréciation des stocks hors réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "79179",
+    "libelle": "Reprises de provisions pour dépréciation des stocks réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "79910",
+    "libelle": "Reprises de provisions et récupération sur créances irrécouvrables",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "79919",
+    "libelle": "Reprises de provisions et récupération sur créances irrécouvrables réseau",
+    "classe": 7,
+    "niveau": 5
+  },
+  {
+    "code": "90710",
+    "libelle": "Encaisses déposées auprès des correspondants locaux et à récupérer hors réseau",
+    "classe": 9,
+    "niveau": 5
+  },
+  {
+    "code": "90719",
+    "libelle": "Encaisses déposées auprès des correspondants locaux et à récupérer réseau",
+    "classe": 9,
+    "niveau": 5
+  },
+  {
+    "code": "90909",
+    "libelle": "Engagements donnés aux correspondants locaux en réseau",
+    "classe": 9,
+    "niveau": 5
+  },
+  {
+    "code": "91710",
+    "libelle": "Encaisses détenues pour le compte des correspondants locaux et à restituer hors",
+    "classe": 9,
+    "niveau": 5
+  },
+  {
+    "code": "91719",
+    "libelle": "Encaisses détenues pour le compte des correspondants locaux et à restituer réseau",
+    "classe": 9,
+    "niveau": 5
+  },
+  {
+    "code": "91909",
+    "libelle": "Engagements reçus des correspondants locaux réseau",
+    "classe": 9,
+    "niveau": 5
+  },
+  {
+    "code": "98109",
+    "libelle": "Engagements par signature douteux avec les correspondants en réseau",
+    "classe": 9,
+    "niveau": 5
+  },
+  {
+    "code": "98499",
+    "libelle": "Produits et taxes à recouvrer sur créances en souffrance et engagements par signature",
+    "classe": 9,
+    "niveau": 5
+  },
+  {
+    "code": "99909",
+    "libelle": "Engagements donnés en réseau",
+    "classe": 9,
+    "niveau": 5
+  },
+  {
+    "code": "99919",
+    "libelle": "Engagements reçus en réseau",
+    "classe": 9,
+    "niveau": 5
+  }
+]

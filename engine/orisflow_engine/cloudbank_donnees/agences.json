@@ -1,0 +1,16 @@
+{
+  "_commentaire": "Code agence -> nom, pour composer un nom de fichier lisible à la génération. Liste reprise du tableau des agences du réseau ORIS FINANCE (CLAUDE.md), pas devinée.",
+  "10000": "SIEGE",
+  "10001": "AKWA",
+  "10002": "PK14",
+  "10003": "BEPANDA",
+  "10004": "NDOGPASSI",
+  "20000": "MOKOLO",
+  "20001": "ETOUDI",
+  "20002": "MARCHE CENTRAL",
+  "20003": "NKOABANG",
+  "20004": "EKOUNOU",
+  "30000": "BAFOUSSAM",
+  "30001": "BALESSING",
+  "40000": "KOUSSERI"
+}

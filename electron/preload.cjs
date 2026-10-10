@@ -49,4 +49,12 @@ contextBridge.exposeInMainWorld("orisflow", {
   bordereauCreer: (donnees) => ipcRenderer.invoke("bordereau:creer", donnees),
   bordereauEvenement: (donnees) => ipcRenderer.invoke("bordereau:evenement", donnees),
   bordereauLister: () => ipcRenderer.invoke("bordereau:lister"),
+  cloudbankChoisirFichier: () => ipcRenderer.invoke("cloudbank:choisirFichier"),
+  cloudbankImporterMapping: (chemin) => ipcRenderer.invoke("cloudbank:importerMapping", chemin),
+  cloudbankRechercher: (texte) => ipcRenderer.invoke("cloudbank:rechercher", texte),
+  cloudbankConfirmerLigne: (donnees) => ipcRenderer.invoke("cloudbank:confirmerLigne", donnees),
+  cloudbankEcrire: (donnees) => ipcRenderer.invoke("cloudbank:ecrire", donnees),
+  cloudbankExtourne: (donnees) => ipcRenderer.invoke("cloudbank:extourne", donnees),
+  cloudbankExtraire: (donnees) => ipcRenderer.invoke("cloudbank:extraire", donnees),
+  cloudbankDeposer: (chemin) => ipcRenderer.invoke("cloudbank:deposer", chemin),
 });

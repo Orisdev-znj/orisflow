@@ -115,9 +115,21 @@ h2 {
 .entete__nav {
   display: flex;
   gap: 0.25rem;
-  /* Motif de courbes statique, très discret (7-16 % d'opacité intégrée au fichier), à droite. */
-  background: var(--marine) url("./assets/motif-flow-sombre.svg") right center / 420px 100% no-repeat;
+  background: var(--marine);
   padding: 0 1.5rem;
+  position: relative;
+  isolation: isolate;
+}
+
+/* Motif de courbes statique derrière les onglets (calque à 40 %, jamais au-dessus du texte). */
+.entete__nav::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url("./assets/motif-flow.svg") right 170px center / 480px 100% no-repeat;
+  opacity: 0.4;
+  pointer-events: none;
 }
 
 .onglet {
@@ -451,8 +463,31 @@ h2 {
   padding-top: 1rem;
 }
 
+/* Bandeau marine aux courbes de flux derrière le titre (statique). */
+.accueil__bandeau {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--marine);
+  border-radius: 12px;
+  padding: 2rem 1.5rem 1.6rem;
+  margin-bottom: 2rem;
+}
+
+.accueil__bandeau::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url("./assets/motif-flow.svg") center / 100% 100% no-repeat;
+  opacity: 0.32;
+  pointer-events: none;
+}
+
 .accueil__titre {
   font-size: 1.9rem;
+  color: #fff;
+  text-shadow: 0 1px 6px rgba(7, 28, 155, 0.9);
 }
 
 /* Filet turquoise → magenta sous le titre : écho du filet magenta de l'en-tête. */
@@ -467,7 +502,8 @@ h2 {
 }
 
 .accueil__sous-titre {
-  margin-bottom: 2.2rem;
+  margin: 0.9rem 0 0;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .accueil__grille {
@@ -627,26 +663,30 @@ h2 {
 
 /* Logo clair posé directement sur le fond (aucune plaque), puis slogan en vrai texte. */
 .ecran-connexion__marque {
+  /* Logo + slogan forment un seul bloc : le slogan se cale sur la largeur du logo. */
+  --largeur-logo: clamp(240px, 22vw, 560px);
   position: absolute;
   left: 4.7vw;
   top: 4.7vw;
-  width: clamp(240px, 22vw, 560px);
+  width: var(--largeur-logo);
 }
 
 .ecran-connexion__logo {
   display: block;
   width: 100%;
-  filter: drop-shadow(0 0 10px rgba(36, 177, 175, 0.3)) drop-shadow(0 0 18px rgba(227, 28, 120, 0.2));
 }
 
 .ecran-connexion__slogan {
-  margin: 0.6rem 0 0;
-  font-family: "Roboto Slab", Georgia, "Times New Roman", serif;
-  font-weight: 400;
-  font-size: clamp(16px, 1.5vw, 26px);
-  color: #6fe7e4;
+  margin: calc(var(--largeur-logo) * 0.035) 0 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  font-size: calc(var(--largeur-logo) * 0.056);
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  color: #c9fbf9;
   /* Halo marine serré : garde le slogan lisible quand une courbe du fond passe derrière. */
-  text-shadow: 0 0 3px rgba(7, 28, 155, 0.95), 0 0 8px rgba(7, 28, 155, 0.9), 0 0 12px rgba(36, 177, 175, 0.45);
+  text-shadow: 0 0 3px rgba(7, 28, 155, 0.95), 0 0 7px rgba(7, 28, 155, 0.85);
 }
 
 .ecran-connexion__pied {
@@ -661,9 +701,9 @@ h2 {
 
 @media (max-width: 900px) {
   .ecran-connexion__marque {
+    --largeur-logo: 220px;
     left: 1.5rem;
     top: 1.5rem;
-    width: 180px;
   }
 }
 
@@ -994,3 +1034,110 @@ h2 {
 .verif--conforme { color: var(--turquoise); }
 .verif--modifie { color: var(--rouge); }
 .verif--inconnu { color: var(--orange); }
+
+/* --- Téléverser sur CloudBank (10/10/2026) ----------------------------------------------------- */
+/* Écran de travail : fond blanc, aucun motif sur les tableaux et formulaires. */
+.cloudbank-nav {
+  display: flex;
+  gap: 0.25rem;
+  background: var(--marine);
+  border-radius: 8px 8px 0 0;
+  padding: 0 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.cloudbank-nav .onglet:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.cloudbank-cas-grille {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0 1.4rem;
+}
+
+.carte-module--compacte {
+  cursor: default;
+  padding: 1rem 1.1rem;
+  gap: 0.5rem;
+}
+
+.carte-module--compacte:hover {
+  transform: none;
+}
+
+.cloudbank-cas__titre {
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.cloudbank-cas--actif {
+  border-color: var(--turquoise);
+  box-shadow: 0 0 0 2px var(--turquoise);
+}
+
+.cloudbank-prompt__texte {
+  background: #f6f7fb;
+  border: 1px solid var(--bordure);
+  border-radius: 8px;
+  padding: 0.9rem 1rem;
+  white-space: pre-wrap;
+  font: inherit;
+  font-size: 0.88rem;
+  max-height: 22rem;
+  overflow: auto;
+}
+
+.bouton--action {
+  background: var(--magenta);
+  color: #fff;
+  border-color: var(--magenta);
+}
+
+.cloudbank-attente {
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+}
+
+.cloudbank-contexte {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.cloudbank-retour {
+  border: 1px solid var(--bordure);
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.cloudbank-ligne--exclue {
+  opacity: 0.55;
+}
+
+.cloudbank-resultats-recherche {
+  list-style: none;
+  padding: 0;
+  margin: 0.6rem 0;
+  max-height: 14rem;
+  overflow: auto;
+}
+
+.cloudbank-memoriser {
+  display: block;
+  font-size: 0.88rem;
+  margin: 0.6rem 0;
+}
+
+.cloudbank-chemin {
+  word-break: break-all;
+  color: var(--discret);
+  font-size: 0.85rem;
+}
+
+.tableau .badge {
+  white-space: nowrap;
+}

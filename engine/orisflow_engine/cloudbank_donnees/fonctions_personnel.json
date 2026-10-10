@@ -1,0 +1,17 @@
+{
+  "_commentaire": "Mots et expressions qui désignent une fonction, un poste ou une personne plutôt qu'une nature de dépense. Sert à repérer un relevé de petite caisse organisé par agent (une ligne = un total par personne) plutôt que par nature de charge (transport, fournitures...). Mapper ne peut rien rattacher sur ce genre de libellés : voir SKILL.md, § « Relevé organisé par agent ». Liste à compléter au fil des documents rencontrés.",
+  "fonctions": [
+    "chef d agence", "chef d'agence", "directeur d agence",
+    "rc", "responsable credit", "responsable commercial",
+    "chef de guichet", "chef guichet",
+    "caissiere", "caissier",
+    "gestionnaire",
+    "controleur", "controleur interne",
+    "chauffeur",
+    "commercial", "commerciale",
+    "agent d accueil", "agent d'accueil", "agent d acceuil", "accueil", "acceuil",
+    "cg interim", "cg interimaire", "interimaire", "interim",
+    "garde arme", "garde armee", "securite", "vigile", "sentinelle",
+    "stagiaire", "coursier", "huissier", "agent de securite"
+  ]
+}

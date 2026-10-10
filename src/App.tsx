@@ -14,6 +14,7 @@ import FenetreValeursManuelles from "./ecrans/FenetreValeursManuelles";
 import FenetreAgencesAConfirmer from "./ecrans/FenetreAgencesAConfirmer";
 import Home from "./ecrans/Home";
 import ModuleBordereau from "./ecrans/ModuleBordereau";
+import EcranCloudBank from "./ecrans/EcranCloudBank";
 import WorkInProgress from "./ecrans/WorkInProgress";
 import type {
   EtatAuth,
@@ -30,7 +31,7 @@ import { aujourdhuiISO, dateValide, hierISO } from "./lib/dates";
 
 // Vue de premier niveau : l'accueil (hub) donne accès aux modules. Chaque module garde
 // son propre état interne (ex. `ecran` ci-dessous pour la trésorerie), inchangé.
-type Vue = "accueil" | "tresorerie" | "etatsFinanciers" | "bordereau" | "budget" | "parametres";
+type Vue = "accueil" | "tresorerie" | "etatsFinanciers" | "bordereau" | "budget" | "cloudbank" | "parametres";
 
 type Ecran = "import" | "traitement" | "resultats" | "historique";
 
@@ -47,6 +48,7 @@ const SOUS_TITRES: Record<Vue, string> = {
   etatsFinanciers: "États financiers",
   bordereau: "Suivi Courrier",
   budget: "Évaluation budgétaire",
+  cloudbank: "Téléverser sur CloudBank",
   parametres: "Paramètres",
 };
 
@@ -320,6 +322,7 @@ export default function App() {
             onChoisirEtatsFinanciers={() => setVue("etatsFinanciers")}
             onChoisirBordereau={() => setVue("bordereau")}
             onChoisirBudget={() => setVue("budget")}
+            onChoisirCloudBank={() => setVue("cloudbank")}
           />
         )}
 
@@ -328,6 +331,8 @@ export default function App() {
         )}
 
         {vue === "bordereau" && <ModuleBordereau />}
+
+        {vue === "cloudbank" && <EcranCloudBank />}
 
         {vue === "budget" && <BudgetDashboard onRetourAccueil={() => setVue("accueil")} />}
 

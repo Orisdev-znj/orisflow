@@ -308,6 +308,16 @@ function dossierResultats() {
   return path.join(dossierTravail(), "Resultats");
 }
 
+/** Téléverser sur CloudBank : fichiers produits (sous Résultats, donc ouvrables depuis l'interface)
+ * et copie modifiable des référentiels du moteur (jamais les données embarquées). */
+function dossierCloudBankSortie() {
+  return path.join(dossierResultats(), "CloudBank");
+}
+
+function dossierCloudBankReferences() {
+  return path.join(dossierTravail(), "CloudBank", "Reférences");
+}
+
 function dossierCache() {
   return path.join(dossierTravail(), "Cache");
 }
@@ -764,6 +774,78 @@ function enregistrerCommunications() {
   ipcMain.handle("bordereau:lister", async () =>
     lancerMoteur("bordereau_lister", { dossier: dossierBordereau() || null }),
   );
+
+  // --- Téléverser sur CloudBank (10/10/2026) ---------------------------------------------------
+  // Contrairement à Suivi Courrier, ces commandes manipulent des écritures comptables : toutes
+  // exigent une session ouverte. Le moteur ne fait aucun appel réseau.
+  const parametresCloudBank = () => ({ dossierReferences: dossierCloudBankReferences() });
+
+  ipcMain.handle("cloudbank:choisirFichier", avecSession(async (evenement) => {
+    const fenetre = BrowserWindow.fromWebContents(evenement.sender);
+    const choix = await dialog.showOpenDialog(fenetre, {
+      title: "Choisir le fichier produit par Claude",
+      properties: ["openFile"],
+      filters: [{ name: "Classeurs Excel", extensions: ["xlsx"] }, { name: "Historique de compte", extensions: ["xls"] }],
+    });
+    return choix.canceled ? null : decrireFichiers(choix.filePaths)[0];
+  }));
+
+  ipcMain.handle("cloudbank:importerMapping", avecSession(async (_evenement, chemin) =>
+    lancerMoteur("cloudbank_importer_mapping", { ...parametresCloudBank(), chemin }),
+  ));
+
+  ipcMain.handle("cloudbank:rechercher", avecSession(async (_evenement, texte) =>
+    lancerMoteur("cloudbank_rechercher", { ...parametresCloudBank(), texte }),
+  ));
+
+  ipcMain.handle("cloudbank:confirmerLigne", avecSession(async (_evenement, donnees) =>
+    lancerMoteur("cloudbank_confirmer_ligne", { ...parametresCloudBank(), ...donnees }),
+  ));
+
+  const consignerCloudBank = (action, resultat, details) => {
+    if (resultat && resultat.ok) {
+      journal.consignerEvenement(dossierJournal(), {
+        utilisateur: sessionCourante,
+        action,
+        details: { cheminGenere: resultat.fichier, nomFichier: path.basename(resultat.fichier || ""), ...details },
+      });
+    }
+    return resultat;
+  };
+
+  ipcMain.handle("cloudbank:ecrire", avecSession(async (_evenement, donnees) => {
+    const resultat = await lancerMoteur("cloudbank_ecrire", {
+      ...parametresCloudBank(), ...donnees, dossierSortie: dossierCloudBankSortie(),
+    });
+    const totaux = resultat && resultat.feuilles && resultat.feuilles[0];
+    return consignerCloudBank("cloudbank_ecriture", resultat, {
+      modele: donnees.modele, agence: donnees.agence, mois: donnees.mois, annee: donnees.annee,
+      totalDebit: totaux && totaux.total_debit, totalCredit: totaux && totaux.total_credit,
+    });
+  }));
+
+  ipcMain.handle("cloudbank:extourne", avecSession(async (_evenement, donnees) => {
+    const resultat = await lancerMoteur("cloudbank_extourne", {
+      ...parametresCloudBank(), ...donnees, dossierSortie: dossierCloudBankSortie(),
+    });
+    return consignerCloudBank("cloudbank_extourne", resultat, {
+      agence: donnees.agence, totalDebit: resultat && resultat.total_debit, totalCredit: resultat && resultat.total_credit,
+    });
+  }));
+
+  ipcMain.handle("cloudbank:extraire", avecSession(async (_evenement, donnees) => {
+    const resultat = await lancerMoteur("cloudbank_extraire", {
+      ...parametresCloudBank(), ...donnees, dossierSortie: dossierCloudBankSortie(),
+    });
+    return consignerCloudBank("cloudbank_extraction", resultat, { sousComptes: resultat && resultat.nombre_sous_comptes });
+  }));
+
+  ipcMain.handle("cloudbank:deposer", avecSession(async (_evenement, chemin) => {
+    const resultat = await lancerMoteur("cloudbank_deposer", {
+      ...parametresCloudBank(), chemin, dossierSortie: dossierCloudBankSortie(),
+    });
+    return consignerCloudBank("cloudbank_depot", resultat, { source: path.basename(chemin || "") });
+  }));
 }
 
 // ---------------------------------------------------------------------------
