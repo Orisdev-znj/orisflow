@@ -67,6 +67,9 @@ describe("Rapport d'analyse copiable et téléchargeable (10/10/2026)", () => {
     await utilisateur.click(screen.getByRole("button", { name: "Copier le rapport d'analyse" }));
 
     expect(await screen.findByText("Copié dans le presse-papiers.")).toBeInTheDocument();
+    // La confirmation est dans une zone d'annonce (role="status") présente dès le départ.
+    const zones = screen.getAllByRole("status");
+    expect(zones.some((z) => z.textContent === "Copié dans le presse-papiers.")).toBe(true);
   });
 
   it("télécharge le rapport en Excel via le moteur et affiche l'emplacement enregistré", async () => {

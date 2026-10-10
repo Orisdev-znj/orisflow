@@ -40,9 +40,9 @@ function ligneTableau(ligne: LigneBudget) {
   return (
     <tr key={ligne.categorie}>
       <td>{ligne.categorie}</td>
-      <td>{formaterMontant(ligne.prevu)}</td>
-      <td>{formaterMontant(ligne.realise)}</td>
-      <td>
+      <td className="nombre">{formaterMontant(ligne.prevu)}</td>
+      <td className="nombre">{formaterMontant(ligne.realise)}</td>
+      <td className="nombre">
         <span className={defavorable ? "badge badge--bloquant" : "badge badge--info"}>
           {ecart > 0 ? "+" : ""}
           {formaterMontant(ecart)}
@@ -73,9 +73,9 @@ export default function BudgetDashboard({ onRetourAccueil }: Props) {
         <thead>
           <tr>
             <th>Catégorie</th>
-            <th>Prévu</th>
-            <th>Réalisé</th>
-            <th>Écart</th>
+            <th className="nombre">Prévu</th>
+            <th className="nombre">Réalisé</th>
+            <th className="nombre">Écart</th>
           </tr>
         </thead>
         <tbody>{LIGNES_FICTIVES.map(ligneTableau)}</tbody>

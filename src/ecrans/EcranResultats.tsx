@@ -112,7 +112,7 @@ function ligneFichier(fichier: FichierClasse, inclus: boolean, onBasculer: (chem
           <span className="aide-inline"> ({CONFIANCE_LIBELLES[fichier.confiance_agence]})</span>
         )}
       </td>
-      <td>{fichier.total_comptes ?? "—"}</td>
+      <td className="nombre">{fichier.total_comptes ?? "—"}</td>
       <td>
         <span className={classe}>{texte}</span>
       </td>
@@ -150,7 +150,7 @@ const ENTETES_TABLEAU = (
       <th>Fichier</th>
       <th>Type détecté</th>
       <th>Agence</th>
-      <th>Comptes</th>
+      <th className="nombre">Comptes</th>
       <th>Niveau</th>
       <th>Détails</th>
     </tr>
@@ -392,7 +392,7 @@ export default function EcranResultats({
       await navigator.clipboard.writeText(texte);
       setRapportCopie(true);
       setRapportTexte(null);
-      setTimeout(() => setRapportCopie(false), 2500);
+      setTimeout(() => setRapportCopie(false), 4000); // 3 à 5 s : le temps de le lire
     } catch {
       // Presse-papiers indisponible : texte à sélectionner et copier à la main.
       setRapportTexte(texte);
@@ -443,11 +443,15 @@ export default function EcranResultats({
             <button type="button" className="bouton" onClick={copierRapport}>
               Copier le rapport d'analyse
             </button>
-            {rapportCopie && <span className="aide-inline">Copié dans le presse-papiers.</span>}
             <button type="button" className="bouton" onClick={telechargerRapportExcel} disabled={exportEtat === "encours"}>
               {exportEtat === "encours" ? "Enregistrement…" : "Télécharger le rapport (Excel)"}
             </button>
-            {exportEtat === "fait" && <span className="aide-inline">Enregistré : {exportMessage}</span>}
+            {/* Zone d'annonce PERMANENTE : un lecteur d'écran n'annonce de façon fiable que le texte
+                qui change dans une zone déjà présente (confirmations éphémères, 10/10/2026). */}
+            <span role="status" className="aide-inline">
+              {rapportCopie ? "Copié dans le presse-papiers." : ""}
+              {exportEtat === "fait" ? `Enregistré : ${exportMessage}` : ""}
+            </span>
             {exportEtat === "erreur" && (
               <span className="aide-inline" role="alert">
                 {exportMessage}

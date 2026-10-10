@@ -4,10 +4,15 @@
   --magenta: #e31c78;
   --turquoise: #24b1af;
   --orange: #fe8423;
+  /* Nuances réservées au TEXTE sur fond clair (contraste >= 4,5:1). Les couleurs de marque
+     --turquoise, --orange et --magenta restent pour les fonds, bordures et filets. */
+  --turquoise-texte: #127c7a;
+  --orange-texte: #b45309;
+  --magenta-texte: #d6196f; /* décision D1 du 10/10/2026 : magenta foncé pour le texte seulement (4,97:1) */
   --rouge: #e60e0e;
   --encre: #1b1d21;
   --texte: #5f5f5f;
-  --discret: #818181;
+  --discret: #6b6b6b; /* 5,33:1 sur blanc (l'ancien #818181 ne donnait que 3,90) */
   --bordure: #dbdbdb;
   --fond: #ffffff;
   --fond-doux: #f6f7fb;
@@ -375,13 +380,18 @@ h2 {
 .bouton--lien {
   border: none;
   background: none;
-  color: var(--magenta);
+  color: var(--magenta-texte);
   padding: 0.2rem 0.4rem;
   text-decoration: underline;
 }
 
 .bouton:focus-visible,
-.onglet:focus-visible {
+.onglet:focus-visible,
+.filtre:focus-visible,
+.champ input:focus-visible,
+.champ select:focus-visible,
+.champ textarea:focus-visible,
+.champ--date input[type="date"]:focus-visible {
   outline: 3px solid var(--turquoise);
   outline-offset: 2px;
 }
@@ -418,10 +428,12 @@ h2 {
 
 .badge--info {
   background: var(--turquoise);
+  color: var(--encre); /* blanc sur turquoise ne donnait que 2,63:1 */
 }
 
 .badge--avertissement {
   background: var(--orange);
+  color: var(--encre); /* blanc sur orange ne donnait que 2,46:1 */
 }
 
 .badge--bloquant {
@@ -796,7 +808,7 @@ h2 {
 .onglet--fait .onglet__numero {
   background: var(--turquoise);
   border-color: var(--turquoise);
-  color: #fff;
+  color: var(--encre);
 }
 
 .onglet--droite {
@@ -1018,11 +1030,11 @@ h2 {
 }
 
 .controle--ok .controle__marque {
-  color: var(--turquoise);
+  color: var(--turquoise-texte);
 }
 
 .controle--a_corriger .controle__marque {
-  color: var(--orange);
+  color: var(--orange-texte);
 }
 
 .controle--bloquant .controle__marque {
@@ -1031,9 +1043,9 @@ h2 {
 
 /* --- Vérification d'un classeur ------------------------------------------------------------- */
 .verif { display: block; font-size: 0.85rem; margin-top: 0.2rem; }
-.verif--conforme { color: var(--turquoise); }
+.verif--conforme { color: var(--turquoise-texte); }
 .verif--modifie { color: var(--rouge); }
-.verif--inconnu { color: var(--orange); }
+.verif--inconnu { color: var(--orange-texte); }
 
 /* --- Téléverser sur CloudBank (10/10/2026) ----------------------------------------------------- */
 /* Écran de travail : fond blanc, aucun motif sur les tableaux et formulaires. */
@@ -1140,4 +1152,26 @@ h2 {
 
 .tableau .badge {
   white-space: nowrap;
+}
+
+/* Respect du réglage Windows « Afficher les animations » désactivé (10/10/2026). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .carte-module:hover,
+  .carte-module:focus-visible,
+  .carte-module:active,
+  .carte-module:hover .carte-module__image,
+  .carte-module:focus-visible .carte-module__image,
+  .carte-module:hover .carte-module__symbole,
+  .carte-module:focus-visible .carte-module__symbole {
+    transform: none;
+  }
 }
